@@ -1,0 +1,12 @@
+#
+# Example config file
+#
+google_adwords:
+  sandbox:
+    email:             example@gmail.com
+    password:          password
+    developer_token:   example@gmail.com++EUR
+  production:
+    email:             production@mysite.com
+    password:          password
+    developer_token:   productiondevelopertoken
