@@ -21,32 +21,48 @@
 ## WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ## -------------------------------------------------------------------
 
+require 'sem4r/services/soap_fault'
+require 'sem4r/services/soap_connector'
+require 'sem4r/services/soap_message_v13'
+require 'sem4r/services/soap_message_v2009'
+require 'sem4r/services/define_call'
+
 module Sem4r
-  class AccountService
-    include DefineCall
+  class Service
 
     def initialize(connector)
       @connector = connector
-      @service_url = "https://sandbox.google.com/api/adwords/v13/AccountService"
     end
 
-    define_call_v13 :account_info
-    define_call_v13 :client_accounts
+    ###########################################################################
+    # services v13
 
-    private
-
-    def _account_info
-      <<-EOFS
-      <getAccountInfo xmlns="https://adwords.google.com/api/adwords/v13">
-      </getAccountInfo>
-      EOFS
+    %w{ account report traffic_estimator }.each do |service|
+      klass_name = service.split('_').map{|p| p.capitalize}.join('')
+      str=<<-EOFR
+        require 'sem4r/services/#{service}_service'
+        def #{service}
+          return @#{service}_service if @#{service}_service
+          @#{service}_service = #{klass_name}Service.new(@connector)
+        end
+      EOFR
+      eval str
     end
 
-    def _client_accounts
-      <<-EOFS
-      <getClientAccounts xmlns="https://adwords.google.com/api/adwords/v13">
-      </getClientAccounts>
-      EOFS
+    ###########################################################################
+    # services v2009
+
+    %w{ ad_extension_override adgroup adgroup_ad adgroup_criterion campaign
+        campaign_criterion campaign_target info targeting_idea }.each do |service|      
+      klass_name = service.split('_').map{|p| p.capitalize}.join('')
+      str=<<-EOFR
+        require 'sem4r/services/#{service}_service'
+        def #{service}
+          return @#{service}_service if @#{service}_service
+          @#{service}_service = #{klass_name}Service.new(@connector)
+        end
+      EOFR
+      eval str
     end
 
   end

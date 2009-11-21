@@ -22,30 +22,64 @@
 ## -------------------------------------------------------------------
 
 module Sem4r
-  class AccountService
+  class ReportService
+
     include DefineCall
 
     def initialize(connector)
       @connector = connector
-      @service_url = "https://sandbox.google.com/api/adwords/v13/AccountService"
+      @service_url = "https://sandbox.google.com/api/adwords/v13/ReportService"
+      @namespace = "https://adwords.google.com/api/adwords/v13"
     end
 
-    define_call_v13 :account_info
-    define_call_v13 :client_accounts
+    define_call_v13 :all
+    define_call_v13 :validate, :job_xml
+    define_call_v13 :schedule, :job_xml
+    define_call_v13 :status, :job_id
+    define_call_v13 :url, :job_id
+
+    ################
+
+    def download(url, path_name)
+      @connector.download(url, path_name)
+    end
 
     private
 
-    def _account_info
+    def _all
       <<-EOFS
-      <getAccountInfo xmlns="https://adwords.google.com/api/adwords/v13">
-      </getAccountInfo>
+      <getAllJobs xmlns:n1="#{@namespace}">
+      </getAllJobs>
       EOFS
     end
 
-    def _client_accounts
+    def _validate(job_xml)
+      soap_body_content = "<validateReportJob xmlns=\"#{@namespace}\">"
+      soap_body_content += job_xml
+      soap_body_content += "</validateReportJob>"
+      soap_body_content      
+    end
+
+    def _schedule(job_xml)
+      soap_body_content = "<scheduleReportJob xmlns=\"#{@namespace}\">"
+      soap_body_content += job_xml
+      soap_body_content += "</scheduleReportJob>"
+      soap_body_content
+    end
+
+    def _status(job_id)
       <<-EOFS
-      <getClientAccounts xmlns="https://adwords.google.com/api/adwords/v13">
-      </getClientAccounts>
+        <getReportJobStatus xmlns:n1="#{@namespace}">
+          <reportJobId>#{job_id}</reportJobId>
+        </getReportJobStatus>
+      EOFS
+    end
+
+    def _url(job_id)
+      <<-EOFS
+      <getReportDownloadUrl xmlns="#{@namespace}">
+        <reportJobId>#{job_id}</reportJobId>
+      </getReportDownloadUrl>
       EOFS
     end
 

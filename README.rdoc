@@ -1,0 +1,17 @@
+= Sem4r
+
+Adwords client library that works with ruby 1.9 and ruby 1.8
+
+== Usage
+
+== REQUIREMENTS
+
+It uses patron (http://github.com/toland/patron) for connecting to adwords service.
+
+== INSTALL
+
+  sudo gem install sem4r
+
+== Copyright
+
+Copyright (c) 2009 Sem4r. See LICENSE for details.

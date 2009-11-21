@@ -21,32 +21,16 @@
 ## WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ## -------------------------------------------------------------------
 
-module Sem4r
-  class ReportJob < Base
+require File.dirname(__FILE__) + "/example_helper"
 
-    def initialize(report, job_id)
-      super( report.adwords, report.credentials )
-      @job_id = job_id
-    end
-
-    def wait(&block)
-      sleep_interval = 5
-      status = nil
-      while status != "Completed" && status != 'Failed'
-        sleep(sleep_interval)
-        status = status
-        block.call(self, status) if block
-      end
-      raise "Report failed" if status == 'Failed'
-    end
-
-    def status
-      soap_message = service.report.status(credentials, @job_id)
-      add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getReportJobStatusResponse/getReportJobStatusReturn")
-      status = el.text
-      status
-    end
-
-  end
+begin
+  adwords = Adwords.new
+  adwords.dump_soap_to( example_soap_log(__FILE__) )
+  adwords.logger = Logger.new(STDOUT)
+  # adwords.logger =  example_logger(__FILE__)
+  info_service = adwords.info_service
+  info_service.get_from_beginning
+  
+  # rescue
+  #   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
