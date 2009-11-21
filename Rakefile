@@ -36,6 +36,11 @@ begin
     #
     gem.rubyforge_project = 'sem'
   end
+
+  Jeweler::RubyforgeTasks.new do |rubyforge|
+    rubyforge.doc_task = "rdoc"
+  end
+
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
