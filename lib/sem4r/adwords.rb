@@ -1,25 +1,25 @@
-## -------------------------------------------------------------------
-## Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
-##
-## Permission is hereby granted, free of charge, to any person obtaining
-## a copy of this software and associated documentation files (the
-## "Software"), to deal in the Software without restriction, including
-## without limitation the rights to use, copy, modify, merge, publish,
-## distribute, sublicense, and/or sell copies of the Software, and to
-## permit persons to whom the Software is furnished to do so, subject to
-## the following conditions:
-##
-## The above copyright notice and this permission notice shall be
-## included in all copies or substantial portions of the Software.
-##
-## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-## NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-## LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-## OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-## WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-## -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# -------------------------------------------------------------------
 
 require 'rexml/document'
 require 'patron'
@@ -27,30 +27,45 @@ require 'uri'
 require 'pp'
 require 'logger'
 
-require 'sem4r/credentials'
-require 'sem4r/enum'
+require 'active_support/core_ext/hash.rb'
 
-require 'sem4r/model/base'
-require 'sem4r/model/account'
-require 'sem4r/model/campaign'
-require 'sem4r/model/adgroup'
-require 'sem4r/model/adgroup_ad'
-require 'sem4r/model/adgroup_bid'
-require 'sem4r/model/criterion'
-require 'sem4r/model/report'
-require 'sem4r/model/report_job'
+require 'sem4r/credentials'
+require 'sem4r/sem4r_error'
+require 'sem4r/soap_attributes'
+
+require 'sem4r/models/base'
+require 'sem4r/models/account'
+require 'sem4r/models/campaign'
+require 'sem4r/models/adgroup'
+require 'sem4r/models/adgroup_ad'
+require 'sem4r/models/criterion'
+require 'sem4r/models/report'
+require 'sem4r/models/report_job'
+
+require 'sem4r/aggregates/adgroup_bid'
+require 'sem4r/aggregates/billing_address'
 
 require 'sem4r/services/service'
 
 module Sem4r
   class Adwords
 
-    def initialize
+    def initialize(environment, config)
+      @environment = environment
+      @config = config
       @logger = nil
     end
 
     ##########################################################################
     # public methods
+
+    def self.sandbox( config = nil )
+      new(:sandbox, config)
+    end
+
+    def self.production( config = nil )
+      new(:production, config)
+    end
 
     def dump_soap_to( soap_logfile )
       @soap_logfile = soap_logfile
@@ -72,6 +87,16 @@ module Sem4r
       @accounts
     end
 
+    def p_counters
+      #      @counters.each { |k,v|
+      #        puts "#{k} => #{v}"
+      #      }
+      operations = @counters[:operations]
+      units = @counters[:units]
+      response_time = @counters[:response_time]
+      puts "#{units} unit spent for #{operations} operations in #{response_time}ms"
+    end
+
     ##########################################################################
     # methods only for internal use
 
@@ -84,16 +109,6 @@ module Sem4r
       }
     end
 
-    def p_counters
-      #      @counters.each { |k,v|
-      #        puts "#{k} => #{v}"
-      #      }
-      operations = @counters[:operations]
-      units = @counters[:units]
-      response_time = @counters[:response_time]
-      puts "#{units} unit spent for #{operations} operations in #{response_time}ms"
-    end
-
     private
 
     def deferred_initialize
@@ -103,7 +118,7 @@ module Sem4r
       @connector.dump_soap_to(@soap_logfile) if @soap_logfile
       @connector.logger=(@logger) if @logger
 
-      credentials = load_credentials
+      credentials = load_credentials(@environment, @config)
       @service = Service.new(@connector)
       @accounts = credentials.map { |cred| Account.new( self, cred ) }
       @account = @accounts.first
@@ -114,15 +129,21 @@ module Sem4r
       }
     end
 
-    def load_credentials(environment = :sandbox)
-      yaml = YAML::load( get_config_file )
-      config  = yaml['google_adwords'][environment.to_s]
+    def load_credentials(environment, config)
+
+      unless config
+        yaml = YAML::load( get_config_file )
+        config  = yaml['google_adwords'][environment.to_s]
+      end
+
+      config.stringify_keys!
+      config.assert_valid_keys("email", "password", "developer_token")
 
       credentials = Credentials.new(
         :environment         => environment,
         :email               => config["email"],
         :password            => config["password"],
-        :useragent           => "Ruby",
+        :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
         :developer_token     => config["developer_token"],
         :application_token   => "ignored"
       )
@@ -159,7 +180,7 @@ module Sem4r
       end
 
       unless f
-        raise "config file 'sem4r' not found "
+        raise Sem4rError.new("config file 'sem4r' not found")
       end
       f
     end

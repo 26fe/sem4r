@@ -21,36 +21,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require 'rubygems'
-
-begin
-  require 'sem4r'
-rescue LoadError
-  cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
-  $:.unshift(cwd) unless $:.include?(cwd)
-  require 'sem4r'
+module Sem4r
+  class SoapError < Sem4rError
+    #    attr_reader :fault_code
+    #    attr_reader :fault_string
+    #
+    #    def initialize(fault_code, fault_string)
+    #      @fault_code = fault_code
+    #      @fault_string = fault_string
+    #    end
+    #
+    #    def to_s
+    #      "#{@fault_code}: '#{@fault_string}'"
+    #    end
+  end
 end
-
-def tmp_dirname
-  File.join( File.dirname(__FILE__), "..", "tmp" )
-end
-
-def example_soap_log(example_file)
-  return nil unless File.directory?(tmp_dirname)
-  filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, "-log.xml") )
-  File.open( filename, "w" )
-end
-
-def example_logger(example_file)
-  return nil unless File.directory?(tmp_dirname)
-  filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, ".log") )
-  file = File.open( filename, "w" )
-  file.sync = true
-  logger = Logger.new(file)
-  logger.formatter = proc { |severity, datetime, progname, msg|
-    "#{datetime.strftime("%H:%M:%S")}: #{msg}\n"
-  }
-  logger
-end
-
-include Sem4r

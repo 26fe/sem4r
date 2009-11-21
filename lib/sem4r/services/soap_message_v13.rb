@@ -82,9 +82,9 @@ module Sem4r
       #</soapenv:Envelope>
       fault_el = REXML::XPath.first(@response, "//soapenv:Fault")
       if fault_el
-        fault_code   = fault_el.elements['faultcode']
-        fault_string = fault_el.elements['faultstring']
-        raise SoapFault.new( fault_code, fault_string )
+        fault_code   = fault_el.elements['faultcode'].text
+        fault_string = fault_el.elements['faultstring'].text
+        raise SoapError,  "#{fault_code}: '#{fault_string}'"
       end
       self
     end
