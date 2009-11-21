@@ -21,36 +21,39 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require 'rubygems'
+require File.dirname(__FILE__) + "/example_helper"
+puts "---------------------------------------------------------------------"
+puts "Running #{File.basename(__FILE__)}"
+puts "---------------------------------------------------------------------"
 
 begin
-  require 'sem4r'
-rescue LoadError
-  cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
-  $:.unshift(cwd) unless $:.include?(cwd)
-  require 'sem4r'
+
+  #
+  # config stuff
+  #
+
+  #  config = {
+  #    :email           => "",
+  #    :password        => "",
+  #    :developer_token => ""
+  #  }
+  # adwords = Adwords.sandbox(config)
+
+  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
+
+  adwords.dump_soap_to( example_soap_log(__FILE__) )
+  adwords.logger = Logger.new(STDOUT)
+  # adwords.logger =  example_logger(__FILE__)
+
+  #
+  # example body
+  #
+
+  adwords.account.p_info
+  # info_service.get_from_beginning
+  
+rescue Sem4rError
+  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
 
-def tmp_dirname
-  File.join( File.dirname(__FILE__), "..", "tmp" )
-end
-
-def example_soap_log(example_file)
-  return nil unless File.directory?(tmp_dirname)
-  filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, "-log.xml") )
-  File.open( filename, "w" )
-end
-
-def example_logger(example_file)
-  return nil unless File.directory?(tmp_dirname)
-  filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, ".log") )
-  file = File.open( filename, "w" )
-  file.sync = true
-  logger = Logger.new(file)
-  logger.formatter = proc { |severity, datetime, progname, msg|
-    "#{datetime.strftime("%H:%M:%S")}: #{msg}\n"
-  }
-  logger
-end
-
-include Sem4r
+puts "---------------------------------------------------------------------"

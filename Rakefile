@@ -21,7 +21,7 @@ begin
     # files
     #
     gem.files  = %w{LICENSE README.rdoc Rakefile VERSION sem4r.gemspec}
-    gem.files << 'config/sem4r.yml'
+    gem.files << 'config/sem4r.example.yml'
     # gem.files.concat Dir['examples/**/*.rb']
     gem.files.concat Dir['examples/*.rb']
     gem.files.concat Dir['lib/**/*.rb']
