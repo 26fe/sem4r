@@ -45,45 +45,87 @@ module Sem4r
         attr_reader name
       end
 
-      def g_accessor(name)
+      #
+      # constraints
+      #   values_in
+      #
+      def g_accessor(name, constraints = {})
         name = name.to_s
-        str= <<-EOFS
-        define_method :#{name}= do |value|
-          @#{name}=value
+
+        # vales_in
+        enum = nil
+        if constraints.key?(:values_in)
+          enum = const_get(constraints[:values_in])
         end
 
-        define_method :#{name} do |value = nil|
-          value ? self.#{name}= value : @#{name}
+        # if_type
+        if_type = nil
+        if constraints.key?(:if_type)
+          if_type = constraints[:if_type]
+          other_instance_var = "type"
         end
-        EOFS
-        eval str
+
+        # default_value
+        default_value = nil
+        if constraints.key?(:default)
+          default_value = constraints[:default]
+        end
+
+        define_method "#{name}=" do |value|
+          if enum and !enum.include?(value)
+            raise "Value not permitted #{value}"
+          end
+          if if_type
+            type = instance_variable_get "@#{other_instance_var}"
+            raise "type must be '#{if_type}'" unless if_type == type
+          end
+          instance_variable_set "@#{name}", value
+        end
+
+        define_method "#{name}" do |value = nil|
+          if value
+            self.__send__("#{name}=", value)
+          elsif instance_variable_defined? "@#{name}"
+            instance_variable_get "@#{name}"
+          else
+            default_value
+          end
+        end
       end
       
-      def g_set_accessor(column)
+      def g_set_accessor(column, constraints = {})
         column  = column.to_s
         columns = "#{column}s"
-        str= <<-EOFS      
-          define_method :#{column}= do |value|
-            @#{columns} ||= []
-            @#{columns} << value
-          end
 
-          define_method :#{column} do |value|
-            @#{columns} ||= []
-            @#{columns} << value
-          end
+        # values_in
+        enum = nil
+        if constraints.key?(:values_in)
+          enum = const_get(constraints[:values_in])
+        end
 
-          define_method :#{columns} do |*values|
-            if values
-               @#{columns} ||= []
-               @#{columns}.concat(values)
-            else
-               @#{columns}
+        define_method "#{column}=" do |value|
+          if enum and !enum.include?(value)
+            raise "Value not permitted #{value}"
+          end
+          instance_eval <<-EOFS
+            @#{columns} ||= []
+            @#{columns} << value unless @#{columns}.include?(value)
+          EOFS
+        end
+
+        alias_method column, "#{column}="
+
+        define_method "#{columns}" do |*values|
+          if values and !values.empty?
+            instance_eval "@#{columns} ||= []"
+            values.each do |value|
+              instance_eval "@#{column}(value)"
             end
+          else
+            instance_variable_get "@#{columns}"
           end
+        end
 
-        EOFS
-        eval str        
       end
       
     end
@@ -91,28 +133,3 @@ module Sem4r
   end
 end
 
-
-if $0 == __FILE__
-  class P
-    include Sem4r::Enum
-    enum :AggregationTypes, [
-      :Daily,
-      :DayOfWeek,
-      :HourlyByDate,
-      :HourlyRegardlessDate,
-      :Monthly,
-      :Quarterly,
-      :Summary,
-      :Weekly,
-      :Yearly,
-
-      :AdGroup,
-      :Campaign,
-      :Creative,
-      :Keyword]
-
-    enum :Columns, [:Campaign, :Id, :Keyword]
-  end
-
-  puts P::Daily
-end
