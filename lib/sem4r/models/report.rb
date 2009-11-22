@@ -1,25 +1,25 @@
-## -------------------------------------------------------------------
-## Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
-##
-## Permission is hereby granted, free of charge, to any person obtaining
-## a copy of this software and associated documentation files (the
-## "Software"), to deal in the Software without restriction, including
-## without limitation the rights to use, copy, modify, merge, publish,
-## distribute, sublicense, and/or sell copies of the Software, and to
-## permit persons to whom the Software is furnished to do so, subject to
-## the following conditions:
-##
-## The above copyright notice and this permission notice shall be
-## included in all copies or substantial portions of the Software.
-##
-## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-## NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-## LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-## OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-## WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-## -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# -------------------------------------------------------------------
 
 module Sem4r
   class Report < Base
@@ -30,20 +30,14 @@ module Sem4r
     # AggregationTypes
     #
     enum :AggregationTypes, [ 
-      :Daily,
-      :DayOfWeek,
-      :HourlyByDate,
-      :HourlyRegardlessDate,
-      :Monthly,
-      :Quarterly,
       :Summary,
-      :Weekly,
-      :Yearly,
+      :Daily,     :Weekly,  :Monthly,  :Quarterly,  :Yearly,
+      :DayOfWeek,
+      :HourlyByDate, :HourlyRegardlessDate,
 
-      :AdGroup,
-      :Campaign,
-      :Creative,
-      :Keyword]
+      :Campaign, :AdGroup, :Keyword,
+      :Creative
+      ]
 
     #    
     #    Columns
@@ -75,12 +69,7 @@ module Sem4r
     #
     # status
     #
-    enum :Statuses, [
-      :Pending,
-      :InProgress,
-      :Completed,
-      :Failed
-    ]
+    enum :Statuses, [ :Pending, :InProgress, :Completed, :Failed ]
 
     ###########################################################################
 
@@ -116,22 +105,23 @@ module Sem4r
       require 'builder'
       builder = Builder::XmlMarkup.new
       xml = builder.job("xsi:type" => "DefinedReportJob") do |job|
-        job.name             name
-        job.startDay         start_day
-        job.endDay           end_day
-        job.aggregationTypes aggregation_by
+        job.name                name
+        job.selectedReportType  type
+        job.startDay            start_day
+        job.endDay              end_day
+        job.aggregationTypes    aggregation
+
+        job.crossClient           cross_client
+        job.includeZeroImpression zero_impression
 
         columns.each do |column|
           job.selectedColumns column
         end
-
-        job.selectedReportType  report_type
       end
       xml.to_s
     end
 
     ###########################################################################
-
 
     g_accessor :name
 
@@ -143,8 +133,10 @@ module Sem4r
       self.end_day end_day
     end
 
-    g_accessor :aggregation_by
-    g_accessor :report_type
+    g_accessor :aggregation
+    g_accessor :type
+    g_accessor :cross_client,    {:default => false}
+    g_accessor :zero_impression, {:default => false}
 
     g_reader   :status
 
@@ -189,9 +181,11 @@ module Sem4r
     def validate
       begin
         service.report.validate(credentials, to_xml)
-      rescue FaultCode => e
+        return true
+      rescue SoapError => e
         puts e
       end
+      return false
     end
 
     def schedule

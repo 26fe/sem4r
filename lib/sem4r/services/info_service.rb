@@ -42,8 +42,8 @@ module Sem4r
       @connector = connector
       @service_namespace = "https://adwords.google.com/api/adwords/info/v200909"
       @header_namespace = "https://adwords.google.com/api/adwords/cm/v200909"
-      @service_url = "https://adwords-sandbox.google.com/api/adwords/info/v200909/InfoService"
-      @connector = connector
+
+      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/info/v200909/InfoService"
     end
 
     # Total units used since the beginning of the year: 0

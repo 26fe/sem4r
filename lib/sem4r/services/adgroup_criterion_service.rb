@@ -29,7 +29,8 @@ module Sem4r
       @connector = connector
       @service_namespace = "https://adwords.google.com/api/adwords/cm/v200909"
       @header_namespace = @service_namespace
-      @service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService"
+
+      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService"
     end
 
     define_call_v2009 :all, :adgroup_id

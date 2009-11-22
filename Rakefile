@@ -20,7 +20,7 @@ begin
     #
     # files
     #
-    gem.files  = %w{LICENSE README.rdoc Rakefile VERSION sem4r.gemspec}
+    gem.files  = %w{LICENSE README.rdoc Rakefile VERSION.yml sem4r.gemspec}
     gem.files << 'config/sem4r.example.yml'
     # gem.files.concat Dir['examples/**/*.rb']
     gem.files.concat Dir['examples/*.rb']
@@ -83,15 +83,22 @@ task :default => :spec
 #
 # examples
 #
+desc "Start an IRB shell"
+task :shell do
+  sh 'IRBRC=`pwd`/config/irbrc.rb irb'
+end
 
 namespace :sem4r do
   desc 'run all example'
   task :examples do
-    %w{create.rb list_ad.rb list_keywords.rb}.each do |example|
-      puts "---------------------------------------------------------------------"
-      puts "Running #{example}"
-      puts "---------------------------------------------------------------------"
-      system "ruby examples/#{example}"
+
+    Dir['examples/*.rb'].sort.each do |filename|
+      next unless filename =~ /\d\d.+\.rb$/
+      unless system "ruby #{filename}"
+        exit
+      end
     end
+    puts "All examples run successfull"
+
   end
 end
