@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
   s.date = %q{2009-11-28}
-  s.default_executable = %q{get_report.rb}
+  s.default_executable = %q{sem4r_report.rb}
   s.description = %q{ruby library to access google adwords api}
   s.email = %q{sem4ruby@gmail.com}
-  s.executables = ["get_report.rb"]
+  s.executables = ["sem4r_report.rb"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
