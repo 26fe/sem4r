@@ -3,7 +3,7 @@
 #end
 
 %w(keys).each do |ext|
-  require "active_support/core_ext/hash/#{ext}"
+  require "my_active_support/core_ext/hash/#{ext}"
 end
 
 class Hash #:nodoc:

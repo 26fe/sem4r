@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@ require 'uri'
 require 'pp'
 require 'logger'
 
-require 'active_support/core_ext/hash.rb'
+require 'my_active_support/core_ext/hash.rb'
 
 require 'sem4r/credentials'
 require 'sem4r/sem4r_error'
@@ -39,20 +39,38 @@ require 'sem4r/models/campaign'
 require 'sem4r/models/adgroup'
 require 'sem4r/models/adgroup_ad'
 require 'sem4r/models/criterion'
+require 'sem4r/models/ad_param'
+
 require 'sem4r/models/report'
 require 'sem4r/models/report_job'
 
 require 'sem4r/aggregates/adgroup_bid'
 require 'sem4r/aggregates/billing_address'
+require 'sem4r/aggregates/targeting_idea_selector'
 
 require 'sem4r/services/service'
 
 module Sem4r
   class Adwords
 
-    def initialize(environment, config)
-      @environment = environment
-      @config = config
+    #
+    # new( "sandbox", {:email=>"..."} )
+    # new( {:environment=>"...", email => "..." } )
+    # new( "sandbox" )
+    # new()
+    #  sandbox default
+    def initialize( config_name = "sandbox", config = nil )
+      if not config.nil?
+        @config_name = config_name.to_s
+        @config = config.stringify_keys
+        @config["environment"] = @config_name
+      elsif config_name.respond_to?(:keys)
+        @config = config_name.stringify_keys
+        @config_name = @config["environment"]
+      else
+        @config_name = config_name
+        @config = nil
+      end
       @logger = nil
     end
 
@@ -60,11 +78,11 @@ module Sem4r
     # public methods
 
     def self.sandbox( config = nil )
-      new(:sandbox, config)
+      new( "sandbox", config )
     end
 
     def self.production( config = nil )
-      new(:production, config)
+      new( "production", config )
     end
 
     def dump_soap_to( soap_logfile )
@@ -82,10 +100,10 @@ module Sem4r
       @account
     end
 
-    def accounts
-      deferred_initialize unless @initialized
-      @accounts
-    end
+    #    def accounts
+    #      deferred_initialize unless @initialized
+    #      @accounts
+    #    end
 
     def p_counters
       #      @counters.each { |k,v|
@@ -118,10 +136,26 @@ module Sem4r
       @connector.dump_soap_to(@soap_logfile) if @soap_logfile
       @connector.logger=(@logger) if @logger
 
-      credentials = load_credentials(@environment, @config)
+      unless @config
+        @config = load_config(@config_name)
+      end
+      @config.stringify_keys!
+      @config.assert_valid_keys("environment", "email", "password", "developer_token",  "application_token")
+      @config.assert_check_keys("email", "password", "developer_token")
+
+      @credentials = Credentials.new(
+        :environment         => @config["environment"] || @config_name,
+        :email               => @config["email"],
+        :password            => @config["password"],
+        :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
+        :developer_token     => @config["developer_token"],
+        :application_token   => @config["application_token"] || "ignored"
+      )
+      @credentials.connector = @connector
+
       @service = Service.new(@connector)
-      @accounts = credentials.map { |cred| Account.new( self, cred ) }
-      @account = @accounts.first
+      # @accounts = @credentials.map { |cred| Account.new( self, cred ) }
+      @account  = Account.new( self, @credentials )
       @counters = {
         :operations => 0,
         :response_time => 0,
@@ -129,26 +163,10 @@ module Sem4r
       }
     end
 
-    def load_credentials(environment, config)
-
-      unless config
-        yaml = YAML::load( get_config_file )
-        config  = yaml['google_adwords'][environment.to_s]
-      end
-
-      config.stringify_keys!
-      config.assert_valid_keys("email", "password", "developer_token")
-
-      credentials = Credentials.new(
-        :environment         => environment,
-        :email               => config["email"],
-        :password            => config["password"],
-        :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
-        :developer_token     => config["developer_token"],
-        :application_token   => "ignored"
-      )
-      credentials.connector = @connector
-      [ credentials ]
+    def load_config(config_name)
+      yaml = YAML::load( get_config_file )
+      config  = yaml['google_adwords'][config_name.to_s]
+      config
     end
 
     def get_config_file
@@ -175,7 +193,7 @@ module Sem4r
         config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
         if File.exists?( config_filepath )
           f = File.open( config_filepath )
-          @logger.info("Load #{config_filepath}") if @logger
+          # @logger.info("Load #{config_filepath}") if @logger
         end
       end
 

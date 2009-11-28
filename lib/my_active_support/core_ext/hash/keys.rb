@@ -46,6 +46,14 @@ module ActiveSupport #:nodoc:
           unknown_keys = keys - [valid_keys].flatten
           raise(ArgumentError, "Unknown key(s): #{unknown_keys.join(", ")}") unless unknown_keys.empty?
         end
+
+        #
+        # Sem4r
+        #
+        def assert_check_keys(*mkeys)
+          missing_keys = [mkeys].flatten - keys
+          raise(ArgumentError, "Missing key(s): #{missing_keys.join(", ")}") unless missing_keys.empty?
+        end
       end
     end
   end

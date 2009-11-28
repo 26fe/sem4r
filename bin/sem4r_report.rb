@@ -1,5 +1,7 @@
+#!/usr/bin/env ruby
+
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -28,8 +30,9 @@ class Cli
 
   def self.run
     cli = self.new
-    cli.parse_args( ARGV )
-    cli.main
+    if cli.parse_args( ARGV )
+      cli.main
+    end
   end
 
   def parse_args( argv )
@@ -40,22 +43,26 @@ class Cli
     @options = OpenStruct.new :verbose => true, :force => false, :environment => 'sandbox'
 
     opts = OptionParser.new
-    opts.banner = "Usage: get_report.rb [options]"
+    opts.banner = "Usage: sem4r_report.rb [options]"
 
     opts.separator ""
     opts.separator "downloads a report from adwords account using adwords api"
 
+    #
+    # common options
+    #
     opts.separator ""
-    opts.separator "options: "
+    opts.separator "common options: "
+    opts.separator ""
 
     opts.on("-h", "--help", "Show this message") do
       puts opts
-      return 0
+      return false
     end
 
     opts.on("--version", "Show sem4r the version") do
       puts "sem4r version #{Sem4r::version}"
-      return 0
+      return false
     end
 
     opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
@@ -66,16 +73,36 @@ class Cli
       @options.verbose = false
     end
 
-    # environment
+    #
+    # configuration file options
+    #
+    opts.separator ""
+    opts.separator "configuration file options"
+    opts.separator "if credentials options are present overwrite config option"
+    opts.separator ""
+
+    opts.on("-c", "--config CONFIG",
+      "Name of the configuration to load from sem4r config file") do |config|
+      @options.config_name = config
+    end
+
+    #
+    # credentials options
+    #
+    opts.separator ""
+    opts.separator "credentials options:"
+    opts.separator "if credentials options are present overwrite config option"
+    opts.separator ""
+
     environments = %w[sandbox production]
     environment_aliases = { "s" => "sandbox", "p" => "production" }
     environment_list = (environment_aliases.keys + environments).join(',')
-    opts.on("--env ENVIRONMENT", environments, environment_aliases,
+    opts.on("-e", "--env ENVIRONMENT", environments, environment_aliases,
       "Select environment","  (#{environment_list})") do |environment|
       @options.environment = environment
     end
 
-    opts.on("-e", "--email EMAIL",
+    opts.on("-m", "--email EMAIL",
       "Email of adwords account") do |email|
       @options.email = email
     end
@@ -85,14 +112,19 @@ class Cli
       @options.password = password
     end
 
-    opts.on("-t", "--token TOKEN",
+    opts.on("-d", "--devel-token TOKEN",
       "Developer Token to access adwords api") do |token|
-      @options.token = token
+      @options.developer_token = token
+    end
+
+    opts.on("-a", "--application-token TOKEN",
+      "Developer Token to access adwords api") do |token|
+      @options.application_token = token
     end
 
     rest = opts.parse(argv)
 
-    puts @options
+    # puts @options
     # p ARGV
 
     if rest.length != 0
@@ -149,22 +181,29 @@ class Cli
       #
 
       # search credentials into ~/.sem4r file
-      config = self.credentials
-      adwords = Adwords.new( config[:environment], config )
-
-      exit
+      if @options.config_name
+        adwords = Adwords.new( @options.config_name )
+      else
+      end
 
       adwords.dump_soap_to( example_soap_log(__FILE__) )
       adwords.logger = Logger.new(STDOUT)
       # adwords.logger =  example_logger(__FILE__)
 
       #
-      # example body
+      # 
       #
 
       account = adwords.account
-      # account.p_reports
 
+      account.p_client_accounts
+      
+      account.p_reports
+      adwords.p_counters
+      
+
+      exit
+      
       report = account.report do
 
         name            'boh' # 'PPC Campaigns'

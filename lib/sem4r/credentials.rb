@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -36,12 +36,12 @@ module Sem4r
     def initialize( opts, client_email = nil )
       case opts
       when Hash
-        @environment=         opts[:environment]
-        @email=               opts[:email]
-        @password=            opts[:password]
-        @useragent=           "Ruby"
-        @developer_token=     opts[:developer_token]
-        @application_token=   "ignored"
+        @environment=         opts[:environment].dup.freeze
+        @email=               opts[:email].dup.freeze
+        @password=            opts[:password].dup.freeze
+        @useragent=           "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)"
+        @developer_token=     opts[:developer_token].dup.freeze
+        @application_token=   opts[:application_token].dup.freeze
       when Credentials
         @credentials = opts
         @environment=         @credentials.environment
@@ -53,7 +53,7 @@ module Sem4r
       end
 
       if client_email
-        @client_email = client_email
+        @client_email = client_email.dup.freeze
       end
     end
 
@@ -62,7 +62,7 @@ module Sem4r
     end
 
     def sandbox?
-      @environment != :production
+      @environment != "production"
     end
 
     def production?

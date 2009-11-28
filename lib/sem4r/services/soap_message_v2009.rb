@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -39,7 +39,7 @@ module Sem4r
       @logger= logger
     end
 
-    def init(credentials, header_namespace, service_namespace = nil)
+    def init(credentials, header_namespace, service_namespace)
       @credentials = credentials
       @header_namespace = header_namespace
       @service_namespace = service_namespace
@@ -113,24 +113,32 @@ module Sem4r
 
     def build_soap_header
       auth_token = @credentials.authentication_token
-      str = <<-EOFS
-      <env:Header>
-        <h:RequestHeader env:mustUnderstand="0"
-           xmlns:h="#{@header_namespace}">
-          <h:authToken>#{auth_token}</h:authToken>
-          <h:userAgent>#{@credentials.useragent}</h:userAgent>
-          <h:applicationToken>IGNORED</h:applicationToken>
-          <h:developerToken>#{@credentials.developer_token}</h:developerToken>
+
+      str = "<env:Header>"
+
+      if @service_namespace
+        str += "<s:RequestHeader env:mustUnderstand=\"0\">"
+      else
+        str += "<RequestHeader env:mustUnderstand=\"0\">"
+      end
+
+      str +=<<-EOFS
+          <authToken>#{auth_token}</authToken>
+          <userAgent>#{@credentials.useragent}</userAgent>
+          <applicationToken>IGNORED</applicationToken>
+          <developerToken>#{@credentials.developer_token}</developerToken>
       EOFS
 
       if @credentials.client_email
-        str += "<h:clientEmail>#{@credentials.client_email}</h:clientEmail>"
+        str += "<clientEmail>#{@credentials.client_email}</clientEmail>"
       end
-
-      str += <<-EOFS
-          </h:RequestHeader>
-        </env:Header>
-      EOFS
+      
+      if @service_namespace
+        str += "</s:RequestHeader>"
+      else
+        str += "</RequestHeader>"
+      end
+      str += "</env:Header>"
       str
     end
 
@@ -140,8 +148,15 @@ module Sem4r
       <env:Envelope
          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+         xmlns="#{@header_namespace}"
       EOFS
+
+      if @service_namespace
+        soap_message += " xmlns:s=\"#{@service_namespace}\""
+      end
+      soap_message += ">"
+
       soap_message += build_soap_header
       soap_message += "<env:Body>"
       soap_message += @soap_body_content
