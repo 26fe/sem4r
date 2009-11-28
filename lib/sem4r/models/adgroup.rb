@@ -1,25 +1,25 @@
-## -------------------------------------------------------------------
-## Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
-##
-## Permission is hereby granted, free of charge, to any person obtaining
-## a copy of this software and associated documentation files (the
-## "Software"), to deal in the Software without restriction, including
-## without limitation the rights to use, copy, modify, merge, publish,
-## distribute, sublicense, and/or sell copies of the Software, and to
-## permit persons to whom the Software is furnished to do so, subject to
-## the following conditions:
-##
-## The above copyright notice and this permission notice shall be
-## included in all copies or substantial portions of the Software.
-##
-## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-## NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-## LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-## OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-## WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-## -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# -------------------------------------------------------------------
 
 module Sem4r
   class Adgroup < Base
@@ -41,7 +41,10 @@ module Sem4r
       @campaign = campaign
       @id = nil
       @criterions = nil
-      instance_eval(&block) if block_given?
+      if block_given?
+        instance_eval(&block)
+        save
+      end
     end
 
     def to_s
@@ -148,7 +151,8 @@ module Sem4r
     ###########################################################################
 
     def ad(&block)
-      ad = AdgroupAd(self, &block)
+      save
+      ad = AdgroupAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
       ad
@@ -202,6 +206,11 @@ module Sem4r
       self
     end
 
+    def find_criterion(criterion_id, refresh = false)
+      _criterions unless @criterions and !refresh
+      @criterions.find {|c| c.id == criterion_id}
+    end
+
     private
 
     def _criterions
@@ -211,6 +220,42 @@ module Sem4r
       els = REXML::XPath.match( rval, "entries/criterion")
       @criterions = els.map do |el|
         Criterion.from_element( self, el )
+      end
+    end
+
+    public
+
+    ###########################################################################
+
+    def ad_param(criterion, &block)
+      save
+      ad_param = AdParam.new(self, criterion, &block).save
+      @ad_params ||= []
+      @ad_params.push( ad_param )
+      criterion
+    end
+
+    def ad_params(refresh = false)
+      _ad_params unless @ad_params and !refresh
+      @ad_params
+    end
+
+    def p_ad_params(refresh = false)
+      ad_params(refresh).each do |ad_param|
+        puts ad_param.to_s
+      end
+      self
+    end
+
+    private
+
+    def _ad_params
+      soap_message = service.ad_param.all(credentials, @id)
+      add_counters( soap_message.counters )
+      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
+      els = REXML::XPath.match( rval, "entries")
+      @ad_params = els.map do |el|
+        AdParam.from_element( self, el )
       end
     end
 

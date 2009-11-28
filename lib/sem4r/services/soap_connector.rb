@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -83,9 +83,9 @@ module Sem4r
     end
 
 
-    def message_v2009(credentials, namespace)
+    def message_v2009(credentials, header_namespace, service_namespace)
       message = SoapMessageV2009.new(self)
-      message.init( credentials, namespace )
+      message.init( credentials, header_namespace, service_namespace )
       message
     end
 
@@ -130,7 +130,7 @@ module Sem4r
       response_xml = resp.body
 
       if @soap_log
-        @soap_log.puts "<!--  -->"
+        @soap_log.puts "<!-- Post to '#{service_url}' -->"
         @soap_log.puts soap_message
         # puts "--------------"
         # pp resp

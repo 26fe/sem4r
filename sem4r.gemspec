@@ -5,13 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sem4r}
-  s.version = "0.0.1"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2009-11-21}
+  s.date = %q{2009-11-28}
+  s.default_executable = %q{get_report.rb}
   s.description = %q{ruby library to access google adwords api}
-  s.email = %q{giovanni.ferro@gmail.com}
+  s.email = %q{sem4ruby@gmail.com}
+  s.executables = ["get_report.rb"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -20,47 +22,57 @@ Gem::Specification.new do |s|
     "LICENSE",
      "README.rdoc",
      "Rakefile",
-     "VERSION",
-     "config/sem4r.yml",
-     "examples/create.rb",
+     "VERSION.yml",
+     "config/sem4r.example.yml",
+     "examples/01_get_account.rb",
+     "examples/02_get_info.rb",
+     "examples/03_list_ad.rb",
+     "examples/04_list_keywords.rb",
+     "examples/05_request_report.rb",
+     "examples/06_create_campaigns.rb",
+     "examples/07_prune_empty_adgroup.rb",
+     "examples/08_ad_params.rb",
+     "examples/09_targeting_idea.rb",
      "examples/example_helper.rb",
-     "examples/get_account.rb",
-     "examples/get_info.rb",
-     "examples/list_ad.rb",
-     "examples/list_keywords.rb",
-     "examples/prune.rb",
+     "lib/my_active_support/core_ext/hash.rb",
+     "lib/my_active_support/core_ext/hash/keys.rb",
      "lib/sem4r.rb",
      "lib/sem4r/adwords.rb",
+     "lib/sem4r/aggregates/adgroup_bid.rb",
+     "lib/sem4r/aggregates/billing_address.rb",
+     "lib/sem4r/aggregates/targeting_idea_selector.rb",
      "lib/sem4r/api_counters.rb",
      "lib/sem4r/credentials.rb",
-     "lib/sem4r/enum.rb",
-     "lib/sem4r/model/account.rb",
-     "lib/sem4r/model/adgroup.rb",
-     "lib/sem4r/model/adgroup_ad.rb",
-     "lib/sem4r/model/adgroup_bid.rb",
-     "lib/sem4r/model/base.rb",
-     "lib/sem4r/model/campaign.rb",
-     "lib/sem4r/model/criterion.rb",
-     "lib/sem4r/model/report.rb",
-     "lib/sem4r/model/report_job.rb",
+     "lib/sem4r/models/account.rb",
+     "lib/sem4r/models/ad_param.rb",
+     "lib/sem4r/models/adgroup.rb",
+     "lib/sem4r/models/adgroup_ad.rb",
+     "lib/sem4r/models/base.rb",
+     "lib/sem4r/models/campaign.rb",
+     "lib/sem4r/models/criterion.rb",
+     "lib/sem4r/models/report.rb",
+     "lib/sem4r/models/report_job.rb",
+     "lib/sem4r/sem4r_error.rb",
      "lib/sem4r/services/account_service.rb",
      "lib/sem4r/services/ad_extension_override_service.rb",
+     "lib/sem4r/services/ad_param_service.rb",
      "lib/sem4r/services/adgroup_ad_service.rb",
      "lib/sem4r/services/adgroup_criterion_service.rb",
      "lib/sem4r/services/adgroup_service.rb",
      "lib/sem4r/services/campaign_criterion_service.rb",
      "lib/sem4r/services/campaign_service.rb",
      "lib/sem4r/services/campaign_target_service.rb",
-     "lib/sem4r/services/define_call.rb",
      "lib/sem4r/services/info_service.rb",
      "lib/sem4r/services/report_service.rb",
      "lib/sem4r/services/service.rb",
+     "lib/sem4r/services/soap_call.rb",
      "lib/sem4r/services/soap_connector.rb",
-     "lib/sem4r/services/soap_fault.rb",
+     "lib/sem4r/services/soap_error.rb",
      "lib/sem4r/services/soap_message_v13.rb",
      "lib/sem4r/services/soap_message_v2009.rb",
      "lib/sem4r/services/targeting_idea_service.rb",
      "lib/sem4r/services/traffic_estimator_service.rb",
+     "lib/sem4r/soap_attributes.rb",
      "sem4r.gemspec"
   ]
   s.homepage = %q{http://github.com/sem4r/sem4r}

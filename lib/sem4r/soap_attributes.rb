@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -73,11 +73,11 @@ module Sem4r
 
         define_method "#{name}=" do |value|
           if enum and !enum.include?(value)
-            raise "Value not permitted #{value}"
+            raise "Value '#{value}' not permitted "
           end
           if if_type
             type = instance_variable_get "@#{other_instance_var}"
-            raise "type must be '#{if_type}'" unless if_type == type
+            raise "type must be '#{if_type}' instead of '#{type}'" unless if_type == type
           end
           instance_variable_set "@#{name}", value
         end

@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -51,7 +51,10 @@ module Sem4r
     def initialize(adgroup, &block)
       super( adgroup.adwords, adgroup.credentials )
       @adgroup = adgroup
-      instance_eval(&block) if block_given?
+      if block_given?
+        instance_eval(&block)
+        save
+      end
     end
 
     def to_s

@@ -1,5 +1,5 @@
 ## -------------------------------------------------------------------
-## Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+## Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining
 ## a copy of this software and associated documentation files (the
@@ -23,7 +23,7 @@
 
 module Sem4r
   class AdgroupCriterionService
-    include DefineCall
+    include SoapCall
 
     def initialize(connector)
       @connector = connector

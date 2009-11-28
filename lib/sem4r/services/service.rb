@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,7 +25,7 @@ require 'sem4r/services/soap_error'
 require 'sem4r/services/soap_connector'
 require 'sem4r/services/soap_message_v13'
 require 'sem4r/services/soap_message_v2009'
-require 'sem4r/services/define_call'
+require 'sem4r/services/soap_call'
 
 module Sem4r
   class Service
@@ -52,7 +52,7 @@ module Sem4r
     ###########################################################################
     # services v2009
 
-    %w{ ad_extension_override adgroup adgroup_ad adgroup_criterion campaign
+    %w{ ad_extension_override adgroup adgroup_ad ad_param adgroup_criterion campaign
         campaign_criterion campaign_target info targeting_idea }.each do |service|      
       klass_name = service.split('_').map{|p| p.capitalize}.join('')
       str=<<-EOFR

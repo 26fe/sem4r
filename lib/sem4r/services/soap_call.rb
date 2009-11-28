@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  module DefineCall
+  module SoapCall
 
     def self.included(base)
       base.extend ClassMethods
@@ -49,7 +49,7 @@ module Sem4r
     end
 
     def helper_call_v2009(credentials, soap_body_content)
-      soap_message = @connector.message_v2009(credentials, @header_namespace)
+      soap_message = @connector.message_v2009(credentials, @header_namespace, @service_namespace)
       soap_message.body = soap_body_content
       if credentials.sandbox?
         soap_message.send(@sandbox_service_url)

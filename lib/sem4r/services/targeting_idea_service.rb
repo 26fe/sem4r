@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r giovanni.ferro@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -23,8 +23,29 @@
 
 module Sem4r
   class TargetingIdeaService
-    def initialize
-    
+    include SoapCall
+
+    def initialize(connector)
+      @connector = connector
+
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v200909"
+      @service_namespace = "https://adwords.google.com/api/adwords/o/v200909"
+
+      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/o/v200909/TargetingIdeaService"
+      @production_service_url = "https://adwords.google.com/api/adwords/o/v200909/TargetingIdeaService"
     end
+
+    define_call_v2009 :get, :xml
+
+    ################
+
+    private
+
+    def _get(xml)
+      <<-EOFS
+      <s:get>#{xml}</s:get>
+      EOFS
+    end
+
   end
 end

@@ -27,6 +27,7 @@ puts "Running #{File.basename(__FILE__)}"
 puts "---------------------------------------------------------------------"
 
 begin
+
   #
   # config stuff
   #
@@ -40,7 +41,7 @@ begin
 
   adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
 
-  # adwords.dump_soap_to( example_soap_log(__FILE__) )
+  adwords.dump_soap_to( example_soap_log(__FILE__) )
   adwords.logger = Logger.new(STDOUT)
   # adwords.logger =  example_logger(__FILE__)
 
@@ -48,32 +49,51 @@ begin
   # example body
   #
 
-  puts "Prune empty campaigns and adgroups"
+  puts "Create an adgroup with adparam"
 
-  adwords.accounts.each do |account|
-    account.client_accounts.each do |client_account|
-      puts "examinate account '#{client_account.credentials.client_email}'"
-      client_account.campaigns.each do |campaign|
+  client_account = adwords.account.client_accounts[1]
 
-        puts "examinate campaign '#{campaign.name}'"
-        campaign.adgroups.each do |adgroup|
-          if adgroup.empty?
-            puts "delete adgroup '#{adgroup.name}'"
-            adgroup.delete
-          end
-        end
+  if client_account.campaigns.length != 0
+    campaign = client_account.campaigns[0]
+  else
+    campaign = client_account.campaign do
+      name "campaign #{Time.now}"
+    end    
+  end
 
-        if campaign.empty?
-          puts "delete campaign '#{campaign.name}'"
-          campaign.delete
-        end
+  campaign.adgroup do
+    name "adgroup #{Time.now}"
+  
+    ad do
+      url           "http://www.pluto.com"
+      display_url   "www.Pluto.com"
+      headline      "Vieni da noi"
+      description1  "vieni da noi"
+      description2  "arivieni da noi"
+    end
+
+    criterion do
+      type       KEYWORD
+      text       "pippo"
+      match_type BROAD
+
+      ad_param do
+        index 1
+        text  "$99.99"
+      end
+
+      ad_param do
+        index 2
+        text  "10"
       end
     end
   end
 
-  adwords.p_counters
+  campaign.adgroups(true).each do |adgroup|
+    adgroup.p_ad_params
+  end
 
-rescue Sem4Error
+rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
 
