@@ -28,14 +28,11 @@ module Sem4r
     attr_reader :response
     attr_reader :counters
 
-    def initialize(connector)
+    def initialize(connector, credentials)
+      @credentials = credentials
       @connector = connector
       @response = nil
       @counters = {}
-    end
-
-    def init(credentials)
-      @credentials = credentials
     end
 
     def body=(soap_body_content)
@@ -58,7 +55,7 @@ module Sem4r
       #  </soapenv:Header>
       header = REXML::XPath.first(@response, "//soapenv:Header")
       if header
-        @counter = {
+        @counters = {
           :response_time => header.elements['responseTime'].text.to_i,
           :operations => header.elements['operations'].text.to_i,
           :units => header.elements['units'].text.to_i

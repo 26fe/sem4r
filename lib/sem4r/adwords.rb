@@ -22,7 +22,6 @@
 # -------------------------------------------------------------------
 
 require 'rexml/document'
-require 'patron'
 require 'uri'
 require 'pp'
 require 'logger'

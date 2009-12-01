@@ -28,8 +28,9 @@ module Sem4r
     attr_reader :response
     attr_reader :counters
     
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
+      @credentials = credentials
       @response = nil
       @counters = {}
       @logger = nil
@@ -39,8 +40,7 @@ module Sem4r
       @logger= logger
     end
 
-    def init(credentials, header_namespace, service_namespace)
-      @credentials = credentials
+    def init(header_namespace, service_namespace)
       @header_namespace = header_namespace
       @service_namespace = service_namespace
     end

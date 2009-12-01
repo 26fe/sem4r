@@ -9,12 +9,13 @@ begin
   Jeweler::Tasks.new do |gem|
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.name = "sem4r"
-    gem.summary = %Q{library to access google adwords api}
-    gem.description = %Q{ruby library to access google adwords api}
+    gem.summary = %Q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
+    gem.description = %Q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8.
+                         This is a ALPHA version don't use in production}
     gem.email = "sem4ruby@gmail.com"
-    gem.homepage = "http://github.com/sem4r/sem4r"
+    gem.homepage = "http://www.sem4r.com"
     gem.authors = ["Sem4r"]
-    gem.add_dependency 'patron'
+    # gem.add_dependency 'patron'
     gem.add_development_dependency "spec"
 
     #
@@ -26,9 +27,9 @@ begin
     gem.files.concat Dir['examples/*.rb']
     gem.files.concat Dir['lib/**/*.rb']
 
-    gem.test_files = [] # Dir['test/**/*.rb']
+    gem.test_files = Dir['spec/**/*.rb']
     # concat all test files
-    # gem.files.concat Dir['test_data/**/*']
+    gem.files.concat Dir['spec/fixtures/**/*']
     # gem.files.concat Dir['test_data/**/.dir_with_dot/*']
 
     #

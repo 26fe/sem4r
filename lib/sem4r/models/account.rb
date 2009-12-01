@@ -112,7 +112,6 @@ module Sem4r
     # Targeting Idea
 
     def targeting_idea
-
       sel = TargetingIdeaSelector.new do
         idea_type KEYWORD
         request_type IDEAS
@@ -121,6 +120,16 @@ module Sem4r
       add_counters( soap_message.counters )
       cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
       cost.text.to_i
+    end
+
+    ############################################################################
+    # Targeting Idea
+
+    def geo_location
+      soap_message = service.geo_location.get(@credentials, "")
+      add_counters( soap_message.counters )
+      # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
+      # cost.text.to_i
     end
 
     ############################################################################
