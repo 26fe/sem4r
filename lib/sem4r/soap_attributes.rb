@@ -32,7 +32,7 @@ module Sem4r
 
       def enum(set, values)
         tmp = values.map do |v|
-          if const_defined? (v.to_sym)
+          if const_defined?(v.to_sym)
             const_get(v.to_sym)
           else
             const_set(v.to_sym, v.to_s)
@@ -82,7 +82,9 @@ module Sem4r
           instance_variable_set "@#{name}", value
         end
 
-        define_method "#{name}" do |value = nil|
+        define_method "#{name}" do |*values|  # |value = nil| is incorrect in ruby 1.8
+          raise ArgumentError, "wrong number of arguments (#{values.size} for 0)" if values.length > 1
+          value = values.first
           if value
             self.__send__("#{name}=", value)
           elsif instance_variable_defined? "@#{name}"

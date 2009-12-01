@@ -52,8 +52,17 @@ module Sem4r
     ###########################################################################
     # services v2009
 
-    %w{ ad_extension_override adgroup adgroup_ad ad_param adgroup_criterion campaign
-        campaign_criterion campaign_target info targeting_idea }.each do |service|      
+    %w{ ad_extension_override
+        adgroup
+        adgroup_ad
+        ad_param
+        adgroup_criterion
+        campaign
+        campaign_criterion 
+        campaign_target
+        geo_location
+        info
+        targeting_idea }.each do |service|
       klass_name = service.split('_').map{|p| p.capitalize}.join('')
       str=<<-EOFR
         require 'sem4r/services/#{service}_service'

@@ -22,38 +22,32 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.dirname(__FILE__) + "/example_helper"
-puts "---------------------------------------------------------------------"
-puts "Running #{File.basename(__FILE__)}"
-puts "---------------------------------------------------------------------"
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-begin
+describe ReportService do
 
-  #
-  # config stuff
-  #
+  before(:all) do
+    @credentials = mock("credentials")
+    @credentials.should_receive(:sandbox?).and_return(true)
+    @credentials.should_receive(:email).and_return("example@gmail.com")
+    @credentials.should_receive(:password).and_return("secret")
+    @credentials.should_receive(:client_email).and_return(nil)
+    @credentials.should_receive(:useragent).and_return("sem4r")
+    @credentials.should_receive(:developer_token).and_return("dev_token")
+    @credentials.should_receive(:application_token).and_return("appl_token")
+  end
 
-  #  config = {
-  #    :email           => "",
-  #    :password        => "",
-  #    :developer_token => ""
-  #  }
-  # adwords = Adwords.sandbox(config)
+  it "should accept all message" do
+    response_xml = load_response("report", "all")
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
 
-  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
+    report_service = ReportService.new(connector)
+    soap_message = report_service.all( @credentials )
 
-  adwords.dump_soap_to( example_soap_log(__FILE__) )
-  adwords.logger = Logger.new(STDOUT)
-  # adwords.logger =  example_logger(__FILE__)
-
-  #
-  # example body
-  #
-
-  adwords.account.targeting_idea
-
-rescue Sem4rError
-  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
+          els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els.should_not be_empty
+    els.should have(4).elements
+  end
 end
 
-puts "---------------------------------------------------------------------"

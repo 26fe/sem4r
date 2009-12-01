@@ -49,33 +49,10 @@ begin
   # example body
   #
 
-  account = adwords.account
-  account.p_reports
-
-  report = account.report do
-    name                 "Test Report"
-    type                 "Structure"
-    start_day            "2009-01-01"
-    end_day              "2009-01-31"
-    aggregation          "Keyword"
-    column               "Campaign"
-    column               "AdGroup"
-    column               "Keyword"
-    column               "KeywordTypeDisplay"
-  end
-
-  report.validate
-  job = report.schedule
-  job.wait(5) { |r, s| puts "status #{s}" }
-  report.download(tmp_dirname + "/test_report.xml")
-
-  account.p_reports(true)
-  report = account.reports.first
-  puts report.status(true)
-
-  adwords.p_counters
-
+  adwords.account.geo_location
+  
 rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
+
 puts "---------------------------------------------------------------------"

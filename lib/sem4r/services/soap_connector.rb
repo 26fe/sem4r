@@ -21,9 +21,23 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
+
 module Sem4r
 
   class SoapConnector
+
+    begin
+      require 'patron'
+      UsePatron = true
+    rescue LoadError
+      UsePatron = false
+      puts "Patron not found, degrade to net/https"
+    end
+
+    if !UsePatron
+      require 'net/https'
+      require 'uri'
+    end
 
     MAXRETRIES = 3
 
@@ -42,58 +56,48 @@ module Sem4r
     end
 
     def authentication_token(email, password)
-
       str = "accountType=GOOGLE&Email=#{email}&Passwd=#{password}&service=adwords"
       str = URI.escape(str)
 
-      base_url = "https://www.google.com"
-      sess = get_sess_for_host(base_url)
-      retries = 0; resp = nil
-      while retries <= MAXRETRIES and resp.nil?
-        begin
-          retries += 1
-          resp = sess.post("/accounts/ClientLogin", str,
-            {"Content-Type" => "application/x-www-form-urlencoded"})
-        rescue Patron::Error => e
+      uri = URI.parse( "https://www.google.com/accounts/ClientLogin" )
+      sess = get_sess_for_host(uri)
+      retries = 0; response = nil
+      while retries <= MAXRETRIES and response.nil?
+        retries += 1
+
+        headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+        if UsePatron
+          begin
+            e = nil
+            response = sess.post( uri.path, str, headers )
+            status = response.status
+          rescue Patron::Error => e
+          end
+        else
+          response = sess.request_post(uri.path, str, headers )
+          # pp response.methods
+          # pp response.class.to_s
+          status = response.code.to_i
+          # pp "status: #{status}"
+        end
+
+        if e
           @logger.warn("authentication retries!!! #{e.to_s}") if @logger
-          invalidate_sess(base_url)
+          invalidate_sess(uri)
           sleep(2 * retries) # wait 1 sec
-          sess = get_sess_for_host(base_url)
+          sess = get_sess_for_host(uri)
         end
       end
-      unless resp
+      unless response
         raise "Connection Error, Network is down?? :-((("
       end
-
-      if resp.status < 400
-        # puts resp.body
-        hash = {}
-        resp.body.split("\n").each do |line|
-          key, value = line.split("=")
-          hash[key.strip] = value.strip
-        end
-        return hash['Auth']
-
-        # if response.code == '200'
-        #   return response.body[/Auth=(.*)/, 1]
-
+      
+      if status == 200
+        return response.body[/Auth=(.*)/, 1]
       end
-
-      # sess.post("/foo/stuff", "some data", {"Content-Type" => "text/plain"})
+      raise Sem4rError, "authentication failed status is #{status}"
     end
 
-
-    def message_v2009(credentials, header_namespace, service_namespace)
-      message = SoapMessageV2009.new(self)
-      message.init( credentials, header_namespace, service_namespace )
-      message
-    end
-
-    def message_v13(credentials)
-      message = SoapMessageV13.new(self)
-      message.init( credentials )
-      message
-    end
 
     def send(service_url, soap_action, soap_message)
       begin
@@ -102,34 +106,51 @@ module Sem4r
         puts "Invalid url --  #{service_url}"
         raise
       end
-      base_url = uri.scheme + "://" + uri.host
 
       headers = {
         "Content-Type" => "text/xml; charset=utf-8",
         "Content-Length" => soap_message.length.to_s,
         "SOAPAction" => soap_action}
 
-      retries = 0; resp = nil
-      sess = get_sess_for_host(base_url)
-      while retries <= MAXRETRIES and resp.nil?
-        begin
-          retries += 1
-          @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
-          resp = sess.post(uri.path, soap_message, headers)
-        rescue Patron::Error => e
+      retries = 0; response = nil
+      sess = get_sess_for_host(uri)
+      while retries <= MAXRETRIES and response.nil?
+        retries += 1
+        @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
+        if UsePatron
+          begin
+            e = nil
+            response = sess.post(uri.path, soap_message, headers)
+          rescue Patron::Error => e
+          end
+        else
+          begin
+            response = sess.request_post(uri.path, soap_message, headers)
+          rescue
+            raise
+          end
+        end
+        if e
           @logger.warn("soap_connector.send retries!!! #{e.to_s}") if @logger
-          invalidate_sess(base_url)
+          invalidate_sess(uri)
           sleep(2 * retries) # wait 1 sec
-          sess = get_sess_for_host(base_url)
+          sess = get_sess_for_host(uri)
         end
       end
-      unless resp
-        raise "Connection Error"
+      unless response
+        raise Sem4rError, "Connection Error"
       end
 
-      response_xml = resp.body
+      response_xml = response.body
 
       if @soap_log
+
+        %w{email password developerToken applicationToken authToken}.each do |tag|
+          soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***<#{tag}>")
+        end
+
+        response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
+
         @soap_log.puts "<!-- Post to '#{service_url}' -->"
         @soap_log.puts soap_message
         # puts "--------------"
@@ -139,48 +160,65 @@ module Sem4r
         # f = REXML::Formatters::Pretty.new
         # f.write(request, $stdout)
         # puts
-        @soap_log.puts "<!--  -->"
+        @soap_log.puts "<!-- response -->"
+        #        %w{email password developerToken applicationToken}.each do |tag|
+        #          response_xml.sub!(//)
+        #        end
         @soap_log.puts response_xml
 
         # response = REXML::Document.new(resp.body)
         # f = REXML::Formatters::Pretty.new
         # f.write(response, $stdout)
-        @soap_log.puts "<!--  -->"
+        @soap_log.puts "<!-- end -->"
         @soap_log.flush
       end
       response_xml
     end
 
     def download(url, path_name)
-      uri = URI.parse(url)
-      base_url = uri.scheme + "://" + uri.host
-      sess = get_sess_for_host(base_url)
-      sess.get_file(uri.path, path_name)
+      if UsePatron
+        uri = URI.parse(url)
+        sess = get_sess_for_host(uri)
+        sess.get_file(uri.path, path_name)
+      else
+        require 'open-uri'
+        data = open(url){ |f| f.read }
+        File.open(path_name, "w") { |f| f.write(data) }
+      end
     end
 
     private
 
-
-
-
-    def get_sess_for_host(base_url)
-      sess = @sessions[base_url]
-      unless sess
-        sess = Patron::Session.new
-        # sess.connect_timeout = 3000 #millis
-        sess.timeout = 12
-        sess.base_url = base_url
-        sess.headers['User-Agent'] = 'ruby'
-        @sessions[base_url] = sess
+    def get_sess_for_host(uri)
+      if UsePatron
+        url = uri.scheme + "://" + uri.host
+        sess = @sessions[url]
+        unless sess
+          sess = Patron::Session.new
+          # sess.connect_timeout = 3000 #millis
+          sess.timeout = 12
+          sess.base_url = url
+          sess.headers['User-Agent'] = 'ruby'
+          @sessions[url] = sess
+        end
+        sess
+      else
+        url = uri.scheme + "://" + uri.host
+        sess = @sessions[url]
+        unless sess
+          sess = Net::HTTP.new(uri.host, uri.port)
+          sess.use_ssl = (uri.scheme == "https")
+          @sessions[url] = sess
+        end
+        sess
       end
-      sess
     end
 
-    def invalidate_sess(base_url)
-      sess = @sessions[base_url]
+    def invalidate_sess(uri)
+      sess = @sessions[uri.host]
       if sess
         # sess.close
-        @sessions[base_url] = nil
+        @sessions[uri.host] = nil
       end
     end
 

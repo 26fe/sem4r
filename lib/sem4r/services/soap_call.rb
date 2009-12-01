@@ -39,7 +39,7 @@ module Sem4r
         raise "Soapaction not found"
       end
 
-      soap_message = @connector.message_v13(credentials)
+      soap_message = SoapMessageV13.new( @connector, credentials)
       soap_message.body = soap_body_content
       if credentials.sandbox?
         soap_message.send(@sandbox_service_url, soap_action)
@@ -49,7 +49,8 @@ module Sem4r
     end
 
     def helper_call_v2009(credentials, soap_body_content)
-      soap_message = @connector.message_v2009(credentials, @header_namespace, @service_namespace)
+      soap_message = SoapMessageV2009.new(@connector, credentials)
+      soap_message.init( @header_namespace, @service_namespace )
       soap_message.body = soap_body_content
       if credentials.sandbox?
         soap_message.send(@sandbox_service_url)
@@ -59,7 +60,8 @@ module Sem4r
     end
 
     module ClassMethods
-      def define_call_v13(method, *args)
+
+      def soap_call(helper_version, method, *args)
         public_method_pars = ['credentials'] .concat(args).join(",")
 
         private_method_pars = args.join(",")
@@ -68,25 +70,18 @@ module Sem4r
         rubystr =<<-EOFS
           define_method :#{method.to_sym} do |#{public_method_pars}|
             soap_body_content = send "_#{method}" #{private_method_pars}
-            helper_call_v13(credentials, soap_body_content)
+            #{helper_version}(credentials, soap_body_content)
           end
         EOFS
         eval rubystr
       end
 
+      def define_call_v13(method, *args)
+        soap_call("helper_call_v13", method, *args)
+      end
+
       def define_call_v2009(method, *args)
-        public_method_pars = ['credentials'] .concat(args).join(",")
-
-        private_method_pars = args.join(",")
-        private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
-
-        rubystr =<<-EOFS
-          define_method :#{method.to_sym} do |#{public_method_pars}|
-            soap_body_content = send "_#{method}" #{private_method_pars}
-            helper_call_v2009(credentials, soap_body_content)
-          end
-        EOFS
-        eval rubystr
+        soap_call("helper_call_v2009", method, *args)
       end
     end
 
