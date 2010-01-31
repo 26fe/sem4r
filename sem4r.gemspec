@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2009-12-08}
+  s.date = %q{2010-01-31}
   s.default_executable = %q{sem4r_report.rb}
   s.description = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8.
                          This is a ALPHA version don't use in production}
@@ -31,10 +31,11 @@ Gem::Specification.new do |s|
      "examples/04_list_keywords.rb",
      "examples/05_request_report.rb",
      "examples/06_create_campaigns.rb",
-     "examples/07_prune_empty_adgroup.rb",
      "examples/08_ad_params.rb",
      "examples/09_targeting_idea.rb",
      "examples/10_get_location.rb",
+     "examples/30_prune_empty_adgroup.rb",
+     "examples/31_empty_accounts.rb",
      "examples/example_helper.rb",
      "lib/my_active_support/core_ext/hash.rb",
      "lib/my_active_support/core_ext/hash/keys.rb",
@@ -107,11 +108,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<builder>, [">= 0"])
       s.add_development_dependency(%q<spec>, [">= 0"])
     else
+      s.add_dependency(%q<builder>, [">= 0"])
       s.add_dependency(%q<spec>, [">= 0"])
     end
   else
+    s.add_dependency(%q<builder>, [">= 0"])
     s.add_dependency(%q<spec>, [">= 0"])
   end
 end
