@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -72,21 +72,8 @@ module Sem4r
 
     ###########################################################################
 
-    def name=(value)
-      @name=value
-    end
-
-    def name(value = nil)
-      value ? self.name = value : @name
-    end
-
-    def status=(value)
-      @status=value
-    end
-
-    def status(value = nil)
-      value ? self.status = value : @status
-    end
+    g_accessor :name
+    g_accessor :status
 
     def bid(el)
       @bid = AdgroupBid.from_element(el)
@@ -150,9 +137,17 @@ module Sem4r
 
     ###########################################################################
 
-    def ad(&block)
+    def text_ad(&block)
       save
-      ad = AdgroupAd.new(self, &block)
+      ad = AdgroupTextAd.new(self, &block)
+      @ads ||= []
+      @ads.push(ad)
+      ad
+    end
+
+    def mobile_ad(&block)
+      save
+      ad = AdgroupMobileAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
       ad
@@ -186,9 +181,17 @@ module Sem4r
 
     ###########################################################################
 
-    def criterion(&block)
+    def keyword(&block)
       save
-      criterion = Criterion.new(self, &block).save
+      criterion = CriterionKeyword.new(self, &block).save
+      @criterions ||= []
+      @criterions.push( criterion )
+      criterion
+    end
+
+    def placement(&block)
+      save
+      criterion = CriterionPlacement.new(self, &block).save
       @criterions ||= []
       @criterions.push( criterion )
       criterion

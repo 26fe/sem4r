@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -31,14 +31,12 @@ describe Adwords do
     @email             = "pippo"
     @password          = "password"
     @developer_token   = "developer_token"
-    @application_token = "application_token"
 
     @config = {
       :environment       => @environment,
       :email             => @email,
       :password          => @password,
       :developer_token   => @developer_token,
-      :application_token => @application_token
     }
   end
 
@@ -51,7 +49,6 @@ describe Adwords do
     credentials.email.should             == @email
     credentials.password.should          == @password
     credentials.developer_token.should   == @developer_token
-    credentials.application_token.should == @application_token
   end
 
   it "should take the right env" do

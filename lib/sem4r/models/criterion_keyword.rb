@@ -22,24 +22,37 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class Criterion < Base
+  class CriterionKeyword < Criterion
 
-    enum :Types,             [:Keyword, :Placement]
     enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
-    
-    attr_reader :id
-    attr_reader :adgroup
-    attr_accessor :type
 
-    def initialize( adgroup )
-      super( adgroup.adwords, adgroup.credentials )
-      @adgroup = adgroup
+    def initialize(adgroup, &block)
+      super( adgroup )
+      self.type = Keyword
+      if block_given?
+        instance_eval(&block)
+        save
+      end
     end
 
+    def to_s
+      "#{@id} #{@type} #{@text} #{@match_type}"
+    end
+
+    def to_xml
+      str= <<-EOFS
+          <criterion xsi:type="#{type}">
+            <text>#{text}</text>
+            <matchType>#{match}</matchType>
+          </criterion>
+      EOFS
+      str
+    end
 
     ###########################################################################
 
-    # g_accessor :type
+    g_accessor :text
+    g_accessor :match
 
     ###########################################################################
     # <entries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BiddableAdGroupCriterion">
@@ -74,38 +87,18 @@ module Sem4r
     #</entries>
 
     def self.from_element( adgroup, el )
-      xml_type =       el.elements["Criterion.Type"].text
-      case xml_type
-      when Keyword
-        CriterionKeyword.from_element(adgroup, el)
-      when Placement
-        CriterionPlacement.from_element(adgroup, el)
+      new(adgroup) do
+        @id      = el.elements["id"].text
+        text       el.elements["text"].text
+        match      el.elements["matchType"].text
       end
     end
 
-    ############################################################################
-
-    def save
-      unless @id
-        soap_message =
-          service.adgroup_criterion.create(credentials, adgroup.id, to_xml)
-        add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
-        @id = id.text.strip
-      end
-      self
+    def self.create(adgroup, &block)
+      new(adgroup, &block).save
     end
 
     ############################################################################
-
-    def ad_param(&block)
-      save
-      ad_param = AdParam.new(adgroup, self, &block)
-      @ad_params ||= []
-      @ad_params << ad_param
-      ad_param
-    end
 
   end
 end

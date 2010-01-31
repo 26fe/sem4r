@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -34,8 +34,7 @@ describe Credentials do
       :environment => "sandbox",
       :email => "prova",
       :password => "prova",
-      :developer_token => "prova",
-      :application_token => "prova")
+      :developer_token => "prova")
 
     credentials.email.should           eql "prova"
     credentials.password.should        eql "prova"

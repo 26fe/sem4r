@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -34,9 +34,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/CampaignService"
     end
 
-    define_call_v2009 :all
-    define_call_v2009 :create, :xml
-    define_call_v2009 :delete, :id
+    soap_call_v2009 :all
+    soap_call_v2009 :create, :xml
+    soap_call_v2009 :delete, :id
 
     private
 

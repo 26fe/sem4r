@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -112,14 +112,19 @@ module Sem4r
     # Targeting Idea
 
     def targeting_idea
-      sel = TargetingIdeaSelector.new do
+      selector = TargetingIdeaSelector.new do
         idea_type KEYWORD
         request_type IDEAS
       end
-      soap_message = service.targeting_idea.get(@credentials, sel.to_xml)
+      soap_message = service.targeting_idea.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
-      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
-      cost.text.to_i
+      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
+      els = REXML::XPath.match( rval, "entries")
+      els.map do |el|
+        key_text = REXML::XPath.first(el, "//text")
+        puts key_text.text.to_s
+        # Criterion.from_element( self, el )
+      end
     end
 
     ############################################################################
@@ -234,11 +239,16 @@ module Sem4r
     end
 
     def p_client_accounts(refresh = false)
-      client_accounts(refresh).each do |account|
+      cs = client_accounts(refresh)
+      puts "#{cs.length} client accounts"
+      cs.each do |account|
         puts account.to_s
       end
       self
     end
+
+    alias clients client_accounts
+    alias p_clients p_client_accounts
 
     private
 
@@ -261,14 +271,27 @@ module Sem4r
       Campaign.new(self, &block)
     end
 
-    def campaigns(refresh = false) # conditions = nil
+    alias create_campaign campaign
+
+    def campaigns(refresh = false, opts = {}) # conditions = nil
+      if refresh.respond_to?(:keys)
+        opts = refresh
+        refresh = false
+      end
       _campaigns unless @campaigns and !refresh
       @campaigns
       # return @campaigns unless conditions
       # @campaigns.find_all {|c| c.name =~ conditions}
     end
 
-    def p_campaigns(refresh = false) # conditions = nil
+    def p_campaigns(refresh = false, opts = {}) # conditions = nil
+      if refresh.respond_to?(:keys)
+        opts = refresh
+        refresh = false
+      end
+
+      cs = campaigns(refresh, opts)
+      puts "#{cs.length} campaigns"
       campaigns(refresh).each do |campaign|
         puts campaign.to_s
       end

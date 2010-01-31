@@ -56,13 +56,10 @@ begin
   client_account = account.client_accounts.first
   client_account.p_campaigns
 
-  client_account.p_campaigns
-  campaign = client_account.campaigns.first
-  campaign.p_adgroups
-
-  adgroup = campaign.adgroups.first
-  adgroup.p_criterions
-
+  unless client_account.campaigns.empty?
+    campaign = client_account.campaigns.first
+    campaign.p_adgroups
+  end
 rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end

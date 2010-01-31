@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -145,7 +145,7 @@ module Sem4r
 
       if @soap_log
 
-        %w{email password developerToken applicationToken authToken}.each do |tag|
+        %w{email password developerToken authToken}.each do |tag|
           soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***<#{tag}>")
         end
 
@@ -161,7 +161,7 @@ module Sem4r
         # f.write(request, $stdout)
         # puts
         @soap_log.puts "<!-- response -->"
-        #        %w{email password developerToken applicationToken}.each do |tag|
+        #        %w{email password developerToken}.each do |tag|
         #          response_xml.sub!(//)
         #        end
         @soap_log.puts response_xml

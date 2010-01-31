@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -62,7 +62,7 @@ begin
   end
   puts "created adgroup '#{adgroup.name}' with id '#{adgroup.id}'"
 
-  adgroup_ad = AdgroupAd.create(adgroup) do
+  adgroup_ad = AdgroupTextAd.new(adgroup) do
     url           "http://www.pluto.com"
     display_url   "www.Pluto.com"
     headline      "Vieni da noi"
@@ -71,26 +71,22 @@ begin
   end
   puts "created ad with id '#{adgroup_ad.id}'"
 
-  Criterion.create(adgroup) do
-    type       Criterion::KEYWORD
+  CriterionKeyword.new(adgroup) do
     text       "pippo"
-    match_type Criterion::BROAD
+    match      BROAD
   end
 
-  Criterion.create(adgroup) do
-    type       Criterion::KEYWORD
+  CriterionKeyword.new(adgroup) do
     text       "pluto"
-    match_type Criterion::BROAD
+    match      BROAD
   end
 
-  Criterion.create(adgroup) do
-    type       KEYWORD
+  CriterionKeyword.new(adgroup) do
     text       "paperino"
-    match_type BROAD
+    match      BROAD
   end
 
-  Criterion.create(adgroup) do
-    type       PLACEMENT
+  CriterionPlacement.new(adgroup) do
     url       "http://github.com"
   end
 
@@ -102,13 +98,11 @@ begin
   adgroup_dsl = campaign.adgroup do
     name "adgroup dsl #{Time.now}"
 
-    criterion do
-      type       KEYWORD
-      text       "dsl paperino"
-      match_type BROAD
+    keyword do
+      text  "dsl paperino"
+      match BROAD
     end
   end
-
 
   campaign.p_adgroups(true)
   adgroup.p_criterions(true)

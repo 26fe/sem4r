@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sem4r}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2009-12-01}
+  s.date = %q{2009-12-08}
   s.default_executable = %q{sem4r_report.rb}
   s.description = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8.
                          This is a ALPHA version don't use in production}
@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
      "lib/sem4r/adwords.rb",
      "lib/sem4r/aggregates/adgroup_bid.rb",
      "lib/sem4r/aggregates/billing_address.rb",
+     "lib/sem4r/aggregates/mobile_ad_image.rb",
      "lib/sem4r/aggregates/targeting_idea_selector.rb",
      "lib/sem4r/api_counters.rb",
      "lib/sem4r/credentials.rb",
@@ -49,9 +50,13 @@ Gem::Specification.new do |s|
      "lib/sem4r/models/ad_param.rb",
      "lib/sem4r/models/adgroup.rb",
      "lib/sem4r/models/adgroup_ad.rb",
+     "lib/sem4r/models/adgroup_mobile_ad.rb",
+     "lib/sem4r/models/adgroup_text_ad.rb",
      "lib/sem4r/models/base.rb",
      "lib/sem4r/models/campaign.rb",
      "lib/sem4r/models/criterion.rb",
+     "lib/sem4r/models/criterion_keyword.rb",
+     "lib/sem4r/models/criterion_placement.rb",
      "lib/sem4r/models/report.rb",
      "lib/sem4r/models/report_job.rb",
      "lib/sem4r/sem4r_error.rb",
@@ -89,9 +94,11 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/sem4r/services/report_service_spec.rb",
      "spec/sem4r/services/soap_message_v13_spec.rb",
+     "spec/sem4r/models/adgroup_mobile_ad_spec.rb",
+     "spec/sem4r/models/adgroup_text_ad_spec.rb",
      "spec/sem4r/credentials_spec.rb",
-     "spec/sem4r/soap_attributes_spec.rb",
      "spec/sem4r/adwords_spec.rb",
+     "spec/sem4r/soap_attributes_spec.rb",
      "spec/spec_helper.rb"
   ]
 

@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -31,8 +31,8 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
     end
 
-    define_call_v13 :account_info
-    define_call_v13 :client_accounts
+    soap_call_v13 :account_info
+    soap_call_v13 :client_accounts
 
     private
 
