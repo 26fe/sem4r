@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -45,86 +45,51 @@ module Sem4r
       :TemplateAd
     ]
 
-    attr_reader :id
-    attr_reader :adgroup
+    #
+    # Ad.ApprovalStatus
+    #
+    enum :ApprovalStatus, [
+      :APPROVED,
+      :FAMILY_SAFE,
+      :NON_FAMILY_SAFE,
+      :PORN,
+      :UNCHECKED, # Pending review
+      :DISAPPROVED
+    ]
 
-    def initialize(adgroup, &block)
+    attr_reader   :id
+    attr_reader   :adgroup
+    attr_accessor :type
+
+    def initialize(adgroup)
       super( adgroup.adwords, adgroup.credentials )
       @adgroup = adgroup
-      if block_given?
-        instance_eval(&block)
-        save
-      end
     end
 
-    def to_s
-      "#{@id} #{@textad[:url]}"
-    end
+    #    def to_s
+    #      "#{@id} #{@textad[:url]}"
+    #    end
 
-    def to_xml
-      <<-EOFS
-        <adGroupId>#{adgroup.id}</adGroupId>
-        <ad xsi:type="TextAd">
-          <url>#{url}</url>
-          <displayUrl>#{display_url}</displayUrl>
-          <headline>#{headline}</headline>
-          <description1>#{description1}</description1>
-          <description2>#{description2}</description2>
-        </ad>
-        <status>ENABLED</status>
-      EOFS
-    end
+    #    def to_xml
+    #      <<-EOFS
+    #        <adGroupId>#{adgroup.id}</adGroupId>
+    #        <ad xsi:type="TextAd">
+    #          <url>#{url}</url>
+    #          <displayUrl>#{display_url}</displayUrl>
+    #          <headline>#{headline}</headline>
+    #          <description1>#{description1}</description1>
+    #          <description2>#{description2}</description2>
+    #        </ad>
+    #        <status>ENABLED</status>
+    #      EOFS
+    #    end
 
     ###########################################################################
 
-    def type=(value)
-      @type=value
-    end
-
-    def type(value = nil)
-      value ? self.type = value : @type
-    end
-
-    def url=(value)
-      @url=value
-    end
-
-    def url(value = nil)
-      value ? self.url = value : @url
-    end
-
-    def display_url=(value)
-      @display_url=value
-    end
-
-    def display_url(value = nil)
-      value ? self.display_url = value : @display_url
-    end
-
-    def headline=(value)
-      @headline=value
-    end
-
-    def headline(value = nil)
-      value ? self.headline = value : @headline
-    end
-
-    def description1=(value)
-      @description1=value
-    end
-
-    def description1(value = nil)
-      value ? self.description1 = value : @description1
-    end
-
-    def description2=(value)
-      @description2=value
-    end
-
-    def description2(value = nil)
-      value ? self.description2 = value : @description2
-    end
-
+    # g_reader :type
+    g_accessor :url
+    g_accessor :display_url
+    
     ###########################################################################
 
 
@@ -148,32 +113,32 @@ module Sem4r
     #    </stats>
     #</entries>
     
-    def self.from_element(adgroup, el)
-      new(adgroup) do
-        @id         = el.elements["id"].text
-        type          el.elements["Ad.Type"].text
-        url           el.elements["url"].text
-        display_url   el.elements["displayUrl"].text
-        headline      el.elements["headline"].text
-        description1  el.elements["description1"].text
-        description2  el.elements["description2"].text
-      end
-    end
+    #    def self.from_element(adgroup, el)
+    #      new(adgroup) do
+    #        @id         = el.elements["id"].text
+    #        type          el.elements["Ad.Type"].text
+    #        url           el.elements["url"].text
+    #        display_url   el.elements["displayUrl"].text
+    #        headline      el.elements["headline"].text
+    #        description1  el.elements["description1"].text
+    #        description2  el.elements["description2"].text
+    #      end
+    #    end
 
-    def self.create(adgroup, &block)
-      new(adgroup, &block).save
-    end
+    #    def self.create(adgroup, &block)
+    #      new(adgroup, &block).save
+    #    end
 
     ############################################################################
     
-    def save
-      soap_message = service.adgroup_ad.create(credentials, to_xml)
-      add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-      id = REXML::XPath.match( rval, "value/ad/id" ).first
-      @id = id.text
-      self
-    end
+    #    def save
+    #      soap_message = service.adgroup_ad.create(credentials, to_xml)
+    #      add_counters( soap_message.counters )
+    #      rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
+    #      id = REXML::XPath.match( rval, "value/ad/id" ).first
+    #      @id = id.text
+    #      self
+    #    end
 
   end
 end

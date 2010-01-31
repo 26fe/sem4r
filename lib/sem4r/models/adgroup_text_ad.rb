@@ -23,15 +23,11 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class AdParam < Base
+  class AdgroupTextAd < AdgroupAd
 
-    attr_reader :adgroup
-    attr_reader :criterion
-
-    def initialize(adgroup, criterion, &block)
-      super( adgroup.adwords, adgroup.credentials )
-      @adgroup   = adgroup
-      @criterion = criterion
+    def initialize(adgroup, &block)
+      super( adgroup )
+      self.type = TextAd
       if block_given?
         instance_eval(&block)
         save
@@ -39,64 +35,58 @@ module Sem4r
     end
 
     def to_s
-      "#{@id} #{@index} #{@text}"
+      "#{@id} textad #{@textad[:url]}"
     end
 
-
-    # adGroupId  	   Id of adgroup This field is required and should not be null.
-    # criterionId 	 The id of the Keyword criterion that this ad parameter applies to.
-    #                The keyword must be associated with the same adgroup as this AdParam.
-    #                This field is required and should not be null.
-    # insertionText  Numeric value or currency value (eg. 15, $99.99) to insert into the ad text
-    #                This field is required and should not be null when it is contained
-    #                within Operators : SET. The length of this string should be
-    #                between 1 and 25, inclusive.
-    # paramIndex
     def to_xml
       <<-EOFS
         <adGroupId>#{adgroup.id}</adGroupId>
-        <criterionId>#{criterion.id}</criterionId>
-        <paramIndex>#{@index}</paramIndex>
-        <insertionText>#{@text}</insertionText>
+        <ad xsi:type="TextAd">
+          <url>#{url}</url>
+          <displayUrl>#{display_url}</displayUrl>
+          <headline>#{headline}</headline>
+          <description1>#{description1}</description1>
+          <description2>#{description2}</description2>
+        </ad>
+        <status>ENABLED</status>
       EOFS
     end
 
     ###########################################################################
 
-    g_accessor :index
-    g_accessor :text
+    g_accessor :headline  
+    g_accessor :description1 
+    g_accessor :description2
 
     ###########################################################################
 
-    # <adGroupId>5000057373</adGroupId>
-    # <criterionId>10008027</criterionId>
-    # <insertionText>$99.99</insertionText>
-    # <paramIndex>1</paramIndex>
-
     def self.from_element(adgroup, el)
-      criterion_id = el.elements["paramIndex"].text
-      criterion = adgroup.find_criterion(criterion_id)
-      new(adgroup, criterion) do
-        # ad_param don't have id so use @saved to indicate if readed from xml
-        @saved = true
-        index         el.elements["paramIndex"].text
-        text          el.elements["insertionText"].text
+      new(adgroup) do
+        @id         = el.elements["id"].text
+        type          el.elements["Ad.Type"].text
+        url           el.elements["url"].text
+        display_url   el.elements["displayUrl"].text
+        headline      el.elements["headline"].text
+        description1  el.elements["description1"].text
+        description2  el.elements["description2"].text
       end
+    end
+
+    def self.create(adgroup, &block)
+      new(adgroup, &block).save
     end
 
     ############################################################################
 
     def save
-      return if @saved
-      soap_message = service.ad_param.set(credentials, to_xml)
+      soap_message = service.adgroup_ad.create(credentials, to_xml)
       add_counters( soap_message.counters )
-      # ignore response ad_param don't have id
+      rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
+      id = REXML::XPath.match( rval, "value/ad/id" ).first
+      @id = id.text
       self
     end
 
   end
 end
-
-
-
 

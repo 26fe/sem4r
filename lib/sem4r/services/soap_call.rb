@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -76,11 +76,11 @@ module Sem4r
         eval rubystr
       end
 
-      def define_call_v13(method, *args)
+      def soap_call_v13(method, *args)
         soap_call("helper_call_v13", method, *args)
       end
 
-      def define_call_v2009(method, *args)
+      def soap_call_v2009(method, *args)
         soap_call("helper_call_v2009", method, *args)
       end
     end

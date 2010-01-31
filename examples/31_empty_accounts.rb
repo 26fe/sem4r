@@ -50,30 +50,18 @@ begin
 
   puts "Prune empty campaigns and adgroups"
 
-  adwords.accounts.each do |account|
-    account.client_accounts.each do |client_account|
-      puts "examinate account '#{client_account.credentials.client_email}'"
-      client_account.campaigns.each do |campaign|
-
-        puts "examinate campaign '#{campaign.name}'"
-        campaign.adgroups.each do |adgroup|
-          if adgroup.empty?
-            puts "delete adgroup '#{adgroup.name}'"
-            adgroup.delete
-          end
-        end
-
-        if campaign.empty?
-          puts "delete campaign '#{campaign.name}'"
-          campaign.delete
-        end
-      end
+  account = adwords.account
+  account.client_accounts.each do |client_account|
+    puts "examinate account '#{client_account.credentials.client_email}'"
+    client_account.campaigns.each do |campaign|
+      puts "delete campaign '#{campaign.name}'"
+      campaign.delete
     end
   end
 
   adwords.p_counters
 
-rescue Sem4Error
+rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
 

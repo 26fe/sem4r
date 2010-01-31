@@ -64,7 +64,7 @@ begin
   campaign.adgroup do
     name "adgroup #{Time.now}"
   
-    ad do
+    text_ad do
       url           "http://www.pluto.com"
       display_url   "www.Pluto.com"
       headline      "Vieni da noi"
@@ -72,10 +72,9 @@ begin
       description2  "arivieni da noi"
     end
 
-    criterion do
-      type       KEYWORD
+    keyword do
       text       "pippo"
-      match_type BROAD
+      match      BROAD
 
       ad_param do
         index 1

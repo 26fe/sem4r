@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -42,7 +42,7 @@ describe SoapAttributes do
     g_set_accessor :c_column, {:values_in => :Columns}
   end
 
-  it "should access enum constants" do
+  it "g_accessor should define constants from enum array" do
     TSoapAttributes::Daily.should eql("Daily")
     TSoapAttributes::Types.should include("Daily")
   end
@@ -57,7 +57,7 @@ describe SoapAttributes do
     t.name.should == "Pluto"
   end
 
-  it "g_accessor with values constraints" do
+  it "g_accessor with constraints on value" do
     t = TSoapAttributes.new
 
     t.type = "Daily"
@@ -108,4 +108,3 @@ describe SoapAttributes do
     lambda { t.c_column = "Pluto" }.should raise_error
   end
 end
-

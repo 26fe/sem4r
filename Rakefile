@@ -16,6 +16,7 @@ begin
     gem.homepage = "http://www.sem4r.com"
     gem.authors = ["Sem4r"]
     # gem.add_dependency 'patron'
+    gem.add_dependency 'builder'
     gem.add_development_dependency "spec"
 
     #

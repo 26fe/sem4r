@@ -37,7 +37,11 @@ require 'sem4r/models/account'
 require 'sem4r/models/campaign'
 require 'sem4r/models/adgroup'
 require 'sem4r/models/adgroup_ad'
+require 'sem4r/models/adgroup_text_ad'
+require 'sem4r/models/adgroup_mobile_ad'
 require 'sem4r/models/criterion'
+require 'sem4r/models/criterion_keyword'
+require 'sem4r/models/criterion_placement'
 require 'sem4r/models/ad_param'
 
 require 'sem4r/models/report'
@@ -45,6 +49,7 @@ require 'sem4r/models/report_job'
 
 require 'sem4r/aggregates/adgroup_bid'
 require 'sem4r/aggregates/billing_address'
+require 'sem4r/aggregates/mobile_ad_image'
 require 'sem4r/aggregates/targeting_idea_selector'
 
 require 'sem4r/services/service'
@@ -139,7 +144,7 @@ module Sem4r
         @config = load_config(@config_name)
       end
       @config.stringify_keys!
-      @config.assert_valid_keys("environment", "email", "password", "developer_token",  "application_token")
+      @config.assert_valid_keys("environment", "email", "password", "developer_token")
       @config.assert_check_keys("email", "password", "developer_token")
 
       @credentials = Credentials.new(
@@ -147,8 +152,7 @@ module Sem4r
         :email               => @config["email"],
         :password            => @config["password"],
         :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
-        :developer_token     => @config["developer_token"],
-        :application_token   => @config["application_token"] || "ignored"
+        :developer_token     => @config["developer_token"]
       )
       @credentials.connector = @connector
 

@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -34,7 +34,6 @@ describe SoapMessageV13 do
     @credentials.should_receive(:client_email).and_return(nil)
     @credentials.should_receive(:useragent).and_return("sem4r")
     @credentials.should_receive(:developer_token).and_return("dev_token")
-    @credentials.should_receive(:application_token).and_return("appl_token")
   end
 
   it "should update counters" do

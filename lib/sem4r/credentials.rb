@@ -29,7 +29,6 @@ module Sem4r
     attr_reader :email
     attr_reader :password
     attr_reader :client_email
-    attr_reader :application_token
     attr_reader :developer_token
     attr_reader :useragent
 
@@ -41,7 +40,6 @@ module Sem4r
         @password=            opts[:password].dup.freeze
         @useragent=           "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)"
         @developer_token=     opts[:developer_token].dup.freeze
-        @application_token=   opts[:application_token].dup.freeze
       when Credentials
         @credentials = opts
         @environment=         @credentials.environment
@@ -49,7 +47,6 @@ module Sem4r
         @password=            @credentials.password
         @useragent=           @credentials.useragent
         @developer_token=     @credentials.developer_token
-        @application_token=   @credentials.application_token
       end
 
       if client_email

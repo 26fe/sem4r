@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -115,11 +115,6 @@ class Cli
     opts.on("-d", "--devel-token TOKEN",
       "Developer Token to access adwords api") do |token|
       @options.developer_token = token
-    end
-
-    opts.on("-a", "--application-token TOKEN",
-      "Developer Token to access adwords api") do |token|
-      @options.application_token = token
     end
 
     rest = opts.parse(argv)

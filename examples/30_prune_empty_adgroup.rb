@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,7 +27,6 @@ puts "Running #{File.basename(__FILE__)}"
 puts "---------------------------------------------------------------------"
 
 begin
-
   #
   # config stuff
   #
@@ -41,7 +40,7 @@ begin
 
   adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
 
-  adwords.dump_soap_to( example_soap_log(__FILE__) )
+  # adwords.dump_soap_to( example_soap_log(__FILE__) )
   adwords.logger = Logger.new(STDOUT)
   # adwords.logger =  example_logger(__FILE__)
 
@@ -49,8 +48,31 @@ begin
   # example body
   #
 
-  adwords.account.geo_location
-  
+  puts "Prune empty campaigns and adgroups"
+
+  adwords.accounts.each do |account|
+    account.client_accounts.each do |client_account|
+      puts "examinate account '#{client_account.credentials.client_email}'"
+      client_account.campaigns.each do |campaign|
+
+        puts "examinate campaign '#{campaign.name}'"
+        campaign.adgroups.each do |adgroup|
+          if adgroup.empty?
+            puts "delete adgroup '#{adgroup.name}'"
+            adgroup.delete
+          end
+        end
+
+        if campaign.empty?
+          puts "delete campaign '#{campaign.name}'"
+          campaign.delete
+        end
+      end
+    end
+  end
+
+  adwords.p_counters
+
 rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end

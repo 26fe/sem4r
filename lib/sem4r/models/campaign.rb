@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -76,45 +76,11 @@ module Sem4r
 
     ###########################################################################
 
-    def name=(value)
-      @name=value
-    end
-
-    def name(value = nil)
-      value ? self.name = value : @name
-    end
-
-    def status=(value)
-      @status=value
-    end
-
-    def status(value = nil)
-      value ? self.status = value : @status
-    end
-
-    def serving_status=(value)
-      @serving_status=value
-    end
-
-    def serving_status(value = nil)
-      value ? self.serving_status = value : @serving_status
-    end
-
-    def start_date=(value)
-      @start_date=value
-    end
-
-    def start_date(value = nil)
-      value ? self.start_date = value : @start_date
-    end
-
-    def end_date=(value)
-      @end_date=value
-    end
-
-    def end_date(value = nil)
-      value ? self.end_date = value : @end_date
-    end
+    g_accessor :name
+    g_accessor :status
+    g_accessor :serving_status
+    g_accessor :start_date
+    g_accessor :end_date
 
     ###########################################################################
 
@@ -224,13 +190,26 @@ module Sem4r
       adgroup
     end
 
-    def adgroups(refresh = false)
+    def adgroups(refresh = false, opts = {})
+      if refresh.respond_to?(:keys)
+        opts = refresh
+        refresh = false
+      end
       _adgroups unless @adgroups and !refresh
-      @adgroups
+      statuses = [:ACTIVE, :PAUSED]
+      @adgroups.select do |adgroup|
+        statuses.include?(adgroup.status)
+      end
     end
 
-    def p_adgroups(refresh = false)
-      adgroups(refresh).each do |adgroup|
+    def p_adgroups(refresh = false, opts = {})
+      if refresh.respond_to?(:keys)
+        opts = refresh
+        refresh = false
+      end
+      cs = adgroups(refresh, opts)
+      puts "#{cs.length} adgroups"
+      cs.each do |adgroup|
         puts adgroup.to_s
       end
       self
