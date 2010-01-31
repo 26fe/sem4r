@@ -98,8 +98,8 @@ Gem::Specification.new do |s|
      "spec/sem4r/models/adgroup_mobile_ad_spec.rb",
      "spec/sem4r/models/adgroup_text_ad_spec.rb",
      "spec/sem4r/credentials_spec.rb",
-     "spec/sem4r/adwords_spec.rb",
      "spec/sem4r/soap_attributes_spec.rb",
+     "spec/sem4r/adwords_spec.rb",
      "spec/spec_helper.rb"
   ]
 
