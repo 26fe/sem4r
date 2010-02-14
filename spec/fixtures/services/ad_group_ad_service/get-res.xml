@@ -1,0 +1,55 @@
+<!-- response -->
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <requestId>
+        cb9fe90403a0dcf363d831a535bcbeea
+      </requestId>
+      <operations>
+        1
+      </operations>
+      <responseTime>
+        153
+      </responseTime>
+      <units>
+        1
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <rval>
+        <totalNumEntries>
+          1
+        </totalNumEntries>
+        <Page.Type>
+          AdGroupAdPage
+        </Page.Type>
+        <entries>
+          <adGroupId>
+            3060217920
+          </adGroupId>
+
+          <ad xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='TextAd'>
+            <id>218770</id>
+            <url>http://www.pluto.com</url>
+            <displayUrl>www.Pluto.com</displayUrl>
+            <approvalStatus>UNCHECKED</approvalStatus>
+            <Ad.Type>TextAd</Ad.Type>
+            <headline>Vieni da noi</headline>
+            <description1>vieni da noi</description1>
+            <description2>arivieni da noi</description2>
+          </ad>
+
+          <status>ENABLED</status>
+          <stats>
+            <network>SEARCH</network>
+            <Stats.Type>AdStats</Stats.Type>
+            <percentServed>0.0</percentServed>
+          </stats>
+        </entries>
+      </rval>
+    </getResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->

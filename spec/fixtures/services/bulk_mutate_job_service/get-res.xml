@@ -1,0 +1,56 @@
+<!-- response -->
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <requestId>6d13c55f4d742d33229610afeb18e6bc</requestId>
+      <operations>6</operations>
+      <responseTime>526</responseTime>
+      <units>6</units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+
+      <rval>
+        <context>
+          <authenticatedUserEmail>sem4ruby@gmail.com</authenticatedUserEmail>
+          <effectiveCustomerId> 0</effectiveCustomerId>
+        </context>
+        <Job.Type>BulkMutateJob</Job.Type>
+        <id>56889</id>
+        <policy/>
+        <status>PENDING</status>
+        <numRequestParts>2</numRequestParts>
+        <numRequestPartsReceived> 1</numRequestPartsReceived>
+      </rval>
+
+      <rval>
+        <context>
+          <authenticatedUserEmail>sem4ruby@gmail.com</authenticatedUserEmail>
+          <effectiveCustomerId> 0</effectiveCustomerId>
+        </context>
+        <Job.Type>BulkMutateJob</Job.Type>
+        <id>56890</id>
+        <policy/>
+        <status>PENDING</status>
+        <numRequestParts>2</numRequestParts>
+        <numRequestPartsReceived>1</numRequestPartsReceived>
+      </rval>
+
+      <rval>
+        <context>
+          <authenticatedUserEmail>sem4ruby@gmail.com </authenticatedUserEmail>
+          <effectiveCustomerId>0</effectiveCustomerId>
+        </context>
+        <Job.Type>BulkMutateJob</Job.Type>
+        <id>56913</id>
+        <policy/>
+        <status>PENDING</status>
+        <numRequestParts>2</numRequestParts>
+        <numRequestPartsReceived>1</numRequestPartsReceived>
+      </rval>
+
+    </getResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->

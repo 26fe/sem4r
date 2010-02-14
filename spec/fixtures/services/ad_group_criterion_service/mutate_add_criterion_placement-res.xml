@@ -1,0 +1,32 @@
+<!-- response -->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header>
+    <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v200909"><requestId>7e543b3b30c766a9de8c9d5405c4c07a</requestId>
+  <operations>1</operations><responseTime>971</responseTime><units>15</units></ResponseHeader></soap:Header><soap:Body>
+    <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <rval>
+        <ListReturnValue.Type>AdGroupCriterionReturnValue</ListReturnValue.Type>
+        <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BiddableAdGroupCriterion">
+          <adGroupId>3060217927</adGroupId>
+          <criterion xsi:type="Placement">
+            <id>11536085</id>
+            <Criterion.Type>Placement</Criterion.Type>
+            <url>github.com</url>
+          </criterion>
+          <AdGroupCriterion.Type>BiddableAdGroupCriterion</AdGroupCriterion.Type>
+          <userStatus>ACTIVE</userStatus><systemServingStatus>ELIGIBLE</systemServingStatus>
+          <approvalStatus>APPROVED</approvalStatus><bids xsi:type="ManualCPCAdGroupCriterionBids">
+            <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>
+            <maxCpc>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>10000000</microAmount>
+              </amount>
+            </maxCpc>
+            <bidSource>ADGROUP</bidSource>
+          </bids>
+        </value>
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->

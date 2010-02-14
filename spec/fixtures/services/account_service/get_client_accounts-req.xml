@@ -1,0 +1,22 @@
+<!-- Post to 'https://sandbox.google.com/api/adwords/v13/AccountService' -->
+<?xml version='1.0' encoding='UTF-8'?> 
+<env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
+  <env:Header>
+    <email env:mustUnderstand='0'>
+      ***censured***
+    </email>
+    <password env:mustUnderstand='0'>
+      ***censured***
+    </password>
+    <useragent env:mustUnderstand='0'>
+      Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)
+    </useragent>
+    <developerToken env:mustUnderstand='0'>
+      ***censured***
+    </developerToken>
+  </env:Header>
+  <env:Body>
+    <getClientAccounts xmlns='https://adwords.google.com/api/adwords/v13'>
+    </getClientAccounts>
+  </env:Body>
+</env:Envelope>

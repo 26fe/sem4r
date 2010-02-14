@@ -1,0 +1,37 @@
+<!-- response -->
+<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <soapenv:Header>
+    <responseTime soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      29
+    </responseTime>
+    <operations soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      5
+    </operations>
+    <units soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      5
+    </units>
+    <requestId soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      8c1431a7eac54e895c44aa3ed1d78f2a
+    </requestId>
+  </soapenv:Header>
+  <soapenv:Body>
+    <getClientAccountsResponse xmlns='https://adwords.google.com/api/adwords/v13'>
+      <getClientAccountsReturn>
+        client_1+sem4ruby@gmail.com
+      </getClientAccountsReturn>
+      <getClientAccountsReturn>
+        client_2+sem4ruby@gmail.com
+      </getClientAccountsReturn>
+      <getClientAccountsReturn>
+        client_3+sem4ruby@gmail.com
+      </getClientAccountsReturn>
+      <getClientAccountsReturn>
+        client_4+sem4ruby@gmail.com
+      </getClientAccountsReturn>
+      <getClientAccountsReturn>
+        client_5+sem4ruby@gmail.com
+      </getClientAccountsReturn>
+    </getClientAccountsResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+<!-- end -->
