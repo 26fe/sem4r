@@ -1,0 +1,42 @@
+<!-- response -->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header>
+    <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <requestId>710e0904257943d9e475c4fb8482e0af</requestId>
+      <operations>1</operations>
+      <responseTime>683</responseTime>
+      <units>1</units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <rval>
+        <ListReturnValue.Type>CampaignReturnValue</ListReturnValue.Type>
+        <value>
+          <id>10</id>
+          <name>campaign 2010-02-13 09:39:46 +0100</name>
+          <status>PAUSED</status>
+          <servingStatus>SERVING</servingStatus>
+          <startDate>20100213</startDate>
+          <endDate>20371231</endDate>
+          <budget>
+            <period>DAILY</period>
+            <amount>
+              <ComparableValue.Type>Money</ComparableValue.Type>
+              <microAmount>50000000</microAmount>
+            </amount>
+            <deliveryMethod>STANDARD</deliveryMethod>
+          </budget>
+          <biddingStrategy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ManualCPC">
+            <BiddingStrategy.Type>ManualCPC</BiddingStrategy.Type>
+          </biddingStrategy>
+          <autoKeywordMatchingStatus>OPT_OUT</autoKeywordMatchingStatus>
+          <adServingOptimizationStatus>OPTIMIZE</adServingOptimizationStatus>
+          <frequencyCap>
+          <impressions>0</impressions></frequencyCap>
+        </value>
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->

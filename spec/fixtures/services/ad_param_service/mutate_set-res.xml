@@ -1,0 +1,31 @@
+<!-- response -->
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <requestId>
+        c85e8456878d25874a7d35feabdfd6c6
+      </requestId>
+      <operations>
+        1
+      </operations>
+      <responseTime>
+        927
+      </responseTime>
+      <units>
+        1
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+
+  <soap:Body>
+    <mutateResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <rval>
+        <adGroupId>3060219043</adGroupId>
+        <criterionId>100</criterionId>
+        <insertionText>$99.99</insertionText>
+        <paramIndex>1</paramIndex>
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->

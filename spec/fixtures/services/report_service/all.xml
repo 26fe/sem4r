@@ -1,9 +1,19 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <soapenv:Header>
-    <responseTime soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">279</responseTime>
-    <operations soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">4</operations>
-    <units soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">4</units>
-    <requestId soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">b88cb6f9ed8bed8546bb8a77819c46a1</requestId>
+    <responseTime soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"
+                  soapenv:mustUnderstand="0"
+                  xmlns="https://adwords.google.com/api/adwords/v13">279</responseTime>
+    <operations soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"
+                soapenv:mustUnderstand="0"
+                xmlns="https://adwords.google.com/api/adwords/v13">4</operations>
+    <units soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"
+           soapenv:mustUnderstand="0"
+           xmlns="https://adwords.google.com/api/adwords/v13">4</units>
+    <requestId soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"
+               soapenv:mustUnderstand="0"
+               xmlns="https://adwords.google.com/api/adwords/v13">b88cb6f9ed8bed8546bb8a77819c46a1</requestId>
   </soapenv:Header>
   <soapenv:Body>
     <getAllJobsResponse xmlns="">

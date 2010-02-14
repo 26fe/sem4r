@@ -1,0 +1,48 @@
+<!-- response -->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header>
+    <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <requestId>f2e2877aebce6411768504110c9f27c7</requestId>
+      <operations>1</operations><responseTime>361</responseTime>
+      <units>15</units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <rval>
+        <ListReturnValue.Type>AdGroupCriterionReturnValue</ListReturnValue.Type>
+        <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:type="BiddableAdGroupCriterion">
+          <adGroupId>3060199926</adGroupId>
+          <criterion xsi:type="Keyword">
+            <id>10</id>
+            <Criterion.Type>Keyword</Criterion.Type>
+            <text>paperino</text>
+            <matchType>BROAD</matchType>
+          </criterion>
+          <AdGroupCriterion.Type>BiddableAdGroupCriterion</AdGroupCriterion.Type>
+          <userStatus>ACTIVE</userStatus>
+          <systemServingStatus>ELIGIBLE</systemServingStatus>
+          <approvalStatus>PENDING_REVIEW</approvalStatus>
+          <bids xsi:type="ManualCPCAdGroupCriterionBids">
+            <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>
+            <maxCpc>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>10000000</microAmount>
+              </amount>
+            </maxCpc>
+            <bidSource>ADGROUP</bidSource>
+          </bids>
+          <qualityInfo>
+            <isKeywordAdRelevanceAcceptable>true</isKeywordAdRelevanceAcceptable>
+            <isLandingPageQualityAcceptable>true</isLandingPageQualityAcceptable>
+            <isLandingPageLatencyAcceptable>true</isLandingPageLatencyAcceptable>
+            <qualityScore>5</qualityScore>
+          </qualityInfo>
+        </value>
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>
+

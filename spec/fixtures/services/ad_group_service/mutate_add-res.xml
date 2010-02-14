@@ -1,0 +1,33 @@
+<!-- response -->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header><ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <requestId>313692c1839e2aff0fe66d88b815e3d9</requestId>
+      <operations>1</operations>
+      <responseTime>390</responseTime>
+      <units>1</units>
+    </ResponseHeader>
+  </soap:Header><soap:Body>
+    <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <rval>
+        <ListReturnValue.Type>AdGroupReturnValue</ListReturnValue.Type>
+        <value>
+          <id>10</id>
+          <campaignId>62748</campaignId>
+          <campaignName>campaign 2010-02-13 09:39:46 +0100</campaignName>
+          <name>adgroup dsl 2010-02-13 09:40:02 +0100</name>
+          <status>ENABLED</status>
+          <bids xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ManualCPCAdGroupBids">
+            <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>
+            <keywordMaxCpc>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>10000000</microAmount>
+              </amount>
+            </keywordMaxCpc>
+          </bids>
+        </value>
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>
+<!-- end -->
