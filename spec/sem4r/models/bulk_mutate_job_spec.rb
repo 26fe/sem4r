@@ -24,23 +24,35 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe AdgroupMobileAd do
-  before(:each) do
-    @adgroup = mock("adgroup").as_null_object
+describe BulkMutateJob do
+
+  include Sem4rSpecHelper
+  
+  it "should accept type accessor" do
+    adgroup = mock("adgroup").as_null_object
+    adgroup.should_receive(:id).and_return(10)
+
+    text_ad = AdGroupTextAd.new(adgroup)
+    text_ad.headline     = "headline"
+    text_ad.description1 = "description1"
+    text_ad.description2 = "description2"
+
+    ad_operation = AdGroupAdOperation.new
+    ad_operation.add text_ad
+
+    job = BulkMutateJob.new
+    job.campaign_id = 100
+    job.add_operation ad_operation
+
+    job.to_xml
   end
 
-  it "should desc" do
-    mobile_ad = AdgroupMobileAd.new(@adgroup) do
-      markup HTML
-      carrier 'T-Mobile@US'
-      carrier 'Verizon@US'
-      image  do
-        name       'image_192x53.jpg'
-        data       MOBILE_IMAGE_DATA
-        dimension  'SHRUNKEN: 192x53'
-      end
-    end
-    mobile_ad.markups.should include(AdgroupMobileAd::HTML)
+  it "should parse xml" do
+    el = read_model("//rval", "services", "bulk_mutate_job_service", "get-res.xml")
+    job = BulkMutateJob.from_element(el)
+    job.id.should == 56889
+    job.status.should == "PENDING"
   end
+
 end
 

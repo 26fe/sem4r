@@ -51,7 +51,7 @@ describe Adwords do
     credentials.developer_token.should   == @developer_token
   end
 
-  it "should take the right env" do
+  it "should set the right environment" do
     @config.delete(:environment)
 
     adwords = Adwords.sandbox( @config )
@@ -63,11 +63,6 @@ describe Adwords do
     credentials = adwords.account.credentials
     credentials.environment.should       == "production"
     credentials.email.should             == @email
-
-    #    adwords = Adwords.new( "pippo", @config )
-    #    credentials = adwords.account.credentials
-    #    credentials.environment.should       == "aproduction"
-    #    credentials.email.should             == @email
   end
 
   it "should read config file" do
@@ -85,5 +80,6 @@ describe Adwords do
     credentials.environment.should       == "production"
     credentials.developer_token.should   == "productiondevelopertoken"
   end
+
 end
 

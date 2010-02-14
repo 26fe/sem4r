@@ -24,46 +24,59 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe SoapMessageV13 do
+
+describe Account do
 
   include Sem4rSpecHelper
 
-  before(:all) do
-    @credentials = mock("credentials")
-    # @credentials.should_receive(:sandbox?).and_return(true)
-    @credentials.should_receive(:email).and_return("example@gmail.com")
-    @credentials.should_receive(:password).and_return("secret")
-    @credentials.should_receive(:client_email).and_return(nil)
-    @credentials.should_receive(:useragent).and_return("sem4r")
-    @credentials.should_receive(:developer_token).and_return("dev_token")
+  before do
+    services = stub("services")
+    mock_service_account(services)
+    mock_service_info(services)
+    mock_service_campaign(services)
+    # mock_service_ad_group_criterion(services)
+    # @account = mock_account(services)
+    @adwords = mock_adwords(services)
+    @credentials = mock_credentials
   end
 
-  it "should update counters" do
-    response_xml = read_xml_file("services", "report_service", "all.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
+  describe "account management" do
 
-    message_v13 = SoapMessageV13.new(connector, @credentials)
-    message_v13.body = ""
-    message_v13.send("service_url", "soap_action")
+    it "should retrieve info" do
+      account = Account.new(@adwords, @credentials)
+      account.currency_code.should == "EUR"
+    end
 
-    message_v13.counters.should_not be_empty
-    message_v13.counters.should ==  { :response_time => 279, :operations => 4, :units => 4 }
+    it "should retrieve cost" do
+      account = Account.new(@adwords, @credentials)
+      account.year_unit_cost("UNIT_COUNT").should == 100
+    end
+
   end
 
+  describe "campaign management" do
 
-#  def test_foo
-#
-#    credentials = Credentials.new({
-#        :email           =>     "email",
-#        :password        =>     "password",
-#        :developer_token =>     "developer_token"})
-#    soapmessage = SoapMessageV2009.new(credentials, "mynamespace")
-#    soapmessage.body= "<myop></myop>"
-#
-#    str = soapmessage.build_soap_message
-#
-#    puts str
- # end
+    it "should add an Campaign with method 'campaign' + block" do
+      account = Account.new(@adwords, @credentials)
+      account.campaign do
+        name "campaign"
+      end
+      account.campaigns.length.should   ==  1
+      campaign = account.campaigns.first
+      campaign.id.should == 10
+      campaign.name.should == "campaign"
+    end
+
+    it "should add an Campaign with method 'campaign' + param" do
+      account = Account.new(@adwords, @credentials)
+      account.campaign "campaign"
+      
+      account.campaigns.length.should   ==  1
+      campaign = account.campaigns.first
+      campaign.id.should == 10
+      campaign.name.should == "campaign"
+    end
+
+  end
 
 end

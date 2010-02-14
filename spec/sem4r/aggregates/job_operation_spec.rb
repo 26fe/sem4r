@@ -24,20 +24,47 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe AdgroupTextAd do
-  before(:each) do
+describe JobOperation do
+
+  def create_bulk_mutate_job(campaign, adgroup)
+    text_ad1 = AdGroupTextAd.new(adgroup)
+    text_ad1.headline     = "Cruise to Mars Sector 1"
+    text_ad1.description1 = "Visit the Red Planet in style."
+    text_ad1.description2 = "Low-gravity fun for everyone!"
+    text_ad1.url          = "http://www.example.com"
+    text_ad1.display_url  = "www.example.com"
+
+    bulk_mutate_job = BulkMutateJob.new
+    bulk_mutate_job.campaign_id = campaign.id
+
+    ad_operation1 = AdGroupAdOperation.new
+    ad_operation1.add text_ad1
+
+    job = BulkMutateJob.new
+    job.campaign_id = 100
+    job.add_operation ad_operation1
+    job
+  end
+
+  it "should produce xml" do
+
+    @campaign = mock("campaign").as_null_object
     @adgroup = mock("adgroup").as_null_object
+
+    bulk_mutate_job = create_bulk_mutate_job(@campaign, @adgroup)
+    job_operation = JobOperation.new
+    job_operation.add(bulk_mutate_job)
+    job_operation.to_xml
+
+    #    @adgroup = mock("adgroup").as_null_object
+    #    @ad_operation = AdGroupAdOperation.new
+    #    @adgroup.should_receive(:id).and_return(10)
+    #    text_ad = AdGroupTextAd.new(@adgroup)
+    #    text_ad.headline     = "headline"
+    #    text_ad.description1 = "description1"
+    #    text_ad.description2 = "description2"
+    #    @ad_operation.add text_ad
+    #    puts @ad_operation.to_xml
   end
 
-  it "should accept type accessor" do
-    text_ad = AdgroupTextAd.new(@adgroup)
-    text_ad.headline     = "headline"
-    text_ad.description1 = "description1"
-    text_ad.description2 = "description2"
-
-    text_ad.headline.should     == "headline"
-    text_ad.description1.should == "description1"
-    text_ad.description2.should == "description2"
-  end
 end
-
