@@ -24,24 +24,6 @@
 require File.dirname(__FILE__) + "/example_helper"
 
 run_example(__FILE__) do |adwords|
-  puts "List AdGroup Advertising"
-
-  adwords.account.client_accounts.each do |client_account|
-    puts "examinate account '#{client_account.credentials.client_email}'"
-    client_account.campaigns.each do |campaign|
-      puts "examinate campaign '#{campaign}'"
-      campaign.ad_groups.each do |ad_group|
-        puts "examinate adgroup '#{ad_group}'"
-        ad_group.ads.each do |ad|
-          row = []
-          row << client_account.credentials.client_email
-          row << campaign.name
-          row << ad_group.name
-          row << ad.url
-          row << ad.display_url
-          puts row.join(",")
-        end
-      end
-    end
-  end
+  account = adwords.account
+  account.p_jobs
 end

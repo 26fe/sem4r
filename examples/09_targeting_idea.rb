@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -23,37 +23,11 @@
 # -------------------------------------------------------------------------
 
 require File.dirname(__FILE__) + "/example_helper"
-puts "---------------------------------------------------------------------"
-puts "Running #{File.basename(__FILE__)}"
-puts "---------------------------------------------------------------------"
 
-begin
-
-  #
-  # config stuff
-  #
-
-  #  config = {
-  #    :email           => "",
-  #    :password        => "",
-  #    :developer_token => ""
-  #  }
-  # adwords = Adwords.sandbox(config)
-
-  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
-
-  adwords.dump_soap_to( example_soap_log(__FILE__) )
-  adwords.logger = Logger.new(STDOUT)
-  # adwords.logger =  example_logger(__FILE__)
-
-  #
-  # example body
-  #
-
-  adwords.account.targeting_idea
-
-rescue Sem4rError
-  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
+run_example(__FILE__) do |adwords|
+  account = adwords.account
+  account.targeting_idea  do
+    idea_type "KEYWORD"
+    request_type "IDEAS"
+  end
 end
-
-puts "---------------------------------------------------------------------"

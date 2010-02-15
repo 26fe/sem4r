@@ -18,7 +18,7 @@ campaign = account.create_campaign do
     name "new adgroup #{Time.now}"
     keyword do
       text       "keyword"
-      match      BROAD
+      match      "BROAD"
     end
     placement do
       url "www.example.com"

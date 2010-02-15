@@ -23,64 +23,60 @@
 
 require File.dirname(__FILE__) + "/example_helper"
 
+
+def create_bulk_mutate_job(campaign, adgroup)
+  text_ad1 = AdGroupTextAd.new(adgroup)
+  text_ad1.headline     = "Cruise to Mars Sector 1"
+  text_ad1.description1 = "Visit the Red Planet in style."
+  text_ad1.description2 = "Low-gravity fun for everyone!"
+  text_ad1.url          = "http://www.example.com"
+  text_ad1.display_url  = "www.example.com"
+
+  text_ad2 = AdGroupTextAd.new(adgroup)
+  text_ad2.headline     = "Cruise to Mars Sector 2"
+  text_ad2.description1 = "Visit the Red Planet in style."
+  text_ad2.description2 = "Low-gravity fun for everyone!"
+  text_ad2.url          = "http://www.example.com"
+  text_ad2.display_url  = "www.example.com"
+
+  bulk_mutate_job = BulkMutateJob.new
+  bulk_mutate_job.campaign_id = campaign.id
+
+  ad_operation1 = AdGroupAdOperation.new
+  ad_operation1.add text_ad1
+
+  ad_operation2 = AdGroupAdOperation.new
+  ad_operation2.add text_ad2
+
+  job = BulkMutateJob.new
+  job.campaign_id = 100
+  job.add_operation ad_operation1
+  job.add_operation ad_operation2
+  job
+end
+
 run_example(__FILE__) do |adwords|
 
-  puts "Create example campaigns"
+  account = adwords.account
   client_account = adwords.account.client_accounts.first
 
   campaign = Campaign.create(client_account) do
     name "campaign #{Time.now}"
   end
-  puts "created campaign '#{campaign.name}' with id '#{campaign.id}'"
 
-  adgroup = AdGroup.create(campaign) do
+  ad_group = campaign.ad_group do
     name "adgroup #{Time.now}"
   end
-  puts "created adgroup '#{adgroup.name}' with id '#{adgroup.id}'"
 
-  adgroup_ad = AdGroupTextAd.new(adgroup) do
-    url           "http://www.pluto.com"
-    display_url   "www.Pluto.com"
-    headline      "Vieni da noi"
-    description1  "vieni da noi"
-    description2  "arivieni da noi"
-  end
-  puts "created ad with id '#{adgroup_ad.id}'"
+  puts "created campaign '#{campaign.name}' with id '#{campaign.id}'"
+  puts "created adgroup '#{ad_group.name}' with id '#{ad_group.id}'"
 
-  CriterionKeyword.new(adgroup) do
-    text       "pippo"
-    match      "BROAD"
-  end
+  job = create_bulk_mutate_job(campaign, ad_group)
 
-  CriterionKeyword.new(adgroup) do
-    text       "pluto"
-    match      "BROAD"
-  end
+  job_operation = JobOperation.new
+  job_operation.add(job)
 
-  CriterionKeyword.new(adgroup) do
-    text       "paperino"
-    match      "BROAD"
-  end
+  result_job = account.job_mutate(job_operation)
 
-  CriterionPlacement.new(adgroup) do
-    url       "http://github.com"
-  end
-
-  #
-  # dsl
-  #
-
-  adgroup_dsl = campaign.ad_group do
-    name "adgroup dsl #{Time.now}"
-
-    keyword do
-      text  "dsl paperino"
-      match "BROAD"
-    end
-  end
-
-  campaign.p_ad_groups(true)
-  adgroup.p_criterions(true)
-  adgroup_dsl.p_criterions(true)
-
+  puts result_job.to_s
 end
