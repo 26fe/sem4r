@@ -22,42 +22,43 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class CriterionPlacement < Criterion
+  class AdGroupAdService
+    include SoapCall
 
-    g_accessor :url
-
-    def initialize(ad_group, url = nil, &block)
-      super( ad_group )
-      self.type = Placement
-      self.url = url unless url.nil?
-      if block_given?
-        instance_eval(&block)
-        save
-      end
+    def initialize(connector)
+      @connector = connector
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v200909"
+      @header_namespace = @service_namespace
+      
+      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupAdService"
     end
 
-    def self.from_element( ad_group, el )
-      new(ad_group) do
-        @id      = el.elements["id"].text.strip.to_i
-        url        el.elements["url"].text
-      end
+    soap_call_v2009 :all, :adgrop_id
+    soap_call_v2009 :create, :xml
+
+    private
+
+    def _all(ad_group_id)
+      <<-EOFS
+      <get xmlns="#{@service_namespace}">
+        <selector>
+          <adGroupIds>#{ad_group_id}</adGroupIds>
+        </selector>
+      </get>
+      EOFS
     end
 
-    def self.create(ad_group, &block)
-      new(ad_group, &block).save
-    end
-
-    def to_s
-        "#{@id} #{@type} #{@url}"
-    end
-
-    def to_xml
-        str= <<-EOFS
-          <criterion xsi:type="#{type}">
-            <url>#{url}</url>
-          </criterion>
-        EOFS
-      str
+    def _create(xml)
+      <<-EOFS
+      <mutate xmlns="#{@service_namespace}">
+        <operations xsi:type="AdGroupAdOperation">
+          <operator>ADD</operator>
+          <operand>
+            #{xml}
+          </operand>
+        </operations>
+      </mutate>
+      EOFS
     end
 
   end

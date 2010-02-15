@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class Adgroup < Base
+  class AdGroup < Base
 
     #
     # enum AdGroup.Status
@@ -36,11 +36,15 @@ module Sem4r
     attr_reader :id
     attr_reader :campaign
     
-    def initialize(campaign, &block)
+    g_accessor :name
+    g_accessor :status
+
+    def initialize(campaign, name = nil, &block)
       super( campaign.adwords, campaign.credentials )
       @campaign = campaign
       @id = nil
       @criterions = nil
+      self.name = name unless name.nil?
       if block_given?
         instance_eval(&block)
         save
@@ -70,41 +74,16 @@ module Sem4r
       criterions.empty?
     end
 
-    ###########################################################################
-
-    g_accessor :name
-    g_accessor :status
-
     def bid(el)
-      @bid = AdgroupBid.from_element(el)
+      @bid = AdGroupBid.from_element(el)
     end
 
     ###########################################################################
-
-    #  <entries>
-    #      <id>5000010559</id>
-    #      <campaignId>5522</campaignId>
-    #      <campaignName>campaign 2009-11-14 16:41:23 +0100</campaignName>
-    #      <name>adgroup 2009-11-14 16:41:30 +0100</name>
-    #      <status>ENABLED</status>
-    #      <bids xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ManualCPCAdGroupBids">
-    #          <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>
-    #          <keywordMaxCpc>
-    #              <amount>
-    #                  <ComparableValue.Type>Money</ComparableValue.Type>
-    #                  <microAmount>10000000</microAmount>
-    #              </amount>
-    #          </keywordMaxCpc>
-    #      </bids>
-    #      <stats>
-    #          <network>ALL</network>
-    #          <Stats.Type>Stats</Stats.Type>
-    #      </stats>
-    #  </entries>
+    # campaign management
 
     def self.from_element(campaign, el)
       new(campaign) do
-        @id          = el.elements["id"].text
+        @id          = el.elements["id"].text.strip.to_i
         name           el.elements["name"].text
         status         el.elements["status"].text
         bid            el.elements["bids"]
@@ -115,31 +94,33 @@ module Sem4r
       new(campaign, &block).save
     end
 
-    ###########################################################################
-
     def save
       unless @id
-        soap_message = service.adgroup.create(credentials, to_xml)
+        soap_message = service.ad_group.create(credentials, to_xml)
         add_counters( soap_message.counters )
         rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
         id = REXML::XPath.match( rval, "value/id" ).first
-        @id = id.text
+        @id = id.text.strip.to_i
       end
-      # @criterions.each { |criterion| criterion.save }
+      # save all criterion
+      @criterions.each { |criterion| criterion.save } if @criterions
+      # save ads
+      @ads.each{ |ad| ad.save } if @ads
       self
     end
 
     def delete
-      soap_message = service.adgroup.delete(credentials, @id)
+      soap_message = service.ad_group.delete(credentials, @id)
       add_counters( soap_message.counters )
       @id = -1 # logical delete
     end
 
     ###########################################################################
+    # ad management
 
     def text_ad(&block)
       save
-      ad = AdgroupTextAd.new(self, &block)
+      ad = AdGroupTextAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
       ad
@@ -147,7 +128,7 @@ module Sem4r
 
     def mobile_ad(&block)
       save
-      ad = AdgroupMobileAd.new(self, &block)
+      ad = AdGroupMobileAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
       ad
@@ -168,30 +149,33 @@ module Sem4r
     private
 
     def _ads
-      soap_message = service.adgroup_ad.all(credentials, @id)
+      soap_message = service.ad_group_ad.all(credentials, @id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries/ad")
       @ads = els.map do |el|
-        AdgroupAd.from_element( self, el )
+        AdGroupAd.from_element( self, el )
       end
     end
 
     public
 
     ###########################################################################
+    # criterion management
 
-    def keyword(&block)
+    def keyword(text = nil, match = nil, &block)
       save
-      criterion = CriterionKeyword.new(self, &block).save
+      criterion = CriterionKeyword.new(self, text, match, &block)
+      criterion.save
       @criterions ||= []
       @criterions.push( criterion )
       criterion
     end
 
-    def placement(&block)
+    def placement(url = nil, &block)
       save
-      criterion = CriterionPlacement.new(self, &block).save
+      criterion = CriterionPlacement.new(self, url, &block)
+      criterion.save
       @criterions ||= []
       @criterions.push( criterion )
       criterion
@@ -217,7 +201,7 @@ module Sem4r
     private
 
     def _criterions
-      soap_message = service.adgroup_criterion.all(credentials, @id)
+      soap_message = service.ad_group_criterion.all(credentials, @id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries/criterion")
@@ -229,13 +213,15 @@ module Sem4r
     public
 
     ###########################################################################
+    # ad param management
 
-    def ad_param(criterion, &block)
+    def ad_param(criterion, index = nil, text = nil, &block)
       save
-      ad_param = AdParam.new(self, criterion, &block).save
+      ad_param = AdParam.new(self, criterion, index, text, &block)
+      ad_param.save
       @ad_params ||= []
       @ad_params.push( ad_param )
-      criterion
+      ad_param
     end
 
     def ad_params(refresh = false)

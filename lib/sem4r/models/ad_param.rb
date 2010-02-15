@@ -25,13 +25,18 @@
 module Sem4r
   class AdParam < Base
 
-    attr_reader :adgroup
+    attr_reader :ad_group
     attr_reader :criterion
 
-    def initialize(adgroup, criterion, &block)
-      super( adgroup.adwords, adgroup.credentials )
-      @adgroup   = adgroup
-      @criterion = criterion
+    g_accessor :index
+    g_accessor :text
+
+    def initialize(ad_group, criterion, index = nil, text = nil, &block)
+      super( ad_group.adwords, ad_group.credentials )
+      @ad_group   = ad_group
+      @criterion  = criterion
+      self.index = index unless index.nil?
+      self.text  = text  unless text.nil?
       if block_given?
         instance_eval(&block)
         save
@@ -43,9 +48,9 @@ module Sem4r
     end
 
 
-    # adGroupId  	   Id of adgroup This field is required and should not be null.
+    # adGroupId  	   Id of ad_group This field is required and should not be null.
     # criterionId 	 The id of the Keyword criterion that this ad parameter applies to.
-    #                The keyword must be associated with the same adgroup as this AdParam.
+    #                The keyword must be associated with the same ad_group as this AdParam.
     #                This field is required and should not be null.
     # insertionText  Numeric value or currency value (eg. 15, $99.99) to insert into the ad text
     #                This field is required and should not be null when it is contained
@@ -54,32 +59,20 @@ module Sem4r
     # paramIndex
     def to_xml
       <<-EOFS
-        <adGroupId>#{adgroup.id}</adGroupId>
-        <criterionId>#{criterion.id}</criterionId>
+        <adGroupId>#{@ad_group.id}</adGroupId>
+        <criterionId>#{@criterion.id}</criterionId>
         <paramIndex>#{@index}</paramIndex>
         <insertionText>#{@text}</insertionText>
       EOFS
     end
 
-    ###########################################################################
-
-    g_accessor :index
-    g_accessor :text
-
-    ###########################################################################
-
-    # <adGroupId>5000057373</adGroupId>
-    # <criterionId>10008027</criterionId>
-    # <insertionText>$99.99</insertionText>
-    # <paramIndex>1</paramIndex>
-
-    def self.from_element(adgroup, el)
-      criterion_id = el.elements["paramIndex"].text
-      criterion = adgroup.find_criterion(criterion_id)
-      new(adgroup, criterion) do
+    def self.from_element(ad_group, el)
+      criterion_id = el.elements["criterionId"].text.strip.to_i
+      criterion = ad_group.find_criterion(criterion_id)
+      new(ad_group, criterion) do
         # ad_param don't have id so use @saved to indicate if readed from xml
         @saved = true
-        index         el.elements["paramIndex"].text
+        index         el.elements["paramIndex"].text.strip.to_i
         text          el.elements["insertionText"].text
       end
     end

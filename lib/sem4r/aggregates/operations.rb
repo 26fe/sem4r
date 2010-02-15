@@ -23,45 +23,80 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class BillingAddress
+
+  class Operation
     include SoapAttributes
+
+    enum :Operations, [
+      :ADD,
+      :REMOVE,
+      :SET]
+
+    g_accessor :operator
+  end
+
+  def add(operand)
+    operator "ADD"
+    @operand = operand
+  end
+
+  def remove(operand)
+    operator "REMOVE"
+    @operand = operand
+  end
+
+  def set(operand)
+    operator "SET"
+    @operand = operand
+  end
+
+  def to_xml
+    if @operand == nil
+      raise Sem4rError, "Missing Operand"
+    end
+    xml =<<-EOS
+        <operator>#{operator}</operator>
+        <operand xsi:type="BulkMutateJob">
+          #{@operand.to_xml}
+        </operand>
+    EOS
+    xml
+  end
+
+  class AdGroupAdOperation < Operation
 
     def initialize(&block)
       instance_eval(&block) if block_given?
     end
 
-    # <billingAddress>
-    #   <addressLine1>1600 Amphitheatre Parkway</addressLine1>
-    #   <addressLine2>Building #42</addressLine2>
-    #   <city>Mountain View</city>
-    #   <companyName>Some Company</companyName>
-    #   <countryCode>US</countryCode>
-    #   <emailAddress>Some@email</emailAddress>
-    #   <faxNumber>4085551213</faxNumber>
-    #   <name>Some contact</name>
-    #   <phoneNumber>4085551212</phoneNumber>
-    #   <postalCode>94043</postalCode>
-    #   <state>CA</state>
-    # </billingAddress>
-    def self.from_element(el)
-      new do
-        company_name          el.elements["companyName"].text
-        address_line1         el.elements["addressLine1"].text
-        address_line2         el.elements["addressLine2"].text
-        city                  el.elements["city"].text
-      end
+    def operation_type
+      "AdGroupAdOperation"
     end
-
-    def to_s
-      "#{@company_name} #{@address_line1} #{@address_line2} #{@city}"
-    end
-
-    ##########################################################################
-
-    g_accessor :company_name
-    g_accessor :address_line1
-    g_accessor :address_line2
-    g_accessor :city
 
   end
+
+  class AdGroupCriterionOperation < Operation
+
+    def initialize(&block)
+      instance_eval(&block) if block_given?
+    end
+
+    def operation_type
+      "AdGroupCriterionOperation"
+    end
+
+  end
+
+  class JobOperation < Operation
+
+    def initialize(&block)
+      instance_eval(&block) if block_given?
+    end
+
+    def operation_type
+      "JobOperation"
+    end
+
+  end
+
 end
