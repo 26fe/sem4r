@@ -22,37 +22,7 @@
 # -------------------------------------------------------------------
 
 require File.dirname(__FILE__) + "/example_helper"
-puts "---------------------------------------------------------------------"
-puts "Running #{File.basename(__FILE__)}"
-puts "---------------------------------------------------------------------"
 
-begin
-
-  #
-  # config stuff
-  #
-
-  #  config = {
-  #    :email           => "",
-  #    :password        => "",
-  #    :developer_token => ""
-  #  }
-  # adwords = Adwords.sandbox(config)
-
-  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
-
-  adwords.dump_soap_to( example_soap_log(__FILE__) )
-  adwords.logger = Logger.new(STDOUT)
-  # adwords.logger =  example_logger(__FILE__)
-
-  #
-  # example body
-  #
-
+run_example(__FILE__) do |adwords|
   adwords.account.geo_location
-  
-rescue Sem4rError
-  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
-
-puts "---------------------------------------------------------------------"

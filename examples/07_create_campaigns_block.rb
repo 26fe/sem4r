@@ -24,24 +24,25 @@
 require File.dirname(__FILE__) + "/example_helper"
 
 run_example(__FILE__) do |adwords|
-  puts "List AdGroup Advertising"
 
-  adwords.account.client_accounts.each do |client_account|
-    puts "examinate account '#{client_account.credentials.client_email}'"
-    client_account.campaigns.each do |campaign|
-      puts "examinate campaign '#{campaign}'"
-      campaign.ad_groups.each do |ad_group|
-        puts "examinate adgroup '#{ad_group}'"
-        ad_group.ads.each do |ad|
-          row = []
-          row << client_account.credentials.client_email
-          row << campaign.name
-          row << ad_group.name
-          row << ad.url
-          row << ad.display_url
-          puts row.join(",")
-        end
+  puts "Create example campaigns"
+  client_account = adwords.account.client_accounts.first
+
+  campaign = client_account.campaign "campaign #{Time.now}" do
+    ad_group "adgroup #{Time.now}" do
+      text_ad do
+        url           "http://www.pluto.com"
+        display_url   "www.Pluto.com"
+        headline      "Vieni da noi"
+        description1  "vieni da noi"
+        description2  "arivieni da noi"
       end
+      keyword "pippo", "BROAD"
+      keyword "pluto", "BROAD"
+      placement "http://github.com"
     end
   end
+
+  campaign.p_ad_groups(true)
+
 end

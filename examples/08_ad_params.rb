@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,33 +22,8 @@
 # -------------------------------------------------------------------
 
 require File.dirname(__FILE__) + "/example_helper"
-puts "---------------------------------------------------------------------"
-puts "Running #{File.basename(__FILE__)}"
-puts "---------------------------------------------------------------------"
 
-begin
-
-  #
-  # config stuff
-  #
-
-  #  config = {
-  #    :email           => "",
-  #    :password        => "",
-  #    :developer_token => ""
-  #  }
-  # adwords = Adwords.sandbox(config)
-
-  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
-
-  adwords.dump_soap_to( example_soap_log(__FILE__) )
-  adwords.logger = Logger.new(STDOUT)
-  # adwords.logger =  example_logger(__FILE__)
-
-  #
-  # example body
-  #
-
+run_example(__FILE__) do |adwords|
   puts "Create an adgroup with adparam"
 
   client_account = adwords.account.client_accounts[1]
@@ -58,12 +33,12 @@ begin
   else
     campaign = client_account.campaign do
       name "campaign #{Time.now}"
-    end    
+    end
   end
 
-  campaign.adgroup do
-    name "adgroup #{Time.now}"
-  
+  campaign.ad_group do
+    name "ad_group #{Time.now}"
+
     text_ad do
       url           "http://www.pluto.com"
       display_url   "www.Pluto.com"
@@ -74,7 +49,7 @@ begin
 
     keyword do
       text       "pippo"
-      match      BROAD
+      match      "BROAD"
 
       ad_param do
         index 1
@@ -88,12 +63,8 @@ begin
     end
   end
 
-  campaign.adgroups(true).each do |adgroup|
-    adgroup.p_ad_params
+  campaign.ad_groups(true).each do |ad_group|
+    ad_group.p_ad_params
   end
 
-rescue Sem4rError
-  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
 end
-
-puts "---------------------------------------------------------------------"

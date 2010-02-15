@@ -30,15 +30,47 @@ rescue LoadError
   $:.unshift(cwd) unless $:.include?(cwd)
   require 'sem4r'
 end
+include Sem4r
 
 def tmp_dirname
-  File.join( File.dirname(__FILE__), "..", "tmp" )
+  d = File.join( File.dirname(__FILE__), "..", "tmp" )
+  return d if File.directory?(d)
+  
+  if RUBY_PLATFORM.include?("linux")
+    d = "/tmp"
+    return d if File.directory?(d)
+  else
+    d = "c:\\temp"
+    return d if File.directory?(d)
+  end
+  return "."
 end
 
-def example_soap_log(example_file)
+def example_soap_dump_options(example_file)
   return nil unless File.directory?(tmp_dirname)
-  filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, "-log.xml") )
-  File.open( filename, "w" )
+
+  one_log_file = false
+  
+  if(one_log_file)
+    filename = File.basename(example_file).sub(/\.rb$/, "-log.xml")
+    pathname = File.join( tmp_dirname, filename)
+    return File.open( pathname, "w" )
+  else
+    basename = File.basename(example_file).sub(/\.rb$/, '')
+    log_directory =  File.join( File.join(tmp_dirname), basename)
+    log_directory = File.expand_path(log_directory)
+    if File.directory?(log_directory)
+      puts "directory esistente"
+      #empty directory??
+    else
+      puts "creazione directory"
+      Dir.mkdir(log_directory)
+    end
+    # filename = File.basename(example_file).sub(/\.rb$/, "-log.xml")
+    # pathname = File.join( log_directory, filename)
+    # File.open( pathname, "w" )
+    { :directory => log_directory, :format => true }
+  end
 end
 
 def example_logger(example_file)
@@ -53,4 +85,47 @@ def example_logger(example_file)
   logger
 end
 
-include Sem4r
+
+def run_example(file)
+  if !block_given?
+    puts "block required!"
+    exit
+  end
+  puts "---------------------------------------------------------------------"
+  puts "Running #{File.basename(file)}"
+  puts "---------------------------------------------------------------------"
+
+  begin
+    #
+    # config stuff
+    #
+
+    #  config = {
+    #    :email           => "",
+    #    :password        => "",
+    #    :developer_token => ""
+    #  }
+    # adwords = Adwords.sandbox(config)
+
+    adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
+
+    adwords.dump_soap_options( example_soap_dump_options(file) )
+    adwords.logger = Logger.new(STDOUT)
+    # adwords.logger =  example_logger(file)
+
+    #
+    # example body
+    #
+
+    yield(adwords)
+
+    adwords.p_counters
+
+  rescue Sem4rError
+    puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
+  end
+
+  puts "---------------------------------------------------------------------"
+
+end
+
