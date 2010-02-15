@@ -207,7 +207,7 @@ module Sem4r
         config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
         if File.exists?( config_filepath )
           f = File.open( config_filepath )
-          # @logger.info("Load #{config_filepath}") if @logger
+          puts "Load #{config_filepath}"
         end
       end
 

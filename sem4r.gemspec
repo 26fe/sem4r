@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sem4r}
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2010-01-31}
+  s.date = %q{2010-02-15}
   s.default_executable = %q{sem4r_report.rb}
   s.description = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8.
                          This is a ALPHA version don't use in production}
@@ -31,42 +31,54 @@ Gem::Specification.new do |s|
      "examples/04_list_keywords.rb",
      "examples/05_request_report.rb",
      "examples/06_create_campaigns.rb",
+     "examples/07_create_campaigns_block.rb",
      "examples/08_ad_params.rb",
      "examples/09_targeting_idea.rb",
      "examples/10_get_location.rb",
+     "examples/11_submit_bulk_job.rb",
+     "examples/12_list_bulk_job.rb",
      "examples/30_prune_empty_adgroup.rb",
      "examples/31_empty_accounts.rb",
+     "examples/blogs/2009-11-29-hello-world.rb",
+     "examples/blogs/2009-12-12-create-campaign.rb",
+     "examples/blogs/2010-02-06-constants-scope.rb",
+     "examples/blogs/2010-02-07-ad-parameters.rb",
      "examples/example_helper.rb",
      "lib/my_active_support/core_ext/hash.rb",
      "lib/my_active_support/core_ext/hash/keys.rb",
      "lib/sem4r.rb",
      "lib/sem4r/adwords.rb",
-     "lib/sem4r/aggregates/adgroup_bid.rb",
+     "lib/sem4r/aggregates/ad_group_bid.rb",
      "lib/sem4r/aggregates/billing_address.rb",
      "lib/sem4r/aggregates/mobile_ad_image.rb",
-     "lib/sem4r/aggregates/targeting_idea_selector.rb",
+     "lib/sem4r/aggregates/operations.rb",
+     "lib/sem4r/aggregates/targeting_idea.rb",
      "lib/sem4r/api_counters.rb",
      "lib/sem4r/credentials.rb",
      "lib/sem4r/models/account.rb",
+     "lib/sem4r/models/ad_group.rb",
+     "lib/sem4r/models/ad_group_ad.rb",
+     "lib/sem4r/models/ad_group_mobile_ad.rb",
+     "lib/sem4r/models/ad_group_text_ad.rb",
      "lib/sem4r/models/ad_param.rb",
-     "lib/sem4r/models/adgroup.rb",
-     "lib/sem4r/models/adgroup_ad.rb",
-     "lib/sem4r/models/adgroup_mobile_ad.rb",
-     "lib/sem4r/models/adgroup_text_ad.rb",
      "lib/sem4r/models/base.rb",
+     "lib/sem4r/models/bulk_mutate_job.rb",
      "lib/sem4r/models/campaign.rb",
      "lib/sem4r/models/criterion.rb",
      "lib/sem4r/models/criterion_keyword.rb",
      "lib/sem4r/models/criterion_placement.rb",
      "lib/sem4r/models/report.rb",
      "lib/sem4r/models/report_job.rb",
+     "lib/sem4r/selectors/bulk_mutate_job_selector.rb",
+     "lib/sem4r/selectors/targeting_idea_selector.rb",
      "lib/sem4r/sem4r_error.rb",
      "lib/sem4r/services/account_service.rb",
      "lib/sem4r/services/ad_extension_override_service.rb",
+     "lib/sem4r/services/ad_group_ad_service.rb",
+     "lib/sem4r/services/ad_group_criterion_service.rb",
+     "lib/sem4r/services/ad_group_service.rb",
      "lib/sem4r/services/ad_param_service.rb",
-     "lib/sem4r/services/adgroup_ad_service.rb",
-     "lib/sem4r/services/adgroup_criterion_service.rb",
-     "lib/sem4r/services/adgroup_service.rb",
+     "lib/sem4r/services/bulk_mutate_job_service.rb",
      "lib/sem4r/services/campaign_criterion_service.rb",
      "lib/sem4r/services/campaign_service.rb",
      "lib/sem4r/services/campaign_target_service.rb",
@@ -84,23 +96,60 @@ Gem::Specification.new do |s|
      "lib/sem4r/soap_attributes.rb",
      "sem4r.gemspec",
      "spec/fixtures/sem4r.example.yml",
-     "spec/fixtures/services/report_all.xml"
+     "spec/fixtures/services/account_service/get_account_info-req.xml",
+     "spec/fixtures/services/account_service/get_account_info-res.xml",
+     "spec/fixtures/services/account_service/get_client_accounts-req.xml",
+     "spec/fixtures/services/account_service/get_client_accounts-res.xml",
+     "spec/fixtures/services/ad_group_ad_service/get-req.xml",
+     "spec/fixtures/services/ad_group_ad_service/get-res.xml",
+     "spec/fixtures/services/ad_group_ad_service/mutate_add-req.xml",
+     "spec/fixtures/services/ad_group_ad_service/mutate_add-res.xml",
+     "spec/fixtures/services/ad_group_criterion_service/get-req.xml",
+     "spec/fixtures/services/ad_group_criterion_service/get-res.xml",
+     "spec/fixtures/services/ad_group_criterion_service/mutate_add_criterion_keyword-req.xml",
+     "spec/fixtures/services/ad_group_criterion_service/mutate_add_criterion_keyword-res.xml",
+     "spec/fixtures/services/ad_group_criterion_service/mutate_add_criterion_placement-req.xml",
+     "spec/fixtures/services/ad_group_criterion_service/mutate_add_criterion_placement-res.xml",
+     "spec/fixtures/services/ad_group_service/get-req.xml",
+     "spec/fixtures/services/ad_group_service/get-res.xml",
+     "spec/fixtures/services/ad_group_service/mutate_add-req.xml",
+     "spec/fixtures/services/ad_group_service/mutate_add-res.xml",
+     "spec/fixtures/services/ad_param_service/mutate_set-req.xml",
+     "spec/fixtures/services/ad_param_service/mutate_set-res.xml",
+     "spec/fixtures/services/bulk_mutate_job_service/get-req.xml",
+     "spec/fixtures/services/bulk_mutate_job_service/get-res.xml",
+     "spec/fixtures/services/campaign_service/get-req.xml",
+     "spec/fixtures/services/campaign_service/get-res.xml",
+     "spec/fixtures/services/campaign_service/mutate_add-req.xml",
+     "spec/fixtures/services/campaign_service/mutate_add-res.xml",
+     "spec/fixtures/services/error.xml",
+     "spec/fixtures/services/info_service/get_unit_count-req.xml",
+     "spec/fixtures/services/info_service/get_unit_count-res.xml",
+     "spec/fixtures/services/report_service/all.xml"
   ]
   s.homepage = %q{http://www.sem4r.com}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{sem}
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
   s.test_files = [
     "spec/sem4r/services/report_service_spec.rb",
      "spec/sem4r/services/soap_message_v13_spec.rb",
-     "spec/sem4r/models/adgroup_mobile_ad_spec.rb",
-     "spec/sem4r/models/adgroup_text_ad_spec.rb",
+     "spec/sem4r/models/ad_group_spec.rb",
+     "spec/sem4r/models/ad_group_ad_spec.rb",
+     "spec/sem4r/models/bulk_mutate_job_spec.rb",
+     "spec/sem4r/models/criterion_spec.rb",
+     "spec/sem4r/models/campaign_spec.rb",
+     "spec/sem4r/models/account_spec.rb",
+     "spec/sem4r/models/ad_param_spec.rb",
      "spec/sem4r/credentials_spec.rb",
      "spec/sem4r/adwords_spec.rb",
      "spec/sem4r/soap_attributes_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/sem4r/aggregates/job_operation_spec.rb",
+     "spec/sem4r/aggregates/ad_group_ad_operation_spec.rb",
+     "spec/sem4r/rexml_parsing_spec.rb",
+     "spec/spec_helper.rb",
+     "spec/sem4r_spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -109,14 +158,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<builder>, [">= 0"])
-      s.add_development_dependency(%q<spec>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, [">= 0"])
     else
       s.add_dependency(%q<builder>, [">= 0"])
-      s.add_dependency(%q<spec>, [">= 0"])
+      s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
     s.add_dependency(%q<builder>, [">= 0"])
-    s.add_dependency(%q<spec>, [">= 0"])
+    s.add_dependency(%q<rspec>, [">= 0"])
   end
 end
 
