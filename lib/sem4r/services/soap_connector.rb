@@ -173,7 +173,7 @@ module Sem4r
 
       str =""
 
-      %w{email password developerToken authToken}.each do |tag|
+      %w{email password developerToken authToken clientEmail}.each do |tag|
         soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
       end
 

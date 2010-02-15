@@ -17,7 +17,7 @@ begin
     gem.authors = ["Sem4r"]
     # gem.add_dependency 'patron'
     gem.add_dependency 'builder'
-    gem.add_development_dependency "spec"
+    gem.add_development_dependency "rspec"
 
     #
     # files
@@ -26,6 +26,7 @@ begin
     gem.files << 'config/sem4r.example.yml'
     # gem.files.concat Dir['examples/**/*.rb']
     gem.files.concat Dir['examples/*.rb']
+    gem.files.concat Dir['examples/blogs/*.rb']
     gem.files.concat Dir['lib/**/*.rb']
 
     gem.test_files = Dir['spec/**/*.rb']
@@ -36,12 +37,12 @@ begin
     #
     # rubyforge
     #
-    gem.rubyforge_project = 'sem'
+    # gem.rubyforge_project = 'sem'
   end
 
-  Jeweler::RubyforgeTasks.new do |rubyforge|
-    rubyforge.doc_task = "rdoc"
-  end
+  # Jeweler::RubyforgeTasks.new do |rubyforge|
+  #   rubyforge.doc_task = "rdoc"
+  # end
 
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -89,7 +90,7 @@ namespace :sem4r do
   #
   # examples
   #
-  desc 'run all example'
+  desc 'run all sem4r example'
   task :examples do
 
     Dir['examples/*.rb'].sort.each do |filename|
