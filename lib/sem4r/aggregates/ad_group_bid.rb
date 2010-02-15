@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdgroupBid
+  class AdGroupBid
     include SoapAttributes
 
 

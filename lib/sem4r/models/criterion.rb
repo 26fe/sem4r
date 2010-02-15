@@ -28,58 +28,24 @@ module Sem4r
     enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
     
     attr_reader :id
-    attr_reader :adgroup
+    attr_reader :ad_group
     attr_accessor :type
 
-    def initialize( adgroup )
-      super( adgroup.adwords, adgroup.credentials )
-      @adgroup = adgroup
+    def initialize( ad_group )
+      super( ad_group.adwords, ad_group.credentials )
+      @ad_group = ad_group
     end
 
 
     ###########################################################################
 
-    # g_accessor :type
-
-    ###########################################################################
-    # <entries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BiddableAdGroupCriterion">
-    #    <adGroupId>5000010567</adGroupId>
-    #    <criterion xsi:type="Keyword">
-    #        <id>10008027</id>
-    #        <Criterion.Type>Keyword</Criterion.Type>
-    #        <text>pippo</text>
-    #        <matchType>BROAD</matchType>
-    #    </criterion>
-    #    <AdGroupCriterion.Type>BiddableAdGroupCriterion</AdGroupCriterion.Type>
-    #    <userStatus>ACTIVE</userStatus>
-    #    <systemServingStatus>ELIGIBLE</systemServingStatus>
-    #    <approvalStatus>PENDING_REVIEW</approvalStatus>
-    #    <bids xsi:type="ManualCPCAdGroupCriterionBids">
-    #        <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>
-    #        <maxCpc>
-    #            <amount>
-    #                <ComparableValue.Type>Money</ComparableValue.Type>
-    #                <microAmount>10000000</microAmount>
-    #            </amount>
-    #        </maxCpc>
-    #        <bidSource>ADGROUP</bidSource>
-    #    </bids>
-    #    <qualityInfo>
-    #        <qualityScore>5</qualityScore>
-    #    </qualityInfo>
-    #    <stats>
-    #        <network>SEARCH</network>
-    #        <Stats.Type>Stats</Stats.Type>
-    #    </stats>
-    #</entries>
-
-    def self.from_element( adgroup, el )
+    def self.from_element( ad_group, el )
       xml_type =       el.elements["Criterion.Type"].text
       case xml_type
       when Keyword
-        CriterionKeyword.from_element(adgroup, el)
+        CriterionKeyword.from_element(ad_group, el)
       when Placement
-        CriterionPlacement.from_element(adgroup, el)
+        CriterionPlacement.from_element(ad_group, el)
       end
     end
 
@@ -88,11 +54,11 @@ module Sem4r
     def save
       unless @id
         soap_message =
-          service.adgroup_criterion.create(credentials, adgroup.id, to_xml)
+          service.ad_group_criterion.create(credentials, ad_group.id, to_xml)
         add_counters( soap_message.counters )
         rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
         id = REXML::XPath.match( rval, "value/criterion/id" ).first
-        @id = id.text.strip
+        @id = id.text.strip.to_i
       end
       self
     end
@@ -101,7 +67,7 @@ module Sem4r
 
     def ad_param(&block)
       save
-      ad_param = AdParam.new(adgroup, self, &block)
+      ad_param = AdParam.new(ad_group, self, &block)
       @ad_params ||= []
       @ad_params << ad_param
       ad_param

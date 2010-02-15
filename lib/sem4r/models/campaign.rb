@@ -45,10 +45,17 @@ module Sem4r
     attr_reader :id
     attr_reader :account
 
-    def initialize(account, &block)
+    g_accessor :name
+    g_accessor :status
+    g_accessor :serving_status
+    g_accessor :start_date
+    g_accessor :end_date
+
+    def initialize(account, name = nil, &block)
       super( account.adwords, account.credentials )
       @account = account
-      @adgroups = nil
+      @ad_groups = nil
+      self.name = name
       if block_given?
         instance_eval(&block)
         save
@@ -76,73 +83,9 @@ module Sem4r
 
     ###########################################################################
 
-    g_accessor :name
-    g_accessor :status
-    g_accessor :serving_status
-    g_accessor :start_date
-    g_accessor :end_date
-
-    ###########################################################################
-
-    #  <entries>
-    #      <id>5557</id>
-    #      <name>campaign 2009-11-14 17:09:45 +0100</name>
-    #      <status>PAUSED</status>
-    #      <servingStatus>SERVING</servingStatus>
-    #      <startDate>20091114</startDate>
-    #      <endDate>20371231</endDate>
-    #      <budget>
-    #          <period>DAILY</period>
-    #          <amount>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>50000000</microAmount>
-    #          </amount>
-    #          <deliveryMethod>STANDARD</deliveryMethod>
-    #      </budget>
-    #      <biddingStrategy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ManualCPC">
-    #          <BiddingStrategy.Type>ManualCPC</BiddingStrategy.Type>
-    #      </biddingStrategy>
-    #      <autoKeywordMatchingStatus>OPT_OUT</autoKeywordMatchingStatus>
-    #      <stats>
-    #          <network>ALL</network>
-    #          <clicks>0</clicks>
-    #          <impressions>0</impressions>
-    #          <cost>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>0</microAmount>
-    #          </cost>
-    #          <averagePosition>0.0</averagePosition>
-    #          <averageCpc>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>0</microAmount>
-    #          </averageCpc>
-    #          <averageCpm>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>0</microAmount>
-    #          </averageCpm>
-    #          <ctr>0.0</ctr>
-    #          <conversions>0</conversions>
-    #          <conversionRate>0.0</conversionRate>
-    #          <costPerConversion>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>0</microAmount>
-    #          </costPerConversion>
-    #          <conversionsManyPerClick>0</conversionsManyPerClick>
-    #          <conversionRateManyPerClick>0.0</conversionRateManyPerClick>
-    #          <costPerConversionManyPerClick>
-    #              <ComparableValue.Type>Money</ComparableValue.Type>
-    #              <microAmount>0</microAmount>
-    #          </costPerConversionManyPerClick>
-    #          <Stats.Type>Stats</Stats.Type>
-    #      </stats>
-    #      <frequencyCap>
-    #          <impressions>0</impressions>
-    #      </frequencyCap>
-    #  </entries>
-
     def self.from_element(account, el)
       new(account) do
-        @id          = el.elements["id"].text
+        @id          = el.elements["id"].text.strip.to_i
         name           el.elements["name"].text
         status         el.elements['status'].text # ACTIVE, PAUSED, DELETED
         serving_status el.elements['servingStatus']
@@ -158,7 +101,7 @@ module Sem4r
     ###########################################################################
 
     def empty?
-      _adgroups.empty?
+      _ad_groups.empty?
     end
 
     ###########################################################################
@@ -168,7 +111,7 @@ module Sem4r
         add_counters( soap_message.counters )
         rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
         id = REXML::XPath.match( rval, "value/id" ).first
-        @id = id.text
+        @id = id.text.strip.to_i
       end
       self
     end
@@ -180,52 +123,56 @@ module Sem4r
     end
 
     ###########################################################################
+    # ad_group management
 
-    def adgroup(&block)
+    def ad_group(name = nil, &block)
       save
-      adgroup = Adgroup.new(self, &block)
-      adgroup.save
-      @adgroups ||= []
-      @adgroups.push(adgroup)
-      adgroup
+      ad_group = AdGroup.new(self, name, &block)
+      ad_group.save
+      @ad_groups ||= []
+      @ad_groups.push(ad_group)
+      ad_group
     end
 
-    def adgroups(refresh = false, opts = {})
+    def ad_groups(refresh = false, opts = {})
       if refresh.respond_to?(:keys)
         opts = refresh
         refresh = false
       end
-      _adgroups unless @adgroups and !refresh
-      statuses = [:ACTIVE, :PAUSED]
-      @adgroups.select do |adgroup|
-        statuses.include?(adgroup.status)
-      end
+      _ad_groups unless @ad_groups and !refresh
+      # statuses = [:ACTIVE, :PAUSED]
+      # @ad_groups.select do |ad_group|
+      #   statuses.include?(ad_group.status)
+      # end
+      @ad_groups
     end
 
-    def p_adgroups(refresh = false, opts = {})
+    def p_ad_groups(refresh = false, opts = {})
       if refresh.respond_to?(:keys)
         opts = refresh
         refresh = false
       end
-      cs = adgroups(refresh, opts)
-      puts "#{cs.length} adgroups"
-      cs.each do |adgroup|
-        puts adgroup.to_s
+      cs = ad_groups(refresh, opts)
+      puts "#{cs.length} ad_groups"
+      cs.each do |ad_group|
+        puts ad_group.to_s
       end
       self
     end
 
     private
 
-    def _adgroups
-      soap_message = service.adgroup.all(credentials, @id)
+    def _ad_groups
+      soap_message = service.ad_group.all(credentials, @id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries")
-      @adgroups = els.map do |el|
-        Adgroup.from_element(self, el)
+      @ad_groups = els.map do |el|
+        AdGroup.from_element(self, el)
       end
     end
+
+    ###########################################################################
 
   end
 end

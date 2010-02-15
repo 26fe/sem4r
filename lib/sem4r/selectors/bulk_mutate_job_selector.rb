@@ -23,40 +23,32 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class AdgroupMobileAd < AdgroupAd
+  class BulkMutateJobSelector
+    include SoapAttributes
 
-    enum :Markups, [
-      :CHTML,
-      :HTML,
-      :WML,
-      :XHTML
-    ]
-
-    def initialize(adgroup, &block)
-      super( adgroup )
-      self.type = MobileAd
-      if block_given?
-        instance_eval(&block)
-        # save
-      end
+    def initialize(&block)
+      instance_eval(&block) if block_given?
     end
 
-    # MobileAd
-    g_accessor :headline
-    g_accessor :description
-    g_set_accessor :markup, {:values_in => :Markups}
-    g_set_accessor :carrier
-    g_accessor :businessName
-    g_accessor :country_code
-    g_accessor :phone_number
+    enum :JobStatuses, [
+      :COMPLETED,
+      :PROCESSING,
+      :FAILED,
+      :PENDING]
 
-    def image
-      @image
+    def to_xml
+      <<-EOFS
+        <selector>
+          <customerJobKeys></customerJobKeys>
+          <jobStatuses>COMPLETED</jobStatuses>
+          <jobStatuses>PROCESSING</jobStatuses>
+          <jobStatuses>FAILED</jobStatuses>
+          <jobStatuses>PENDING</jobStatuses>
+        </selector>
+      EOFS
     end
 
-    def image(&block)
-      @image = MobileAdImage.new(self, &block)
-    end
+    ##########################################################################
 
   end
 end

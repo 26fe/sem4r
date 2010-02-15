@@ -23,32 +23,48 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class BillingAddress
+
+
+  class TargetingIdea
     include SoapAttributes
 
     def initialize(&block)
       instance_eval(&block) if block_given?
     end
 
-    # <billingAddress>
-    #   <addressLine1>1600 Amphitheatre Parkway</addressLine1>
-    #   <addressLine2>Building #42</addressLine2>
-    #   <city>Mountain View</city>
-    #   <companyName>Some Company</companyName>
-    #   <countryCode>US</countryCode>
-    #   <emailAddress>Some@email</emailAddress>
-    #   <faxNumber>4085551213</faxNumber>
-    #   <name>Some contact</name>
-    #   <phoneNumber>4085551212</phoneNumber>
-    #   <postalCode>94043</postalCode>
-    #   <state>CA</state>
-    # </billingAddress>
+    #<data>
+    #  <key>KEYWORD</key>
+    #  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="KeywordAttribute">
+    #    <Attribute.Type>KeywordAttribute</Attribute.Type>
+    #    <value>
+    #      <ns2:Criterion.Type>Keyword</ns2:Criterion.Type>
+    #      <ns2:text>sample keyword 230527579 0</ns2:text>
+    #      <ns2:matchType>EXACT</ns2:matchType>
+    #    </value>
+    #  </value>
+    #</data>
+    #<data>
+    #  <key>IDEA_TYPE</key>
+    #  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IdeaTypeAttribute">
+    #    <Attribute.Type>IdeaTypeAttribute</Attribute.Type>
+    #    <value>KEYWORD</value>
+    #  </value>
+    #</data>
     def self.from_element(el)
-      new do
-        company_name          el.elements["companyName"].text
-        address_line1         el.elements["addressLine1"].text
-        address_line2         el.elements["addressLine2"].text
-        city                  el.elements["city"].text
+      els = REXML::XPath.match( el, "data")
+      els.each do |el|
+        puts el.elements["key"].text
+
+        el1 = el.elements["value"]
+        xml_type =       el1.elements["Attribute.Type"].text
+        case xml_type
+        when IdeaTypeAttribute
+          # puts el1.elements["value"].text
+        when KeywordAttribute
+          el2 = el1.elements["value"]
+          puts el2.elements["text"].text
+          puts el2.elements["matchType"].text
+        end
       end
     end
 
@@ -58,10 +74,27 @@ module Sem4r
 
     ##########################################################################
 
+    enum :AttributeTypes, [
+      :AdFormatSpecListAttribute,
+      :BooleanAttribute,
+      :DoubleAttribute,
+      :IdeaTypeAttribute,
+      :InStreamAdInfoAttribute,
+      :IntegerAttribute,
+      :IntegerSetAttribute,
+      :LongAttribute,
+      :MonthlySearchVolumeAttribute,
+      :PlacementTypeAttribute,
+      :StringAttribute,
+      :WebpageDescriptorAttribute,
+      :KeywordAttribute,
+      :MoneyAttribute,
+      :PlacementAttribute,
+      :LongRangeAttribute]
+
     g_accessor :company_name
     g_accessor :address_line1
     g_accessor :address_line2
     g_accessor :city
-
   end
 end

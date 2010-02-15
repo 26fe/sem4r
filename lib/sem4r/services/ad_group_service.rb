@@ -1,6 +1,6 @@
-## -------------------------------------------------------------------
-## Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-##
+# -------------------------------------------------------------------
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdgroupService
+  class AdGroupService
     include SoapCall
 
     def initialize(connector)
@@ -34,7 +34,7 @@ module Sem4r
 
     soap_call_v2009 :all, :campaign_id
     soap_call_v2009 :create, :xml
-    soap_call_v2009 :delete, :adgroup_id
+    soap_call_v2009 :delete, :ad_group_id
 
     def _all(campaign_id)
       <<-EOFS

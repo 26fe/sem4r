@@ -23,10 +23,10 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class AdgroupTextAd < AdgroupAd
+  class AdGroupTextAd < AdGroupAd
 
-    def initialize(adgroup, &block)
-      super( adgroup )
+    def initialize(ad_group, &block)
+      super( ad_group )
       self.type = TextAd
       if block_given?
         instance_eval(&block)
@@ -40,7 +40,7 @@ module Sem4r
 
     def to_xml
       <<-EOFS
-        <adGroupId>#{adgroup.id}</adGroupId>
+        <adGroupId>#{ad_group.id}</adGroupId>
         <ad xsi:type="TextAd">
           <url>#{url}</url>
           <displayUrl>#{display_url}</displayUrl>
@@ -60,10 +60,10 @@ module Sem4r
 
     ###########################################################################
 
-    def self.from_element(adgroup, el)
-      new(adgroup) do
-        @id         = el.elements["id"].text
-        type          el.elements["Ad.Type"].text
+    def self.from_element(ad_group, el)
+      new(ad_group) do
+        @id         = el.elements["id"].text.strip.to_i
+        # type          el.elements["Ad.Type"].text
         url           el.elements["url"].text
         display_url   el.elements["displayUrl"].text
         headline      el.elements["headline"].text
@@ -72,21 +72,20 @@ module Sem4r
       end
     end
 
-    def self.create(adgroup, &block)
-      new(adgroup, &block).save
+    def self.create(ad_group, &block)
+      new(ad_group, &block).save
     end
 
     ############################################################################
 
     def save
-      soap_message = service.adgroup_ad.create(credentials, to_xml)
+      soap_message = service.ad_group_ad.create(credentials, to_xml)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
       id = REXML::XPath.match( rval, "value/ad/id" ).first
-      @id = id.text
+      @id = id.text.strip.to_i
       self
     end
 
   end
 end
-

@@ -41,11 +41,11 @@ module Sem4r
 
     private
 
-    def _all(adgroup_id)
+    def _all(ad_group_id)
       <<-EOFS
       <get xmlns="#{@service_namespace}">
         <selector>
-          <adGroupIds>#{adgroup_id}</adGroupIds>
+          <adGroupIds>#{ad_group_id}</adGroupIds>
         </selector>
       </get>
       EOFS

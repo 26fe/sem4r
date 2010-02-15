@@ -28,10 +28,10 @@ module Sem4r
 
     begin
       require 'patron'
-      UsePatron = true
+      UsePatron = false
     rescue LoadError
       UsePatron = false
-      puts "Patron not found, degrade to net/https"
+      $stderr.puts "Patron not found, degrade to net/https"
     end
 
     if !UsePatron
@@ -44,15 +44,23 @@ module Sem4r
     def initialize
       @sessions = {}
       @logger = nil
-      @soap_log = nil
+
+      @soap_dump = false
+      @soap_dump_log = nil
     end
 
     def logger=(log)
       @logger = log
     end
 
-    def dump_soap_to( file )
-      @soap_log = file
+    def dump_soap_options( dump_options )
+      @soap_dump = true
+      if dump_options.respond_to?(:keys)
+        @soap_dump_dir = dump_options[:directory]
+        @soap_dump_format = false || dump_options[:format]
+      else
+        @soap_dump_log = dump_options
+      end
     end
 
     def authentication_token(email, password)
@@ -98,7 +106,6 @@ module Sem4r
       raise Sem4rError, "authentication failed status is #{status}"
     end
 
-
     def send(service_url, soap_action, soap_message)
       begin
         uri = URI.parse(service_url)
@@ -142,36 +149,7 @@ module Sem4r
       end
 
       response_xml = response.body
-
-      if @soap_log
-
-        %w{email password developerToken authToken}.each do |tag|
-          soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***<#{tag}>")
-        end
-
-        response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
-
-        @soap_log.puts "<!-- Post to '#{service_url}' -->"
-        @soap_log.puts soap_message
-        # puts "--------------"
-        # pp resp
-        # puts resp.body
-        # request = REXML::Document.new(@soap_message)
-        # f = REXML::Formatters::Pretty.new
-        # f.write(request, $stdout)
-        # puts
-        @soap_log.puts "<!-- response -->"
-        #        %w{email password developerToken}.each do |tag|
-        #          response_xml.sub!(//)
-        #        end
-        @soap_log.puts response_xml
-
-        # response = REXML::Document.new(resp.body)
-        # f = REXML::Formatters::Pretty.new
-        # f.write(response, $stdout)
-        @soap_log.puts "<!-- end -->"
-        @soap_log.flush
-      end
+      dump_soap(service_url, soap_message, response_xml)
       response_xml
     end
 
@@ -188,6 +166,58 @@ module Sem4r
     end
 
     private
+
+    def dump_soap(service_url, soap_message, response_xml)
+
+      return unless @soap_dump
+
+      str =""
+
+      %w{email password developerToken authToken}.each do |tag|
+        soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
+      end
+
+      response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
+
+      str << "<!-- Post to '#{service_url}' -->\n"
+
+      if !@soap_dump_format
+        str <<  soap_message
+      else
+        xml_document = REXML::Document.new(soap_message)
+        f = REXML::Formatters::Pretty.new
+        out = String.new
+        f.write(xml_document, out)
+        str << out
+      end
+      str << "\n"
+
+      str <<  "<!-- response -->\n"
+      if !@soap_dump_format
+        str <<  response_xml
+      else
+        xml_document = REXML::Document.new(response_xml)
+        f = REXML::Formatters::Pretty.new
+        out = String.new
+        f.write(xml_document, out)
+        str << out
+      end
+      str << "\n"
+
+      str <<  "<!-- end -->"
+
+      if @soap_dump_dir
+        filename = Time.now.strftime "%Y%m%d-%H%M%S-%L.log.xml"
+        pathname = File.join(@soap_dump_dir, filename)
+        File.open(pathname, "w") {|f|
+          f.puts str
+        }
+      else
+        @soap_dump_log.puts str
+        @soap_dump_log.flush
+      end
+
+    end
 
     def get_sess_for_host(uri)
       if UsePatron

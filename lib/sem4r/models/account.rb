@@ -96,12 +96,6 @@ module Sem4r
 
     def year_unit_cost(usage_type)
       raise "usage type '#{usage_type}' not permitted" unless UsageTypes.include?(usage_type)
-
-      #      soap_message = service.info.old_unit_cost(@credentials)
-      #      add_counters( soap_message.counters )
-      #      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
-      #      cost.text.to_i
-
       soap_message = service.info.unit_cost(@credentials, usage_type)
       add_counters( soap_message.counters )
       cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
@@ -111,24 +105,46 @@ module Sem4r
     ############################################################################
     # Targeting Idea
 
-    def targeting_idea
-      selector = TargetingIdeaSelector.new do
-        idea_type KEYWORD
-        request_type IDEAS
-      end
+    def targeting_idea(&block)
+      selector = TargetingIdeaSelector.new(&block)
       soap_message = service.targeting_idea.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries")
-      els.map do |el|
-        key_text = REXML::XPath.first(el, "//text")
-        puts key_text.text.to_s
-        # Criterion.from_element( self, el )
+      targeting_ideas = els.map do |el|
+        TargetingIdea.from_element( el )
       end
+      targeting_ideas
     end
 
     ############################################################################
-    # Targeting Idea
+    # Bulk Jobs
+
+    def p_jobs
+      selector = BulkMutateJobSelector.new
+      soap_message = service.bulk_mutate_job.all(credentials, selector)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//getResponse/rval")
+      jobs = els.map do |el|
+        BulkMutateJob.from_element(el)
+      end
+
+      puts "#{jobs.length} bulk mutate jobs"
+      jobs.each do |job|
+        puts job.to_s
+      end
+      self
+    end
+
+    def job_mutate(bulk_mutate_job)
+      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
+      add_counters( soap_message.counters )
+      el = REXML::XPath.first( soap_message.response, "//rval")
+      BulkMutateJob.from_element(el)
+    end
+
+    ############################################################################
+    # Geo Location
 
     def geo_location
       soap_message = service.geo_location.get(@credentials, "")
@@ -190,35 +206,6 @@ module Sem4r
 
     private
 
-
-    #<soapenv:Body>
-    #    <getAccountInfoResponse xmlns="https://adwords.google.com/api/adwords/v13">
-    #        <getAccountInfoReturn>
-    #            <billingAddress>
-    #            ....
-    #            </billingAddress>
-    #            <currencyCode>EUR</currencyCode>
-    #            <customerId>0</customerId>
-    #            <defaultNetworkTargeting>
-    #                <networkTypes>GoogleSearch</networkTypes>
-    #                <networkTypes>SearchNetwork</networkTypes>
-    #                <networkTypes>ContentNetwork</networkTypes>
-    #            </defaultNetworkTargeting>
-    #            <descriptiveName></descriptiveName>
-    #            <emailPromotionsPreferences>
-    #                <accountPerformanceEnabled>false</accountPerformanceEnabled>
-    #                <disapprovedAdsEnabled>false</disapprovedAdsEnabled>
-    #                <marketResearchEnabled>false</marketResearchEnabled>
-    #                <newsletterEnabled>false</newsletterEnabled>
-    #                <promotionsEnabled>false</promotionsEnabled>
-    #            </emailPromotionsPreferences>
-    #            <languagePreference>en_US</languagePreference>
-    #            <timeZoneEffectiveDate>1257893264000</timeZoneEffectiveDate>
-    #            <timeZoneId>America/Los_Angeles</timeZoneId>
-    #        </getAccountInfoReturn>
-    #    </getAccountInfoResponse>
-    #</soapenv:Body>
-
     def _info
       soap_message = service.account.account_info(credentials)
       add_counters( soap_message.counters )
@@ -267,8 +254,16 @@ module Sem4r
     ############################################################################
     # Campaign - Service Campaign
 
-    def campaign(&block)
-      Campaign.new(self, &block)
+    # TODO: accettare un parametro opzionale campaign(name=nil,&block)
+    #       la campagna che verra' creata ha il nome gia' settato
+    #       se esiste gia' una campagna con quel nome allora fara' da contesto
+    #       e non verra' creata
+    def campaign(name = nil, &block)
+      campaign = Campaign.new(self, name, &block)
+      campaign.save
+      @campaigns ||= []
+      @campaigns.push(campaign)
+      campaign
     end
 
     alias create_campaign campaign

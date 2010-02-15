@@ -23,45 +23,60 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class BillingAddress
+  class BulkMutateJob
     include SoapAttributes
+
+    attr_reader :id
+    attr_accessor :campaign_id
+
+    g_accessor :status
 
     def initialize(&block)
       instance_eval(&block) if block_given?
     end
 
-    # <billingAddress>
-    #   <addressLine1>1600 Amphitheatre Parkway</addressLine1>
-    #   <addressLine2>Building #42</addressLine2>
-    #   <city>Mountain View</city>
-    #   <companyName>Some Company</companyName>
-    #   <countryCode>US</countryCode>
-    #   <emailAddress>Some@email</emailAddress>
-    #   <faxNumber>4085551213</faxNumber>
-    #   <name>Some contact</name>
-    #   <phoneNumber>4085551212</phoneNumber>
-    #   <postalCode>94043</postalCode>
-    #   <state>CA</state>
-    # </billingAddress>
+    def add_operation(operation)
+      @operations ||= []
+      @operations << operation
+    end
+
+    def to_xml
+      xml =<<-EOS
+      <request>
+        <partIndex>0</partIndex>
+        <operationStreams>
+          <scopingEntityId>
+            <type>CAMPAIGN_ID</type>
+            <value>#{campaign_id}</value>
+          </scopingEntityId>
+      EOS
+
+      if @operations
+        @operations.each do |operation|
+          xml += "<operations xsi:type=\"AdGroupAdOperation\">"
+          xml += operation.to_xml
+          xml += "</operations>"
+        end
+      end
+   
+      xml +=<<-EOS
+        </operationStreams>
+      </request>
+      <numRequestParts>1</numRequestParts>
+      EOS
+    end
+
     def self.from_element(el)
       new do
-        company_name          el.elements["companyName"].text
-        address_line1         el.elements["addressLine1"].text
-        address_line2         el.elements["addressLine2"].text
-        city                  el.elements["city"].text
+        @id          = el.elements["id"].text.strip.to_i
+        status         el.elements["status"].text
       end
     end
 
     def to_s
-      "#{@company_name} #{@address_line1} #{@address_line2} #{@city}"
+      "#{@id} #{status}"
     end
 
-    ##########################################################################
-
-    g_accessor :company_name
-    g_accessor :address_line1
-    g_accessor :address_line2
-    g_accessor :city
-
   end
+
 end

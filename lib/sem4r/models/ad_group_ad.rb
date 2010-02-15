@@ -22,43 +22,63 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdgroupAdService
-    include SoapCall
+  class AdGroupAd < Base
 
-    def initialize(connector)
-      @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v200909"
-      @header_namespace = @service_namespace
-      
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupAdService"
+    #
+    # Ad.type
+    #
+    enum :Types, [
+      :DeprecatedAd,
+      :MobileAd,
+      :TextAd,
+      :MobileImageAd,
+      :ImageAd,
+      :LocalBusinessAd,
+      :TemplateAd
+    ]
+
+    #
+    # AdGroupAd.Status
+    #
+    enum :Statuses, [
+      :ENABLED,
+      :PAUSED,
+      :DISABLED
+    ]
+
+    #
+    # Ad.ApprovalStatus
+    #
+    enum :ApprovalStatus, [
+      :APPROVED,
+      :FAMILY_SAFE,
+      :NON_FAMILY_SAFE,
+      :PORN,
+      :UNCHECKED, # Pending review
+      :DISAPPROVED
+    ]
+
+    attr_reader   :id
+    attr_reader   :ad_group
+    attr_accessor :type
+
+    # g_reader :type
+    g_accessor :url
+    g_accessor :display_url
+
+    def initialize(ad_group)
+      super( ad_group.adwords, ad_group.credentials )
+      @ad_group = ad_group
     end
 
-    soap_call_v2009 :all, :adgrop_id
-    soap_call_v2009 :create, :xml
-
-    private
-
-    def _all(adgroup_id)
-      <<-EOFS
-      <get xmlns="#{@service_namespace}">
-        <selector>
-          <adGroupIds>#{adgroup_id}</adGroupIds>
-        </selector>
-      </get>
-      EOFS
-    end
-
-    def _create(xml)
-      <<-EOFS
-      <mutate xmlns="#{@service_namespace}">
-        <operations xsi:type="AdGroupAdOperation">
-          <operator>ADD</operator>
-          <operand>
-            #{xml}
-          </operand>
-        </operations>
-      </mutate>
-      EOFS
+    def self.from_element( ad_group, el )
+      xml_type =       el.elements["Ad.Type"].text
+      case xml_type
+      when TextAd
+        AdGroupTextAd.from_element(ad_group, el)
+      when MobileAd
+        AdGroupMobileAd.from_element(ad_group, el)
+      end
     end
 
   end

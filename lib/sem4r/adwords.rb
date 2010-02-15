@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -35,22 +35,28 @@ require 'sem4r/soap_attributes'
 require 'sem4r/models/base'
 require 'sem4r/models/account'
 require 'sem4r/models/campaign'
-require 'sem4r/models/adgroup'
-require 'sem4r/models/adgroup_ad'
-require 'sem4r/models/adgroup_text_ad'
-require 'sem4r/models/adgroup_mobile_ad'
+require 'sem4r/models/ad_group'
+require 'sem4r/models/ad_group_ad'
+require 'sem4r/models/ad_group_text_ad'
+require 'sem4r/models/ad_group_mobile_ad'
 require 'sem4r/models/criterion'
 require 'sem4r/models/criterion_keyword'
 require 'sem4r/models/criterion_placement'
 require 'sem4r/models/ad_param'
+require 'sem4r/models/bulk_mutate_job'
 
 require 'sem4r/models/report'
 require 'sem4r/models/report_job'
 
-require 'sem4r/aggregates/adgroup_bid'
+require 'sem4r/aggregates/ad_group_bid'
 require 'sem4r/aggregates/billing_address'
 require 'sem4r/aggregates/mobile_ad_image'
-require 'sem4r/aggregates/targeting_idea_selector'
+require 'sem4r/aggregates/targeting_idea'
+
+require 'sem4r/aggregates/operations'
+
+require 'sem4r/selectors/targeting_idea_selector'
+require 'sem4r/selectors/bulk_mutate_job_selector'
 
 require 'sem4r/services/service'
 
@@ -89,9 +95,9 @@ module Sem4r
       new( "production", config )
     end
 
-    def dump_soap_to( soap_logfile )
-      @soap_logfile = soap_logfile
-      @connector.dump_soap_to( soap_logfile ) if @connector
+    def dump_soap_options( dump_options )
+      @dump_soap_options = dump_options
+      @connector.dump_soap_options( dump_options ) if @connector
     end
 
     def logger= logger
@@ -124,6 +130,10 @@ module Sem4r
 
     attr_reader :service
 
+    #
+    # TODO: credentials are necessary because you can use more then account/credentials
+    #       at the same time
+    #
     def add_counters( credentials, counters )
       counters.each_pair { |k,v|
         @counters[k] ||= 0
@@ -137,7 +147,7 @@ module Sem4r
       @initialized = true
 
       @connector = SoapConnector.new
-      @connector.dump_soap_to(@soap_logfile) if @soap_logfile
+      @connector.dump_soap_options(@dump_soap_options) if @dump_soap_options
       @connector.logger=(@logger) if @logger
 
       unless @config
@@ -192,6 +202,7 @@ module Sem4r
         end
       end
 
+      # try <homesem4r>/config/sem4r
       unless f
         config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
         if File.exists?( config_filepath )
@@ -201,7 +212,7 @@ module Sem4r
       end
 
       unless f
-        raise Sem4rError.new("config file 'sem4r' not found")
+        raise Sem4rError, "config file 'sem4r' not found"
       end
       f
     end
