@@ -167,24 +167,22 @@ module Sem4r
 
     private
 
-    def dump_soap(service_url, soap_message, response_xml)
-
+    def dump_soap(service_url, request_xml, response_xml)
       return unless @soap_dump
 
-      str =""
 
       %w{email password developerToken authToken clientEmail}.each do |tag|
-        soap_message = soap_message.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
+        request_xml = request_xml.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
       end
-
       response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
 
+      str =""
       str << "<!-- Post to '#{service_url}' -->\n"
 
       if !@soap_dump_format
-        str <<  soap_message
+        str <<  request_xml
       else
-        xml_document = REXML::Document.new(soap_message)
+        xml_document = REXML::Document.new(request_xml)
         f = REXML::Formatters::Pretty.new
         out = String.new
         f.write(xml_document, out)
@@ -203,11 +201,17 @@ module Sem4r
         str << out
       end
       str << "\n"
-
       str <<  "<!-- end -->"
 
       if @soap_dump_dir
-        filename = Time.now.strftime "%Y%m%d-%H%M%S-%L.log.xml"
+        service = service_url.match(/\/([^\/]*)$/)[1]
+        filename = Time.now.strftime "%Y%m%d-%H%M%S-%L-#{service}.log.xml"
+
+        if not File.directory?(@soap_dump_dir)
+          require 'fileutils'
+          FileUtils.mkdir_p(@soap_dump_dir)
+        end
+
         pathname = File.join(@soap_dump_dir, filename)
         File.open(pathname, "w") {|f|
           f.puts str
@@ -216,7 +220,6 @@ module Sem4r
         @soap_dump_log.puts str
         @soap_dump_log.flush
       end
-
     end
 
     def get_sess_for_host(uri)

@@ -38,8 +38,13 @@ module Sem4r
       "#{@id} textad #{@textad[:url]}"
     end
 
-    def to_xml
-      <<-EOFS
+    def to_xml(tag)
+      xml = ""
+      unless tag.nil?
+        xml += "<#{tag} xsi:type=\"AdGroupAd\">"
+      end
+
+      xml += <<-EOFS
         <adGroupId>#{ad_group.id}</adGroupId>
         <ad xsi:type="TextAd">
           <url>#{url}</url>
@@ -50,12 +55,17 @@ module Sem4r
         </ad>
         <status>ENABLED</status>
       EOFS
+
+      unless tag.nil?
+        xml += "</#{tag}>"
+      end
+      xml
     end
 
     ###########################################################################
 
-    g_accessor :headline  
-    g_accessor :description1 
+    g_accessor :headline
+    g_accessor :description1
     g_accessor :description2
 
     ###########################################################################
@@ -79,7 +89,7 @@ module Sem4r
     ############################################################################
 
     def save
-      soap_message = service.ad_group_ad.create(credentials, to_xml)
+      soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
       id = REXML::XPath.match( rval, "value/ad/id" ).first

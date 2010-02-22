@@ -4,22 +4,24 @@
 google_adwords:
 
   sandbox:
-    email:             example@gmail.com
-    password:          password
-    developer_token:   example@gmail.com++EUR
-
-  sandbox1:
-    environment:       sandbox
+    # default environment is sandbox (cannot be changed)
     email:             example@gmail.com
     password:          password
     developer_token:   example@gmail.com++EUR
 
   production:
+    # default environment is production (cannot be changed)
     email:             production@mysite.com
     password:          password
     developer_token:   productiondevelopertoken
 
-  production1:
+  client_sandbox:
+    environment:       sandbox
+    email:             example@gmail.com
+    password:          password
+    developer_token:   example@gmail.com++EUR
+
+  client_production:
     environment:       production
     email:             production@anothersite.com
     password:          password

@@ -28,20 +28,42 @@ module Sem4r
 
     attr_reader :id
     attr_accessor :campaign_id
+    attr_reader :operations
 
     g_accessor :status
 
     def initialize(&block)
+      @operations = []
       instance_eval(&block) if block_given?
     end
 
     def add_operation(operation)
-      @operations ||= []
       @operations << operation
+      self
     end
 
-    def to_xml
-      xml =<<-EOS
+    def empty?
+      @operations.empty?
+    end
+
+    def add( something )
+      case something
+      when AdGroupTextAd
+        ad_operation = AdGroupAdOperation.new
+        ad_operation.add something
+      else
+        raise "how you suppose I must do when incounter a #{something.class}?"
+      end
+      self
+    end
+
+    def to_xml(tag)
+      xml =""
+      
+      if tag
+        xml += "<operand xsi:type='BulkMutateJob'>"
+      end
+      xml += <<-EOS
       <request>
         <partIndex>0</partIndex>
         <operationStreams>
@@ -53,9 +75,7 @@ module Sem4r
 
       if @operations
         @operations.each do |operation|
-          xml += "<operations xsi:type=\"AdGroupAdOperation\">"
-          xml += operation.to_xml
-          xml += "</operations>"
+          xml += operation.to_xml('operations')
         end
       end
    
@@ -64,6 +84,10 @@ module Sem4r
       </request>
       <numRequestParts>1</numRequestParts>
       EOS
+
+      if tag
+        xml += "</operand>"
+      end
     end
 
     def self.from_element(el)

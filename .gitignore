@@ -22,9 +22,6 @@ pkg
 *.bak
 config/sem4r.yml
 nbproject
-tmp/*.xml
-tmp/**/*.xml
-tmp/*.log
-tmp/**/*.log
 
-tmp/old
+*.log.xml
+*.log
