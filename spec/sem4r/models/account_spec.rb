@@ -79,4 +79,11 @@ describe Account do
 
   end
 
+  describe "reports management" do
+
+    it "should show reports " do
+      pending "test"
+    end
+
+  end
 end

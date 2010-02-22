@@ -25,14 +25,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe BulkMutateJob do
-
   include Sem4rSpecHelper
-  
-  it "should accept type accessor" do
-    adgroup = mock("adgroup").as_null_object
-    adgroup.should_receive(:id).and_return(10)
 
-    text_ad = AdGroupTextAd.new(adgroup)
+  before do
+    @adgroup = mock("adgroup").as_null_object
+  end
+
+  it "should accept type accessor" do
+    # @adgroup.should_receive(:id).and_return(10)
+
+    text_ad = AdGroupTextAd.new(@adgroup)
     text_ad.headline     = "headline"
     text_ad.description1 = "description1"
     text_ad.description2 = "description2"
@@ -44,7 +46,7 @@ describe BulkMutateJob do
     job.campaign_id = 100
     job.add_operation ad_operation
 
-    job.to_xml
+    job.should have(1).operations
   end
 
   it "should parse xml" do
@@ -54,5 +56,29 @@ describe BulkMutateJob do
     job.status.should == "PENDING"
   end
 
+
+  it "should have a representation in xml" do
+    pending "test"
+    @adgroup.should_receive(:id).and_return(10)
+
+    text_ad = AdGroupTextAd.new(@adgroup)
+    text_ad.headline     = "headline"
+    text_ad.description1 = "description1"
+    text_ad.description2 = "description2"
+
+    ad_operation = AdGroupAdOperation.new
+    ad_operation.add text_ad
+
+    job = BulkMutateJob.new
+    job.campaign_id = 100
+    job.add_operation ad_operation
+
+    xml = job.to_xml
+
+    expected = read_model("//operand", "services", "bulk_mutate_job_service", "mutate-req.xml")
+    xml_wns = xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+    diff = xml_cmp expected, xml_wns
+    diff.should == true
+  end
 end
 

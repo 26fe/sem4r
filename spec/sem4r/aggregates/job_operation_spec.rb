@@ -25,8 +25,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe JobOperation do
+  include Sem4rSpecHelper
 
   def create_bulk_mutate_job(campaign, adgroup)
+    # TextAd
     text_ad1 = AdGroupTextAd.new(adgroup)
     text_ad1.headline     = "Cruise to Mars Sector 1"
     text_ad1.description1 = "Visit the Red Planet in style."
@@ -34,37 +36,46 @@ describe JobOperation do
     text_ad1.url          = "http://www.example.com"
     text_ad1.display_url  = "www.example.com"
 
-    bulk_mutate_job = BulkMutateJob.new
-    bulk_mutate_job.campaign_id = campaign.id
+    # TextAd
+    text_ad2 = AdGroupTextAd.new(adgroup)
+    text_ad2.headline     = "Cruise to Mars Sector 2"
+    text_ad2.description1 = "Visit the Red Planet in style."
+    text_ad2.description2 = "Low-gravity fun for everyone!"
+    text_ad2.url          = "http://www.example.com"
+    text_ad2.display_url  = "www.example.com"
 
+    # adgroupad_operation
     ad_operation1 = AdGroupAdOperation.new
     ad_operation1.add text_ad1
 
-    job = BulkMutateJob.new
-    job.campaign_id = 100
-    job.add_operation ad_operation1
-    job
+    # adgroupad_operation
+    ad_operation2 = AdGroupAdOperation.new
+    ad_operation2.add text_ad2
+
+    bulk_mutate_job = BulkMutateJob.new
+    bulk_mutate_job.campaign_id = campaign.id
+    bulk_mutate_job.add_operation ad_operation1
+    bulk_mutate_job.add_operation ad_operation2
+
+    bulk_mutate_job
   end
 
   it "should produce xml" do
-
     @campaign = mock("campaign").as_null_object
+    @campaign.stub(:id).and_return(100)
+
     @adgroup = mock("adgroup").as_null_object
+    @adgroup.stub(:id).and_return(3060284754)
 
     bulk_mutate_job = create_bulk_mutate_job(@campaign, @adgroup)
+    bulk_mutate_job.should_not be_empty
+
     job_operation = JobOperation.new
     job_operation.add(bulk_mutate_job)
-    job_operation.to_xml
+    
+    expected_xml = read_model("//operation", "services", "bulk_mutate_job_service", "mutate-req.xml")
+    job_operation.to_xml('operation').should xml_equivalent(expected_xml)
 
-    #    @adgroup = mock("adgroup").as_null_object
-    #    @ad_operation = AdGroupAdOperation.new
-    #    @adgroup.should_receive(:id).and_return(10)
-    #    text_ad = AdGroupTextAd.new(@adgroup)
-    #    text_ad.headline     = "headline"
-    #    text_ad.description1 = "description1"
-    #    text_ad.description2 = "description2"
-    #    @ad_operation.add text_ad
-    #    puts @ad_operation.to_xml
   end
 
 end

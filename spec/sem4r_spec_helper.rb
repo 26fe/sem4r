@@ -21,8 +21,127 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 # -------------------------------------------------------------------------
+Spec::Matchers.define :xml_equivalent do |expected_xml|
+  match do |xml|
+    normalized = Class.new(REXML::Formatters::Pretty) do
+      def write_text(node, output)
+        super(node.to_s.strip, output)
+      end
+    end
+    if expected_xml.class == String
+      expected_xml  = expected_xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+      expected_xml = REXML::Document.new(expected_xml)
+    end
+    normalized.new(0,false).write(expected_xml, expected_normalized='')
+    expected_normalized = expected_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+
+    if xml.class == String
+      xml  = xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+      begin
+        xml = REXML::Document.new(xml)
+      rescue RuntimeError
+        puts "----------------------------------"
+        puts xml
+        puts "----------------------------------"
+        raise
+      end
+    end
+    normalized.new(0,false).write(xml, xml_normalized='')
+    xml_normalized = xml_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+
+    if xml_normalized != expected_normalized
+      diff = Differ.diff_by_line(xml_normalized, expected_normalized)
+      puts diff.format_as(:ascii)
+      false
+    else
+      true
+    end
+  end
+end
 
 module Sem4rSpecHelper
+
+
+  # comparing xml is always a b-i-a-t-c-h in any testing environment.  here is a
+  # little snippet for ruby that, i think, it a good first pass at making it
+  # easier.  comment with your improvements please!
+  #
+  # http://drawohara.com/post/89110816/ruby-comparing-xml
+  require 'rexml/document'
+  require 'differ'
+  require 'differ/string'
+
+  def xml_cmp a, b
+    a = REXML::Document.new(a.to_s) if a.class == String
+    b = REXML::Document.new(b.to_s) if b.class == String
+
+    normalized = Class.new(REXML::Formatters::Pretty) do
+      def write_text(node, output)
+        super(node.to_s.strip, output)
+      end
+    end
+
+    normalized.new(indentation=0,ie_hack=false).write(node=a, a_normalized='')
+    normalized.new(indentation=0,ie_hack=false).write(node=b, b_normalized='')
+    a_normalized = a_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+    b_normalized = b_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+
+    if a_normalized != b_normalized
+      diff = Differ.diff_by_char(a_normalized, b_normalized)
+      puts diff.format_as(:color)
+
+      # diff.each { |d| puts d }
+      # puts a_normalized - b_normalized
+      return false
+    else
+      return true
+    end
+  end
+
+
+  ##
+  # rSpec Hash additions.
+  #
+  # From
+  #   * http://wincent.com/knowledge-base/Fixtures_considered_harmful%3F
+  #   * Neil Rahilly
+
+  class Hash
+
+    ##
+    # Filter keys out of a Hash.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.except(:a)
+    #   => { :b => 2, :c => 3 }
+
+    def except(*keys)
+      self.reject { |k,v| keys.include?(k || k.to_sym) }
+    end
+
+    ##
+    # Override some keys.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.with(:a => 4)
+    #   => { :a => 4, :b => 2, :c => 3 }
+
+    def with(overrides = {})
+      self.merge overrides
+    end
+
+    ##
+    # Returns a Hash with only the pairs identified by +keys+.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.only(:a)
+    #   => { :a => 1 }
+
+    def only(*keys)
+      self.reject { |k,v| !keys.include?(k || k.to_sym) }
+    end
+
+  end
+
+
+  #############################################################################
 
   def read_xml_file(*args)
     xml_filepath  = File.join(File.dirname(__FILE__), "fixtures", *args)
@@ -37,10 +156,14 @@ module Sem4rSpecHelper
     response_xml_wns = contents.gsub(/ns\d:/, "")
     xml_document = REXML::Document.new(response_xml_wns)
     if xpath
-      REXML::XPath.first(xml_document, xpath)
+      el = REXML::XPath.first(xml_document, xpath)
     else
-      xml_document.root.elements.to_a.first
+      el = xml_document.root.elements.to_a.first
     end
+    if el.nil?
+      raise "xml element not found '#{xpath}'"
+    end
+    el
   end
 
   def read_xml_document(*args)
@@ -104,6 +227,13 @@ module Sem4rSpecHelper
     service.stub(:ad_param).and_return(ad_param_service)
   end
 
+  def mock_service_report(service)
+    # xml_document = read_xml_document("services", "ad_group_criterion_service", "mutate_add_criterion_keyword-res.xml")
+    soap_message = stub("soap_message", :response => nil, :counters => nil)
+    report_service = stub("report_service", :set => soap_message)
+    service.stub(:report).and_return(report_service)
+  end
+
   #############################################################################
 
   def mock_adwords(services)
@@ -118,7 +248,7 @@ module Sem4rSpecHelper
   def mock_account(services)
     adwords = mock_adwords(services)
     credentials = mock_credentials
-    campaign = stub("campaign",
+    campaign = stub("account",
       :adwords     => adwords,
       :credentials => credentials,
       :id          => 1000)
@@ -136,14 +266,14 @@ module Sem4rSpecHelper
     campaign
   end
 
-  def adgroup_mock(services)
+  def adgroup_mock(services, id = 1000)
     adwords = mock_adwords(services)
     credentials = mock_credentials
 
     adgroup = stub("adgroup",
       :adwords     => adwords,
       :credentials => credentials,
-      :id          => 1000)
+      :id          => id)
     adgroup
   end
 

@@ -32,7 +32,7 @@ describe AdGroupAd do
     services = stub("services")
     mock_service_ad_group_criterion(services)
     mock_service_ad_group_ad(services)
-    @adgroup = adgroup_mock(services)
+    @adgroup = adgroup_mock(services, 3060217927)
   end
 
   describe AdGroupAd do
@@ -73,6 +73,20 @@ describe AdGroupAd do
       text_ad.description1.should == "description1"
       text_ad.description2.should == "description2"
     end
+
+    it "shoud produce xml" do
+      text_ad = AdGroupTextAd.new(@adgroup) do
+        headline     "Vieni da noi"
+        description1 "vieni da noi"
+        description2 "arivieni da noi"
+        url          "http://www.pluto.com"
+        display_url  "www.Pluto.com"
+      end
+      expected_xml = read_model("//operand", "services", "ad_group_ad_service", "mutate_add-req.xml")
+      # puts text_ad.to_xml("operand")
+      text_ad.to_xml("operand").should xml_equivalent(expected_xml)
+    end
+
   end
 
   describe AdGroupMobileAd do
@@ -90,6 +104,7 @@ describe AdGroupAd do
       end
       mobile_ad.markups.should include(AdGroupMobileAd::HTML)
     end
+
   end
 
 end
