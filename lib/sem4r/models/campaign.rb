@@ -31,9 +31,6 @@ module Sem4r
       :DELETED
     ]
 
-    #
-    # enum ServingStatus
-    #
     enum :ServingStatues, [
       :SERVING,
       :NONE,
@@ -98,13 +95,6 @@ module Sem4r
       new(account, &block).save
     end
 
-    ###########################################################################
-
-    def empty?
-      _ad_groups.empty?
-    end
-
-    ###########################################################################
     def save
       unless @id
         soap_message = service.campaign.create(credentials, to_xml)
@@ -120,6 +110,12 @@ module Sem4r
       soap_message = service.campaign.delete(credentials, @id)
       add_counters( soap_message.counters )
       @id = -1 # logical delete
+    end
+
+    ###########################################################################
+
+    def empty?
+      _ad_groups.empty?
     end
 
     ###########################################################################

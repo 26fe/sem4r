@@ -50,16 +50,22 @@ module Sem4r
     @operand = operand
   end
 
-  def to_xml
+  def to_xml(tag)
     if @operand == nil
       raise Sem4rError, "Missing Operand"
     end
-    xml =<<-EOS
+
+    xml = ""
+    if tag
+      xml += "<#{tag} xsi:type='#{operation_type}'>"
+    end
+    xml +=<<-EOS
         <operator>#{operator}</operator>
-        <operand xsi:type="BulkMutateJob">
-          #{@operand.to_xml}
-        </operand>
+        #{@operand.to_xml('operand')}
     EOS
+    if tag
+      xml += "</#{tag}>"
+    end
     xml
   end
 

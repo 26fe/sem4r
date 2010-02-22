@@ -188,7 +188,7 @@ module Sem4r
       # try current directory
       if File.exists?( config_filename)
         f = File.open( config_filename )
-        puts "Load #{config_filepath}"
+        puts "Loaded profiles from #{config_filepath}"
       end
       # try ~/.sem4r/sem4r.yml
       unless f
@@ -198,7 +198,7 @@ module Sem4r
         config_filepath = File.join( homedir, ".sem4r", config_filename)
         if File.exists?( config_filepath )
           f = File.open( config_filepath )
-          puts "Load #{config_filepath}"
+          puts "Loaded profiles from #{config_filepath}"
         end
       end
 
@@ -207,7 +207,7 @@ module Sem4r
         config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
         if File.exists?( config_filepath )
           f = File.open( config_filepath )
-          puts "Load #{config_filepath}"
+          puts "Loaded profiles from #{config_filepath}"
         end
       end
 

@@ -18,6 +18,7 @@ begin
     # gem.add_dependency 'patron'
     gem.add_dependency 'builder'
     gem.add_development_dependency "rspec"
+    gem.add_development_dependency "differ"
 
     #
     # files
@@ -26,7 +27,7 @@ begin
     gem.files << 'config/sem4r.example.yml'
     # gem.files.concat Dir['examples/**/*.rb']
     gem.files.concat Dir['examples/*.rb']
-    gem.files.concat Dir['examples/blogs/*.rb']
+    gem.files.concat Dir['examples_blog/*.rb']
     gem.files.concat Dir['lib/**/*.rb']
 
     gem.test_files = Dir['spec/**/*.rb']

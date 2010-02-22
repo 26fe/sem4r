@@ -24,33 +24,21 @@
 module Sem4r
   class Report < Base
 
-    ############################################################################
-
-    #
-    # AggregationTypes
-    #
     enum :AggregationTypes, [ 
       :Summary,
       :Daily,     :Weekly,  :Monthly,  :Quarterly,  :Yearly,
       :DayOfWeek,
       :HourlyByDate, :HourlyRegardlessDate,
-
       :Campaign, :AdGroup, :Keyword,
       :Creative
       ]
 
-    #    
-    #    Columns
-    #
     enum :Columns, [
       :Campaign,
       :AdGroup,
       :Keyword,
       :KeywordTypeDisplay]
 
-    #
-    # selectedReportType
-    #
     enum :ReportTypes, [
       :Account,           # Account Performance
       :AdGroup,           # Ad Group Performance
@@ -66,15 +54,33 @@ module Sem4r
       :Url                # URL Performance
     ]
 
-    #
-    # status
-    #
     enum :Statuses, [ :Pending, :InProgress, :Completed, :Failed ]
 
     ###########################################################################
 
     attr_reader :id
     attr_reader :account
+
+    g_accessor :name
+
+    g_accessor :start_day
+    g_accessor :end_day
+
+    def days(start_day, end_day)
+      self.start_day start_day
+      self.end_day end_day
+    end
+
+    g_accessor :aggregation
+    g_accessor :type
+    g_accessor :cross_client,    {:default => false}
+    g_accessor :zero_impression, {:default => false}
+
+    g_reader   :status
+
+    g_set_accessor :column
+
+    ###########################################################################
 
     def initialize(account, &block)
       super( account.adwords, account.credentials )
@@ -87,21 +93,6 @@ module Sem4r
     end
 
     def to_xml
-      #        <job xsi:type="DefinedReportJob">
-      #          <name>Report-2009-11-07T08:14:33+01:00</name>
-      #
-      #          <startDay>2009-01-01</startDay>
-      #          <endDay>2009-01-31</endDay>
-      #
-      #          <aggregationTypes>Keyword</aggregationTypes>
-      #
-      #          <selectedColumns>Campaign</selectedColumns>
-      #          <selectedColumns>AdGroup</selectedColumns>
-      #          <selectedColumns>Keyword</selectedColumns>
-      #          <selectedColumns>KeywordTypeDisplay</selectedColumns>
-      #
-      #          <selectedReportType>Structure</selectedReportType>
-      #        </job>
       require 'builder'
       builder = Builder::XmlMarkup.new
       xml = builder.job("xsi:type" => "DefinedReportJob") do |job|
@@ -121,44 +112,9 @@ module Sem4r
       xml.to_s
     end
 
-    ###########################################################################
-
-    g_accessor :name
-
-    g_accessor :start_day    
-    g_accessor :end_day
-
-    def days(start_day, end_day)
-      self.start_day start_day
-      self.end_day end_day
-    end
-
-    g_accessor :aggregation
-    g_accessor :type
-    g_accessor :cross_client,    {:default => false}
-    g_accessor :zero_impression, {:default => false}
-
-    g_reader   :status
-
-    g_set_accessor :column
-
-    ###########################################################################
-    #  <ns3:getAllJobsReturn xsi:type="ns3:DefinedReportJob"
-    #                        xmlns:ns3="https://adwords.google.com/api/adwords/v13">
-    #    <ns3:clientEmails xsi:nil="true"/>
-    #    <ns3:crossClient>false</ns3:crossClient>
-    #    <ns3:endDay>2009-11-19-08:00</ns3:endDay>
-    #    <ns3:id>33</ns3:id>
-    #    <ns3:name>report [33]</ns3:name>
-    #    <ns3:startDay>2009-11-19-08:00</ns3:startDay>
-    #    <ns3:status>Completed</ns3:status>
-    #    <ns3:includeZeroImpression>false</ns3:includeZeroImpression>
-    #    <ns3:selectedReportType xsi:nil="true"/>
-    #   </ns3:getAllJobsReturn>
-
     def self.from_element(account, el)
       new(account) do
-        @id       = el.elements["id"].text         # id is read only
+        @id       = el.elements["id"].text.strip.to_i         # id is read only
         name        el.elements["name"].text
         start_day   el.elements["startDay"].text
         end_day     el.elements["endDay"].text
