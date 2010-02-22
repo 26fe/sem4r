@@ -108,7 +108,6 @@ def run_example(file)
     # adwords = Adwords.sandbox(config)
 
     adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
-
     adwords.dump_soap_options( example_soap_dump_options(file) )
     adwords.logger = Logger.new(STDOUT)
     # adwords.logger =  example_logger(file)
