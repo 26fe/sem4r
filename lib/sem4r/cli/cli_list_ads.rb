@@ -23,49 +23,27 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
+  CliListAds = simple_cli_command("ads", "list ads") do |account |
+    puts "List AdGroup Advertising"
 
-  class CliCommand
-    def parse_and_run(argv)
-    end
-  end
-
-
-
-  def self.simple_cli_command(command_name, description_str, &block)
-
-    cls = Class.new(CliCommand) do
-      def initialize(main_cli, get_account)
-        @main_cli = main_cli
-        @get_account = get_account
-      end
-
-      def opt_parser(options)
-        opt_parser = OptionParser.new
-        opt_parser.banner= "#{self.class.description}"
-        opt_parser.on("-h", "--help", "show this message") do
-          puts opt_parser
-          options.exit = true
+    account.client_accounts.each do |client_account|
+      puts "examinate account '#{client_account.credentials.client_email}'"
+      client_account.campaigns.each do |campaign|
+        puts "examinate campaign '#{campaign}'"
+        campaign.ad_groups.each do |ad_group|
+          puts "examinate adgroup '#{ad_group}'"
+          ad_group.ads.each do |ad|
+            row = []
+            row << client_account.credentials.client_email
+            row << campaign.name
+            row << ad_group.name
+            row << ad.url
+            row << ad.display_url
+            puts row.join(",")
+          end
         end
       end
-
-      define_method("parse_and_run") do |argv|
-        options = OpenStruct.new
-        opt_parser(options).parse( argv )
-        return false if options.exit
-        account = @get_account.get_account
-        block.call(account)
-      end
     end
 
-    s = class << cls; self; end
-    s.class_eval do
-      define_method("command") { command_name }
-      define_method("description") { description_str }
-    end
-    cls
   end
-
-  CliListClient = simple_cli_command("clients", "list clients account") { |account | account.p_client_accounts }
-  CliListReport = simple_cli_command("reports", "list reports") { |account | account.p_reports }
-
 end

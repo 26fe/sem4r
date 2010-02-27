@@ -32,7 +32,7 @@ module Sem4r
       self.url = url unless url.nil?
       if block_given?
         instance_eval(&block)
-        save
+        # save
       end
     end
 
@@ -48,17 +48,18 @@ module Sem4r
     end
 
     def to_s
-        "#{@id} #{@type} #{@url}"
+      "#{@id} #{@type} #{@url}"
     end
 
-    def to_xml
-        str= <<-EOFS
-          <criterion xsi:type="#{type}">
-            <url>#{url}</url>
-          </criterion>
-        EOFS
-      str
+    def to_xml(tag)
+      unless tag.class == Builder::XmlMarkup
+        builder = Builder::XmlMarkup.new
+        tag = builder.tag!(tag, "xsi:type" => "CriterionKeyword")
+      end
+      tag.criterion("xsi:type" => "#{type}") do |ad|
+        ad.url        url
+      end
+      tag.to_s
     end
-
   end
 end

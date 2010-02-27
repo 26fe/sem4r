@@ -49,6 +49,9 @@ module Sem4r
       # constraints
       #   values_in
       #
+      # TODO: g_accessor prende in input anche elements ed estrae automaticamente l'elemento che interessa
+      #       cioe' invece di scrivere headline       el.elements["headline"].text dovrebbe bastare scrivere
+      #       headline el
       def g_accessor(name, constraints = {})
         name = name.to_s
 

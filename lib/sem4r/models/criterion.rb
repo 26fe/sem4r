@@ -22,11 +22,12 @@
 # -------------------------------------------------------------------
 
 module Sem4r
+
   class Criterion < Base
 
     enum :Types,             [:Keyword, :Placement]
     enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
-    
+
     attr_reader :id
     attr_reader :ad_group
     attr_accessor :type
@@ -35,9 +36,6 @@ module Sem4r
       super( ad_group.adwords, ad_group.credentials )
       @ad_group = ad_group
     end
-
-
-    ###########################################################################
 
     def self.from_element( ad_group, el )
       xml_type =       el.elements["Criterion.Type"].text
@@ -50,20 +48,7 @@ module Sem4r
     end
 
     ############################################################################
-
-    def save
-      unless @id
-        soap_message =
-          service.ad_group_criterion.create(credentials, ad_group.id, to_xml)
-        add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
-        @id = id.text.strip.to_i
-      end
-      self
-    end
-
-    ############################################################################
+    # ad params management
 
     def ad_param(&block)
       save
@@ -71,6 +56,10 @@ module Sem4r
       @ad_params ||= []
       @ad_params << ad_param
       ad_param
+    end
+
+    def bids
+
     end
 
   end

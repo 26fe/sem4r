@@ -93,7 +93,6 @@ module Sem4r
     end
 
     def to_xml
-      require 'builder'
       builder = Builder::XmlMarkup.new
       xml = builder.job("xsi:type" => "DefinedReportJob") do |job|
         job.name                name

@@ -28,18 +28,46 @@ run_example(__FILE__) do |adwords|
   puts "Create example campaigns"
   client_account = adwords.account.client_accounts.first
 
-  campaign = client_account.campaign "campaign #{Time.now}" do
-    ad_group "adgroup #{Time.now}" do
+  campaign = client_account.campaign "sem4r campaign #{Time.now}" do
+
+    ad_group "sem4r search page #{Time.now}" do
       text_ad do
-        url           "http://www.pluto.com"
-        display_url   "www.Pluto.com"
-        headline      "Vieni da noi"
-        description1  "vieni da noi"
-        description2  "arivieni da noi"
+        url           "http://www.sem4r.com"
+        display_url   "www.Sem4R.com"
+        headline      "adwords api library"
+        description1  "adwords made simple"
+        description2  "set up you campaings in a snap!"
       end
-      keyword "pippo", "BROAD"
-      keyword "pluto", "BROAD"
+
+      # mobile_ad
+      keyword "adwords api", "BROAD"
+      keyword "ruby adwords", "BROAD"
       placement "http://github.com"
+
+      negative_keyword "java api library"
+    end
+
+    ad_group "sem4r on mobile #{Time.now}" do
+      mobile_ad do
+        headline      "sem4r"
+        description   "simply adwords"
+        markup        "XHTML"
+        carrier       "Vodafone@IT"
+        # carrier  'ALLCARRIERS'
+        business_name "sem4r"
+        country_code  "IT"
+        phone_number  "0612345"
+      end
+
+      keyword "adwords api", "BROAD" do
+        # status "PAUSED"
+        # url  "pippo"
+        max_cpc 32423423
+        max_cpm 232321
+        
+      end
+
+      keyword "ruby adwords", "BROAD"
     end
   end
 

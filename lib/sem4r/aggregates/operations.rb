@@ -32,51 +32,51 @@ module Sem4r
       :REMOVE,
       :SET]
 
+    attr_reader :operation_type
     g_accessor :operator
-  end
 
-  def add(operand)
-    operator "ADD"
-    @operand = operand
-  end
-
-  def remove(operand)
-    operator "REMOVE"
-    @operand = operand
-  end
-
-  def set(operand)
-    operator "SET"
-    @operand = operand
-  end
-
-  def to_xml(tag)
-    if @operand == nil
-      raise Sem4rError, "Missing Operand"
+    def add(operand)
+      operator "ADD"
+      @operand = operand
     end
 
-    xml = ""
-    if tag
-      xml += "<#{tag} xsi:type='#{operation_type}'>"
+    def remove(operand)
+      operator "REMOVE"
+      @operand = operand
     end
-    xml +=<<-EOS
+
+    def set(operand)
+      operator "SET"
+      @operand = operand
+    end
+
+    def to_xml(tag)
+      if @operand == nil
+        raise Sem4rError, "Missing Operand"
+      end
+
+      xml = ""
+      if tag
+        xml += "<#{tag} xsi:type='#{operation_type}'>"
+      end
+      xml +=<<-EOS
         <operator>#{operator}</operator>
         #{@operand.to_xml('operand')}
-    EOS
-    if tag
-      xml += "</#{tag}>"
+      EOS
+
+      if tag
+        xml += "</#{tag}>"
+      end
+      xml
     end
-    xml
+
   end
 
   class AdGroupAdOperation < Operation
 
     def initialize(&block)
+      @operation_type = "AdGroupAdOperation"
       instance_eval(&block) if block_given?
-    end
-
-    def operation_type
-      "AdGroupAdOperation"
     end
 
   end
@@ -84,11 +84,8 @@ module Sem4r
   class AdGroupCriterionOperation < Operation
 
     def initialize(&block)
+      @operation_type = "AdGroupCriterionOperation"
       instance_eval(&block) if block_given?
-    end
-
-    def operation_type
-      "AdGroupCriterionOperation"
     end
 
   end
@@ -96,13 +93,17 @@ module Sem4r
   class JobOperation < Operation
 
     def initialize(&block)
+      @operation_type = "JobOperation"
       instance_eval(&block) if block_given?
-    end
-
-    def operation_type
-      "JobOperation"
     end
 
   end
 
+  class AdGroupCriterionOperation
+    def initialize(&block)
+      @operation_type = "AdGroupCriterionOperation"
+      instance_eval(&block) if block_given?
+    end
+
+  end
 end

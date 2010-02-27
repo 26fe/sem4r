@@ -24,5 +24,8 @@
 require 'sem4r'
 require 'sem4r/cli/cli_sem'
 require 'sem4r/cli/cli_simple_commands'
+require 'sem4r/cli/cli_get_account'
 require 'sem4r/cli/cli_download_report'
 require 'sem4r/cli/cli_request_report'
+require 'sem4r/cli/cli_list_keywords'
+require 'sem4r/cli/cli_list_ads'

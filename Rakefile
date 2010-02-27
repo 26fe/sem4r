@@ -10,8 +10,21 @@ begin
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.name = "sem4r"
     gem.summary = %Q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
-    gem.description = %Q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8.
-                         This is a ALPHA version don't use in production}
+    gem.description = %Q{
+       Library to access google adwords api.
+       The idea is to use a high level model instead of a low level api.
+       You think about clients, campaigns, keywords and not about operations, operands, service calls.
+       The library could decide which api use (sync or async) and when call it!
+       It will works with ruby 1.9 and ruby 1.8 without soap4r.
+
+       This is a ALPHA version don't use in production.
+       If you want experiment you are welcome, but the first usable version will be the 0.1.0.
+       I don't kwnow when I will release it.
+       If you are interested in this project let me now: install it and update periodically, so the gemcutter
+       download counter go up. Or subscribe to my feed at sem4r.com. Or watch the project on github.
+       Or simply drop me a line in email. However I will know there is someone out of here.
+       Thank you for reading.
+    }
     gem.email = "sem4ruby@gmail.com"
     gem.homepage = "http://www.sem4r.com"
     gem.authors = ["Sem4r"]
@@ -94,7 +107,7 @@ namespace :sem4r do
   desc 'run all sem4r example'
   task :examples do
 
-    Dir['examples/*.rb'].sort.each do |filename|
+    Dir['examples_sem4r/*.rb'].sort.each do |filename|
       next unless filename =~ /\d\d.+\.rb$/
       unless system "ruby #{filename}"
         exit
