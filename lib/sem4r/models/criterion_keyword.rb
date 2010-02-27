@@ -29,14 +29,14 @@ module Sem4r
     g_accessor :text
     g_accessor :match
 
-    def initialize(ad_group, text = nil, match = nil, &block)
+    def initialize(ad_group, text = nil, match = "BROAD", &block)
       super( ad_group )
       self.type = Keyword
-      self.text = text   unless text.nil?
+      self.text = text   unless text.nil?     # TODO: text == nil raise error
       self.match = match unless match.nil?
       if block_given?
         instance_eval(&block)
-        save
+        # save
       end
     end
 
@@ -56,15 +56,16 @@ module Sem4r
       "#{@id} #{@type} #{@text} #{@match_type}"
     end
 
-    def to_xml
-      str= <<-EOFS
-          <criterion xsi:type="#{type}">
-            <text>#{text}</text>
-            <matchType>#{match}</matchType>
-          </criterion>
-      EOFS
-      str
+    def to_xml(tag)
+      unless tag.class == Builder::XmlMarkup
+        builder = Builder::XmlMarkup.new
+        tag = builder.tag!(tag, "xsi:type" => "CriterionKeyword") 
+      end
+      tag.criterion("xsi:type" => "#{type}") do |ad|
+        ad.text        text
+        ad.matchType   match
+      end
+      tag.to_s
     end
-
   end
 end

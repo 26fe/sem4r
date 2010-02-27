@@ -39,11 +39,11 @@ run_example(__FILE__) do |adwords|
   puts "created adgroup '#{adgroup.name}' with id '#{adgroup.id}'"
 
   adgroup_ad = AdGroupTextAd.new(adgroup) do
-    url           "http://www.pluto.com"
-    display_url   "www.Pluto.com"
-    headline      "Vieni da noi"
-    description1  "vieni da noi"
-    description2  "arivieni da noi"
+    url           "http://www.sem4r.com"
+    display_url   "www.Sem4R.com"
+    headline      "adwords api library"
+    description1  "adwords made simple"
+    description2  "set up you campaings in a snap"
   end
   puts "created ad with id '#{adgroup_ad.id}'"
 

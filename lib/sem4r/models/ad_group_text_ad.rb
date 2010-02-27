@@ -25,6 +25,10 @@
 module Sem4r
   class AdGroupTextAd < AdGroupAd
 
+    g_accessor :headline
+    g_accessor :description1
+    g_accessor :description2
+
     def initialize(ad_group, &block)
       super( ad_group )
       self.type = TextAd
@@ -62,14 +66,6 @@ module Sem4r
       xml
     end
 
-    ###########################################################################
-
-    g_accessor :headline
-    g_accessor :description1
-    g_accessor :description2
-
-    ###########################################################################
-
     def self.from_element(ad_group, el)
       new(ad_group) do
         @id         = el.elements["id"].text.strip.to_i
@@ -85,8 +81,6 @@ module Sem4r
     def self.create(ad_group, &block)
       new(ad_group, &block).save
     end
-
-    ############################################################################
 
     def save
       soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))

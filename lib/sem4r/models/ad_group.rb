@@ -163,22 +163,52 @@ module Sem4r
     ###########################################################################
     # criterion management
 
+    def negative_keyword(text = nil, match = CriterionKeyword::BROAD, &block)
+      save
+
+      negative_criterion = NegativeAdGroupCriterion.new
+      criterion = CriterionKeyword.new(self, text, match, &block)
+      negative_criterion.criterion = criterion
+      negative_criterion.save
+
+      @criterions ||= []
+      @criterions.push( negative_criterion )
+      
+      negative_criterion
+    end
+
+    #
+    # instanziate an BiddableAdGroupCriterion but it is called 'keyword' for convenience
+    #
+    # http://code.google.com/apis/adwords/v2009/docs/reference/AdGroupCriterionService.BiddableAdGroupCriterion.html
+    #
     def keyword(text = nil, match = nil, &block)
       save
+      
+      biddable_criterion = BiddableAdGroupCriterion.new      
       criterion = CriterionKeyword.new(self, text, match, &block)
-      criterion.save
+      biddable_criterion.criterion = criterion
+      biddable_criterion.save
+
       @criterions ||= []
-      @criterions.push( criterion )
-      criterion
+      @criterions.push( biddable_criterion )
+
+      biddable_criterion
     end
 
     def placement(url = nil, &block)
       save
+
+      biddable_criterion = BiddableAdGroupCriterion.new
+
       criterion = CriterionPlacement.new(self, url, &block)
-      criterion.save
+      biddable_criterion.criterion = criterion
+      biddable_criterion.save
+
       @criterions ||= []
-      @criterions.push( criterion )
-      criterion
+      @criterions.push( biddable_criterion )
+
+      biddable_criterion
     end
 
     def criterions(refresh = false)

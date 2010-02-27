@@ -23,11 +23,12 @@
 
 require 'yaml'
 require 'pathname'
+require 'rubygems'
+require 'builder'
 
 cwd = Pathname(__FILE__).dirname
 $:.unshift(cwd.to_s) unless $:.include?(cwd.to_s) || $:.include?(cwd.expand_path.to_s)
 
-require 'rubygems'
 require 'sem4r/adwords'
 
 module Sem4r #:nodoc:

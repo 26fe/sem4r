@@ -33,8 +33,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService"
     end
 
+    # TODO: adattarsi automaticamente al numero dei parametri
     soap_call_v2009 :all, :ad_group_id
-    soap_call_v2009 :create, :ad_group_id, :xml
+    soap_call_v2009 :create, :xml
 
     private
     
@@ -50,15 +51,12 @@ module Sem4r
       EOFS
     end
 
-    def _create(ad_group_id, xml)
+    def _create(xml)
       <<-EOFS
       <mutate xmlns="#{@service_namespace}">
         <operations xsi:type="AdGroupCriterionOperation">
           <operator>ADD</operator>
-          <operand xsi:type="BiddableAdGroupCriterion">
-            <adGroupId>#{ad_group_id}</adGroupId>
             #{xml}
-           </operand>
         </operations>
       </mutate>
       EOFS

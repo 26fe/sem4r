@@ -23,49 +23,31 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
+  CliListKeywords = simple_cli_command("keywords", "list keywords") do |account |
+    account.client_accounts.each do |client_account|
+      puts "examinate account '#{client_account.credentials.client_email}'"
+      client_account.campaigns.each do |campaign|
+        puts "examinate campaign '#{campaign}'"
+        campaign.ad_groups.each do |ad_group|
+          ad_group.criterions.each do |criterion|
+            row = []
+            row << client_account.credentials.client_email
+            row << campaign.name
+            row << ad_group.name
 
-  class CliCommand
-    def parse_and_run(argv)
-    end
-  end
+            row << criterion.type
+            case criterion.type
+            when Criterion::Keyword
+              row << criterion.text
+              row << criterion.match
+            when Criterion::Placement
+              row << criterion.url
+            end
 
-
-
-  def self.simple_cli_command(command_name, description_str, &block)
-
-    cls = Class.new(CliCommand) do
-      def initialize(main_cli, get_account)
-        @main_cli = main_cli
-        @get_account = get_account
-      end
-
-      def opt_parser(options)
-        opt_parser = OptionParser.new
-        opt_parser.banner= "#{self.class.description}"
-        opt_parser.on("-h", "--help", "show this message") do
-          puts opt_parser
-          options.exit = true
+            puts row.join(",")
+          end
         end
       end
-
-      define_method("parse_and_run") do |argv|
-        options = OpenStruct.new
-        opt_parser(options).parse( argv )
-        return false if options.exit
-        account = @get_account.get_account
-        block.call(account)
-      end
     end
-
-    s = class << cls; self; end
-    s.class_eval do
-      define_method("command") { command_name }
-      define_method("description") { description_str }
-    end
-    cls
   end
-
-  CliListClient = simple_cli_command("clients", "list clients account") { |account | account.p_client_accounts }
-  CliListReport = simple_cli_command("reports", "list reports") { |account | account.p_reports }
-
 end
