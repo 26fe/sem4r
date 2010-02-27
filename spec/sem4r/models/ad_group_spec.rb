@@ -92,8 +92,8 @@ describe AdGroup do
           match "BROAD"
         end
       end
-      adgroup.criterions.length.should   == 1
-      criterion = adgroup.criterions.first
+      adgroup.should have(1).criterions
+      criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.text.should == "pippo"
     end
@@ -103,8 +103,8 @@ describe AdGroup do
         name "adgroup"
         keyword "pippo", "BROAD"
       end
-      adgroup.criterions.length.should   == 1
-      criterion = adgroup.criterions.first
+      adgroup.should have(1).criterions
+      criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.text.should == "pippo"
     end
@@ -117,7 +117,7 @@ describe AdGroup do
         end
       end
       adgroup.criterions.length.should   == 1
-      criterion = adgroup.criterions.first
+      criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.url.should == "pippo"
     end
@@ -128,7 +128,7 @@ describe AdGroup do
         placement "url"
       end
       adgroup.criterions.length.should   == 1
-      criterion = adgroup.criterions.first
+      criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.url.should == "url"
     end

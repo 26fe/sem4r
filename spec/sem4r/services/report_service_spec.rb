@@ -39,7 +39,7 @@ describe ReportService do
   end
 
   it "should accept all message" do
-    response_xml = read_xml_file("services", "report_service", "all.xml")
+    response_xml = read_xml_file("services", "report_service", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)

@@ -24,64 +24,25 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-
-describe Account do
-
+describe AdGroupCriterionBids do
   include Sem4rSpecHelper
 
-  before do
-    services = stub("services")
-    mock_service_account(services)
-    mock_service_info(services)
-    mock_service_campaign(services)
-    mock_service_report(services)
-    # @account = mock_account(services)
-    @adwords = mock_adwords(services)
-    @credentials = mock_credentials
+  describe ManualCPCAdGroupCriterionBids do
 
-      @account = Account.new(@adwords, @credentials)
+    it "shoud accept accessor" do
+      bids = ManualCPCAdGroupCriterionBids.new
+      bids.max_cpc 10000000
+      puts bids.to_xml
+    end
+
+    it "should parse xml" do
+      el = read_model("//bids", "services", "ad_group_criterion_service", "get-res.xml")
+      bids = AdGroupCriterionBids.from_element(el)
+
+      bids.bid_source.should == "ADGROUP"
+      bids.max_cpc.should == 10000000
+    end
+  
   end
 
-  describe "account management" do
-
-    it "should retrieve info" do
-      @account.currency_code.should == "EUR"
-    end
-
-    it "should retrieve cost" do
-      @account.year_unit_cost("UNIT_COUNT").should == 100
-    end
-
-  end
-
-  describe "campaign management" do
-
-    it "should add an Campaign with method 'campaign' + block" do
-      @account.campaign do
-        name "campaign"
-      end
-      @account.campaigns.length.should   ==  1
-      campaign = @account.campaigns.first
-      campaign.id.should == 10
-      campaign.name.should == "campaign"
-    end
-
-    it "should add an Campaign with method 'campaign' + param" do
-      @account.campaign "campaign"
-      
-      @account.campaigns.length.should   ==  1
-      campaign = @account.campaigns.first
-      campaign.id.should == 10
-      campaign.name.should == "campaign"
-    end
-
-  end
-
-  describe "reports management" do
-
-    it "should show reports " do
-      @account.should have(4).reports
-    end
-
-  end
 end

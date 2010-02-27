@@ -1,0 +1,42 @@
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <requestId>
+        e33fbafe4b9401e6fc3b7866880db1d1
+      </requestId>
+      <operations>
+        1
+      </operations>
+      <responseTime>
+        1124
+      </responseTime>
+      <units>
+        40
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <mutateResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <rval>
+        <ListReturnValue.Type>AdGroupAdReturnValue</ListReturnValue.Type>
+
+        <value>
+          <adGroupId>3060316428</adGroupId>
+          <ad xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='MobileAd'>
+            <id>302779</id>
+            <approvalStatus>UNCHECKED</approvalStatus>
+            <Ad.Type>MobileAd</Ad.Type>
+            <headline>sem4r</headline>
+            <description>simply adwords</description>
+            <mobileCarriers>Vodafone@IT</mobileCarriers>
+            <businessName>sem4r</businessName>
+            <countryCode>IT</countryCode>
+            <phoneNumber>06-12345</phoneNumber>
+          </ad>
+          <status>ENABLED</status>
+        </value>
+
+      </rval>
+    </mutateResponse>
+  </soap:Body>
+</soap:Envelope>

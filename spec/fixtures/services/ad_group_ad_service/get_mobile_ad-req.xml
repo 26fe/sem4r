@@ -8,20 +8,20 @@
       <userAgent>
         Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)
       </userAgent>
-      <developerToken>***censured***</developerToken>
+      <developerToken>
+        ***censured***
+      </developerToken>
       <clientEmail>
-        client_1+sem4ruby@gmail.com
+        ***censured***
       </clientEmail>
     </s:RequestHeader>
   </env:Header>
   <env:Body>
     <get xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
       <selector>
-        <idFilters>
-          <adGroupId>
-            3060217923
-          </adGroupId>
-        </idFilters>
+        <adGroupIds>
+          3060316428
+        </adGroupIds>
       </selector>
     </get>
   </env:Body>

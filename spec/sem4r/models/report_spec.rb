@@ -73,12 +73,8 @@ describe Report do
       column               "KeywordTypeDisplay"
     end
 
-    # TODO: creare un matcher?
     expected = read_model("//job", "services", "report_service", "schedule_report_job-req.xml")
-    xml = report.to_xml
-    xml_wns = xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
-    diff = xml_cmp expected, xml_wns
-    diff.should == true
+    report.to_xml.should xml_equivalent(expected)
   end
 
 end

@@ -38,7 +38,7 @@ describe AdGroupAd do
   describe AdGroupAd do
 
     it "should parse xml" do
-      el = read_model("//ad", "services", "ad_group_ad_service", "get-res.xml")
+      el = read_model("//ad", "services", "ad_group_ad_service", "get_text_ad-res.xml")
       ad = AdGroupAd.from_element(@adgroup, el)
       # ad.id.should == 218770
       ad.url.should == "http://www.pluto.com"
@@ -46,7 +46,6 @@ describe AdGroupAd do
     end
 
   end
-
 
   describe AdGroupTextAd do
 
@@ -82,8 +81,7 @@ describe AdGroupAd do
         url          "http://www.pluto.com"
         display_url  "www.Pluto.com"
       end
-      expected_xml = read_model("//operand", "services", "ad_group_ad_service", "mutate_add-req.xml")
-      # puts text_ad.to_xml("operand")
+      expected_xml = read_model("//operand", "services", "ad_group_ad_service", "mutate_add_text_ad-req.xml")
       text_ad.to_xml("operand").should xml_equivalent(expected_xml)
     end
 
@@ -103,6 +101,28 @@ describe AdGroupAd do
         end
       end
       mobile_ad.markups.should include(AdGroupMobileAd::HTML)
+    end
+
+    it "shoud produce xml" do
+      mobile_ad = AdGroupMobileAd.new(@adgroup) do
+        headline      "sem4r"
+        description   "simply adwords"
+        markup        "XHTML"
+        carrier       "Vodafone@IT"
+        # carrier  'ALLCARRIERS'
+        business_name "sem4r"
+        country_code  "IT"
+        phone_number  "0612345"
+      end
+
+      expected_xml = read_model("//operand", "services", "ad_group_ad_service", "mutate_add_mobile_ad-req.xml")
+      mobile_ad.to_xml("operand").should xml_equivalent(expected_xml)
+    end
+
+    it "should parse xml" do
+      el = read_model("//ad", "services", "ad_group_ad_service", "get_mobile_ad-res.xml")
+      ad = AdGroupAd.from_element(@adgroup, el)
+      ad.headline.should == "sem4r"
     end
 
   end

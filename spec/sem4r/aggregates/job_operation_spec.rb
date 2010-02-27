@@ -25,40 +25,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe JobOperation do
-  include Sem4rSpecHelper
+  include Sem4rSpecHelper, AggregatesSpecHelper
 
-  def create_bulk_mutate_job(campaign, adgroup)
-    # TextAd
-    text_ad1 = AdGroupTextAd.new(adgroup)
-    text_ad1.headline     = "Cruise to Mars Sector 1"
-    text_ad1.description1 = "Visit the Red Planet in style."
-    text_ad1.description2 = "Low-gravity fun for everyone!"
-    text_ad1.url          = "http://www.example.com"
-    text_ad1.display_url  = "www.example.com"
-
-    # TextAd
-    text_ad2 = AdGroupTextAd.new(adgroup)
-    text_ad2.headline     = "Cruise to Mars Sector 2"
-    text_ad2.description1 = "Visit the Red Planet in style."
-    text_ad2.description2 = "Low-gravity fun for everyone!"
-    text_ad2.url          = "http://www.example.com"
-    text_ad2.display_url  = "www.example.com"
-
-    # adgroupad_operation
-    ad_operation1 = AdGroupAdOperation.new
-    ad_operation1.add text_ad1
-
-    # adgroupad_operation
-    ad_operation2 = AdGroupAdOperation.new
-    ad_operation2.add text_ad2
-
-    bulk_mutate_job = BulkMutateJob.new
-    bulk_mutate_job.campaign_id = campaign.id
-    bulk_mutate_job.add_operation ad_operation1
-    bulk_mutate_job.add_operation ad_operation2
-
-    bulk_mutate_job
-  end
 
   it "should produce xml" do
     @campaign = mock("campaign").as_null_object
@@ -75,7 +43,6 @@ describe JobOperation do
     
     expected_xml = read_model("//operation", "services", "bulk_mutate_job_service", "mutate-req.xml")
     job_operation.to_xml('operation').should xml_equivalent(expected_xml)
-
   end
 
 end
