@@ -1,3 +1,4 @@
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService' -->
 <?xml version='1.0' encoding='UTF-8'?> 
 <env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/' xmlns='https://adwords.google.com/api/adwords/cm/v200909' xmlns:s='https://adwords.google.com/api/adwords/cm/v200909'>
   <env:Header>
@@ -8,21 +9,34 @@
       <userAgent>
         Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)
       </userAgent>
-      <developerToken>***censured***</developerToken>
+      <developerToken>
+        ***censured***
+      </developerToken>
       <clientEmail>
-        client_1+sem4ruby@gmail.com
+        ***censured***
       </clientEmail>
     </s:RequestHeader>
   </env:Header>
   <env:Body>
-    <get xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
-      <selector>
-        <idFilters>
+    <mutate xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <operations xsi:type='AdGroupCriterionOperation'>
+        <operator>
+          ADD
+        </operator>
+        <operand xsi:type='BiddableAdGroupCriterion'>
           <adGroupId>
-            3060217923
+            3060318478
           </adGroupId>
-        </idFilters>
-      </selector>
-    </get>
+          <criterion xsi:type='Keyword'>
+            <text>
+              adwords api
+            </text>
+            <matchType>
+              BROAD
+            </matchType>
+          </criterion>
+        </operand>
+      </operations>
+    </mutate>
   </env:Body>
 </env:Envelope>

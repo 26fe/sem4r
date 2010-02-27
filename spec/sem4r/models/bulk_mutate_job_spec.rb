@@ -25,7 +25,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe BulkMutateJob do
-  include Sem4rSpecHelper
+  include Sem4rSpecHelper, AggregatesSpecHelper
 
   before do
     @adgroup = mock("adgroup").as_null_object
@@ -56,29 +56,14 @@ describe BulkMutateJob do
     job.status.should == "PENDING"
   end
 
-
   it "should have a representation in xml" do
-    pending "test"
-    @adgroup.should_receive(:id).and_return(10)
-
-    text_ad = AdGroupTextAd.new(@adgroup)
-    text_ad.headline     = "headline"
-    text_ad.description1 = "description1"
-    text_ad.description2 = "description2"
-
-    ad_operation = AdGroupAdOperation.new
-    ad_operation.add text_ad
-
-    job = BulkMutateJob.new
-    job.campaign_id = 100
-    job.add_operation ad_operation
-
-    xml = job.to_xml
+    @adgroup.stub(:id).and_return(3060284754)
+    @campaign = stub("campaign")
+    @campaign.stub(:id).and_return(100)
+    job = create_bulk_mutate_job(@campaign, @adgroup)
 
     expected = read_model("//operand", "services", "bulk_mutate_job_service", "mutate-req.xml")
-    xml_wns = xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
-    diff = xml_cmp expected, xml_wns
-    diff.should == true
+    job.to_xml('operand').should xml_equivalent(expected)
   end
 end
 

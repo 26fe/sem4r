@@ -21,6 +21,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 # -------------------------------------------------------------------------
+
+# comparing xml is always a b-i-a-t-c-h in any testing environment.  here is a
+# little snippet for ruby that, i think, it a good first pass at making it
+# easier.  comment with your improvements please!
+#
+# http://drawohara.com/post/89110816/ruby-comparing-xml
+require 'rexml/document'
+require 'differ'
+require 'differ/string'
 Spec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
     normalized = Class.new(REXML::Formatters::Pretty) do
@@ -61,41 +70,17 @@ end
 
 module Sem4rSpecHelper
 
-
-  # comparing xml is always a b-i-a-t-c-h in any testing environment.  here is a
-  # little snippet for ruby that, i think, it a good first pass at making it
-  # easier.  comment with your improvements please!
-  #
-  # http://drawohara.com/post/89110816/ruby-comparing-xml
-  require 'rexml/document'
-  require 'differ'
-  require 'differ/string'
-
-  def xml_cmp a, b
-    a = REXML::Document.new(a.to_s) if a.class == String
-    b = REXML::Document.new(b.to_s) if b.class == String
-
-    normalized = Class.new(REXML::Formatters::Pretty) do
-      def write_text(node, output)
-        super(node.to_s.strip, output)
-      end
+  require "stringio"
+  def with_stdout_captured
+    old_stdout = $stdout
+    out = StringIO.new
+    $stdout = out
+    begin
+      yield
+    ensure
+      $stdout = old_stdout
     end
-
-    normalized.new(indentation=0,ie_hack=false).write(node=a, a_normalized='')
-    normalized.new(indentation=0,ie_hack=false).write(node=b, b_normalized='')
-    a_normalized = a_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
-    b_normalized = b_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
-
-    if a_normalized != b_normalized
-      diff = Differ.diff_by_char(a_normalized, b_normalized)
-      puts diff.format_as(:color)
-
-      # diff.each { |d| puts d }
-      # puts a_normalized - b_normalized
-      return false
-    else
-      return true
-    end
+    out.string
   end
 
 
@@ -207,7 +192,7 @@ module Sem4rSpecHelper
   end
 
   def mock_service_ad_group_ad(service)
-    xml_document = read_xml_document("services", "ad_group_ad_service", "mutate_add-res.xml")
+    xml_document = read_xml_document("services", "ad_group_ad_service", "mutate_add_text_ad-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     ad_group_ad_service = stub("ad_group_ad_service", :create => soap_message)
     service.stub(:ad_group_ad).and_return(ad_group_ad_service)
@@ -228,9 +213,15 @@ module Sem4rSpecHelper
   end
 
   def mock_service_report(service)
-    # xml_document = read_xml_document("services", "ad_group_criterion_service", "mutate_add_criterion_keyword-res.xml")
-    soap_message = stub("soap_message", :response => nil, :counters => nil)
-    report_service = stub("report_service", :set => soap_message)
+    all_xml_document = read_xml_document("services", "report_service", "get_all_jobs-res.xml")
+    all_soap_message = stub("soap_message", :response => all_xml_document, :counters => nil)
+
+    set_soap_message = stub("soap_message", :response => nil, :counters => nil)
+
+    report_service   = stub("report_service",
+      :set => set_soap_message,
+      :all => all_soap_message)
+
     service.stub(:report).and_return(report_service)
   end
 

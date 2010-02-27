@@ -16,6 +16,7 @@
   </env:Header>
   <env:Body>
     <mutate xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+
       <operations xsi:type="AdGroupCriterionOperation">
         <operator>ADD</operator>
         <operand xsi:type="BiddableAdGroupCriterion">
@@ -26,6 +27,7 @@
           </criterion>
         </operand>
       </operations>
+
     </mutate>
   </env:Body>
 </env:Envelope>

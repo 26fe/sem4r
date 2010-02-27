@@ -39,7 +39,7 @@ describe SoapMessageV13 do
   end
 
   it "should update counters" do
-    response_xml = read_xml_file("services", "report_service", "all.xml")
+    response_xml = read_xml_file("services", "report_service", "get_all_jobs-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
@@ -48,22 +48,7 @@ describe SoapMessageV13 do
     message_v13.send("service_url", "soap_action")
 
     message_v13.counters.should_not be_empty
-    message_v13.counters.should ==  { :response_time => 279, :operations => 4, :units => 4 }
+    message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
   end
-
-
-#  def test_foo
-#
-#    credentials = Credentials.new({
-#        :email           =>     "email",
-#        :password        =>     "password",
-#        :developer_token =>     "developer_token"})
-#    soapmessage = SoapMessageV2009.new(credentials, "mynamespace")
-#    soapmessage.body= "<myop></myop>"
-#
-#    str = soapmessage.build_soap_message
-#
-#    puts str
- # end
 
 end
