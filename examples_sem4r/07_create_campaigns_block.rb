@@ -62,8 +62,8 @@ run_example(__FILE__) do |adwords|
       keyword "adwords api", "BROAD" do
         # status "PAUSED"
         # url  "pippo"
-        max_cpc 32423423
-        max_cpm 232321
+#        max_cpc 32423423
+#        max_cpm 232321
 
       end
 
