@@ -64,7 +64,7 @@ run_example(__FILE__) do |adwords|
         # url  "pippo"
         max_cpc 32423423
         max_cpm 232321
-        
+
       end
 
       keyword "ruby adwords", "BROAD"

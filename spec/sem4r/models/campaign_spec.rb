@@ -46,7 +46,7 @@ describe Campaign do
       campaign.id.should    == 10
     end
 
-    it "should parse xml" do
+    it "should parse xml (produced by google)" do
       el = read_model("//entries", "services", "campaign_service", "get-res.xml")
       campaign = Campaign.from_element(@account, el)
       campaign.id.should == 53614

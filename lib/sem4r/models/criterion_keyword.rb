@@ -59,11 +59,15 @@ module Sem4r
     def to_xml(tag)
       unless tag.class == Builder::XmlMarkup
         builder = Builder::XmlMarkup.new
-        tag = builder.tag!(tag, "xsi:type" => "CriterionKeyword") 
-      end
-      tag.criterion("xsi:type" => "#{type}") do |ad|
-        ad.text        text
-        ad.matchType   match
+        tag = builder.tag!(tag, "xsi:type" => "Keyword") { |tag|
+          tag.text        text
+          tag.matchType   match
+        }
+      else
+        tag.criterion("xsi:type" => "#{type}") do |ad|
+          ad.text        text
+          ad.matchType   match
+        end
       end
       tag.to_s
     end

@@ -50,8 +50,29 @@ describe AdGroup do
       adgroup.id.should    == 10
     end
 
-    it "should parse xml" do
-      # el = load_model_xml("ad_group")
+    it "create should accept a bid" do
+      adgroup = AdGroup.create(@campaign) do
+        name "sem4r library"
+        manual_cpc_bids do
+          keyword_max_cpc 10000
+        end
+      end
+      adgroup.bids.should be_instance_of(ManualCPCAdGroupBids)
+    end
+
+    it "should build xml (input for google)" do
+      adgroup = AdGroup.create(@campaign) do
+        name "sem4r library"
+        manual_cpc_bids do
+          keyword_max_cpc 20000000
+          site_max_cpc 30000000
+        end
+      end
+      exepected_xml = read_model("//operand", "services", "ad_group_service", "mutate_add-req.xml")
+      adgroup.to_xml("operand").should xml_equivalent(exepected_xml)
+    end
+
+    it "should parse xml (produced by google)" do
       el = read_model("//entries", "services", "ad_group_service", "get-res.xml")
 
       adgroup = AdGroup.from_element(@campaign, el)

@@ -1,21 +1,13 @@
-<!-- response -->
 <soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
-      <requestId>
-        3e97cd7f748479213cf0f78b356fd290
-      </requestId>
-      <operations>
-        2
-      </operations>
-      <responseTime>
-        170
-      </responseTime>
-      <units>
-        2
-      </units>
+      <requestId>3e97cd7f748479213cf0f78b356fd290</requestId>
+      <operations>2</operations>
+      <responseTime>170</responseTime>
+      <units>2</units>
     </ResponseHeader>
   </soap:Header>
+
   <soap:Body>
     <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
       <rval>
@@ -31,41 +23,26 @@
           <status>ENABLED</status>
 
           <bids xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ManualCPCAdGroupBids'>
-            <AdGroupBids.Type>
-              ManualCPCAdGroupBids
-            </AdGroupBids.Type>
+            <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>
             <keywordMaxCpc>
               <amount>
-                <ComparableValue.Type>
-                  Money
-                </ComparableValue.Type>
-                <microAmount>
-                  10000000
-                </microAmount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>20000000</microAmount>
               </amount>
             </keywordMaxCpc>
             <siteMaxCpc>
               <amount>
-                <ComparableValue.Type>
-                  Money
-                </ComparableValue.Type>
-                <microAmount>
-                  10000000
-                </microAmount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>30000000</microAmount>
               </amount>
             </siteMaxCpc>
           </bids>
+
           <stats>
-            <network>
-              ALL
-            </network>
-            <Stats.Type>
-              Stats
-            </Stats.Type>
+            <network>ALL</network>
+            <Stats.Type>Stats</Stats.Type>
           </stats>
         </entries>
-        
-
 
         <entries>
           <id>

@@ -1,4 +1,3 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService' -->
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -6,25 +5,40 @@
   xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
   xmlns="https://adwords.google.com/api/adwords/cm/v200909"
   xmlns:s="https://adwords.google.com/api/adwords/cm/v200909">
+
   <env:Header>
     <s:RequestHeader env:mustUnderstand="0">
-      <authToken>***censured***<authToken>
+      <authToken>***censured***</authToken>
       <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
-      <developerToken>***censured***<developerToken>
-      <clientEmail>client_1+sem4ruby@gmail.com</clientEmail>
+      <developerToken>***censured***</developerToken>
+      <clientEmail>***censured***</clientEmail>
     </s:RequestHeader>
   </env:Header>
+
   <env:Body>
     <mutate xmlns="https://adwords.google.com/api/adwords/cm/v200909">
 
       <operations xsi:type="AdGroupCriterionOperation">
         <operator>ADD</operator>
         <operand xsi:type="BiddableAdGroupCriterion">
-          <adGroupId>3060199926</adGroupId>
+
+          <adGroupId>1000</adGroupId>
+
           <criterion xsi:type="Keyword">
-            <text>paperino</text>
+            <text>sem4r adwords api</text>
             <matchType>BROAD</matchType>
           </criterion>
+
+          <bids xsi:type="ManualCPCAdGroupCriterionBids">
+            <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>
+            <maxCpc>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>10000000</microAmount>
+              </amount>
+            </maxCpc>
+          </bids>
+
         </operand>
       </operations>
 
