@@ -37,20 +37,8 @@ module Sem4r
 
     def self.from_element(el)
       type =  el.elements["AdGroupCriterionBids.Type"].text
-
       klass = Module::const_get(type)
       klass.from_element(el)
-
-      #      case type
-      #      when BudgetOptimizerAdGroupCriterionBids
-      #        BudgetOptimizerAdGroupCriterionBids.from_element(el)
-      #      when ConversionOptimizerAdGroupCriterionBids
-      #        ConversionOptimizerAdGroupCriterionBids.from_element(el)
-      #      when ManualCPCAdGroupCriterionBids
-      #        ManualCPCAdGroupCriterionBids.from_element(el)
-      #      when ManualCPMAdGroupCriterionBids
-      #        ManualCPMAdGroupCriterionBids.from_element(el)
-      #      end
     end
   end
 
@@ -91,36 +79,48 @@ module Sem4r
       end
     end
 
-    #    def self.from_element(el)
-    #      new do
-    #        type           el.elements["AdGroupBids.Type"].text
-    #        maxcpc         REXML::XPath.match( el, "//microAmount" ).first.text.to_i
-    #      end
-    #    end
 
 
-    #              <bids xsi:type='ManualCPCAdGroupCriterionBids'>
-    #            <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>
-    #            <maxCpc>
-    #              <amount>
-    #                <ComparableValue.Type>Money</ComparableValue.Type>
-    #                <microAmount>10000000</microAmount>
-    #              </amount>
-    #            </maxCpc>
-    #            <bidSource>ADGROUP</bidSource>
-    #          </bids>
+    def to_xml(tag)
+      unless tag.class == Builder::XmlMarkup
+        builder = Builder::XmlMarkup.new
+        tag = builder.tag!(tag, "xsi:type" => "Keyword") { |tag|
+          tag.text        text
+          tag.matchType   match
+        }
+      else
+        tag.criterion("xsi:type" => "#{type}") do |ad|
+          ad.text        text
+          ad.matchType   match
+        end
+      end
+      tag.to_s
+    end
 
-    def to_xml
-      builder = Builder::XmlMarkup.new
-      xml = builder.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupCriterionBids') { |xml|
-        xml.tag!('AdGroupCriterionBids.Type') { 'ManualCPCAdGroupCriterionBids' }
-        xml.maxCpc {
-          xml.amount {
-            xml.tag!(' ComparableValue.Type') { 'Money' }
-            xml.microAmount max_cpc
+    def to_xml(tag = 'bids')
+      if tag.class == Builder::XmlMarkup
+        xml = tag
+        xml.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupCriterionBids') {
+          xml.tag!('AdGroupCriterionBids.Type') { xml.text! 'ManualCPCAdGroupCriterionBids' }
+          xml.maxCpc {
+            xml.amount {
+              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+              xml.microAmount max_cpc
+            }
           }
         }
-      }
+      else
+        builder = Builder::XmlMarkup.new
+        xml = builder.tag!(tag, 'xsi:type' => 'ManualCPCAdGroupCriterionBids') { |xml|
+          xml.tag!('AdGroupCriterionBids.Type') { xml.text! 'ManualCPCAdGroupCriterionBids' }
+          xml.maxCpc {
+            xml.amount {
+              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+              xml.microAmount max_cpc
+            }
+          }
+        }
+      end
       xml.to_s
     end
 

@@ -51,9 +51,7 @@ module Sem4r
       <mutate xmlns="#{@service_namespace}">
         <operations xsi:type="AdGroupOperation">
           <operator>ADD</operator>
-          <operand>
             #{xml}
-          </operand>
         </operations>
       </mutate>
       EOFS

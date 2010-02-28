@@ -37,6 +37,12 @@ module Sem4r
       @ad_group = ad_group
     end
 
+#    def self.from_element( ad_group, el )
+#      type =  el.elements["Criterion.Type"].text
+#      klass = Module::const_get(type)
+#      klass.from_element(ad_group, el)
+#    end
+
     def self.from_element( ad_group, el )
       xml_type =       el.elements["Criterion.Type"].text
       case xml_type

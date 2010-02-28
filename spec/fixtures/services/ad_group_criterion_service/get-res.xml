@@ -17,7 +17,12 @@
         <Page.Type>AdGroupCriterionPage</Page.Type>
 
         <entries xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='BiddableAdGroupCriterion'>
+          <AdGroupCriterion.Type>BiddableAdGroupCriterion</AdGroupCriterion.Type>
           <adGroupId>3060217923</adGroupId>
+
+          <userStatus>ACTIVE</userStatus>
+          <systemServingStatus>ELIGIBLE</systemServingStatus>
+          <approvalStatus>PENDING_REVIEW</approvalStatus>
 
           <criterion xsi:type='Keyword'>
             <id>11536082</id>
@@ -25,12 +30,6 @@
             <text>pippo</text>
             <matchType>BROAD</matchType>
           </criterion>
-
-          <AdGroupCriterion.Type>BiddableAdGroupCriterion</AdGroupCriterion.Type>
-
-          <userStatus>ACTIVE</userStatus>
-          <systemServingStatus>ELIGIBLE</systemServingStatus>
-          <approvalStatus>PENDING_REVIEW</approvalStatus>
 
           <bids xsi:type='ManualCPCAdGroupCriterionBids'>
             <AdGroupCriterionBids.Type>ManualCPCAdGroupCriterionBids</AdGroupCriterionBids.Type>

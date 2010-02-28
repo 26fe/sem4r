@@ -55,38 +55,30 @@ module Sem4r
       "#{@id} '#{@name}' (#{@status}) - #{@bid}"
     end
 
-    def to_xml
-      <<-EOFS
-        <campaignId>#{campaign.id}</campaignId>
-        <name>#{name}</name>
-        <status>ENABLED</status>
-        <bids xsi:type="ManualCPCAdGroupBids">
-          <keywordMaxCpc>
-            <amount xsi:type="Money">
-              <microAmount>10000000</microAmount>
-            </amount>
-          </keywordMaxCpc>
-        </bids>
-      EOFS
+    def to_xml(tag)
+      builder = Builder::XmlMarkup.new
+      xml = builder.tag!(tag) { |xml|
+        xml.campaignId campaign.id
+        xml.name name
+        xml.status "ENABLED"
+        @bids.to_xml(xml) if @bids
+      }
+      xml.to_s
     end
 
     def empty?
       criterions.empty?
     end
 
-    def bid(el)
-      @bid = AdGroupBid.from_element(el)
-    end
-
     ###########################################################################
-    # campaign management
+    # management
 
     def self.from_element(campaign, el)
       new(campaign) do
         @id          = el.elements["id"].text.strip.to_i
         name           el.elements["name"].text
         status         el.elements["status"].text
-        bid            el.elements["bids"]
+        bids           el.elements["bids"]
       end
     end
 
@@ -96,7 +88,7 @@ module Sem4r
 
     def save
       unless @id
-        soap_message = service.ad_group.create(credentials, to_xml)
+        soap_message = service.ad_group.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
         rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
         id = REXML::XPath.match( rval, "value/id" ).first
@@ -113,6 +105,18 @@ module Sem4r
       soap_message = service.ad_group.delete(credentials, @id)
       add_counters( soap_message.counters )
       @id = -1 # logical delete
+    end
+
+    ###########################################################################
+    # bids management
+
+    def bids(el = nil)
+      @bids = AdGroupBids.from_element(el) if el
+      @bids
+    end
+
+    def manual_cpc_bids(&block)
+      @bids = ManualCPCAdGroupBids.new(&block)
     end
 
     ###########################################################################
@@ -166,7 +170,7 @@ module Sem4r
     def negative_keyword(text = nil, match = CriterionKeyword::BROAD, &block)
       save
 
-      negative_criterion = NegativeAdGroupCriterion.new
+      negative_criterion = NegativeAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       negative_criterion.criterion = criterion
       negative_criterion.save
@@ -185,7 +189,7 @@ module Sem4r
     def keyword(text = nil, match = nil, &block)
       save
       
-      biddable_criterion = BiddableAdGroupCriterion.new      
+      biddable_criterion = BiddableAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       biddable_criterion.criterion = criterion
       biddable_criterion.save
@@ -199,7 +203,7 @@ module Sem4r
     def placement(url = nil, &block)
       save
 
-      biddable_criterion = BiddableAdGroupCriterion.new
+      biddable_criterion = BiddableAdGroupCriterion.new(self)
 
       criterion = CriterionPlacement.new(self, url, &block)
       biddable_criterion.criterion = criterion

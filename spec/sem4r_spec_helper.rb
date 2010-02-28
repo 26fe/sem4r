@@ -30,6 +30,17 @@
 require 'rexml/document'
 require 'differ'
 require 'differ/string'
+
+def pretty_xml(xml)
+  normalized = Class.new(REXML::Formatters::Pretty) do
+    def write_text(node, output)
+      super(node.to_s.strip, output)
+    end
+  end
+  normalized.new(0,false).write(xml, xml_pretty='')
+  xml_pretty
+end
+
 Spec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
     normalized = Class.new(REXML::Formatters::Pretty) do
@@ -261,11 +272,11 @@ module Sem4rSpecHelper
     adwords = mock_adwords(services)
     credentials = mock_credentials
 
-    adgroup = stub("adgroup",
+    ad_group = stub("adgroup",
       :adwords     => adwords,
       :credentials => credentials,
       :id          => id)
-    adgroup
+    ad_group
   end
 
   def criterion_mock(services)

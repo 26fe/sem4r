@@ -23,39 +23,49 @@
 
 module Sem4r
 
+  #
   # http://code.google.com/apis/adwords/v2009/docs/reference/AdGroupCriterionService.AdGroupCriterion.html
-
+  #
   class AdGroupCriterion
-    attr_accessor :criterion
+    include SoapAttributes
+    
+    g_accessor :criterion
 
-    #    def self.from_element( ad_group, el )
-    #      xml_type =       el.elements["ManualCPCAdGroupCriterionBids"].text
-    #      case xml_type
-    #      when Keyword
-    #        CriterionKeyword.from_element(ad_group, el)
-    #      when Placement
-    #        CriterionPlacement.from_element(ad_group, el)
-    #      end
-    #    end
+    def initialize(&block)
+      instance_eval(&block) if block_given?
+    end
+
+    def self.from_element(ad_group, el)
+      type =  el.elements["AdGroupCriterion.Type"].text
+      klass = Module::const_get(type)
+      klass.from_element(ad_group, el)
+    end
 
   end
 
   class BiddableAdGroupCriterion < AdGroupCriterion
 
-    def bids=(b)
-      @bids= b
+    g_accessor :bids
+
+    def initialize(ad_group, &block)
+      @ad_group = ad_group
+      instance_eval(&block) if block_given?
+    end
+
+    def self.from_element(ad_group, el)
+      new(ad_group) do
+        criterion Criterion.from_element(ad_group, el.elements["criterion"])
+        bids      AdGroupCriterionBids.from_element(el.elements["bids"])
+      end
     end
 
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
       xml = builder.tag!(tag, "xsi:type" => "BiddableAdGroupCriterion") do |t|
-        t.adGroupId   criterion.ad_group.id
+        t.adGroupId   @ad_group.id
         # t.status "ENABLED"
         criterion.to_xml(t)
-
-        if @bids
-          @bids.to_xml(t)
-        end
+        @bids.to_xml(t) if @bids
       end
       xml.to_s
     end
@@ -75,6 +85,11 @@ module Sem4r
   end
 
   class NegativeAdGroupCriterion < AdGroupCriterion
+
+    def initialize(ad_group, &block)
+      @ad_group = ad_group
+      instance_eval(&block) if block_given?
+    end
 
     def to_xml(tag)
       builder = Builder::XmlMarkup.new

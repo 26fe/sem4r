@@ -1,4 +1,3 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupService' -->
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -6,29 +5,45 @@
   xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
   xmlns="https://adwords.google.com/api/adwords/cm/v200909"
   xmlns:s="https://adwords.google.com/api/adwords/cm/v200909">
-    <env:Header>
-      <s:RequestHeader env:mustUnderstand="0">
+
+  <env:Header>
+    <s:RequestHeader env:mustUnderstand="0">
       <authToken>***censured***</authToken>
       <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
       <developerToken>***censured***</developerToken>
-  <clientEmail>client_1+sem4ruby@gmail.com</clientEmail>
-  </s:RequestHeader>
+      <clientEmail>***censured***</clientEmail>
+    </s:RequestHeader>
   </env:Header>
+
   <env:Body>
     <mutate xmlns="https://adwords.google.com/api/adwords/cm/v200909">
       <operations xsi:type="AdGroupOperation">
         <operator>ADD</operator>
         <operand>
-          <campaignId>62748</campaignId>
-          <name>adgroup dsl 2010-02-13 09:40:02 +0100</name>
+
+          <campaignId>1000</campaignId>
+          <name>sem4r library</name>
           <status>ENABLED</status>
-          <bids xsi:type="ManualCPCAdGroupBids">
+
+          <bids xsi:type='ManualCPCAdGroupBids'>
+            <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>
+
             <keywordMaxCpc>
-              <amount xsi:type="Money">
-                <microAmount>10000000</microAmount>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>20000000</microAmount>
               </amount>
             </keywordMaxCpc>
+
+            <siteMaxCpc>
+              <amount>
+                <ComparableValue.Type>Money</ComparableValue.Type>
+                <microAmount>30000000</microAmount>
+              </amount>
+            </siteMaxCpc>
+
           </bids>
+
         </operand>
       </operations>
     </mutate>
