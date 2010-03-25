@@ -73,7 +73,7 @@ describe AdGroupAd do
       text_ad.description2.should == "description2"
     end
 
-    it "shoud produce xml" do
+    it "should produce xml" do
       text_ad = AdGroupTextAd.new(@adgroup) do
         headline     "Vieni da noi"
         description1 "vieni da noi"
@@ -103,7 +103,7 @@ describe AdGroupAd do
       mobile_ad.markups.should include(AdGroupMobileAd::HTML)
     end
 
-    it "shoud produce xml" do
+    it "should produce xml" do
       mobile_ad = AdGroupMobileAd.new(@adgroup) do
         headline      "sem4r"
         description   "simply adwords"

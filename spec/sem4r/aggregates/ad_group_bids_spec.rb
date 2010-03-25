@@ -37,7 +37,7 @@ describe AdGroupBids do
       bids.site_max_cpc.should    == 30000000
     end
 
-    it "shoud accept a block" do
+    it "should accept a block" do
       bids = ManualCPCAdGroupBids.new do
         keyword_max_cpc 20000000
         site_max_cpc 30000000
