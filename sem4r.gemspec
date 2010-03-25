@@ -10,23 +10,22 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
   s.date = %q{2010-03-01}
+  s.default_executable = %q{sem}
   s.description = %q{
-       Library to access google adwords api.
-       The idea is to use a high level model instead of a low level api.
+       Sem4r is a library to access google adwords api.
+       It uses an high level model instead of a low level api.
        You think about clients, campaigns, keywords and not about operations, operands, service calls.
-       The library could decide which api use (sync or async) and when call it!
+       The library could decide which api service use (sync or async) and when call it!
        It will works with ruby 1.9 and ruby 1.8 without soap4r.
 
        This is a ALPHA version don't use in production.
        If you want experiment you are welcome, but the first usable version will be the 0.1.0.
-       I don't kwnow when I will release it.
        If you are interested in this project let me now: install it and update periodically, so the gemcutter
-       download counter go up. Or subscribe to my feed at sem4r.com. Or watch the project on github.
+       download counter go up, or subscribe to my feed at sem4r.com, or watch the project on github.
        Or simply drop me a line in email. However I will know there is someone out of here.
-       Thank you for reading.
     }
   s.email = %q{sem4ruby@gmail.com}
-  s.executables = ["sem-log", "sem.rb", "sem.log"]
+  s.executables = ["sem"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -41,6 +40,21 @@ Gem::Specification.new do |s|
      "examples_blog/2009-12-12-create-campaign.rb",
      "examples_blog/2010-02-06-constants-scope.rb",
      "examples_blog/2010-02-07-ad-parameters.rb",
+     "examples_sem4r/01_get_account.rb",
+     "examples_sem4r/02_get_info.rb",
+     "examples_sem4r/03_list_ad.rb",
+     "examples_sem4r/04_list_keywords.rb",
+     "examples_sem4r/05_request_report.rb",
+     "examples_sem4r/06_create_campaigns.rb",
+     "examples_sem4r/07_create_campaigns_block.rb",
+     "examples_sem4r/08_ad_params.rb",
+     "examples_sem4r/09_targeting_idea.rb",
+     "examples_sem4r/10_get_location.rb",
+     "examples_sem4r/11_submit_bulk_job.rb",
+     "examples_sem4r/12_list_bulk_job.rb",
+     "examples_sem4r/30_prune_empty_adgroup.rb",
+     "examples_sem4r/31_empty_accounts.rb",
+     "examples_sem4r/example_helper.rb",
      "lib/my_active_support/core_ext/hash.rb",
      "lib/my_active_support/core_ext/hash/keys.rb",
      "lib/sem4r.rb",
@@ -148,29 +162,29 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://www.sem4r.com}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
   s.test_files = [
     "spec/sem4r/services/report_service_spec.rb",
      "spec/sem4r/services/soap_message_v13_spec.rb",
-     "spec/sem4r/models/ad_group_ad_spec.rb",
-     "spec/sem4r/models/account_spec.rb",
-     "spec/sem4r/models/bulk_mutate_job_spec.rb",
      "spec/sem4r/models/ad_group_spec.rb",
-     "spec/sem4r/models/ad_param_spec.rb",
-     "spec/sem4r/models/ad_group_criterion_spec.rb",
-     "spec/sem4r/models/campaign_spec.rb",
+     "spec/sem4r/models/ad_group_ad_spec.rb",
+     "spec/sem4r/models/bulk_mutate_job_spec.rb",
      "spec/sem4r/models/criterion_spec.rb",
+     "spec/sem4r/models/campaign_spec.rb",
+     "spec/sem4r/models/account_spec.rb",
+     "spec/sem4r/models/ad_param_spec.rb",
      "spec/sem4r/models/report_spec.rb",
+     "spec/sem4r/models/ad_group_criterion_spec.rb",
      "spec/sem4r/credentials_spec.rb",
-     "spec/sem4r/soap_attributes_spec.rb",
      "spec/sem4r/adwords_spec.rb",
-     "spec/sem4r/aggregates/ad_group_ad_operation_spec.rb",
+     "spec/sem4r/soap_attributes_spec.rb",
      "spec/sem4r/aggregates/job_operation_spec.rb",
      "spec/sem4r/aggregates/ad_group_bids_spec.rb",
+     "spec/sem4r/aggregates/ad_group_ad_operation_spec.rb",
      "spec/sem4r/aggregates/ad_group_criterion_bids_spec.rb",
-     "spec/sem4r/cli/cli_spec.rb",
      "spec/sem4r/rexml_parsing_spec.rb",
+     "spec/sem4r/cli/cli_spec.rb",
      "spec/spec_helper.rb",
      "spec/sem4r_spec_helper.rb",
      "spec/aggregates_spec_helper.rb"
