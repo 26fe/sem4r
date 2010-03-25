@@ -67,7 +67,7 @@ module Sem4r
         cmd = @commands[command].new(self, get_account)
         cmd.parse_and_run(command_args)
       rescue Sem4rError
-        @output.puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
+        puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
       end
     end
 

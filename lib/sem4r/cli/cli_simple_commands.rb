@@ -29,8 +29,6 @@ module Sem4r
     end
   end
 
-
-
   def self.simple_cli_command(command_name, description_str, &block)
 
     cls = Class.new(CliCommand) do

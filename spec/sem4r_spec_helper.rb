@@ -43,20 +43,18 @@ end
 
 Spec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
-    normalized = Class.new(REXML::Formatters::Pretty) do
-      def write_text(node, output)
-        super(node.to_s.strip, output)
-      end
-    end
+
     if expected_xml.class == String
-      expected_xml  = expected_xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+      # erase namespaces i.e. <ns1:tag> -> <tag>
+      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
       expected_xml = REXML::Document.new(expected_xml)
     end
-    normalized.new(0,false).write(expected_xml, expected_normalized='')
-    expected_normalized = expected_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+    expected_normalized = pretty_xml(expected_xml)
+    # erase namespaces i.e. <ns1:tag> -> <tag>
+    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
 
     if xml.class == String
-      xml  = xml.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
       begin
         xml = REXML::Document.new(xml)
       rescue RuntimeError
@@ -66,12 +64,20 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
         raise
       end
     end
-    normalized.new(0,false).write(xml, xml_normalized='')
-    xml_normalized = xml_normalized.gsub(/ns\d:/, "").gsub(/xsi:/,'')
+    xml_normalized = pretty_xml(xml)
+    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
 
     if xml_normalized != expected_normalized
+      puts "----differ start"
+
+      puts xml_normalized
+
+      puts "---"
+      puts expected_normalized
+      puts "---"
       diff = Differ.diff_by_line(xml_normalized, expected_normalized)
       puts diff.format_as(:ascii)
+      puts "----differ end"
       false
     else
       true

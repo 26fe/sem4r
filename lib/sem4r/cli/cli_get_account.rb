@@ -30,7 +30,7 @@ module Sem4r
       @main_cli = main_cli
 
       # defaults
-      @options = OpenStruct.new ({
+      @options = OpenStruct.new({
           :verbose => true,
           :force   => false,
           # :dump_soap_to_file => true,
@@ -54,7 +54,10 @@ module Sem4r
 
     def opt_parser(options)
       opt_parser = OptionParser.new
-      opt_parser.banner = "Usage: sem [common options] COMMAND [command options]"
+      opt_parser.banner =  "Sem is a simple command line interface using the sem4r library."
+      opt_parser.separator "Further information: http://www.sem4r.com"
+      opt_parser.separator ""
+      opt_parser.separator "Usage: sem [common options] COMMAND [command options]"
 
       opt_parser.separator ""
       opt_parser.separator "execute COMMAND to an adwords account using adwords api"
@@ -76,14 +79,6 @@ module Sem4r
         options.exit = true
       end
 
-      opt_parser.on("-l", "--list-commands", "list commands") do
-        puts "SEM commands are:"
-        @main_cli.commands.each_value { |cmd|  puts "#{cmd.command}\t#{cmd.description}" }
-        puts
-        puts "For help on a particular command, use 'sem COMMAND -h'"
-        options.exit = true
-      end
-
       opt_parser.on("-v", "--[no-]verbose", "run verbosely") do |v|
         options.verbose = v
       end
@@ -92,9 +87,20 @@ module Sem4r
         options.verbose = false
       end
 
-      #
-      # Logging
-      #
+      opt_parser.on("-l", "--list-commands", "list commands") do
+        puts "SEM commands are:"
+        @main_cli.commands.each_value do |cmd|
+          printf "  %-20s %s\n", cmd.command, cmd.description
+        end
+        puts
+        puts "For help on a particular command, use 'sem COMMAND -h'"
+        options.exit = true
+      end
+
+      opt_parser.separator ""
+      opt_parser.separator "logging options: "
+      opt_parser.separator ""
+
       opt_parser.on("-f", "--dump-file FILE", "dump soap conversation to file") do |v|
         options.dump_soap_to_file = v
       end
@@ -103,26 +109,18 @@ module Sem4r
         options.dump_soap_to_directory = v
       end
 
-      #
-      # profile file options
-      #
       opt_parser.separator ""
-      opt_parser.separator "configuration file options"
+      opt_parser.separator "profile and credentials options: "
+      opt_parser.separator ""
+
+      opt_parser.separator ""
       opt_parser.separator "if credentials options are present overwrite config option"
       opt_parser.separator ""
 
       opt_parser.on("-c", "--config CONFIG",
-        "Name of the configuration to load from sem4r config file") do |config|
+        "file where profile are defined (default $HOME/.sem4r/sem4r.yaml)") do |config|
         options.config_name = config
       end
-
-      #
-      # credentials options
-      #
-      opt_parser.separator ""
-      opt_parser.separator "credentials options:"
-      opt_parser.separator "if credentials options are present overwrite config option"
-      opt_parser.separator ""
 
       profiles = %w[sandbox production]
       profile_aliases = { "s" => "sandbox", "p" => "production" }
@@ -134,27 +132,28 @@ module Sem4r
 
       # email
       opt_parser.on("--email EMAIL",
-        "email of adwords account") do |email|
+        "email of adwords account (overwrite profile email)") do |email|
         options.email = email
       end
 
       # password
       opt_parser.on("--password PASSWORD",
-        "password of adwords account") do |password|
+        "password of adwords account (overwrite profile password)") do |password|
         options.password = password
       end
 
       # developer token
       opt_parser.on("--token TOKEN",
-        "developer token to access adwords api") do |token|
+        "developer token to access adwords api (overwrite profile token)") do |token|
         options.developer_token = token
       end
 
       # client account
       opt_parser.on("-c", "--client EMAIL",
-        "run command into client account") do |email|
+        "run command into client account (overwrite profile client)") do |email|
         options.client_email = email
       end
+      opt_parser.separator ""
       opt_parser
     end
 
