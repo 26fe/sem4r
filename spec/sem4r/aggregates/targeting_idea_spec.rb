@@ -22,32 +22,32 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.dirname(__FILE__) + "/example_helper"
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-run_example(__FILE__) do |adwords|
-  account = adwords.account
+describe TargetingIdea do
+  include Sem4rSpecHelper, AggregatesSpecHelper
 
-  ideas = account.targeting_idea  do
-    idea_type    "KEYWORD"
-    request_type "IDEAS"
-
-    excluded_keyword_search_parameter do
-      text       'media player'
-      match_type 'EXACT'
-    end
-
-    keyword_match_type_search_parameter do
-      match_type 'BROAD'
-      match_type 'EXACT'
-    end
-
-    related_to_keyword_search_parameter do
-      text       'dvd player'
-      match_type 'EXACT'
-    end
-
+  it "should parse xml (produced by google)" do
+    el = read_model("//entries", "services", "targeting_idea_service", "get-res.xml")
+    idea = TargetingIdea.from_element(el)
+    idea.should have(2).attributes
   end
 
-  ideas.each{ |idea| puts idea }
+  describe TKeywordAttribute do
+    it "should parse xml (produced by google)" do
+      el = read_model("//value", "services", "targeting_idea_service", "get-res.xml")
+      attr = TKeywordAttribute.from_element(el)
+      attr.text.should == "sample keyword"
+      attr.match_type.should  == "EXACT"
+    end
+  end
+
+  describe TIdeaTypeAttribute do
+    it "should parse xml (produced by google)" do
+      el = read_model("//value[@type='IdeaTypeAttribute']", "services", "targeting_idea_service", "get-res.xml")
+      attr = TIdeaTypeAttribute.from_element(el)
+      attr.value.should == "KEYWORD"
+    end
+  end
 
 end

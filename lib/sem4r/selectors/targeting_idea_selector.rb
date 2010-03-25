@@ -23,72 +23,141 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class TargetingIdeaSelector
+
+  class RelatedToKeywordSearchParameter
     include SoapAttributes
 
+    g_accessor :text
+    g_accessor :match_type
+
     def initialize(&block)
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def to_xml
-      <<-EOFS
-       <s:selector>
-          <s:ideaType>#{@idea_type}</s:ideaType>
-          <s:requestType>#{@request_type}</s:requestType>
-
+      <<-EOS
           <s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">
             <s:keywords xsi:type="Keyword">
               <Criterion.Type>Keyword</Criterion.Type>
-              <text>pippo</text>
-              <matchType>EXACT</matchType>
+              <text>#{text}</text>
+              <matchType>#{match_type}</matchType>
             </s:keywords>
           </s:searchParameters>
-        <s:paging>
-          <startIndex>0</startIndex>
-          <numberResults>100</numberResults>
-        </s:paging>
-
-        </s:selector>
-      EOFS
+      EOS
     end
-#      <n3:selector>
-#
-#        <n3:searchParameters xsi:type="n3:ExcludedKeywordSearchParameter">
-#          <n3:keywords xmlns:n4="https://adwords.google.com/api/adwords/cm/v200909"
-#              xsi:type="n4:Keyword">
-#            <n4:text>media player</n4:text>
-#            <n4:matchType>EXACT</n4:matchType>
-#          </n3:keywords>
-#        </n3:searchParameters>
-#
-#        <n3:searchParameters xsi:type="n3:KeywordMatchTypeSearchParameter">
-#          <n3:keywordMatchTypes>BROAD</n3:keywordMatchTypes>
-#          <n3:keywordMatchTypes>EXACT</n3:keywordMatchTypes>
-#        </n3:searchParameters>
-#        <n3:searchParameters xsi:type="n3:RelatedToKeywordSearchParameter">
-#          <n3:keywords xmlns:n5="https://adwords.google.com/api/adwords/cm/v200909"
-#              xsi:type="n5:Keyword">
-#            <n5:text>dvd player</n5:text>
-#            <n5:matchType>EXACT</n5:matchType>
-#          </n3:keywords>
-#        </n3:searchParameters>
-#        <n3:ideaType>KEYWORD</n3:ideaType>
-#        <n3:requestType>IDEAS</n3:requestType>
-#        <n3:paging xmlns:n6="https://adwords.google.com/api/adwords/cm/v200909">
-#          <n6:startIndex>0</n6:startIndex>
-#          <n6:numberResults>100</n6:numberResults>
-#        </n3:paging>
-#      </n3:selector>
-#
+  end
 
-    ##########################################################################
+  class ExcludedKeywordSearchParameter
+    include SoapAttributes
+
+    g_accessor :text
+    g_accessor :match_type
+
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def to_xml
+      <<-EOS
+          <s:searchParameters xsi:type="s:ExcludedKeywordSearchParameter">
+            <s:keywords xsi:type="Keyword">
+              <Criterion.Type>Keyword</Criterion.Type>
+              <text>#{text}</text>
+              <matchType>#{match_type}</matchType>
+            </s:keywords>
+          </s:searchParameters>
+      EOS
+    end
+  end
+
+  class KeywordMatchTypeSearchParameter
+    include SoapAttributes
+
+    g_set_accessor :match_type
+
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def to_xml
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:KeywordMatchTypeSearchParameter">'
+      match_types.each do |t|
+        xml << "<s:keywordMatchTypes>#{t}</s:keywordMatchTypes>"
+      end
+      xml << '</s:searchParameters>'
+    end
+  end
+
+  class TargetingIdeaSelector
+    include SoapAttributes
 
     enum :IdeaTypes, [:KEYWORD, :PLACEMENT]
     enum :RequestTypes, [:IDEAS, :STATS]
 
-
     g_accessor :idea_type, { :values_in => :IdeaTypes }
     g_accessor :request_type
-#    g_set_accessor :search_parameter
+
+    def initialize(&block)
+      @search_parameters = []
+      instance_eval(&block) if block_given?
+    end
+
+    # TODO: synthetize following methods with metaprogramming
+    def related_to_keyword_search_parameter(&block)
+      @search_parameters << RelatedToKeywordSearchParameter.new(&block)
+    end
+
+    def excluded_keyword_search_parameter(&block)
+      @search_parameters << ExcludedKeywordSearchParameter.new(&block)
+    end
+
+    def keyword_match_type_search_parameter(&block)
+      @search_parameters << KeywordMatchTypeSearchParameter.new(&block)
+    end
+
+    def to_xml
+      xml=<<-EOFS
+       <s:selector>
+          <s:ideaType>#{@idea_type}</s:ideaType>
+          <s:requestType>#{@request_type}</s:requestType>
+      EOFS
+
+      xml += @search_parameters.collect{ |sp| sp.to_xml }.join()
+
+      xml+=<<-EOFS
+        <s:paging>
+          <startIndex>0</startIndex>
+          <numberResults>100</numberResults>
+        </s:paging>
+        </s:selector>
+      EOFS
+      xml
+
+    end
+    #      <n3:selector>
+    #
+    #        <n3:ideaType>KEYWORD</n3:ideaType>
+    #        <n3:requestType>IDEAS</n3:requestType>
+    #
+    #
+    #
+    #
+    #        <n3:paging xmlns:n6="https://adwords.google.com/api/adwords/cm/v200909">
+    #          <n6:startIndex>0</n6:startIndex>
+    #          <n6:numberResults>100</n6:numberResults>
+    #        </n3:paging>
+    #
+    #      </n3:selector>
+    #
+
+    ##########################################################################
+
   end
 end
