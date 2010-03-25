@@ -35,7 +35,7 @@ describe AdGroupCriterionBids do
 
   describe ManualCPCAdGroupCriterionBids do
 
-    it "shoud accept accessor" do
+    it "should accept accessor" do
       bids = ManualCPCAdGroupCriterionBids.new
       bids.max_cpc 10000000
       bids.max_cpc.should == 10000000

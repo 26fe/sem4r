@@ -47,7 +47,7 @@ describe AdGroupCriterion do
       biddable_criterion.bids.should eql @bids
     end
 
-    it "shoud produce xml (input for google)" do
+    it "should produce xml (input for google)" do
       keyword = CriterionKeyword.new(@ad_group) do
         text       "sem4r adwords api"
         match      "BROAD"
