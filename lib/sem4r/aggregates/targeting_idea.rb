@@ -28,52 +28,6 @@ module Sem4r
   class TargetingIdea
     include SoapAttributes
 
-    def initialize(&block)
-      instance_eval(&block) if block_given?
-    end
-
-    #<data>
-    #  <key>KEYWORD</key>
-    #  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="KeywordAttribute">
-    #    <Attribute.Type>KeywordAttribute</Attribute.Type>
-    #    <value>
-    #      <ns2:Criterion.Type>Keyword</ns2:Criterion.Type>
-    #      <ns2:text>sample keyword 230527579 0</ns2:text>
-    #      <ns2:matchType>EXACT</ns2:matchType>
-    #    </value>
-    #  </value>
-    #</data>
-    #<data>
-    #  <key>IDEA_TYPE</key>
-    #  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IdeaTypeAttribute">
-    #    <Attribute.Type>IdeaTypeAttribute</Attribute.Type>
-    #    <value>KEYWORD</value>
-    #  </value>
-    #</data>
-    def self.from_element(el)
-      els = REXML::XPath.match( el, "data")
-      els.each do |el|
-        puts el.elements["key"].text
-
-        el1 = el.elements["value"]
-        xml_type =       el1.elements["Attribute.Type"].text
-        case xml_type
-        when IdeaTypeAttribute
-          # puts el1.elements["value"].text
-        when KeywordAttribute
-          el2 = el1.elements["value"]
-          puts el2.elements["text"].text
-          puts el2.elements["matchType"].text
-        end
-      end
-    end
-
-    def to_s
-      "#{@company_name} #{@address_line1} #{@address_line2} #{@city}"
-    end
-
-    ##########################################################################
-
     enum :AttributeTypes, [
       :AdFormatSpecListAttribute,
       :BooleanAttribute,
@@ -92,9 +46,77 @@ module Sem4r
       :PlacementAttribute,
       :LongRangeAttribute]
 
-    g_accessor :company_name
-    g_accessor :address_line1
-    g_accessor :address_line2
-    g_accessor :city
+    attr_reader :attributes
+    
+    def initialize(&block)
+      instance_eval(&block) if block_given?
+    end
+
+    def self.from_element(el)
+      els = REXML::XPath.match( el, "data")
+      @attributes = els.map do |el|
+        el1 = el.elements["value"]
+        xml_type =       el1.elements["Attribute.Type"].text
+        case xml_type
+        when IdeaTypeAttribute
+          TIdeaTypeAttribute.from_element(el1)
+        when KeywordAttribute
+          TKeywordAttribute.from_element(el1)
+        end
+      end
+    end
+
+    def to_s
+      @attributes.collect { |attr| attr.to_s }.join("\n")
+    end
+
   end
+
+  class TKeywordAttribute
+    include SoapAttributes
+
+    g_accessor :text
+    g_accessor :match_type
+
+    def initialize(&block)
+      if block_given?
+        instance_eval(&block)
+      end
+    end
+
+    def self.from_element( el )
+      el1 = el.elements["value"]
+      new do
+        text       el1.elements["text"].text
+        match_type el1.elements["matchType"].text
+      end
+    end
+
+    def to_s
+      "Keyword '#{text}' '#{match_type}'"
+    end
+  end
+
+  class TIdeaTypeAttribute
+    include SoapAttributes
+
+    g_accessor :value
+
+    def initialize(&block)
+      if block_given?
+        instance_eval(&block)
+      end
+    end
+
+    def self.from_element( el )
+      new do
+        value       el.elements["value"].text
+      end
+    end
+
+    def to_s
+      "Idea '#{value}'"
+    end
+  end
+
 end

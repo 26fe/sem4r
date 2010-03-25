@@ -111,10 +111,14 @@ module Sem4r
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries")
-      targeting_ideas = els.map do |el|
+      els.map do |el|
         TargetingIdea.from_element( el )
       end
-      targeting_ideas
+    end
+
+    def p_targeting_idea(&block)
+      targeting_ideas = targeting_idea(&block)
+      targeting_ideas.each{ |idea| puts idea }
     end
 
     ############################################################################
