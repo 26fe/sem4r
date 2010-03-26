@@ -30,7 +30,7 @@ describe Report do
 
   before do
     services = stub("services")
-    mock_service_report(services)
+    stub_service_report(services)
     @account = mock_account(services)
   end
 

@@ -24,64 +24,23 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-
-describe Account do
-
+describe Service do
   include Sem4rSpecHelper
 
-  before do
-    services = stub("services")
-    mock_service_account(services)
-    mock_service_info(services)
-    mock_service_campaign(services)
-    mock_service_report(services)
-    # @account = mock_account(services)
-    @adwords = mock_adwords(services)
-    @credentials = mock_credentials
+#  before(:all) do
+#    @credentials = mock("credentials")
+#    # @credentials.should_receive(:sandbox?).and_return(true)
+#    @credentials.should_receive(:email).and_return("example@gmail.com")
+#    @credentials.should_receive(:password).and_return("secret")
+#    @credentials.should_receive(:client_email).and_return(nil)
+#    @credentials.should_receive(:useragent).and_return("sem4r")
+#    @credentials.should_receive(:developer_token).and_return("dev_token")
+#  end
 
-      @account = Account.new(@adwords, @credentials)
+  it "should contains ad_group service" do
+    connector = mock("connector")
+    s = Service.new(connector)
+    s.ad_group.should_not == nil
   end
 
-  describe "account management" do
-
-    it "should retrieve info" do
-      @account.currency_code.should == "EUR"
-    end
-
-    it "should retrieve cost" do
-      @account.year_unit_cost("UNIT_COUNT").should == 100
-    end
-
-  end
-
-  describe "campaign management" do
-
-    it "should add an Campaign with method 'campaign' + block" do
-      @account.campaign do
-        name "campaign"
-      end
-      @account.campaigns.length.should   ==  1
-      campaign = @account.campaigns.first
-      campaign.id.should == 10
-      campaign.name.should == "campaign"
-    end
-
-    it "should add an Campaign with method 'campaign' + param" do
-      @account.campaign "campaign"
-      
-      @account.campaigns.length.should   ==  1
-      campaign = @account.campaigns.first
-      campaign.id.should == 10
-      campaign.name.should == "campaign"
-    end
-
-  end
-
-  describe "reports management" do
-
-    it "should show reports " do
-      @account.should have(4).reports
-    end
-
-  end
 end

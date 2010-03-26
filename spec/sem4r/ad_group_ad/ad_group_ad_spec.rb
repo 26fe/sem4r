@@ -30,14 +30,14 @@ describe AdGroupAd do
 
   before(:each) do
     services = stub("services")
-    mock_service_ad_group_criterion(services)
-    mock_service_ad_group_ad(services)
-    @adgroup = adgroup_mock(services, 3060217927)
+    stub_service_ad_group_criterion(services)
+    stub_service_ad_group_ad(services)
+    @adgroup = stub_adgroup(services, 3060217927)
   end
 
   describe AdGroupAd do
 
-    it "should parse xml" do
+    it "should parse xml (output from google)" do
       el = read_model("//ad", "services", "ad_group_ad_service", "get_text_ad-res.xml")
       ad = AdGroupAd.from_element(@adgroup, el)
       # ad.id.should == 218770
@@ -58,9 +58,10 @@ describe AdGroupAd do
       text_ad.headline.should     == "headline"
       text_ad.description1.should == "description1"
       text_ad.description2.should == "description2"
+      text_ad.status.should == "ENABLED"
     end
   
-    it "should accepts a block" do
+    it "should accepts a block (instance_eval)" do
       text_ad = AdGroupTextAd.new(@adgroup) do
         headline     "headline"
         description1 "description1"
@@ -71,9 +72,35 @@ describe AdGroupAd do
       text_ad.headline.should     == "headline"
       text_ad.description1.should == "description1"
       text_ad.description2.should == "description2"
+      text_ad.status.should == "ENABLED"
     end
 
-    it "should produce xml" do
+    it "should accepts a block (call)" do
+      text_ad = AdGroupTextAd.new(@adgroup) do |a|
+        a.headline     "headline"
+        a.description1 "description1"
+        a.description2 "description2"
+      end
+
+      text_ad.id.should == 10
+      text_ad.headline.should     == "headline"
+      text_ad.description1.should == "description1"
+      text_ad.description2.should == "description2"
+      text_ad.status.should == "ENABLED"
+    end
+
+    it "should change status" do
+      text_ad = AdGroupTextAd.new(@adgroup) do
+        headline     "headline"
+        description1 "description1"
+        description2 "description2"
+      end
+      text_ad.status.should == "ENABLED"
+      text_ad.status "PAUSED"
+      text_ad.status.should == "PAUSED"
+    end
+
+    it "should produce xml (input for google)" do
       text_ad = AdGroupTextAd.new(@adgroup) do
         headline     "Vieni da noi"
         description1 "vieni da noi"
@@ -89,7 +116,7 @@ describe AdGroupAd do
 
   describe AdGroupMobileAd do
 
-    it "should accepts a block" do
+    it "should accepts a block (instance_eval)" do
       mobile_ad = AdGroupMobileAd.new(@adgroup) do
         markup "HTML"
         carrier 'T-Mobile@US'
@@ -100,14 +127,30 @@ describe AdGroupAd do
           dimension  'SHRUNKEN: 192x53'
         end
       end
+      mobile_ad.status.should == "ENABLED"
       mobile_ad.markups.should include(AdGroupMobileAd::HTML)
     end
 
-    it "should produce xml" do
+    it "should accepts a block (call)" do
+      mobile_ad = AdGroupMobileAd.new(@adgroup) do |a|
+        a.markup "HTML"
+        a.carrier 'T-Mobile@US'
+        a.carrier 'Verizon@US'
+        a.image  do
+          name       'image_192x53.jpg'
+          data       MOBILE_IMAGE_DATA
+          dimension  'SHRUNKEN: 192x53'
+        end
+      end
+      mobile_ad.status.should == "ENABLED"
+      mobile_ad.markups.should include(AdGroupMobileAd::HTML)
+    end
+
+    it "should produce xml (input for google)" do
       mobile_ad = AdGroupMobileAd.new(@adgroup) do
         headline      "sem4r"
         description   "simply adwords"
-        markup        "XHTML"
+        # markup        "XHTML"
         carrier       "Vodafone@IT"
         # carrier  'ALLCARRIERS'
         business_name "sem4r"
@@ -119,7 +162,7 @@ describe AdGroupAd do
       mobile_ad.to_xml("operand").should xml_equivalent(expected_xml)
     end
 
-    it "should parse xml" do
+    it "should parse xml (output from google)" do
       el = read_model("//ad", "services", "ad_group_ad_service", "get_mobile_ad-res.xml")
       ad = AdGroupAd.from_element(@adgroup, el)
       ad.headline.should == "sem4r"

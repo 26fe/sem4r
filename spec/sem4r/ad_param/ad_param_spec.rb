@@ -30,10 +30,10 @@ describe AdParam do
 
   before(:each) do
     services = stub("services")
-    mock_service_ad_param(services)
-    # mock_service_ad_group_criterion(services)
-    # mock_service_ad_group_ad(services)
-    @adgroup   = adgroup_mock(services)
+    stub_service_ad_param(services)
+    # stub_service_ad_group_criterion(services)
+    # stub_service_ad_group_ad(services)
+    @adgroup   = stub_adgroup(services)
     @criterion = criterion_mock(services)
   end
  

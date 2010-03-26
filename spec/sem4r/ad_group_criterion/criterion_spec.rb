@@ -25,61 +25,59 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 
-describe Campaign do
-
+describe Criterion do
   include Sem4rSpecHelper
 
   before do
     services = stub("services")
-    mock_service_campaign(services)
-    mock_service_ad_group(services)
-    @account = mock_account(services)
+    stub_service_ad_group_criterion(services)
+    @ad_group = stub_adgroup(services)
   end
 
-  describe "campaign management" do
+  describe CriterionKeyword do
 
-    it "create should accept a block" do
-      campaign = Campaign.create(@account) do
-        name "campaign"
+    it "should accept a block" do
+      keyword = CriterionKeyword.new(@ad_group) do
+        text       "pippo"
+        match      "BROAD"
       end
-      campaign.name.should  == "campaign"
-      campaign.id.should    == 10
+      keyword.text.should  == "pippo"
+      keyword.match.should == "BROAD"
+    end
+
+    it "should produce xml (input for google)" do
+      keyword = CriterionKeyword.new(@ad_group) do
+        text       "sem4r adwords api"
+        match      "BROAD"
+      end
+      xml_expected = read_model("//criterion", "services", "ad_group_criterion_service", "mutate_add_criterion_keyword-req.xml")
+      keyword.to_xml("criterion").should  xml_equivalent(xml_expected)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "services", "campaign_service", "get-res.xml")
-      campaign = Campaign.from_element(@account, el)
-      campaign.id.should == 53614
-      campaign.name.should == "test campaign"
-      campaign.status.should == "PAUSED"
+      el = read_model("//entries/criterion", "services", "ad_group_criterion_service", "get-res.xml")
+      keyword = CriterionKeyword.from_element(@ad_group, el)
+      keyword.id.should == 11536082
+      keyword.text.should == "pippo"
+      keyword.match.should == "BROAD"
     end
 
   end
 
-  describe "adgroup management" do
+  describe CriterionPlacement do
 
-    it "should add an AdGroup with method 'ad_group' + block" do
-      campaign = Campaign.new(@account) do
-        name "campaign"
-        ad_group do
-          name "adgroup"
-        end
+    it "should accept a block" do
+      keyword = CriterionPlacement.new(@ad_group) do
+        url       "http://github.com"
       end
-      campaign.ad_groups.length.should   == 1
-      ad_group = campaign.ad_groups.first
-      ad_group.id.should == 10
-      ad_group.name.should == "adgroup"
+      keyword.url.should  == "http://github.com"
     end
 
-    it "should add an AdGroup with method 'ad_group' + param" do
-      campaign = Campaign.new(@account) do
-        name "campaign"
-        ad_group "adgroup"
-      end
-      campaign.ad_groups.length.should   == 1
-      ad_group = campaign.ad_groups.first
-      ad_group.id.should == 10
-      ad_group.name.should == "adgroup"
+    it "should parse xml (produced by google)" do
+      el = read_model("//criterion", "services", "ad_group_criterion_service", "mutate_add_criterion_placement-res.xml")
+      placement = CriterionPlacement.from_element(@ad_group, el)
+      placement.id.should == 11536085
+      placement.url.should == "github.com"
     end
 
   end

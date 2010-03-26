@@ -2,13 +2,13 @@
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
       <requestId>
-        2937f9fd67ce887dd755e90f4b72fb96
+        e8a2c7fdd97075c275e6244cbfb3170a
       </requestId>
       <operations>
         1
       </operations>
       <responseTime>
-        423
+        374
       </responseTime>
       <units>
         15
@@ -21,69 +21,30 @@
         <ListReturnValue.Type>
           AdGroupCriterionReturnValue
         </ListReturnValue.Type>
-        <value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='BiddableAdGroupCriterion'>
+
+        <value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='NegativeAdGroupCriterion'>
           <adGroupId>
-            3060318478
+            3121689649
           </adGroupId>
           <criterion xsi:type='Keyword'>
             <id>
-              11912714
+              12722941
             </id>
             <Criterion.Type>
               Keyword
             </Criterion.Type>
             <text>
-              adwords api
+              java api library
             </text>
             <matchType>
               BROAD
             </matchType>
           </criterion>
           <AdGroupCriterion.Type>
-            BiddableAdGroupCriterion
+            NegativeAdGroupCriterion
           </AdGroupCriterion.Type>
-          <userStatus>
-            ACTIVE
-          </userStatus>
-          <systemServingStatus>
-            ELIGIBLE
-          </systemServingStatus>
-          <approvalStatus>
-            PENDING_REVIEW
-          </approvalStatus>
-          <bids xsi:type='ManualCPCAdGroupCriterionBids'>
-            <AdGroupCriterionBids.Type>
-              ManualCPCAdGroupCriterionBids
-            </AdGroupCriterionBids.Type>
-            <maxCpc>
-              <amount>
-                <ComparableValue.Type>
-                  Money
-                </ComparableValue.Type>
-                <microAmount>
-                  10000000
-                </microAmount>
-              </amount>
-            </maxCpc>
-            <bidSource>
-              ADGROUP
-            </bidSource>
-          </bids>
-          <qualityInfo>
-            <isKeywordAdRelevanceAcceptable>
-              true
-            </isKeywordAdRelevanceAcceptable>
-            <isLandingPageQualityAcceptable>
-              true
-            </isLandingPageQualityAcceptable>
-            <isLandingPageLatencyAcceptable>
-              true
-            </isLandingPageLatencyAcceptable>
-            <qualityScore>
-              5
-            </qualityScore>
-          </qualityInfo>
         </value>
+
       </rval>
     </mutateResponse>
   </soap:Body>
