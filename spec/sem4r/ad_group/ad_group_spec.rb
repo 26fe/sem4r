@@ -30,27 +30,34 @@ describe AdGroup do
   include Sem4rSpecHelper
 
   before do
-    services = stub("services")
-    mock_service_ad_group(services)
-    mock_service_ad_group_criterion(services)
-    mock_service_ad_group_ad(services)
-    mock_service_ad_param(services)
+    services = double("services")
+    stub_service_ad_group(services)
+    stub_service_ad_group_criterion(services)
+    stub_service_ad_group_ad(services)
+    stub_service_ad_param(services)
     @campaign = mock_campaign(services)
     @criterion = criterion_mock(services)
   end
 
   describe "adgroup management" do
 
-    it "create should accept a block" do
+    it "create should accept a block (instance_eval)" do
       adgroup = AdGroup.create(@campaign) do
         name "adgroup"
       end
-
       adgroup.name.should  == "adgroup"
       adgroup.id.should    == 10
     end
 
-    it "create should accept a bid" do
+    it "create should accept a block (call)" do
+      adgroup = AdGroup.create(@campaign) do |g|
+        g.name "adgroup"
+      end
+      adgroup.name.should  == "adgroup"
+      adgroup.id.should    == 10
+    end
+
+    it "create should accept a manual cpc bids" do
       adgroup = AdGroup.create(@campaign) do
         name "sem4r library"
         manual_cpc_bids do
@@ -58,6 +65,16 @@ describe AdGroup do
         end
       end
       adgroup.bids.should be_instance_of(ManualCPCAdGroupBids)
+    end
+
+    it "create should accept a manual cpm bids" do
+      adgroup = AdGroup.create(@campaign) do
+        name "sem4r library"
+        manual_cpm_bids do
+          max_cpm 10000
+        end
+      end
+      adgroup.bids.should be_instance_of(ManualCPMAdGroupBids)
     end
 
     it "should build xml (input for google)" do
@@ -73,14 +90,19 @@ describe AdGroup do
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "services", "ad_group_service", "get-res.xml")
-
+      el = read_model("//entries", "services", "ad_group_service", "get-first-res.xml")
       adgroup = AdGroup.from_element(@campaign, el)
       adgroup.id.should == 3060217923
       adgroup.name.should == "test adgroup"
       adgroup.status.should == "ENABLED"
     end
 
+    it "should parse xml (produced by google) with manual cpm bids" do
+      el = read_model("//entries", "services", "ad_group_service", "get-manual-cpm-bids-res.xml")
+      adgroup = AdGroup.from_element(@campaign, el)
+      adgroup.bids.should be_instance_of(ManualCPMAdGroupBids)
+    end
+    
   end
 
   describe "ad management" do

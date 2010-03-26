@@ -56,7 +56,7 @@ describe AdGroupBids do
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//bids", "services", "ad_group_service", "get-res.xml")
+      el = read_model("//bids", "services", "ad_group_service", "get-first-res.xml")
       bids = AdGroupBids.from_element(el)
       bids.keyword_max_cpc.should == 20000000
       bids.site_max_cpc.should    == 30000000

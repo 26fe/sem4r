@@ -27,10 +27,12 @@
 
         <operand xsi:type='AdGroupAd'>
           <adGroupId>3060217927</adGroupId>
-          <status>ENABLED</status>
           <ad xsi:type='MobileAd'>
             <headline>sem4r</headline>
             <description>simply adwords</description>
+            <mobileCarriers>
+              Vodafone@IT
+            </mobileCarriers>
             <businessName>sem4r</businessName>
             <countryCode>
               IT
@@ -38,10 +40,8 @@
             <phoneNumber>
               0612345
             </phoneNumber>
-            <mobileCarriers>
-              Vodafone@IT
-            </mobileCarriers>
           </ad>
+          <status>ENABLED</status>
         </operand>
 
       </operations>

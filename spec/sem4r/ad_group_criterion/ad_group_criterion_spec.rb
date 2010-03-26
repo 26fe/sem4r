@@ -25,24 +25,26 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 
-describe Criterion do
+describe AdGroupCriterion do
+
   include Sem4rSpecHelper
 
   before do
     services = stub("services")
-    mock_service_ad_group_criterion(services)
-    @ad_group = adgroup_mock(services)
+    stub_service_ad_group_criterion(services)
+    @ad_group = stub_adgroup(services)
+    @criterion = stub("criterion")
+    @bids = stub("bids")
   end
 
-  describe CriterionKeyword do
+  describe BiddableAdGroupCriterion do
 
-    it "should accept a block" do
-      keyword = CriterionKeyword.new(@ad_group) do
-        text       "pippo"
-        match      "BROAD"
-      end
-      keyword.text.should  == "pippo"
-      keyword.match.should == "BROAD"
+    it "should be build with accessor (not a block)" do
+      biddable_criterion = BiddableAdGroupCriterion.new(@ad_group)
+      biddable_criterion.criterion @criterion
+      biddable_criterion.bids @bids
+      biddable_criterion.criterion.should  eql @criterion
+      biddable_criterion.bids.should eql @bids
     end
 
     it "should produce xml (input for google)" do
@@ -50,34 +52,37 @@ describe Criterion do
         text       "sem4r adwords api"
         match      "BROAD"
       end
-      xml_expected = read_model("//criterion", "services", "ad_group_criterion_service", "mutate_add_criterion_keyword-req.xml")
-      keyword.to_xml("criterion").should  xml_equivalent(xml_expected)
+      bids = ManualCPCAdGroupCriterionBids.new
+      bids.max_cpc 10000000
+
+      biddable_criterion = BiddableAdGroupCriterion.new(@ad_group)
+      biddable_criterion.criterion keyword
+      biddable_criterion.bids bids
+
+      xml_expected = read_model("//operand", "services", "ad_group_criterion_service", "mutate_add_criterion_keyword-req.xml")
+      biddable_criterion.to_xml("operand").should  xml_equivalent(xml_expected)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries/criterion", "services", "ad_group_criterion_service", "get-res.xml")
-      keyword = CriterionKeyword.from_element(@ad_group, el)
-      keyword.id.should == 11536082
-      keyword.text.should == "pippo"
-      keyword.match.should == "BROAD"
+      el = read_model("//entries", "services", "ad_group_criterion_service", "get-res.xml")
+      biddable_criterion = BiddableAdGroupCriterion.from_element(@ad_group, el)
+      biddable_criterion.bids.should be_instance_of(ManualCPCAdGroupCriterionBids)
+      biddable_criterion.criterion.should be_instance_of(CriterionKeyword)
     end
 
   end
 
-  describe CriterionPlacement do
+  describe NegativeAdGroupCriterion do
 
-    it "should accept a block" do
-      keyword = CriterionPlacement.new(@ad_group) do
-        url       "http://github.com"
-      end
-      keyword.url.should  == "http://github.com"
+    it "should be build with accessors (not a block)" do
+      biddable_criterion = NegativeAdGroupCriterion.new(@adgroup)
+      biddable_criterion.criterion @criterion
+      biddable_criterion.criterion.should  eql @criterion
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//criterion", "services", "ad_group_criterion_service", "mutate_add_criterion_placement-res.xml")
-      placement = CriterionPlacement.from_element(@ad_group, el)
-      placement.id.should == 11536085
-      placement.url.should == "github.com"
+      el = read_model("//value", "services", "ad_group_criterion_service", "mutate_add_negative_keyword-res.xml")
+      negative = AdGroupCriterion.from_element(@adgroup, el)
     end
 
   end

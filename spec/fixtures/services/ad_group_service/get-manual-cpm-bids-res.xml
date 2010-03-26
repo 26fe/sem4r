@@ -1,0 +1,75 @@
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <requestId>
+        16e58ad9450dfaf826433230d4fbe0fd
+      </requestId>
+      <operations>
+        1
+      </operations>
+      <responseTime>
+        222
+      </responseTime>
+      <units>
+        1
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+      <rval>
+        <totalNumEntries>
+          1
+        </totalNumEntries>
+        <Page.Type>
+          AdGroupPage
+        </Page.Type>
+
+        <entries>
+          <id>
+            3121689430
+          </id>
+          <campaignId>
+            131736
+          </campaignId>
+          <campaignName>
+            sem4r web campaign 2010-03-26 10:54:37 +0100
+          </campaignName>
+          <name>
+            sem4r search page 2010-03-26 10:54:37 +0100
+          </name>
+          <status>
+            ENABLED
+          </status>
+
+          <bids xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ManualCPMAdGroupBids'>
+            <AdGroupBids.Type>
+              ManualCPMAdGroupBids
+            </AdGroupBids.Type>
+            <maxCpm>
+              <amount>
+                <ComparableValue.Type>
+                  Money
+                </ComparableValue.Type>
+                <microAmount>
+                  20000000
+                </microAmount>
+              </amount>
+            </maxCpm>
+          </bids>
+
+          <stats>
+            <network>
+              ALL
+            </network>
+            <Stats.Type>
+              Stats
+            </Stats.Type>
+          </stats>
+        </entries>
+
+
+      </rval>
+    </getResponse>
+  </soap:Body>
+</soap:Envelope>
