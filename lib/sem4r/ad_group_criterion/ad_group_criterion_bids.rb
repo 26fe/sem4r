@@ -24,7 +24,6 @@
 
 module Sem4r
 
-
   class AdGroupCriterionBids
     include SoapAttributes
 
@@ -79,49 +78,29 @@ module Sem4r
       end
     end
 
-
-
-    def to_xml(tag)
-      unless tag.class == Builder::XmlMarkup
-        builder = Builder::XmlMarkup.new
-        tag = builder.tag!(tag, "xsi:type" => "Keyword") { |tag|
-          tag.text        text
-          tag.matchType   match
+    def xml(t)
+      t.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupCriterionBids') {
+        t.tag!('AdGroupCriterionBids.Type') { t.text! 'ManualCPCAdGroupCriterionBids' }
+        t.maxCpc {
+          t.amount {
+            t.tag!('ComparableValue.Type') { t.text! 'Money' }
+            t.microAmount max_cpc
+          }
         }
-      else
-        tag.criterion("xsi:type" => "#{type}") do |ad|
-          ad.text        text
-          ad.matchType   match
-        end
-      end
-      tag.to_s
+      }
     end
 
     def to_xml(tag = 'bids')
-      if tag.class == Builder::XmlMarkup
-        xml = tag
-        xml.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupCriterionBids') {
-          xml.tag!('AdGroupCriterionBids.Type') { xml.text! 'ManualCPCAdGroupCriterionBids' }
-          xml.maxCpc {
-            xml.amount {
-              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
-              xml.microAmount max_cpc
-            }
+      builder = Builder::XmlMarkup.new
+      xml = builder.tag!(tag, 'xsi:type' => 'ManualCPCAdGroupCriterionBids') { |xml|
+        xml.tag!('AdGroupCriterionBids.Type') { xml.text! 'ManualCPCAdGroupCriterionBids' }
+        xml.maxCpc {
+          xml.amount {
+            xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+            xml.microAmount max_cpc
           }
         }
-      else
-        builder = Builder::XmlMarkup.new
-        xml = builder.tag!(tag, 'xsi:type' => 'ManualCPCAdGroupCriterionBids') { |xml|
-          xml.tag!('AdGroupCriterionBids.Type') { xml.text! 'ManualCPCAdGroupCriterionBids' }
-          xml.maxCpc {
-            xml.amount {
-              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
-              xml.microAmount max_cpc
-            }
-          }
-        }
-      end
-      xml.to_s
+      }
     end
 
     def to_s

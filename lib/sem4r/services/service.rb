@@ -40,7 +40,7 @@ module Sem4r
     %w{ account report traffic_estimator }.each do |service|
       klass_name = service.split('_').map{|p| p.capitalize}.join('')
       str=<<-EOFR
-        require 'sem4r/services/#{service}_service'
+        require 'sem4r/v13_#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
           @#{service}_service = #{klass_name}Service.new(@connector)
@@ -66,7 +66,7 @@ module Sem4r
         bulk_mutate_job }.each do |service|
       klass_name = service.split('_').map{|p| p.capitalize}.join('')
       str=<<-EOFR
-        require 'sem4r/services/#{service}_service'
+        require 'sem4r/#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
           @#{service}_service = #{klass_name}Service.new(@connector)

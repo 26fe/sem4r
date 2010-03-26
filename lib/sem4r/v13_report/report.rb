@@ -31,7 +31,7 @@ module Sem4r
       :HourlyByDate, :HourlyRegardlessDate,
       :Campaign, :AdGroup, :Keyword,
       :Creative
-      ]
+    ]
 
     enum :Columns, [
       :Campaign,
@@ -92,23 +92,38 @@ module Sem4r
       "#{id} '#{name}' #{status}"
     end
 
+    def xml(t)
+      t.name                name
+      t.selectedReportType  type
+      t.startDay            start_day
+      t.endDay              end_day
+      t.aggregationTypes    aggregation
+
+      t.crossClient           cross_client
+      t.includeZeroImpression zero_impression
+
+      columns.each do |column|
+        t.selectedColumns column
+      end
+    end
+
     def to_xml
       builder = Builder::XmlMarkup.new
-      xml = builder.job("xsi:type" => "DefinedReportJob") do |job|
-        job.name                name
-        job.selectedReportType  type
-        job.startDay            start_day
-        job.endDay              end_day
-        job.aggregationTypes    aggregation
-
-        job.crossClient           cross_client
-        job.includeZeroImpression zero_impression
-
-        columns.each do |column|
-          job.selectedColumns column
-        end
+      builder.job("xsi:type" => "DefinedReportJob") do |t|
+        xml(t)
+        #        job.name                name
+        #        job.selectedReportType  type
+        #        job.startDay            start_day
+        #        job.endDay              end_day
+        #        job.aggregationTypes    aggregation
+        #
+        #        job.crossClient           cross_client
+        #        job.includeZeroImpression zero_impression
+        #
+        #        columns.each do |column|
+        #          job.selectedColumns column
+        #        end
       end
-      xml.to_s
     end
 
     def self.from_element(account, el)

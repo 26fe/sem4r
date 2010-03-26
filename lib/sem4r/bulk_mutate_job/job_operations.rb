@@ -24,72 +24,6 @@
 
 module Sem4r
 
-  class Operation
-    include SoapAttributes
-
-    enum :Operations, [
-      :ADD,
-      :REMOVE,
-      :SET]
-
-    attr_reader :operation_type
-    g_accessor :operator
-
-    def add(operand)
-      operator "ADD"
-      @operand = operand
-    end
-
-    def remove(operand)
-      operator "REMOVE"
-      @operand = operand
-    end
-
-    def set(operand)
-      operator "SET"
-      @operand = operand
-    end
-
-    def to_xml(tag)
-      if @operand == nil
-        raise Sem4rError, "Missing Operand"
-      end
-
-      xml = ""
-      if tag
-        xml += "<#{tag} xsi:type='#{operation_type}'>"
-      end
-      xml +=<<-EOS
-        <operator>#{operator}</operator>
-        #{@operand.to_xml('operand')}
-      EOS
-
-      if tag
-        xml += "</#{tag}>"
-      end
-      xml
-    end
-
-  end
-
-  class AdGroupAdOperation < Operation
-
-    def initialize(&block)
-      @operation_type = "AdGroupAdOperation"
-      instance_eval(&block) if block_given?
-    end
-
-  end
-
-  class AdGroupCriterionOperation < Operation
-
-    def initialize(&block)
-      @operation_type = "AdGroupCriterionOperation"
-      instance_eval(&block) if block_given?
-    end
-
-  end
-
   class JobOperation < Operation
 
     def initialize(&block)
@@ -99,11 +33,4 @@ module Sem4r
 
   end
 
-  class AdGroupCriterionOperation
-    def initialize(&block)
-      @operation_type = "AdGroupCriterionOperation"
-      instance_eval(&block) if block_given?
-    end
-
-  end
 end

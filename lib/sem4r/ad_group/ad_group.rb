@@ -46,7 +46,7 @@ module Sem4r
       @criterions = nil
       self.name = name unless name.nil?
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
         save
       end
     end
@@ -55,15 +55,22 @@ module Sem4r
       "#{@id} '#{@name}' (#{@status}) - #{@bid}"
     end
 
+    def xml(t)
+      t.campaignId campaign.id
+      t.name name
+      t.status "ENABLED"
+      @bids.to_xml(t) if @bids
+    end
+
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
-      xml = builder.tag!(tag) { |xml|
-        xml.campaignId campaign.id
-        xml.name name
-        xml.status "ENABLED"
-        @bids.to_xml(xml) if @bids
+      builder.tag!(tag) { |t|
+        xml(t)
+        #        xml.campaignId campaign.id
+        #        xml.name name
+        #        xml.status "ENABLED"
+        #        @bids.to_xml(xml) if @bids
       }
-      xml.to_s
     end
 
     def empty?
@@ -117,6 +124,10 @@ module Sem4r
 
     def manual_cpc_bids(&block)
       @bids = ManualCPCAdGroupBids.new(&block)
+    end
+
+    def manual_cpm_bids(&block)
+      @bids = ManualCPMAdGroupBids.new(&block)
     end
 
     ###########################################################################
