@@ -32,35 +32,76 @@ require 'sem4r/credentials'
 require 'sem4r/sem4r_error'
 require 'sem4r/soap_attributes'
 
-require 'sem4r/models/base'
-require 'sem4r/models/account'
-require 'sem4r/models/campaign'
-require 'sem4r/models/ad_group'
-require 'sem4r/models/ad_group_ad'
-require 'sem4r/models/ad_group_criterion'
-require 'sem4r/models/ad_group_text_ad'
-require 'sem4r/models/ad_group_mobile_ad'
-require 'sem4r/models/criterion'
-require 'sem4r/models/criterion_keyword'
-require 'sem4r/models/criterion_placement'
-require 'sem4r/models/ad_param'
-require 'sem4r/models/bulk_mutate_job'
+require 'sem4r/base'
+require 'sem4r/account'
 
-require 'sem4r/models/report'
-require 'sem4r/models/report_job'
-
-require 'sem4r/aggregates/ad_group_bids'
-require 'sem4r/aggregates/ad_group_criterion_bids'
-require 'sem4r/aggregates/billing_address'
-require 'sem4r/aggregates/mobile_ad_image'
-require 'sem4r/aggregates/targeting_idea'
-
-require 'sem4r/aggregates/operations'
-
-require 'sem4r/selectors/targeting_idea_selector'
-require 'sem4r/selectors/bulk_mutate_job_selector'
 
 require 'sem4r/services/service'
+
+#
+# common
+#
+require 'sem4r/common/operation'
+
+#
+# adgroup
+#
+require 'sem4r/ad_group/ad_group_bids'
+require 'sem4r/ad_group/mobile_ad_image'
+require 'sem4r/ad_group/ad_group'
+
+#
+# adgroup_ad
+#
+require 'sem4r/ad_group_ad/ad_group_ad_operations'
+require 'sem4r/ad_group_ad/ad_group_ad'
+require 'sem4r/ad_group_ad/ad_group_text_ad'
+require 'sem4r/ad_group_ad/ad_group_mobile_ad'
+
+#
+# adgroup_criterion
+#
+require 'sem4r/ad_group_criterion/ad_group_criterion_bids'
+require 'sem4r/ad_group_criterion/ad_group_criterion_operations'
+require 'sem4r/ad_group_criterion/criterion'
+require 'sem4r/ad_group_criterion/criterion_keyword'
+require 'sem4r/ad_group_criterion/criterion_placement'
+require 'sem4r/ad_group_criterion/ad_group_criterion'
+
+#
+# ad_param
+#
+require 'sem4r/ad_param/ad_param'
+
+#
+# bulk_mutate_job
+#
+require 'sem4r/bulk_mutate_job/job_operations'
+require 'sem4r/bulk_mutate_job/bulk_mutate_job_selector'
+require 'sem4r/bulk_mutate_job/bulk_mutate_job'
+
+#
+# campaign
+#
+require 'sem4r/campaign/campaign'
+
+
+#
+# targeting_idea
+#
+require 'sem4r/targeting_idea/targeting_idea'
+require 'sem4r/targeting_idea/targeting_idea_selector'
+
+#
+# v13_account
+#
+require 'sem4r/v13_account/billing_address'
+
+#
+# v13_report
+#
+require 'sem4r/v13_report/report'
+require 'sem4r/v13_report/report_job'
 
 module Sem4r
   class Adwords

@@ -43,7 +43,7 @@ module Sem4r
     attr_reader :account
 
     g_accessor :name
-    g_accessor :status
+    g_accessor :status, {:default => "PAUSED"}
     g_accessor :serving_status
     g_accessor :start_date
     g_accessor :end_date
@@ -54,7 +54,7 @@ module Sem4r
       @ad_groups = nil
       self.name = name
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
         save
       end
     end
@@ -66,7 +66,8 @@ module Sem4r
     def to_xml
       <<-EOS
         <name>#{name}</name>
-        <status>PAUSED</status>
+        <status>#{status}</status>
+
         <budget>
           <period>DAILY</period>
           <amount xsi:type="Money">
@@ -74,7 +75,9 @@ module Sem4r
           </amount>
           <deliveryMethod>STANDARD</deliveryMethod>
         </budget>
-        <biddingStrategy xsi:type="ManualCPC"></biddingStrategy>
+
+        <biddingStrategy xsi:type="#{bidding_strategy}"></biddingStrategy>
+
       EOS
     end
 
@@ -116,6 +119,16 @@ module Sem4r
 
     def empty?
       _ad_groups.empty?
+    end
+
+    ###########################################################################
+    # bidding_strategy
+
+    # ManualCPC, ManualCPM
+    def bidding_strategy(strategy = nil)
+      @bidding_strategy = strategy if strategy
+      @bidding_strategy ||= "ManualCPC"
+      @bidding_strategy
     end
 
     ###########################################################################

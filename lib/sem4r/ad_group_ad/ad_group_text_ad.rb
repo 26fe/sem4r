@@ -30,40 +30,40 @@ module Sem4r
     g_accessor :description2
 
     def initialize(ad_group, &block)
-      super( ad_group )
       self.type = TextAd
-      if block_given?
-        instance_eval(&block)
-        save
-      end
+      super
     end
 
     def to_s
       "#{@id} textad #{@textad[:url]}"
     end
 
+    def xml(t)
+      t.adGroupId   ad_group.id
+      t.ad("xsi:type" => "TextAd") do |ad|
+        ad.url              url
+        ad.displayUrl       display_url
+        ad.headline         headline
+        ad.description1     description1
+        ad.description2     description2
+      end
+      t.status status
+    end
+
     def to_xml(tag)
-      xml = ""
-      unless tag.nil?
-        xml += "<#{tag} xsi:type=\"AdGroupAd\">"
+      builder = Builder::XmlMarkup.new
+      builder.tag!(tag, "xsi:type" => "AdGroupAd") do |t|
+        xml(t)
+        #        t.adGroupId   ad_group.id
+        #        t.ad("xsi:type" => "TextAd") do |ad|
+        #          ad.url              url
+        #          ad.displayUrl       display_url
+        #          ad.headline         headline
+        #          ad.description1     description1
+        #          ad.description2     description2
+        #        end
+        #        t.status status
       end
-
-      xml += <<-EOFS
-        <adGroupId>#{ad_group.id}</adGroupId>
-        <ad xsi:type="TextAd">
-          <url>#{url}</url>
-          <displayUrl>#{display_url}</displayUrl>
-          <headline>#{headline}</headline>
-          <description1>#{description1}</description1>
-          <description2>#{description2}</description2>
-        </ad>
-        <status>ENABLED</status>
-      EOFS
-
-      unless tag.nil?
-        xml += "</#{tag}>"
-      end
-      xml
     end
 
     def self.from_element(ad_group, el)

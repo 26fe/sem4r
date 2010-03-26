@@ -39,12 +39,9 @@ module Sem4r
     ]
 
     def initialize(ad_group, &block)
-      super( ad_group )
+      @carriers = []
       self.type = MobileAd
-      if block_given?
-        instance_eval(&block)
-        # save
-      end
+      super
     end
 
     # MobileAd
@@ -64,23 +61,52 @@ module Sem4r
       @image = MobileAdImage.new(self, &block)
     end
 
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      xml = builder.tag!(tag, "xsi:type" => "AdGroupAd") do |t|
-        t.adGroupId   ad_group.id
-        t.status "ENABLED"
-        t.ad("xsi:type" => "MobileAd") do |ad|
-          ad.headline        headline
-          ad.description     description
-          ad.businessName    business_name
-          ad.countryCode     country_code
-          ad.phoneNumber     phone_number
+    def xml(t)
+      t.adGroupId   ad_group.id
+      t.ad("xsi:type" => "MobileAd") do |ad|
+        ad.headline        headline
+        ad.description     description
+        unless markups.empty?
+          markups.each do |m|
+            ad.markupLanguages m
+          end
+        end
+        unless carriers.empty?
           carriers.each do |carrier|
             ad.mobileCarriers carrier
           end
         end
+        ad.businessName    business_name
+        ad.countryCode     country_code
+        ad.phoneNumber     phone_number
       end
-      xml.to_s
+      t.status status
+    end
+
+    def to_xml(tag)
+      builder = Builder::XmlMarkup.new
+      builder.tag!(tag, "xsi:type" => "AdGroupAd") do |t|
+        xml(t)
+        #      t.adGroupId   ad_group.id
+        #      t.ad("xsi:type" => "MobileAd") do |ad|
+        #        ad.headline        headline
+        #        ad.description     description
+        #        unless markups.empty?
+        #          markups.each do |m|
+        #            ad.markupLanguages m
+        #          end
+        #        end
+        #        unless carriers.empty?
+        #          carriers.each do |carrier|
+        #            ad.mobileCarriers carrier
+        #          end
+        #        end
+        #        ad.businessName    business_name
+        #        ad.countryCode     country_code
+        #        ad.phoneNumber     phone_number
+        #      end
+        #      t.status status
+      end
     end
 
     def self.from_element(ad_group, el)

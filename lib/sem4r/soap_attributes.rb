@@ -127,6 +127,7 @@ module Sem4r
               instance_eval "@#{column}(value)"
             end
           else
+            instance_eval "@#{columns} ||= []"
             instance_variable_get "@#{columns}"
           end
         end

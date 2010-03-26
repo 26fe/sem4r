@@ -32,11 +32,13 @@ module Sem4r
     g_accessor :criterion
 
     def initialize(&block)
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def self.from_element(ad_group, el)
-      type =  el.elements["AdGroupCriterion.Type"].text
+      type =  el.elements["AdGroupCriterion.Type"].text.strip
       klass = Module::const_get(type)
       klass.from_element(ad_group, el)
     end
@@ -49,7 +51,9 @@ module Sem4r
 
     def initialize(ad_group, &block)
       @ad_group = ad_group
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def self.from_element(ad_group, el)
@@ -59,15 +63,22 @@ module Sem4r
       end
     end
 
+    def xml(t)
+      t.adGroupId   @ad_group.id
+      # t.status "ENABLED"
+      criterion.xml(t)
+      @bids.xml(t) if @bids
+    end
+
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
-      xml = builder.tag!(tag, "xsi:type" => "BiddableAdGroupCriterion") do |t|
-        t.adGroupId   @ad_group.id
-        # t.status "ENABLED"
-        criterion.to_xml(t)
-        @bids.to_xml(t) if @bids
+      builder.tag!(tag, "xsi:type" => "BiddableAdGroupCriterion") do |t|
+        xml(t)
+        #        t.adGroupId   @ad_group.id
+        #        # t.status "ENABLED"
+        #        criterion.to_xml(t)
+        #        @bids.to_xml(t) if @bids
       end
-      xml.to_s
     end
 
     def save
@@ -88,17 +99,31 @@ module Sem4r
 
     def initialize(ad_group, &block)
       @ad_group = ad_group
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def xml(t)
+      t.adGroupId   criterion.ad_group.id
+      # t.status "ENABLED"
+      criterion.to_xml(t)
     end
 
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
-      xml = builder.tag!(tag, "xsi:type" => "NegativeAdGroupCriterion") do |t|
-        t.adGroupId   criterion.ad_group.id
-        # t.status "ENABLED"
-        criterion.to_xml(t)
+      builder.tag!(tag, "xsi:type" => "NegativeAdGroupCriterion") do |t|
+        xml(t)
+        #        t.adGroupId   criterion.ad_group.id
+        #        # t.status "ENABLED"
+        #        criterion.to_xml(t)
       end
-      xml.to_s
+    end
+
+    def self.from_element(ad_group, el)
+      new(ad_group) do
+        criterion Criterion.from_element(ad_group, el.elements["criterion"])
+      end
     end
 
     def save

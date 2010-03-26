@@ -34,11 +34,13 @@ module Sem4r
     # g_accessor :type
 
     def initialize(&block)
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def self.from_element(el)
-      type =  el.elements["AdGroupBids.Type"].text
+      type =  el.elements["AdGroupBids.Type"].text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -59,13 +61,11 @@ module Sem4r
     g_accessor :keyword_max_cpc
     g_accessor :site_max_cpc
 
-    def to_xml(builder = nil)
-      
-      builder = Builder::XmlMarkup.new unless builder
-
-      xml = builder.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupBids') { |xml|
+    def xml(t)
+      return "" unless @keyword_max_cpc or @site_max_cpc
+      t.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupBids') { |xml|
         xml.tag!('AdGroupBids.Type') { xml.text! 'ManualCPCAdGroupBids' }
-        
+
         if @keyword_max_cpc
           xml.keywordMaxCpc {
             xml.amount {
@@ -84,7 +84,32 @@ module Sem4r
           }
         end
       }
-      xml.to_s
+    end
+
+    def to_xml(builder = nil)
+      builder = Builder::XmlMarkup.new unless builder
+      xml(builder)
+      #      xml = builder.tag!('bids', 'xsi:type' => 'ManualCPCAdGroupBids') { |xml|
+      #        xml.tag!('AdGroupBids.Type') { xml.text! 'ManualCPCAdGroupBids' }
+      #
+      #        if @keyword_max_cpc
+      #          xml.keywordMaxCpc {
+      #            xml.amount {
+      #              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+      #              xml.microAmount keyword_max_cpc
+      #            }
+      #          }
+      #        end
+      #
+      #        if @site_max_cpc
+      #          xml.siteMaxCpc {
+      #            xml.amount {
+      #              xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+      #              xml.microAmount site_max_cpc
+      #            }
+      #          }
+      #        end
+      #      }
     end
 
     def self.from_element(el)
@@ -110,7 +135,36 @@ module Sem4r
   end
 
   class ManualCPMAdGroupBids < AdGroupBids
-  end
+    g_accessor :max_cpm
 
+    def xml(t)
+      return "" unless @max_cpm
+      t.tag!('bids', 'xsi:type' => 'ManualCPMAdGroupBids') { |xml|
+        xml.tag!('AdGroupBids.Type') { xml.text! 'ManualCPMAdGroupBids' }
+        xml.maxCpm {
+          xml.amount {
+            xml.tag!('ComparableValue.Type') { xml.text! 'Money' }
+            xml.microAmount max_cpm
+          }
+        }
+      }
+    end
+
+    def to_xml(builder = nil)
+      builder = Builder::XmlMarkup.new unless builder
+      xml(builder)
+    end
+
+    def self.from_element(el)
+      new do
+        kel = el.elements["maxCpm"]
+        if kel
+          el_amount = kel.elements["amount"]
+          max_cpm     el_amount.elements["microAmount"].text.to_i
+        end
+      end
+    end
+
+  end
 
 end

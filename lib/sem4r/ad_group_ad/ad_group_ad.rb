@@ -65,10 +65,15 @@ module Sem4r
     # g_reader :type
     g_accessor :url
     g_accessor :display_url
+    g_accessor :status, {:default => "ENABLED"}
 
-    def initialize(ad_group)
+    def initialize(ad_group, &block)
       super( ad_group.adwords, ad_group.credentials )
       @ad_group = ad_group
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+        save unless @id #TODO: pericolosissimo,
+      end
     end
 
     def self.from_element( ad_group, el )
