@@ -28,48 +28,71 @@ run_example(__FILE__) do |adwords|
   puts "Create example campaigns"
   client_account = adwords.account.client_accounts.first
 
-  campaign = client_account.campaign "sem4r campaign #{Time.now}" do
-
-    ad_group "sem4r search page #{Time.now}" do
-      text_ad do
-        url           "http://www.sem4r.com"
-        display_url   "www.Sem4R.com"
-        headline      "adwords api library"
-        description1  "adwords made simple"
-        description2  "set up you campaings in a snap!"
+  #
+  # 1. campaign
+  #
+    campaign = client_account.campaign "sem4r web campaign #{Time.now}" do
+  
+      bidding_strategy "ManualCPM"
+  
+      ad_group "sem4r search page #{Time.now}" do
+  
+        manual_cpm_bids do
+          max_cpm 20000000
+        end
+  
+        text_ad do
+          url           "http://www.sem4r.com"
+          display_url   "www.Sem4R.com"
+          headline      "adwords api library"
+          description1  "adwords made simple"
+          description2  "set up you campaings in a snap!"
+        end
+  
+        keyword   "adwords api",  "BROAD"
+        # keyword   "ruby adwords", "BROAD"
+        # placement "http://github.com"
+  
+        negative_keyword "java api library"
       end
-
-      # mobile_ad
-      keyword "adwords api", "BROAD"
-      keyword "ruby adwords", "BROAD"
-      placement "http://github.com"
-
-      negative_keyword "java api library"
     end
+    campaign.p_ad_groups(true)
 
-    ad_group "sem4r on mobile #{Time.now}" do
-      mobile_ad do
-        headline      "sem4r"
-        description   "simply adwords"
-        markup        "XHTML"
-        carrier       "Vodafone@IT"
-        # carrier  'ALLCARRIERS'
-        business_name "sem4r"
-        country_code  "IT"
-        phone_number  "0612345"
-      end
+  #
+  # 2 campaign
+  #
 
-      keyword "adwords api", "BROAD" do
-        # status "PAUSED"
-        # url  "pippo"
-        #        max_cpc 32423423
-        #        max_cpm 232321
-        
-      end
-
-      keyword "ruby adwords", "BROAD"
-    end
-  end
+#  campaign = client_account.campaign "sem4r mobile campaign #{Time.now}" do
+#
+#    bidding_strategy "ManualCPC"
+#
+#    ad_group "sem4r on mobile #{Time.now}" do
+#      manual_cpc_bids do
+#        keyword_max_cpc 21000000
+#        site_max_cpc    22000000
+#      end
+#
+#      mobile_ad do
+#        headline      "sem4r"
+#        description   "simply adwords"
+#        # markup        "XHTML"
+#        # carrier       "Vodafone@IT"
+#        carrier  'ALLCARRIERS'
+#        business_name "sem4r"
+#        country_code  "IT"
+#        phone_number  "0612345"
+#      end
+#
+#      keyword "adwords api", "BROAD" do
+#        # status "PAUSED"
+#        # url  "pippo"
+#        #        max_cpc 32423423
+#        #        max_cpm 232321
+#      end
+#
+#      keyword "ruby adwords", "BROAD"
+#    end
+#  end
 
   campaign.p_ad_groups(true)
 
