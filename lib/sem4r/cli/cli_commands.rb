@@ -24,46 +24,14 @@
 
 module Sem4r
 
-  class CliCommand
-    def parse_and_run(argv)
-    end
+  CliListClient = CliCommand.define_command("clients", "list clients account") do |account|
+    account.p_client_accounts
+    account.adwords.p_counters
   end
-
-  def self.simple_cli_command(command_name, description_str, &block)
-
-    cls = Class.new(CliCommand) do
-      def initialize(main_cli, get_account)
-        @main_cli = main_cli
-        @get_account = get_account
-      end
-
-      def opt_parser(options)
-        opt_parser = OptionParser.new
-        opt_parser.banner= "#{self.class.description}"
-        opt_parser.on("-h", "--help", "show this message") do
-          puts opt_parser
-          options.exit = true
-        end
-      end
-
-      define_method("parse_and_run") do |argv|
-        options = OpenStruct.new
-        opt_parser(options).parse( argv )
-        return false if options.exit
-        account = @get_account.get_account
-        block.call(account)
-      end
-    end
-
-    s = class << cls; self; end
-    s.class_eval do
-      define_method("command") { command_name }
-      define_method("description") { description_str }
-    end
-    cls
+  
+  CliListReport = CliCommand.define_command("reports", "list reports") do |account|
+    account.p_reports
+    account.adwords.p_counters
   end
-
-  CliListClient = simple_cli_command("clients", "list clients account") { |account | account.p_client_accounts }
-  CliListReport = simple_cli_command("reports", "list reports") { |account | account.p_reports }
 
 end

@@ -24,17 +24,16 @@
 
 module Sem4r
 
-  class CliGetAccount < CliCommand
+  class CliCommonArgs
 
-    def initialize(main_cli = nil)
-      @main_cli = main_cli
-
+    def initialize
       # defaults
       @options = OpenStruct.new({
           :verbose => true,
           :force   => false,
+          :default_logging => true,
           # :dump_soap_to_file => true,
-          :dump_soap_to_directory => true,
+          # :dump_soap_to_directory => true,
           :profile => 'sandbox'
         })
     end
@@ -46,6 +45,19 @@ module Sem4r
     def parse(argv)
       rest = opt_parser(@options).parse(argv)
 
+      if rest.length > 0
+        # cannot be happen
+        puts "unknow options #{rest.join}"
+      end
+
+      if @options.list_profiles
+        puts "Profiles:"
+        strs = Adwords.list_profiles( @options.config_name )
+        strs.each do |s|
+          puts "  #{s}"
+        end
+      end
+
       if @options.exit
         return false
       end
@@ -55,12 +67,14 @@ module Sem4r
     def opt_parser(options)
       opt_parser = OptionParser.new
       opt_parser.banner =  "Sem is a simple command line interface using the sem4r library."
+      opt_parser.separator "It's alpha software, please don't use in production or use it at your risk!"
       opt_parser.separator "Further information: http://www.sem4r.com"
       opt_parser.separator ""
-      opt_parser.separator "Usage: sem [common options] COMMAND [command options]"
+      opt_parser.separator "Usage: sem [options] [COMMAND [command options]]"
 
       opt_parser.separator ""
-      opt_parser.separator "execute COMMAND to an adwords account using adwords api"
+      opt_parser.separator "execute COMMAND to an adwords account using google adwords api"
+      opt_parser.separator "To view help and options for a particular command, use 'sem COMMAND -h'"
 
       #
       # common options
@@ -89,7 +103,8 @@ module Sem4r
 
       opt_parser.on("-l", "--list-commands", "list commands") do
         puts "SEM commands are:"
-        @main_cli.commands.each_value do |cmd|
+        commands = CliCommand.commands.values.sort {|a,b| a.command <=> b.command }
+        commands.each do |cmd|
           printf "  %-20s %s\n", cmd.command, cmd.description
         end
         puts
@@ -101,118 +116,68 @@ module Sem4r
       opt_parser.separator "logging options: "
       opt_parser.separator ""
 
+      opt_parser.on("--log FILE", "log sem4r messages to file") do |v|
+        options.logger = v
+      end
+
       opt_parser.on("-f", "--dump-file FILE", "dump soap conversation to file") do |v|
         options.dump_soap_to_file = v
       end
 
-      opt_parser.on("-d", "--dump-dir DIRECTORY", "dump soap conversation to directory") do |v|
+      str = "dump soap conversation to directory: each \n"
+      str << (" " * 37) + "request/response is in a single file"
+      opt_parser.on("-d", "--dump-dir DIRECTORY", str) do |v|
         options.dump_soap_to_directory = v
       end
 
       opt_parser.separator ""
       opt_parser.separator "profile and credentials options: "
+      opt_parser.separator "  credentials options overwrite profile attributes"
       opt_parser.separator ""
 
-      opt_parser.separator ""
-      opt_parser.separator "if credentials options are present overwrite config option"
-      opt_parser.separator ""
-
-      opt_parser.on("-c", "--config CONFIG",
-        "file where profile are defined (default $HOME/.sem4r/sem4r.yaml)") do |config|
+      str =  "file where profiles are defined\n"
+      str << (" " * 37) + "(default $HOME/.sem4r/sem4r.yaml)"
+      opt_parser.on("--config CONFIG", str) do |config|
         options.config_name = config
       end
 
-      profiles = %w[sandbox production]
-      profile_aliases = { "s" => "sandbox", "p" => "production" }
-      profile_list = (profile_aliases.keys + profiles).join(',')
-      opt_parser.on("-p", "--profile PROFILE", profiles, profile_aliases,
-        "select profile","  (#{profile_list})") do |profile|
+      opt_parser.on("--list-profiles", "list profiles") do
+        options.list_profiles = true
+        options.exit = true
+      end
+
+      opt_parser.on("-p", "--profile PROFILE", "select profile (default is sandbox)") do |profile|
         options.profile = profile
       end
 
       # email
       opt_parser.on("--email EMAIL",
-        "email of adwords account (overwrite profile email)") do |email|
+        "email of adwords account") do |email|
         options.email = email
       end
 
       # password
       opt_parser.on("--password PASSWORD",
-        "password of adwords account (overwrite profile password)") do |password|
+        "password of adwords account") do |password|
         options.password = password
       end
 
       # developer token
       opt_parser.on("--token TOKEN",
-        "developer token to access adwords api (overwrite profile token)") do |token|
+        "developer token to access adwords api") do |token|
         options.developer_token = token
       end
 
       # client account
       opt_parser.on("-c", "--client EMAIL",
-        "run command into client account (overwrite profile client)") do |email|
+        "email for client account") do |email|
         options.client_email = email
       end
       opt_parser.separator ""
       opt_parser
     end
 
-    def get_account
-      if @options.verbose
-        puts "using profile #{@options.profile}"
-      end
-
-      #
-      # select profile
-      #
-      adwords = Adwords.new( @options.profile )
-
-      #
-      # setup logging
-      #
-      if @options.dump_soap_to_file
-        filename = "sem-log.xml"
-        #pathname = File.join( tmp_dirname, filename)
-        soapdump_file = File.open( filename, "w" )
-        adwords.dump_soap_options( soapdump_file )
-      end
-
-      if @options.dump_soap_to_directory
-        dir = "sem-log"
-        o = { :directory => dir, :format => true }
-        adwords.dump_soap_options( o )
-      end
-
-      # filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, ".log") )
-      filename = "sem.log"
-      file = File.open( filename, "w" )
-      file.sync = true
-      logger = Logger.new(file)
-      logger.formatter = proc { |severity, datetime, progname, msg|
-        "#{datetime.strftime("%H:%M:%S")}: #{msg}\n"
-      }
-      adwords.logger = logger
-      # adwords.logger = Logger.new(STDOUT)
-
-      #
-      # client
-      #
-      if @options.client_email
-        account = adwords.account.client_accounts.find{ |c| c.client_email =~ /#{@options.client_account}/ }
-        if account.nil?
-          puts "client account not found"
-        else
-          puts "using client #{account.client_email}"
-        end
-      else
-        account = adwords.account
-      end
-      return account
-    end
-
-    def credentials
-      require "highline/import"
-
+    def read_credentials_from_console
       unless @options.environment
         # The new and improved choose()...
         say("\nThis is the new mode (default)...")
@@ -236,15 +201,88 @@ module Sem4r
       }
 
       pp config
-
       unless agree("credentials are correct?")
         exit
       end
-
       config
     end
 
-  end
+    def account
+      #
+      # select profile
+      #
+      options = {}
+      if @options.config_name
+        options[:config_file] = @options.config_name
+      end
+      adwords = Adwords.new( @options.profile, options )
+      if @options.verbose
+        puts "using #{adwords.profile} profile"
+        puts "config file is #{adwords.config_file}"
+      end
 
+      #
+      # logging soap conversation
+      #
+      if @options.default_logging
+        configdir = File.join( ENV['HOME'], ".sem4r" )
+        unless File.exists?(configdir)
+          puts "Directory #{configdir} not exists"
+          FileUtils.mkdir(configdir)
+        end
+        dir = File.join(configdir, Time.new.strftime("%Y%m%d-soap-dump"))
+        @options.dump_soap_to_directory = dir
+        
+        file = File.join(configdir, Time.new.strftime("%Y%m%d-sem4r-log"))
+        @options.logger = file
+      end
+
+      if @options.dump_soap_to_file
+        filename = @options.dump_soap_to_file
+        o = { :file => filename }
+        adwords.dump_soap_options( o )
+      end
+      if @options.dump_soap_to_directory
+        dir = @options.dump_soap_to_directory
+        o = { :directory => dir, :format => true }
+        adwords.dump_soap_options( o )
+      end
+      if @options.verbose and adwords.dump_soap?
+        puts "Logging soap conversation to '#{adwords.dump_soap_where}'"
+      end
+      if !adwords.dump_soap?
+        puts "it is highly recommended to activate the dump soap log"
+      end
+
+      #
+      # logging
+      #
+      # filename = File.join( tmp_dirname, File.basename(example_file).sub(/\.rb$/, ".log") )
+      if @options.logger
+        # filename = "sem.log"
+        adwords.logger = @options.logger
+      end
+      if adwords.logger
+        puts "Logger activated"
+      end
+      # adwords.logger = Logger.new(STDOUT)
+
+      #
+      # select account for command
+      #
+      if @options.client_email
+        account = adwords.account.client_accounts.find{ |c| c.client_email =~ /#{@options.client_account}/ }
+        if account.nil?
+          puts "client account not found"
+        else
+          puts "using client #{account.client_email}"
+        end
+      else
+        account = adwords.account
+      end
+      return account
+    end
+
+  end
 
 end

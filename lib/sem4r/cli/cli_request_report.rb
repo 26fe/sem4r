@@ -24,7 +24,7 @@
 
 module Sem4r
 
-  class CliRequestReport
+  class CliRequestReport < CliCommand
 
     def self.command
       "request"
@@ -49,7 +49,7 @@ module Sem4r
       end
     end
 
-    def run(argv)
+    def parse_and_run(argv)
       options = OpenStruct.new
       rest = command_opt_parser(options).parse( argv )
       if options.exit
@@ -97,6 +97,7 @@ module Sem4r
       job = report.schedule
       job.wait(5) { |report, status| puts "status #{status}" }
       report.download("test_report.xml")
+      account.adwords.p_counters
     end
 
   end

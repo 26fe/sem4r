@@ -27,12 +27,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Adwords do
 
   before(:each) do
+    @test_config_filename = File.expand_path(File.dirname(__FILE__) + "/../fixtures/sem4r.example.yml")
+
     @environment       = "sandbox"
     @email             = "pippo"
     @password          = "password"
     @developer_token   = "developer_token"
 
-    @config = {
+    @options = {
       :environment       => @environment,
       :email             => @email,
       :password          => @password,
@@ -40,45 +42,59 @@ describe Adwords do
     }
   end
 
-
   it "should take an hash as configuration" do
-    adwords = Adwords.new( @config )
+    adwords = Adwords.new( @options )
+    adwords.should_not_receive(:load_config)
     credentials = adwords.account.credentials
 
+    adwords.profile.should               == "anonymous_" + @environment
     credentials.environment.should       == @environment
     credentials.email.should             == @email
     credentials.password.should          == @password
     credentials.developer_token.should   == @developer_token
   end
 
-  it "should set the right environment" do
-    @config.delete(:environment)
+  it "should set the right environment (sandbox)" do
+    @options.delete(:environment)
 
-    adwords = Adwords.sandbox( @config )
+    adwords = Adwords.sandbox( @options )
     credentials = adwords.account.credentials
     credentials.environment.should       == "sandbox"
     credentials.email.should             == @email
+  end
 
-    adwords = Adwords.production( @config )
+  it "should set the right environment (production)" do
+    @options.delete(:environment)
+    adwords = Adwords.production( @options )
     credentials = adwords.account.credentials
     credentials.environment.should       == "production"
     credentials.email.should             == @email
   end
+    
+  it "should raise an exception when profile is sandbox and env is production" do
+    @options[:environment] = "prodution"
+    lambda { adwords = Adwords.sandbox( @options ) }.should raise_error(RuntimeError)
 
-  it "should read config file" do
-    filename = File.dirname(__FILE__) + "/../fixtures/sem4r.example.yml"
+    @options[:environment] = "sandbox"
+    lambda { adwords = Adwords.production( @options ) }.should raise_error(RuntimeError)
+  end
 
-    adwords = Adwords.new( "sandbox" )
-    adwords.should_receive(:get_config_file).and_return(File.new( filename ))
+  it "should read config file (profile file)" do
+    adwords = Adwords.new( "sandbox", {:config_file => @test_config_filename} )
     credentials = adwords.account.credentials
     credentials.environment.should       == "sandbox"
     credentials.developer_token.should   == "example@gmail.com++EUR"
 
-    adwords = Adwords.new( "production1" )
-    adwords.should_receive(:get_config_file).and_return(File.new( filename ))
+    adwords = Adwords.new( "production1", {:config_file => @test_config_filename} )
     credentials = adwords.account.credentials
     credentials.environment.should       == "production"
     credentials.developer_token.should   == "productiondevelopertoken"
+  end
+
+
+  it "should list profiles" do
+    values = Adwords.list_profiles(@test_config_filename)
+    values.should have(4).profiles
   end
 
 end
