@@ -42,13 +42,13 @@ describe "cli" do
     
   end
 
-  describe CliGetAccount do
+  describe CliCommonArgs do
 
     it "should show help and exit" do
       ret = true
       out = with_stdout_captured do
         args = %w{ -h }
-        cmd = CliGetAccount.new
+        cmd = CliCommonArgs.new
         ret = cmd.parse(args)
       end
       out.should match("Usage")
@@ -59,7 +59,7 @@ describe "cli" do
       ret = true
       out = with_stdout_captured do
         args = %w{ --version }
-        cmd = CliGetAccount.new
+        cmd = CliCommonArgs.new
         ret = cmd.parse(args)
       end
       out.should match("sem4r version")

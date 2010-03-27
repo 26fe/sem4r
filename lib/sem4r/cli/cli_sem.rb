@@ -22,30 +22,18 @@
 # -------------------------------------------------------------------
 
 # stdlib
-require 'optparse'
-require 'ostruct'
 
 module Sem4r
 
   class CliSem
 
-    attr_reader :commands
-    
     def self.run
       cli = self.new
       cli.parse_and_run(ARGV)
     end
 
-    def initialize
-      # TODO: i comandi si dovrebbero autoregistrare!
-      @commands = {}
-      [CliListReport, CliListClient, CliRequestReport, CliDownloadReport, CliListKeywords, CliListAds].each do |cmd|
-        @commands[cmd.command] = cmd
-      end
-    end
-
     def parse_and_run( argv )
-      common_args, command, command_args = split_args(argv)
+      common_args, command, command_args = CliCommand.split_args(argv)
 
       #      $stderr.puts "debug -------------------"
       #      $stderr.puts "common_args:  #{common_args}"
@@ -53,9 +41,8 @@ module Sem4r
       #      $stderr.puts "command_args: #{command_args}"
       #      $stderr.puts "debug -------------------"
 
-      get_account = CliGetAccount.new(self)
-      success = get_account.parse_and_run(common_args)
-
+      cli_common_args = CliCommonArgs.new
+      success = cli_common_args.parse_and_run(common_args)
       return false unless success
 
       if command.nil?
@@ -64,25 +51,10 @@ module Sem4r
       end
 
       begin
-        cmd = @commands[command].new(self, get_account)
+        cmd = CliCommand.commands[command].new(cli_common_args)
         cmd.parse_and_run(command_args)
       rescue Sem4rError
         puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
-      end
-    end
-
-    private
-
-
-    def split_args(argv)
-      idx = argv.find_index { |e| @commands.key?(e) }
-      if idx
-        common_args  = argv[0,idx]
-        command      = argv[idx]
-        command_args = argv[idx+1..-1]
-        return [common_args, command, command_args]
-      else
-        return [argv, nil, nil]
       end
     end
 

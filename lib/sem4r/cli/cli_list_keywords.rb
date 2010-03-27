@@ -23,7 +23,8 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  CliListKeywords = simple_cli_command("keywords", "list keywords") do |account |
+
+  CliListKeywords = CliCommand.define_command("keywords", "list keywords") do |account |
     account.client_accounts.each do |client_account|
       puts "examinate account '#{client_account.credentials.client_email}'"
       client_account.campaigns.each do |campaign|
@@ -49,5 +50,7 @@ module Sem4r
         end
       end
     end
+    account.adwords.p_counters
   end
+
 end

@@ -23,7 +23,8 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  CliListAds = simple_cli_command("ads", "list ads") do |account |
+
+  CliListAds = CliCommand.define_command("ads", "list ads") do |account|
     puts "List AdGroup Advertising"
 
     account.client_accounts.each do |client_account|
@@ -44,6 +45,7 @@ module Sem4r
         end
       end
     end
+    account.adwords.p_counters
 
   end
 end

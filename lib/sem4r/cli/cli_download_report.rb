@@ -23,7 +23,7 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class CliDownloadReport
+  class CliDownloadReport < CliCommand
 
     def self.command
       "download"
@@ -33,8 +33,8 @@ module Sem4r
       "download a generated report"
     end
 
-    def initialize(account)
-      @account = account
+    def initialize(common_args)
+      @common_args = common_args
     end
 
     def command_opt_parser(options)
@@ -48,7 +48,7 @@ module Sem4r
       end
     end
 
-    def run(argv)
+    def parse_and_run(argv)
       options = OpenStruct.new
       rest = command_opt_parser(options).parse( argv )
       if options.exit
@@ -59,8 +59,9 @@ module Sem4r
         return false
       end
 
+      account = @common_args.account
       report_id = rest[0].to_i
-      report = @account.reports.find { |r| r.id == report_id }
+      report = account.reports.find { |r| r.id == report_id }
       if report.nil?
         puts "report '#{report_id}' not found"
         return false
@@ -71,6 +72,8 @@ module Sem4r
         return false
       end
       report.download("test_report.xml")
+
+      account.adwords.p_counters
       return true
     end
 

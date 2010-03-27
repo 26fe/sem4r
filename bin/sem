@@ -35,5 +35,4 @@ rescue LoadError
 end
 
 include Sem4r
-
 CliSem.run
