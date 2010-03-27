@@ -21,11 +21,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
+require 'optparse'
+require 'ostruct'
+require "highline/import" # to ask password on command line
+
 require 'sem4r'
 require 'sem4r/cli/cli_sem'
-require 'sem4r/cli/cli_simple_commands'
-require 'sem4r/cli/cli_get_account'
+require 'sem4r/cli/cli_common_args'
+require 'sem4r/cli/cli_command'
+
+# commands
+require 'sem4r/cli/cli_commands'
 require 'sem4r/cli/cli_download_report'
-require 'sem4r/cli/cli_request_report'
-require 'sem4r/cli/cli_list_keywords'
 require 'sem4r/cli/cli_list_ads'
+require 'sem4r/cli/cli_list_keywords'
+require 'sem4r/cli/cli_request_report'

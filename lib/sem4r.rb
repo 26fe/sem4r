@@ -25,11 +25,11 @@ require 'yaml'
 require 'pathname'
 require 'rubygems'
 require 'builder'
-
-cwd = Pathname(__FILE__).dirname
-$:.unshift(cwd.to_s) unless $:.include?(cwd.to_s) || $:.include?(cwd.expand_path.to_s)
-
-require 'sem4r/adwords'
+require 'rexml/document'
+require 'uri'
+require 'pp'
+require 'logger'
+require 'fileutils'
 
 module Sem4r #:nodoc:
   def self.version
@@ -41,3 +41,92 @@ module Sem4r #:nodoc:
     "#{major}.#{minor}.#{patch}"
   end
 end
+
+cwd = Pathname(__FILE__).dirname
+$:.unshift(cwd.to_s) unless $:.include?(cwd.to_s) || $:.include?(cwd.expand_path.to_s)
+
+require 'my_active_support/core_ext/hash.rb'
+
+require 'sem4r/adwords'
+require 'sem4r/credentials'
+require 'sem4r/sem4r_error'
+require 'sem4r/soap_attributes'
+
+require 'sem4r/base'
+require 'sem4r/account'
+
+
+#
+# soap connection layer
+#
+require 'sem4r/services/soap_error'
+require 'sem4r/services/soap_connector'
+require 'sem4r/services/soap_message_v13'
+require 'sem4r/services/soap_message_v2009'
+require 'sem4r/services/soap_call'
+require 'sem4r/services/service'
+
+#
+# common
+#
+require 'sem4r/common/operation'
+
+#
+# adgroup
+#
+require 'sem4r/ad_group/ad_group_bids'
+require 'sem4r/ad_group/mobile_ad_image'
+require 'sem4r/ad_group/ad_group'
+
+#
+# adgroup_ad
+#
+require 'sem4r/ad_group_ad/ad_group_ad_operations'
+require 'sem4r/ad_group_ad/ad_group_ad'
+require 'sem4r/ad_group_ad/ad_group_text_ad'
+require 'sem4r/ad_group_ad/ad_group_mobile_ad'
+
+#
+# adgroup_criterion
+#
+require 'sem4r/ad_group_criterion/ad_group_criterion_bids'
+require 'sem4r/ad_group_criterion/ad_group_criterion_operations'
+require 'sem4r/ad_group_criterion/criterion'
+require 'sem4r/ad_group_criterion/criterion_keyword'
+require 'sem4r/ad_group_criterion/criterion_placement'
+require 'sem4r/ad_group_criterion/ad_group_criterion'
+
+#
+# ad_param
+#
+require 'sem4r/ad_param/ad_param'
+
+#
+# bulk_mutate_job
+#
+require 'sem4r/bulk_mutate_job/job_operations'
+require 'sem4r/bulk_mutate_job/bulk_mutate_job_selector'
+require 'sem4r/bulk_mutate_job/bulk_mutate_job'
+
+#
+# campaign
+#
+require 'sem4r/campaign/campaign'
+
+
+#
+# targeting_idea
+#
+require 'sem4r/targeting_idea/targeting_idea'
+require 'sem4r/targeting_idea/targeting_idea_selector'
+
+#
+# v13_account
+#
+require 'sem4r/v13_account/billing_address'
+
+#
+# v13_report
+#
+require 'sem4r/v13_report/report'
+require 'sem4r/v13_report/report_job'
