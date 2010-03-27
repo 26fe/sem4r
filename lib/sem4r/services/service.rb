@@ -21,12 +21,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require 'sem4r/services/soap_error'
-require 'sem4r/services/soap_connector'
-require 'sem4r/services/soap_message_v13'
-require 'sem4r/services/soap_message_v2009'
-require 'sem4r/services/soap_call'
-
 module Sem4r
   class Service
 
