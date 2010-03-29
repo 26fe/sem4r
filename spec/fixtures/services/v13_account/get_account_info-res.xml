@@ -1,0 +1,54 @@
+<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <soapenv:Header>
+    <responseTime soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      216
+    </responseTime>
+    <operations soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      1
+    </operations>
+    <units soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      1
+    </units>
+    <requestId soapenv:actor='http://schemas.xmlsoap.org/soap/actor/next' soapenv:mustUnderstand='0' xmlns='https://adwords.google.com/api/adwords/v13'>
+      4165822e5178dc87b412f132b8003e68
+    </requestId>
+  </soapenv:Header>
+  <soapenv:Body>
+    <getAccountInfoResponse xmlns='https://adwords.google.com/api/adwords/v13'>
+      <getAccountInfoReturn>
+        <billingAddress>
+          <addressLine1>1600 Amphitheatre Parkway</addressLine1>
+          <addressLine2>Building #42</addressLine2>
+          <city>Mountain View</city>
+          <companyName>Some Company</companyName>
+          <countryCode>US</countryCode>
+          <emailAddress>Some@email</emailAddress>
+          <faxNumber>4085551213</faxNumber>
+          <name>Some contact</name>
+          <phoneNumber>4085551212</phoneNumber>
+          <postalCode>94043</postalCode>
+          <state>CA</state>
+        </billingAddress>
+        <currencyCode>EUR</currencyCode>
+        <customerId>0</customerId>
+        <defaultNetworkTargeting>
+          <networkTypes>GoogleSearch</networkTypes>
+          <networkTypes>SearchNetwork</networkTypes>
+          <networkTypes>ContentNetwork</networkTypes>
+        </defaultNetworkTargeting>
+        <descriptiveName/>
+        <emailPromotionsPreferences>
+          <accountPerformanceEnabled>false</accountPerformanceEnabled>
+          <disapprovedAdsEnabled>false</disapprovedAdsEnabled>
+          <marketResearchEnabled>false</marketResearchEnabled>
+          <newsletterEnabled>false</newsletterEnabled>
+          <promotionsEnabled>false</promotionsEnabled>
+        </emailPromotionsPreferences>
+        <languagePreference>en_US</languagePreference>
+        <timeZoneEffectiveDate>1264864627000</timeZoneEffectiveDate>
+        <timeZoneId>America/Los_Angeles</timeZoneId>
+      </getAccountInfoReturn>
+    </getAccountInfoResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+<!-- end -->

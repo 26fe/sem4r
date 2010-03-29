@@ -27,16 +27,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe Service do
   include Sem4rSpecHelper
 
-#  before(:all) do
-#    @credentials = mock("credentials")
-#    # @credentials.should_receive(:sandbox?).and_return(true)
-#    @credentials.should_receive(:email).and_return("example@gmail.com")
-#    @credentials.should_receive(:password).and_return("secret")
-#    @credentials.should_receive(:client_email).and_return(nil)
-#    @credentials.should_receive(:useragent).and_return("sem4r")
-#    @credentials.should_receive(:developer_token).and_return("dev_token")
-#  end
-
   it "should contains ad_group service" do
     connector = mock("connector")
     s = Service.new(connector)

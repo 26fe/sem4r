@@ -36,8 +36,8 @@ describe Account do
     stub_service_campaign(services)
     stub_service_report(services)
     # @account = mock_account(services)
-    @adwords = mock_adwords(services)
-    @credentials = mock_credentials
+    @adwords = stub_adwords(services)
+    @credentials = stub_credentials
 
       @account = Account.new(@adwords, @credentials)
   end

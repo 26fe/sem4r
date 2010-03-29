@@ -39,7 +39,7 @@ describe SoapMessageV13 do
   end
 
   it "should update counters" do
-    response_xml = read_xml_file("services", "report_service", "get_all_jobs-res.xml")
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 

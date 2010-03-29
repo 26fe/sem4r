@@ -25,7 +25,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe ReportService do
-
   include Sem4rSpecHelper
 
   before(:all) do
@@ -39,7 +38,7 @@ describe ReportService do
   end
 
   it "should accept all message" do
-    response_xml = read_xml_file("services", "report_service", "get_all_jobs-res.xml")
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -52,4 +51,3 @@ describe ReportService do
     els.should have(4).elements
   end
 end
-

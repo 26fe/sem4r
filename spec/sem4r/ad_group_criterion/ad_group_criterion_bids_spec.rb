@@ -28,7 +28,7 @@ describe AdGroupCriterionBids do
   include Sem4rSpecHelper
 
   it "should parse xml (produced by google)" do
-    el = read_model("//bids", "services", "ad_group_criterion_service", "get-res.xml")
+    el = read_model("//bids", "services", "ad_group_criterion", "get-res.xml")
     bids = AdGroupCriterionBids.from_element(el)
     bids.should be_instance_of ManualCPCAdGroupCriterionBids
   end
@@ -44,12 +44,12 @@ describe AdGroupCriterionBids do
     it "should build xml (input for google)" do
       bids = ManualCPCAdGroupCriterionBids.new
       bids.max_cpc 10000000
-      expected_xml = read_model("//bids", "services", "ad_group_criterion_service", "mutate_add_criterion_keyword-req.xml")
+      expected_xml = read_model("//bids", "services", "ad_group_criterion", "mutate_add_criterion_keyword-req.xml")
       bids.to_xml.should  xml_equivalent( expected_xml )
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//bids", "services", "ad_group_criterion_service", "get-res.xml")
+      el = read_model("//bids", "services", "ad_group_criterion", "get-res.xml")
       bids = ManualCPCAdGroupCriterionBids.from_element(el)
       bids.bid_source.should == "ADGROUP"
       bids.max_cpc.should == 10000000
