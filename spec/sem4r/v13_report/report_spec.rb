@@ -25,7 +25,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Report do
-
   include Sem4rSpecHelper
 
   before do
@@ -51,8 +50,8 @@ describe Report do
     report.type.should == "Structure"
   end
 
-  it "should parse xml" do
-    el = read_model("//getAllJobsReturn", "services", "report_service", "get_all_jobs-res.xml")
+  it "should parse xml (produced by google)" do
+    el = read_model("//getAllJobsReturn", "services", "v13_report", "get_all_jobs-res.xml")
     report = Report.from_element(@account, el)
     report.id.should == 11
     report.name.should == "report [11]"
@@ -60,7 +59,7 @@ describe Report do
     report.status == "Pending"
   end
 
-  it "should have a representation in xml" do
+  it "should build xml (input for google)" do
     report = Report.new(@account) do
       name                 "Test Report"
       type                 "Structure"
@@ -73,7 +72,7 @@ describe Report do
       column               "KeywordTypeDisplay"
     end
 
-    expected = read_model("//job", "services", "report_service", "schedule_report_job-req.xml")
+    expected = read_model("//job", "services", "v13_report", "schedule_report_job-req.xml")
     report.to_xml.should xml_equivalent(expected)
   end
 

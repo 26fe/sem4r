@@ -34,7 +34,7 @@ describe AdParam do
     # stub_service_ad_group_criterion(services)
     # stub_service_ad_group_ad(services)
     @adgroup   = stub_adgroup(services)
-    @criterion = criterion_mock(services)
+    @criterion = stub_criterion(services)
   end
  
   it "should accepts a block" do
@@ -48,7 +48,7 @@ describe AdParam do
 
   it "should parse xml" do
     @adgroup.should_receive(:find_criterion).with(100).and_return(@criterion)
-    el = read_model("//rval", "services", "ad_param_service", "mutate_set-res.xml")
+    el = read_model("//rval", "services", "ad_param", "mutate_set-res.xml")
     ad_param = AdParam.from_element(@adgroup, el)
     ad_param.index.should == 1
     ad_param.text.should  == "$99.99"

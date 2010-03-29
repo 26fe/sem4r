@@ -41,7 +41,7 @@ describe JobOperation do
     job_operation = JobOperation.new
     job_operation.add(bulk_mutate_job)
     
-    expected_xml = read_model("//operation", "services", "bulk_mutate_job_service", "mutate-req.xml")
+    expected_xml = read_model("//operation", "services", "bulk_mutate_job", "mutate-req.xml")
     job_operation.to_xml('operation').should xml_equivalent(expected_xml)
   end
 

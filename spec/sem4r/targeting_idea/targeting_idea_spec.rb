@@ -28,14 +28,14 @@ describe TargetingIdea do
   include Sem4rSpecHelper, AggregatesSpecHelper
 
   it "should parse xml (produced by google)" do
-    el = read_model("//entries", "services", "targeting_idea_service", "get-res.xml")
+    el = read_model("//entries", "services", "targeting_idea", "get-res.xml")
     idea = TargetingIdea.from_element(el)
     idea.should have(2).attributes
   end
 
   describe TKeywordAttribute do
     it "should parse xml (produced by google)" do
-      el = read_model("//value", "services", "targeting_idea_service", "get-res.xml")
+      el = read_model("//value", "services", "targeting_idea", "get-res.xml")
       attr = TKeywordAttribute.from_element(el)
       attr.text.should == "sample keyword"
       attr.match_type.should  == "EXACT"
@@ -44,7 +44,7 @@ describe TargetingIdea do
 
   describe TIdeaTypeAttribute do
     it "should parse xml (produced by google)" do
-      el = read_model("//value[@type='IdeaTypeAttribute']", "services", "targeting_idea_service", "get-res.xml")
+      el = read_model("//value[@type='IdeaTypeAttribute']", "services", "targeting_idea", "get-res.xml")
       attr = TIdeaTypeAttribute.from_element(el)
       attr.value.should == "KEYWORD"
     end
