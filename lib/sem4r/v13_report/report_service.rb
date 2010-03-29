@@ -35,10 +35,10 @@ module Sem4r
     end
 
     soap_call_v13 :all
-    soap_call_v13 :validate, :job_xml
-    soap_call_v13 :schedule, :job_xml
-    soap_call_v13 :status, :job_id
-    soap_call_v13 :url, :job_id
+    soap_call_v13 :validate
+    soap_call_v13 :schedule
+    soap_call_v13 :status
+    soap_call_v13 :url
 
     ################
 

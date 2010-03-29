@@ -60,28 +60,39 @@ module Sem4r
     end
 
     module ClassMethods
+      def soap_call(helper_version, method, options = {})
 
-      def soap_call(helper_version, method, *args)
-        public_method_pars = ['credentials'] .concat(args).join(",")
+        mutate = options.delete :mutate
+        if mutate
+          smutate = "credentials.can_mutate"
+        else
+          smutate = "true"
+        end
+        # public_method_pars = ['credentials'].concat(args).join(",")
 
-        private_method_pars = args.join(",")
-        private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
+        # private_method_pars = args.join(",")
+        # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
 
         rubystr =<<-EOFS
-          define_method :#{method.to_sym} do |#{public_method_pars}|
-            soap_body_content = send "_#{method}" #{private_method_pars}
-            #{helper_version}(credentials, soap_body_content)
+          define_method :#{method.to_sym} do |*args|
+            credentials = args.shift
+            if #{smutate}
+              soap_body_content = send("_#{method}", *args)
+              #{helper_version}(credentials, soap_body_content)
+            else
+              raise "mutate methods cannot be called on read_only profile"
+            end
           end
         EOFS
         eval rubystr
       end
 
-      def soap_call_v13(method, *args)
-        soap_call("helper_call_v13", method, *args)
+      def soap_call_v13(method, options = {})
+        soap_call("helper_call_v13", method, options)
       end
 
-      def soap_call_v2009(method, *args)
-        soap_call("helper_call_v2009", method, *args)
+      def soap_call_v2009(method, options = {})
+        soap_call("helper_call_v2009", method, options)
       end
     end
 

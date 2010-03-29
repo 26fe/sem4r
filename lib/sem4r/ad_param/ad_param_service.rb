@@ -36,8 +36,8 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/cm/v200909/AdParamService"
     end
 
-    soap_call_v2009 :all, :adgrop_id
-    soap_call_v2009 :set, :xml
+    soap_call_v2009 :all
+    soap_call_v2009 :set
 
     private
 

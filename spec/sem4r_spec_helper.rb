@@ -177,24 +177,24 @@ module Sem4rSpecHelper
   #############################################################################
 
   def stub_service_account(service)
-    xml_document = read_xml_document("services", "account_service", "get_account_info-res.xml")
+    xml_document = read_xml_document("services", "v13_account", "get_account_info-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     account_service = stub("account_service", :account_info => soap_message)
     service.stub(:account).and_return(account_service)
   end
 
   def stub_service_info(service)
-    xml_document = read_xml_document("services", "info_service", "get_unit_count-res.xml")
+    xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     account_service = stub("account_service", :unit_cost => soap_message)
     service.stub(:info).and_return(account_service)
   end
 
   def stub_service_campaign(service)
-    xml_document = read_xml_document("services", "campaign_service", "mutate_add-res.xml")
+    xml_document = read_xml_document("services", "campaign", "mutate_add-res.xml")
     soap_message_create = stub("soap_message", :response => xml_document, :counters => nil)
 
-    xml_document = read_xml_document("services", "campaign_service", "get-res.xml")
+    xml_document = read_xml_document("services", "campaign", "get-res.xml")
     soap_message_all = stub("soap_message", :response => xml_document, :counters => nil)
 
     campaign_service = stub("campaign_service", :create => soap_message_create, :all => soap_message_all)
@@ -202,21 +202,21 @@ module Sem4rSpecHelper
   end
 
   def stub_service_ad_group(service)
-    xml_document = read_xml_document("services", "ad_group_service", "mutate_add-res.xml")
+    xml_document = read_xml_document("services", "ad_group", "mutate_add-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     ad_group_service = stub("adgroup_service", :create => soap_message)
     service.stub(:ad_group).and_return(ad_group_service)
   end
 
   def stub_service_ad_group_ad(service)
-    xml_document = read_xml_document("services", "ad_group_ad_service", "mutate_add_text_ad-res.xml")
+    xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_text_ad-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     ad_group_ad_service = stub("ad_group_ad_service", :create => soap_message)
     service.stub(:ad_group_ad).and_return(ad_group_ad_service)
   end
 
   def stub_service_ad_group_criterion(service)
-    xml_document = read_xml_document("services", "ad_group_criterion_service", "mutate_add_criterion_keyword-res.xml")
+    xml_document = read_xml_document("services", "ad_group_criterion", "mutate_add_criterion_keyword-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
     ad_group_criterion_service = stub("ad_group_criterion_service", :create => soap_message)
     service.stub(:ad_group_criterion).and_return(ad_group_criterion_service)
@@ -230,7 +230,7 @@ module Sem4rSpecHelper
   end
 
   def stub_service_report(service)
-    all_xml_document = read_xml_document("services", "report_service", "get_all_jobs-res.xml")
+    all_xml_document = read_xml_document("services", "v13_report", "get_all_jobs-res.xml")
     all_soap_message = stub("soap_message", :response => all_xml_document, :counters => nil)
     set_soap_message = stub("soap_message", :response => nil, :counters => nil)
     report_service   = stub("report_service",
@@ -242,18 +242,26 @@ module Sem4rSpecHelper
 
   #############################################################################
 
-  def mock_adwords(services)
+  def stub_adwords(services)
     adwords = stub("adwords", :service => services, :add_counters => nil)
     adwords
   end
 
-  def mock_credentials
-    stub("credentials")
+  def stub_credentials
+    stub("credentials",
+      :sandbox?             => true,
+      :email                => "example@gmail.com",
+      :password             => "secret",
+      :client_email         => nil,
+      :useragent            => "sem4r",
+      :developer_token      => "dev_token",
+      :authentication_token => "1234567890"
+    )
   end
 
   def mock_account(services)
-    adwords = mock_adwords(services)
-    credentials = mock_credentials
+    adwords = stub_adwords(services)
+    credentials = stub_credentials
     campaign = stub("account",
       :adwords     => adwords,
       :credentials => credentials,
@@ -262,8 +270,8 @@ module Sem4rSpecHelper
   end
 
   def mock_campaign(services)
-    adwords = mock_adwords(services)
-    credentials = mock_credentials
+    adwords = stub_adwords(services)
+    credentials = stub_credentials
 
     campaign = stub("campaign",
       :adwords     => adwords,
@@ -273,8 +281,8 @@ module Sem4rSpecHelper
   end
 
   def stub_adgroup(services, id = 1000)
-    adwords = mock_adwords(services)
-    credentials = mock_credentials
+    adwords = stub_adwords(services)
+    credentials = stub_credentials
 
     ad_group = stub("adgroup",
       :adwords     => adwords,
@@ -283,9 +291,9 @@ module Sem4rSpecHelper
     ad_group
   end
 
-  def criterion_mock(services)
-    adwords = mock_adwords(services)
-    credentials = mock_credentials
+  def stub_criterion(services)
+    adwords     = stub_adwords(services)
+    credentials = stub_credentials
 
     criterion = stub("criterion",
       :adwords     => adwords,
