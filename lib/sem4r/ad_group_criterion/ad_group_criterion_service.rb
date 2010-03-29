@@ -34,8 +34,8 @@ module Sem4r
     end
 
     # TODO: adattarsi automaticamente al numero dei parametri
-    soap_call_v2009 :all, :ad_group_id
-    soap_call_v2009 :create, :xml
+    soap_call_v2009 :all
+    soap_call_v2009 :create
 
     private
     

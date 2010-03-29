@@ -33,8 +33,8 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupAdService"
     end
 
-    soap_call_v2009 :all, :adgrop_id
-    soap_call_v2009 :create, :xml
+    soap_call_v2009 :all
+    soap_call_v2009 :create
 
     private
 

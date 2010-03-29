@@ -49,7 +49,7 @@ module Sem4r
     end
 
 
-    soap_call_v2009 :unit_cost, :usage_type
+    soap_call_v2009 :unit_cost
 
     def _unit_cost( usage_type )
       <<-EOFS

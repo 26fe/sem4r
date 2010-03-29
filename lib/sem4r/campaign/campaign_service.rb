@@ -35,8 +35,8 @@ module Sem4r
     end
 
     soap_call_v2009 :all
-    soap_call_v2009 :create, :xml
-    soap_call_v2009 :delete, :id
+    soap_call_v2009 :create
+    soap_call_v2009 :delete
 
     private
 

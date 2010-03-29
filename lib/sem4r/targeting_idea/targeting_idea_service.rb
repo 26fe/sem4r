@@ -35,7 +35,7 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/o/v200909/TargetingIdeaService"
     end
 
-    soap_call_v2009 :get, :xml
+    soap_call_v2009 :get
 
     ################
 
