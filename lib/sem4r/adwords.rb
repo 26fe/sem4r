@@ -112,6 +112,9 @@ module Sem4r
       config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
       return config_filepath if File.exists?( config_filepath )
 
+      config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", "sem4r.example.yml" ) )
+      return config_filepath if File.exists?( config_filepath )
+
       nil
     end
 
