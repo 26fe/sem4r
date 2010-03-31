@@ -29,9 +29,6 @@ module Sem4r
 
     g_accessor :text
     g_accessor :match_type
-    g_accessor :requested_attributes
-    g_accessor :start_indx
-    g_accessor :number_results
 
     def initialize(&block)
       if block_given?
@@ -106,6 +103,9 @@ module Sem4r
 
     g_accessor :idea_type, { :values_in => :IdeaTypes }
     g_accessor :request_type
+    g_accessor :requested_attributes
+    g_accessor :start_index
+    g_accessor :number_results
 
     def initialize(&block)
       @search_parameters = []
@@ -131,13 +131,18 @@ module Sem4r
           <s:ideaType>#{@idea_type}</s:ideaType>
           <s:requestType>#{@request_type}</s:requestType>
       EOFS
-
       xml += @search_parameters.collect{ |sp| sp.to_xml }.join()
-
+      if requested_attributes
+        requested_attributes.each do |requested_attribute|
+          xml += <<-EOS
+            <s:requestedAttributeTypes>#{requested_attribute.to_s.upcase}</s:requestedAttributeTypes>
+          EOS
+        end
+      end
       xml+=<<-EOFS
         <s:paging>
-          <startIndex>0</startIndex>
-          <numberResults>100</numberResults>
+          <startIndex>#{start_index || 1}</startIndex>
+          <numberResults>#{number_results || 100}</numberResults>
         </s:paging>
         </s:selector>
       EOFS

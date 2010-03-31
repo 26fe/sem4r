@@ -43,7 +43,6 @@ end
 
 Spec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
-
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
       expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
@@ -78,6 +77,39 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
       diff = Differ.diff_by_line(xml_normalized, expected_normalized)
       puts diff.format_as(:ascii)
       puts "----differ end"
+      false
+    else
+      true
+    end
+  end
+end
+
+Spec::Matchers.define :xml_contains do |expected_xml|
+  match do |xml|
+    if expected_xml.class == String
+      # erase namespaces i.e. <ns1:tag> -> <tag>
+      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      expected_xml = REXML::Document.new(expected_xml)
+    end
+    expected_normalized = pretty_xml(expected_xml)
+    # erase namespaces i.e. <ns1:tag> -> <tag>
+    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+
+    if xml.class == String
+      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      begin
+        xml = REXML::Document.new(xml)
+      rescue RuntimeError
+        puts "----------------------------------"
+        puts xml
+        puts "----------------------------------"
+        raise
+      end
+    end
+    xml_normalized = pretty_xml(xml)
+    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+
+    unless xml_normalized.match(expected_normalized)
       false
     else
       true
@@ -153,11 +185,15 @@ module Sem4rSpecHelper
     File.open(xml_filepath).read
   end
 
-  def read_model(xpath, *args)
+  def read_model(xpath, *args, &blk)
     contents = read_xml_file(*args)
     response_xml_wns = contents.gsub(/ns\d:/, "")
     xml_document = REXML::Document.new(response_xml_wns)
-    if xpath
+    if xpath && blk
+      el = REXML::XPath.each(xml_document, xpath) do |node|
+        yield node
+      end
+    elsif xpath
       el = REXML::XPath.first(xml_document, xpath)
     else
       el = xml_document.root.elements.to_a.first
@@ -302,3 +338,4 @@ module Sem4rSpecHelper
     criterion
   end
 end
+
