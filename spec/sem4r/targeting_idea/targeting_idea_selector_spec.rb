@@ -61,6 +61,18 @@ describe TargetingIdeaSelector do
       xml_expected = read_model("//s:searchParameters[@xsi:type='s:RelatedToKeywordSearchParameter']", "services", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
+    
+    it "should produce xml (input for google) with optional parameters" do
+      sp = RelatedToKeywordSearchParameter.new do
+        text "dvd player"
+        match_type "EXACT"
+        requested_attributes :keyword, :targeted_monthly_searches
+        start_index 201
+        number_results 200
+      end
+      xml_expected = read_model("//s:searchParameters[@xsi:type='s:RelatedToKeywordSearchParameter']", "services", "targeting_idea", "get-req-all-options.xml")
+      sp.to_xml.should  xml_equivalent(xml_expected)
+    end
   end
 
   describe ExcludedKeywordSearchParameter do
