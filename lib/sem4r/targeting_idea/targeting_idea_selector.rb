@@ -29,9 +29,6 @@ module Sem4r
 
     g_accessor :text
     g_accessor :match_type
-    g_accessor :requested_attributes
-    g_accessor :start_indx
-    g_accessor :number_results
 
     def initialize(&block)
       if block_given?
