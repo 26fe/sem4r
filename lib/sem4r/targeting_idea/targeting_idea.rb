@@ -110,7 +110,11 @@ module Sem4r
 
     def initialize(&block)
       if block_given?
+<<<<<<< HEAD
         block.arity < 1 ? instance_eval(&block) : block.call(self)
+=======
+        instance_eval(&block)
+>>>>>>> Added in CountryTargetSearchParameter.
       end
     end
 
