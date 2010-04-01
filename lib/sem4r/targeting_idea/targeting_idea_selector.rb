@@ -95,6 +95,27 @@ module Sem4r
     end
   end
 
+  class CountryTargetSearchParameter
+    include SoapAttributes
+
+    g_set_accessor :country_code
+
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def to_xml
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:CountryTargetSearchParameter">'
+      country_codes.each do |t|
+        xml << "<s:countryTargets><s:countryCode>#{t}</s:countryCode></s:countryTargets>"
+      end
+      xml << '</s:searchParameters>'
+    end
+  end
+  
   class TargetingIdeaSelector
     include SoapAttributes
 
@@ -125,6 +146,10 @@ module Sem4r
       @search_parameters << KeywordMatchTypeSearchParameter.new(&block)
     end
 
+    def country_target_search_parameter(&block)
+      @search_parameters << CountryTargetSearchParameter.new(&block)
+    end
+
     def to_xml
       xml=<<-EOFS
        <s:selector>
@@ -141,7 +166,7 @@ module Sem4r
       end
       xml+=<<-EOFS
         <s:paging>
-          <startIndex>#{start_index || 1}</startIndex>
+          <startIndex>#{start_index || 0}</startIndex>
           <numberResults>#{number_results || 100}</numberResults>
         </s:paging>
         </s:selector>
