@@ -61,10 +61,9 @@ module Sem4r
 
     module ClassMethods
       def soap_call(helper_version, method, options = {})
-
         mutate = options.delete :mutate
-        if mutate
-          smutate = "credentials.can_mutate"
+        if mutate.nil? or mutate
+          smutate = "credentials.mutable?"
         else
           smutate = "true"
         end
@@ -80,7 +79,7 @@ module Sem4r
               soap_body_content = send("_#{method}", *args)
               #{helper_version}(credentials, soap_body_content)
             else
-              raise "mutate methods cannot be called on read_only profile"
+              raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
           end
         EOFS

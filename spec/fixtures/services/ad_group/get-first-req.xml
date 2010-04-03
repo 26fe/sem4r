@@ -1,4 +1,3 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupService' -->
 <?xml version='1.0' encoding='UTF-8'?> 
 <env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/' xmlns='https://adwords.google.com/api/adwords/cm/v200909' xmlns:s='https://adwords.google.com/api/adwords/cm/v200909'>
   <env:Header>
