@@ -50,8 +50,7 @@ module Sem4r
     end
 
     def send(service_url)
-      soap_message = build_soap_message
-      response_xml = @connector.send(service_url, "", soap_message)
+      response_xml = @connector.send(service_url, "", build_soap_message)
       # erase namespace so it more simple parsing the xml
       response_xml = response_xml.gsub(/ns\d:/, "")
       @response = REXML::Document.new(response_xml)

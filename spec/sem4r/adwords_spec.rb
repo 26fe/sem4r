@@ -52,6 +52,15 @@ describe Adwords do
     credentials.email.should             == @email
     credentials.password.should          == @password
     credentials.developer_token.should   == @developer_token
+    credentials.should_not be_mutable
+  end
+
+  it "should be mutable" do
+    @options[:mutable] = true
+    adwords = Adwords.new( @options )
+    adwords.should_not_receive(:load_config)
+    credentials = adwords.account.credentials
+    credentials.should be_mutable
   end
 
   it "should set the right environment (sandbox)" do

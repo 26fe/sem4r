@@ -32,6 +32,10 @@ module Sem4r
     attr_reader :developer_token
     attr_reader :useragent
 
+    def mutable?;    @mutable; end
+    def sandbox?;    @environment != "production" end
+    def production?; !sandbox?; end
+
     def initialize( opts, client_email = nil )
       case opts
       when Hash
@@ -40,6 +44,7 @@ module Sem4r
         @password=            opts[:password].dup.freeze
         @useragent=           "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)"
         @developer_token=     opts[:developer_token].dup.freeze
+        @mutable=             opts[:mutable] ? true : false
       when Credentials
         @credentials = opts
         @environment=         @credentials.environment
@@ -47,6 +52,7 @@ module Sem4r
         @password=            @credentials.password
         @useragent=           @credentials.useragent
         @developer_token=     @credentials.developer_token
+        @mutable=             @credentials.mutable?
       end
 
       if client_email
@@ -55,15 +61,7 @@ module Sem4r
     end
 
     def to_s
-      "#{@email} - #{@client_email}"
-    end
-
-    def sandbox?
-      @environment != "production"
-    end
-
-    def production?
-      !sandbox?
+      "#{@email} - #{@client_email} (#{@mutable ? "mutable" : "read only"})"
     end
 
     def connector=(connector)

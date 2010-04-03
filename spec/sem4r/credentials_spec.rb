@@ -26,26 +26,40 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Credentials do
 
-  it "should have getter" do
-    connector = SoapConnector.new
-    connector.should_receive(:authentication_token).and_return("auth_token")
-
-    credentials = Credentials.new(
+  before do
+    @opts = {
       :environment => "sandbox",
       :email => "prova",
       :password => "prova",
-      :developer_token => "prova")
+      :developer_token => "prova"}
+  end
+
+  it "should have getter" do
+    credentials = Credentials.new(@opts)
 
     credentials.email.should           eql "prova"
     credentials.password.should        eql "prova"
     credentials.developer_token.should eql "prova"
-    #
-    # no connector so raise error
-    #
-    lambda { credentials.authentication_token }.should raise_error
+    credentials.should_not be_mutable
+  end
 
+  it "should be mutable" do
+    @opts[:mutable] = true
+    credentials = Credentials.new(@opts)
+    credentials.should be_mutable
+  end
+
+  it "requests authentication token should raise an exception without connector" do
+    credentials = Credentials.new(@opts)
+    lambda { credentials.authentication_token }.should raise_error
+  end
+  
+  it "should call connector when request for an authentication token" do
+    credentials = Credentials.new(@opts)
+    connector = SoapConnector.new
+    connector.should_receive(:authentication_token).and_return("auth_token")
     credentials.connector= connector
     credentials.authentication_token.should eql "auth_token"
   end
-  
+
 end
