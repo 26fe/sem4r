@@ -141,7 +141,7 @@ module Sem4r
       end
       xml+=<<-EOFS
         <s:paging>
-          <startIndex>#{start_index || 1}</startIndex>
+          <startIndex>#{start_index || 0}</startIndex>
           <numberResults>#{number_results || 100}</numberResults>
         </s:paging>
         </s:selector>
