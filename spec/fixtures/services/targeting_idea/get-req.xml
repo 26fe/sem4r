@@ -42,6 +42,10 @@
           </s:keywords>
         </s:searchParameters>
 
+        <s:searchParameters xsi:type='s:CountryTargetSearchParameter'>
+          <s:countryTargets><s:countryCode>US</s:countryCode></s:countryTargets>
+        </s:searchParameters>
+
         <s:paging>
           <startIndex>0</startIndex>
           <numberResults>100</numberResults>

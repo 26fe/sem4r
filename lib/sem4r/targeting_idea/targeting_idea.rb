@@ -44,7 +44,8 @@ module Sem4r
       :KeywordAttribute,
       :MoneyAttribute,
       :PlacementAttribute,
-      :LongRangeAttribute]
+      :LongRangeAttribute,
+      :MonthlySearchVolumeAttribute]
 
     attr_reader :attributes
     
@@ -62,6 +63,8 @@ module Sem4r
           TIdeaTypeAttribute.from_element(el1)
         when KeywordAttribute
           TKeywordAttribute.from_element(el1)
+        when MonthlySearchVolumeAttribute
+          TMonthlySearchVolumeAttribute.from_element(el1)
         end
       end
     end
@@ -94,6 +97,37 @@ module Sem4r
 
     def to_s
       "Keyword '#{text}' '#{match_type}'"
+    end
+  end
+  
+  class TMonthlySearchVolumeAttribute
+    include SoapAttributes
+
+    g_accessor :text
+    g_accessor :values
+
+    def initialize(&block)
+      if block_given?
+        instance_eval(&block)
+      end
+    end
+
+    def self.from_element( el )
+      historical_values = []
+      el.elements.each do |node|
+        next if node.name == "Attribute.Type"
+        historical_value = { :year => node.elements["year"].text,
+                             :month => node.elements["month"].text}
+        historical_value.merge!(:count => node.elements["count"].text) if node.elements["count"]
+        historical_values << historical_value
+      end
+      new do
+        values historical_values
+      end
+    end
+
+    def to_s
+      "Values: #{values.inspect}"
     end
   end
 

@@ -50,7 +50,7 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
     end
     expected_normalized = pretty_xml(expected_xml)
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n| {2,})/, "").strip
 
     if xml.class == String
       xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
