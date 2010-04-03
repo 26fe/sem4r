@@ -46,6 +46,10 @@ describe TargetingIdeaSelector do
         text       'dvd player'
         match_type 'EXACT'
       end
+      
+      country_target_search_parameter do
+        country_code 'US'
+      end
     end
     
     xml_expected = read_model("//s:selector", "services", "targeting_idea", "get-req.xml")
@@ -102,6 +106,15 @@ describe TargetingIdeaSelector do
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
-
+  
+  describe CountryTargetSearchParameter do
+    it "should produce xml (input for google)" do
+      sp = CountryTargetSearchParameter.new do
+        country_code 'US'
+      end
+      xml_expected = read_model("//s:searchParameters[@xsi:type='s:CountryTargetSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      sp.to_xml.should  xml_equivalent(xml_expected)
+    end
+  end
 
 end
