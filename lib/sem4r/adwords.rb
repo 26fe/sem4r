@@ -35,6 +35,46 @@ module Sem4r
       def production( config = nil )
         new( "production", config )
       end
+
+      def search_config_file
+        config_filename = "sem4r.yml"
+
+        #
+        # try current directory
+        #
+        return File.expand_path(config_filename) if File.exists?( config_filename)
+
+        #
+        # try ~/.sem4r/sem4r.yml
+        #
+        # require 'etc'
+        # homedir = Etc.getpwuid.dir
+        homedir = ENV['HOME']
+        config_filepath = File.join( homedir, ".sem4r", config_filename)
+        return config_filepath if File.exists?( config_filepath )
+
+        #
+        # try <home_sem4r>/config/sem4r
+        #
+        config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
+        return config_filepath if File.exists?( config_filepath )
+
+        config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", "sem4r.example.yml" ) )
+        return config_filepath if File.exists?( config_filepath )
+
+        nil
+      end
+
+      def list_profiles( profile_file = nil )
+        profile_file = search_config_file unless profile_file
+        unless profile_file
+          raise Sem4rError, "config file 'sem4r' not found"
+        end
+        puts "Loaded profiles from #{profile_file}"
+        yaml = YAML::load( File.open( profile_file ) )
+        profiles = yaml['google_adwords'].keys.map &:to_s
+        profiles.sort
+      end
     end
 
     # new( "sandbox", {:email=>"..."} )
@@ -47,7 +87,7 @@ module Sem4r
         # new( "sandbox", {:email=>"..."} )
         @profile = profile.to_s      
         options = options.stringify_keys
-        options.assert_valid_keys("environment", "email", "password", "developer_token", "config_file")
+        options.assert_valid_keys("environment", "email", "password", "developer_token", "mutable", "config_file")
         f = options.delete("config_file")
         self.config_file= f if f
         @options = load_config(@profile)
@@ -55,7 +95,7 @@ module Sem4r
       elsif profile.respond_to?(:keys)
         # new( {:environment=>"...", email => "..." } )
         @options = profile.stringify_keys
-        @options.assert_valid_keys("environment", "email", "password", "developer_token")
+        @options.assert_valid_keys("environment", "email", "password", "developer_token", "mutable")
         @profile = "anonymous_" + @options["environment"]
       else
         # new( "sandbox" )
@@ -89,35 +129,6 @@ module Sem4r
       @config_file_path
     end
 
-    def self.search_config_file
-      config_filename = "sem4r.yml"
-
-      #
-      # try current directory
-      #
-      return File.expand_path(config_filename) if File.exists?( config_filename)
-
-      #
-      # try ~/.sem4r/sem4r.yml
-      #
-      # require 'etc'
-      # homedir = Etc.getpwuid.dir
-      homedir = ENV['HOME']
-      config_filepath = File.join( homedir, ".sem4r", config_filename)
-      return config_filepath if File.exists?( config_filepath )
-
-      #
-      # try <home_sem4r>/config/sem4r
-      #
-      config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
-      return config_filepath if File.exists?( config_filepath )
-
-      config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", "sem4r.example.yml" ) )
-      return config_filepath if File.exists?( config_filepath )
-
-      nil
-    end
-
     def load_config(profile)
       unless config_file
         raise Sem4rError, "config file 'sem4r' not found"
@@ -126,17 +137,6 @@ module Sem4r
       yaml = YAML::load( File.open( config_file ) )
       config  = yaml['google_adwords'][profile]
       config || {}
-    end
-
-    def self.list_profiles( profile_file = nil )
-      profile_file = search_config_file unless profile_file
-      unless profile_file
-        raise Sem4rError, "config file 'sem4r' not found"
-      end
-      puts "Loaded profiles from #{profile_file}"
-      yaml = YAML::load( File.open( profile_file ) )
-      profiles = yaml['google_adwords'].keys.map &:to_s
-      profiles.sort
     end
 
     ##########################################################################
@@ -219,7 +219,8 @@ module Sem4r
         :email               => @options["email"],
         :password            => @options["password"],
         :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
-        :developer_token     => @options["developer_token"]
+        :developer_token     => @options["developer_token"],
+        :mutable             => @options["mutable"]
       )
       @credentials.connector = @connector
 
