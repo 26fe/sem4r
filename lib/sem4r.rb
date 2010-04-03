@@ -45,7 +45,7 @@ end
 cwd = Pathname(__FILE__).dirname
 $:.unshift(cwd.to_s) unless $:.include?(cwd.to_s) || $:.include?(cwd.expand_path.to_s)
 
-require 'my_active_support/core_ext/hash.rb'
+require 'sem4r/extensions.rb'
 
 require 'sem4r/adwords'
 require 'sem4r/credentials'
