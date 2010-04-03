@@ -1,6 +1,6 @@
 = Sem4r
 
-Adwords client library that works with ruby 1.9 and 1.8.
+Sem4r is a ruby library to access google adwords api, that works with ruby 1.9 and 1.8.
 
 The Google AdWords Api (http://code.google.com/apis/adwords/) is a
 webservice soap protocol. From the official site:
@@ -12,6 +12,11 @@ webservice soap protocol. From the official site:
 
 The official google adwords ruby library adwords4r doesn't work with ruby 1.9,
 because uses soap4r. The soap4r is not supported by ruby 1.9.
+Sem4r don't uses soap4r.
+
+Main idea is to use a high level model instead of a low level api.
+You think about clients, campaigns, keywords and not about operations, operands, service calls.
+In the future, the library might decide which api use (sync or async) and when call it!
 
 == Usage
 
@@ -22,7 +27,7 @@ To access adwords api you need:
 
 To access the sandbox environment
 
-adwords = Adwords.sandbox( :email => "<myaccount>@gmail.com", :password => "secret", :developer_token => "<myaccount>@gmail.com++EUR")
+  adwords = Adwords.sandbox( :email => "<myaccount>@gmail.com", :password => "secret", :developer_token => "<myaccount>@gmail.com++EUR")
 
 To print details about the current account:
 
@@ -30,18 +35,40 @@ adwords.account.p_info
 
 You can list all client accounts:
 
-adwords.account.p_clients
+  adwords.account.p_clients
 
-== REQUIREMENTS
+See directory examples_sem4r[http://github.com/sem4r/sem4r/tree/master/examples_sem4r/examples_sem4r] for more examples.
+Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new releases.
 
-It uses patron (http://github.com/toland/patron) as http client.
-Patron is not available on all platform. I plan to degrade to another http client
-when patron is not installed.
-
-== INSTALL
+== Install
 
   sudo gem install sem4r
 
-== Copyright
+== Contributors
 
-Copyright (c) 2009 Sem4r. See LICENSE for details.
+* Glenn Gillen {http://github.com/rubypond}
+
+== License
+
+(The MIT License)
+
+Copyright (c) 2009 - 2010 {Sem4r}[http://www.sem4r.com]
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
