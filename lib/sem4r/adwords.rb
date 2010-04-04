@@ -112,6 +112,10 @@ module Sem4r
       end
     end
 
+    def to_s
+      "adwords profile: '#{profile}' config file: '#{config_file}'"
+    end
+
     def config_file=(file_path)
       config_filepath = File.expand_path(file_path)
       if File.exists?( config_filepath)

@@ -31,11 +31,11 @@ run_example(__FILE__) do |adwords|
   #
   # 1. campaign
   #
-  campaign = client_account.campaign "sem4r web campaign #{Time.now}" do
+  campaign = client_account.campaign "sem4r web campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
   
     bidding_strategy "ManualCPM"
   
-    ad_group "sem4r search page #{Time.now}" do
+    ad_group "sem4r search page #{Time.now.strftime('%m%d-%H%M%S')}" do
   
       manual_cpm_bids do
         max_cpm 20000000
@@ -62,11 +62,11 @@ run_example(__FILE__) do |adwords|
   # 2 campaign
   #
 
-  campaign = client_account.campaign "sem4r mobile campaign #{Time.now}" do
+  campaign = client_account.campaign "sem4r mobile campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
 
     bidding_strategy "ManualCPC"
 
-    ad_group "sem4r on mobile #{Time.now}" do
+    ad_group "sem4r on mobile #{Time.now.strftime('%m%d-%H%M%S')}" do
       manual_cpc_bids do
         keyword_max_cpc 21000000
         site_max_cpc    22000000
