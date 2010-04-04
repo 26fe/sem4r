@@ -28,8 +28,7 @@ module Sem4r
     enum :Types,             [:Keyword, :Placement]
     enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
 
-    attr_reader :id
-    attr_reader :ad_group
+    attr_reader   :ad_group
     attr_accessor :type
 
     def initialize( ad_group )
@@ -37,14 +36,18 @@ module Sem4r
       @ad_group = ad_group
     end
 
-#    def self.from_element( ad_group, el )
-#      type =  el.elements["Criterion.Type"].text
-#      klass = Module::const_get(type)
-#      klass.from_element(ad_group, el)
-#    end
+    def saved?
+      !@id.nil?
+    end
+
+    def id
+      @id
+    end
 
     def self.from_element( ad_group, el )
       xml_type =       el.elements["Criterion.Type"].text.strip
+      #      klass = Module::const_get(type)
+      #      klass.from_element(ad_group, el)
       case xml_type
       when Keyword
         CriterionKeyword.from_element(ad_group, el)

@@ -41,13 +41,13 @@ describe AdGroupCriterionService do
     els.should_not be_empty
   end
 
-  it "should define 'create'" do
+  it "should define 'mutate'" do
     @credentials.should_receive(:mutable?).and_return(true)
     response_xml = read_xml_file("services", "ad_group_criterion", "mutate_add_criterion_keyword-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupCriterionService.new(connector)
-    soap_message = service.create( @credentials, "xml" )
+    soap_message = service.mutate( @credentials, "xml" )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
     els.should_not be_empty
   end
