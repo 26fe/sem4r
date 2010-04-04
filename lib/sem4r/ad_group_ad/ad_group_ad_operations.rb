@@ -35,16 +35,4 @@ module Sem4r
 
   end
 
-
-  class JobOperation < Operation
-
-    def initialize(&block)
-      @operation_type = "JobOperation"
-      if block_given?
-        block.arity < 1 ? instance_eval(&block) : block.call(self)
-      end
-    end
-
-  end
-
 end

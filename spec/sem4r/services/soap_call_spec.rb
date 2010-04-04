@@ -73,13 +73,14 @@ describe SoapCall do
 #  end
 
   it "calling 'get' should call private method _get" do
+    pending "Test"
     credentials = stub_credentials
     @connector = mock("connector", :send => "send")
     # @connector.should_receive().with("get")
     t = TSoapService.new(@connector)
     t.should_receive(:_get).with("foo").and_return("get")
     soap_message = t.get(credentials, "foo")
-    puts soap_message.response
+    # soap_message.response.should == "send"
   end
 
   it "calling 'get_with_arg' should call private method _get_with_arg" do
