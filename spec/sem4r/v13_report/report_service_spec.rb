@@ -27,17 +27,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe ReportService do
   include Sem4rSpecHelper
 
-  before(:all) do
-    @credentials = mock("credentials")
-    @credentials.should_receive(:sandbox?).and_return(true)
-    @credentials.should_receive(:email).and_return("example@gmail.com")
-    @credentials.should_receive(:password).and_return("secret")
-    @credentials.should_receive(:client_email).and_return(nil)
-    @credentials.should_receive(:useragent).and_return("sem4r")
-    @credentials.should_receive(:developer_token).and_return("dev_token")
+  before do
+    @credentials = stub_credentials
   end
 
-  it "should accept all message" do
+  it "should define 'all'" do
     response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
@@ -50,4 +44,61 @@ describe ReportService do
     els.should_not be_empty
     els.should have(4).elements
   end
+
+  it "should define 'validate'" do
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
+
+    report_service = ReportService.new(connector)
+    soap_message = report_service.validate( @credentials, "xml" )
+
+    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els.should_not be_empty
+    els.should have(4).elements
+  end
+
+  it "should define 'schedule'" do
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
+
+    report_service = ReportService.new(connector)
+    soap_message = report_service.schedule( @credentials, "xml" )
+
+    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els.should_not be_empty
+    els.should have(4).elements
+  end
+
+  it "should define 'status'" do
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
+
+    report_service = ReportService.new(connector)
+    soap_message = report_service.status( @credentials, "job_id" )
+
+    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els.should_not be_empty
+    els.should have(4).elements
+  end
+
+  it "should define 'url'" do
+    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
+
+    report_service = ReportService.new(connector)
+    soap_message = report_service.url( @credentials, "job_id" )
+
+    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els.should_not be_empty
+    els.should have(4).elements
+  end
+
 end

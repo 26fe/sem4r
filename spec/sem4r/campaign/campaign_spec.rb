@@ -33,7 +33,7 @@ describe Campaign do
     services = double("services")
     stub_service_campaign(services)
     stub_service_ad_group(services)
-    @account = mock_account(services)
+    @account = stub_account(services)
   end
 
   describe "campaign management" do

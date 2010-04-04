@@ -33,7 +33,7 @@ describe AdGroupCriterion do
     services = stub("services")
     stub_service_ad_group_criterion(services)
     @ad_group = stub_adgroup(services)
-    @criterion = stub("criterion")
+    @criterion = stub_criterion(services)
     @bids = stub("bids")
   end
 
@@ -75,14 +75,27 @@ describe AdGroupCriterion do
   describe NegativeAdGroupCriterion do
 
     it "should be build with accessors (not a block)" do
-      biddable_criterion = NegativeAdGroupCriterion.new(@adgroup)
+      biddable_criterion = NegativeAdGroupCriterion.new(@ad_group)
       biddable_criterion.criterion @criterion
       biddable_criterion.criterion.should  eql @criterion
     end
 
+    it "should produce xml (input for google)" do
+      keyword = CriterionKeyword.new(@ad_group) do
+        text       "sem4r adwords api"
+        match      "BROAD"
+      end
+      biddable_criterion = NegativeAdGroupCriterion.new(@ad_group)
+      biddable_criterion.criterion keyword
+      xml_expected = read_model("//operand", "services", "ad_group_criterion", "mutate_add_negative_keyword-req.xml")
+      biddable_criterion.to_xml("operand").should  xml_equivalent(xml_expected)
+    end
+
     it "should parse xml (produced by google)" do
       el = read_model("//value", "services", "ad_group_criterion", "mutate_add_negative_keyword-res.xml")
-      negative = AdGroupCriterion.from_element(@adgroup, el)
+      negative = AdGroupCriterion.from_element(@ad_group, el)
+      negative.criterion.text.should == "java api library"
+      negative.criterion.match.should == "BROAD"
     end
 
   end
