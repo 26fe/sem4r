@@ -100,6 +100,7 @@ require 'sem4r/ad_group_criterion/ad_group_criterion'
 # ad_param
 #
 require 'sem4r/ad_param/ad_param'
+require 'sem4r/ad_param/ad_param_operation'
 
 #
 # bulk_mutate_job

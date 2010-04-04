@@ -107,6 +107,7 @@ module Sem4r
       _save
       _save_criterions
       _save_ads
+      _save_ad_params
       self
     end
 
@@ -300,7 +301,7 @@ module Sem4r
 
     def ad_param(criterion, index = nil, text = nil, &block)
       ad_param = AdParam.new(self, criterion, index, text, &block)
-      ad_param.save
+      ad_param.save unless inside_initialize? or criterion.inside_initialize?
       @ad_params ||= []
       @ad_params.push( ad_param )
       ad_param
@@ -328,6 +329,11 @@ module Sem4r
       @ad_params = els.map do |el|
         AdParam.from_element( self, el )
       end
+    end
+
+    def _save_ad_params
+      return unless @ad_params
+      @ad_params.each { |p| p.save }
     end
 
   end
