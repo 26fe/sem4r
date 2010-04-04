@@ -43,6 +43,23 @@ module Sem4r
       klass.from_element(ad_group, el)
     end
 
+    def saved?
+      criterion.saved?
+    end
+
+    def save
+      unless criterion.saved?
+        o = AdGroupCriterionOperation.new.add(self)
+        soap_message =
+          criterion.service.ad_group_criterion.mutate(criterion.credentials, o.to_xml("operations"))
+        criterion.add_counters( soap_message.counters )
+        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
+        id = REXML::XPath.match( rval, "value/criterion/id" ).first
+        criterion.instance_eval{ @id = id.text.strip.to_i }
+      end
+      self
+    end
+
   end
 
   class BiddableAdGroupCriterion < AdGroupCriterion
@@ -81,18 +98,6 @@ module Sem4r
       end
     end
 
-    def save
-      unless criterion.id
-        soap_message =
-          criterion.service.ad_group_criterion.create(criterion.credentials, to_xml("operand"))
-        criterion.add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
-        criterion.instance_eval{ @id = id.text.strip.to_i }
-      end
-      self
-    end
-
   end
 
   class NegativeAdGroupCriterion < AdGroupCriterion
@@ -101,6 +106,12 @@ module Sem4r
       @ad_group = ad_group
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def self.from_element(ad_group, el)
+      new(ad_group) do
+        criterion Criterion.from_element(ad_group, el.elements["criterion"])
       end
     end
 
@@ -118,24 +129,6 @@ module Sem4r
         #        # t.status "ENABLED"
         #        criterion.to_xml(t)
       end
-    end
-
-    def self.from_element(ad_group, el)
-      new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.elements["criterion"])
-      end
-    end
-
-    def save
-      unless criterion.id
-        soap_message =
-          criterion.service.ad_group_criterion.create(criterion.credentials, to_xml("operand"))
-        criterion.add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
-        criterion.instance_eval{ @id = id.text.strip.to_i }
-      end
-      self
     end
 
   end

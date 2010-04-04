@@ -41,7 +41,7 @@ describe AdGroupAdOperation do
     }.should raise_error(Sem4rError, "Missing Operand")
   end
 
-  it "should produce xml" do
+  it "should produce xml (input for google)" do
     @adgroup.should_receive(:id).and_return(3060284754)
     text_ad = AdGroupTextAd.new(@adgroup)
     text_ad.headline     = "Cruise to Mars Sector 1"
@@ -53,6 +53,36 @@ describe AdGroupAdOperation do
 
     expected_xml = read_model("//operations", "services", "bulk_mutate_job", "mutate-req.xml")
     @ad_operation.to_xml('operations').should xml_equivalent(expected_xml)
+  end
+
+  it "should produce xml (input for google) with two operation" do
+    pending "test"
+    @adgroup = stub_adgroup
+
+    text_ad_1 = AdGroupTextAd.new(@adgroup) do
+      headline      "sem4r"
+      description1  "adwords ruby client library"
+      description2  "adwords ruby client library"
+      display_url   "www.sem4r.com"
+      url           "http://www.Sem4R.com"
+    end
+
+    text_ad_2 = AdGroupTextAd.new(@adgroup) do
+      headline      "sem4r"
+      description1  "adwords ruby client library"
+      description2  "adwodrs api made simple!"
+      display_url   "www.sem4r.com"
+      url           "http://www.Sem4R.com"
+    end
+
+    ad_operation_1 = AdGroupAdOperation.new.add text_ad_1
+    ad_operation_2 = AdGroupAdOperation.new.add text_ad_2
+
+    puts ad_operation_1.to_xml("operations")
+    puts ad_operation_2.to_xml("operations")
+
+    #    expected_xml = read_model("//operations", "services", "bulk_mutate_job", "mutate-req.xml")
+    #    @ad_operation.to_xml('operations').should xml_equivalent(expected_xml)
   end
 
 end
