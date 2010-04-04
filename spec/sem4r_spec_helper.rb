@@ -247,7 +247,7 @@ module Sem4rSpecHelper
   def stub_service_ad_group_ad(service)
     xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_text_ad-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
-    ad_group_ad_service = stub("ad_group_ad_service", :create => soap_message)
+    ad_group_ad_service = stub("ad_group_ad_service", :mutate => soap_message)
     service.stub(:ad_group_ad).and_return(ad_group_ad_service)
   end
 
@@ -278,9 +278,14 @@ module Sem4rSpecHelper
 
   #############################################################################
 
-  def stub_adwords(services)
-    adwords = stub("adwords", :service => services, :add_counters => nil)
-    adwords
+  def stub_services
+    double("services")
+  end
+
+  def stub_adwords(services = nil)
+    stub("adwords", 
+      :service => services ||= stub_services,
+      :add_counters => nil)
   end
 
   def stub_credentials
@@ -296,7 +301,7 @@ module Sem4rSpecHelper
     )
   end
 
-  def stub_account(services)
+  def stub_account(services = nil)
     adwords = stub_adwords(services)
     credentials = stub_credentials
     campaign = stub("account",
@@ -306,7 +311,7 @@ module Sem4rSpecHelper
     campaign
   end
 
-  def stub_campaign(services)
+  def stub_campaign(services = nil)
     adwords = stub_adwords(services)
     credentials = stub_credentials
 
@@ -317,7 +322,7 @@ module Sem4rSpecHelper
     campaign
   end
 
-  def stub_adgroup(services, id = 1000)
+  def stub_adgroup(services = nil, id = 1000)
     adwords = stub_adwords(services)
     credentials = stub_credentials
     stub("adgroup",
@@ -326,7 +331,7 @@ module Sem4rSpecHelper
       :id          => id)
   end
 
-  def stub_criterion(services)
+  def stub_criterion(services = nil)
     adwords     = stub_adwords(services)
     credentials = stub_credentials
 

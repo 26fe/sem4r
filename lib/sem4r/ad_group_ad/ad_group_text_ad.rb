@@ -35,7 +35,7 @@ module Sem4r
     end
 
     def to_s
-      "#{@id} textad #{@textad[:url]}"
+      "#{@id} textad '#{headline}' #{url}"
     end
 
     def xml(t)
@@ -83,11 +83,14 @@ module Sem4r
     end
 
     def save
-      soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
-      add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-      id = REXML::XPath.match( rval, "value/ad/id" ).first
-      @id = id.text.strip.to_i
+      unless @id
+        ad_operation = AdGroupAdOperation.new.add self
+        soap_message = service.ad_group_ad.mutate(credentials, ad_operation.to_xml("operations"))
+        add_counters( soap_message.counters )
+        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
+        id = REXML::XPath.match( rval, "value/ad/id" ).first
+        @id = id.text.strip.to_i
+      end
       self
     end
 
