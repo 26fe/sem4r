@@ -35,7 +35,7 @@ describe AdGroup do
     stub_service_ad_group_criterion(services)
     stub_service_ad_group_ad(services)
     stub_service_ad_param(services)
-    @campaign = mock_campaign(services)
+    @campaign = stub_campaign(services)
     @criterion = stub_criterion(services)
   end
 

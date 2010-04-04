@@ -30,7 +30,7 @@ describe Report do
   before do
     services = stub("services")
     stub_service_report(services)
-    @account = mock_account(services)
+    @account = stub_account(services)
   end
 
   it "create should be accept a block" do

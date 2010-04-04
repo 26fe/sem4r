@@ -1,4 +1,3 @@
-<!-- response -->
 <soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
@@ -53,4 +52,3 @@
     </getResponse>
   </soap:Body>
 </soap:Envelope>
-<!-- end -->
