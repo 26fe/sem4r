@@ -48,29 +48,14 @@ end
 
 def example_soap_dump_options(example_file)
   return nil unless File.directory?(tmp_dirname)
-
-  one_log_file = false
-  
-  if(one_log_file)
-    filename = File.basename(example_file).sub(/\.rb$/, "-log.xml")
-    pathname = File.join( tmp_dirname, filename)
-    return File.open( pathname, "w" )
-  else
-    basename = File.basename(example_file).sub(/\.rb$/, '')
-    log_directory =  File.join( File.join(tmp_dirname), basename)
-    log_directory = File.expand_path(log_directory)
-    if File.directory?(log_directory)
-      puts "directory esistente"
-      #empty directory??
-    else
-      puts "creazione directory"
-      Dir.mkdir(log_directory)
-    end
-    # filename = File.basename(example_file).sub(/\.rb$/, "-log.xml")
-    # pathname = File.join( log_directory, filename)
-    # File.open( pathname, "w" )
-    { :directory => log_directory, :format => true }
+  basename = File.basename(example_file).sub(/\.rb$/, '')
+  log_directory =  File.join( File.join(tmp_dirname), basename)
+  log_directory = File.expand_path(log_directory)
+  unless File.directory?(log_directory)
+    Dir.mkdir(log_directory)
   end
+  puts "dump soap messages in '#{log_directory}'"
+  { :directory => log_directory, :format => true }
 end
 
 def example_logger(example_file)
