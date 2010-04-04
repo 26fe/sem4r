@@ -34,7 +34,9 @@ module Sem4r
 
     def initialize(&block)
       @operations = []
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def add_operation(operation)
