@@ -61,11 +61,11 @@ run_example(__FILE__) do |adwords|
   client_account = adwords.account.client_accounts.first
 
   campaign = Campaign.create(client_account) do
-    name "campaign #{Time.now}"
+    name "campaign #{Time.now.strftime('%m%d-%H%M%S')}"
   end
 
   ad_group = campaign.ad_group do
-    name "adgroup #{Time.now}"
+    name "adgroup #{Time.now.strftime('%m%d-%H%M%S')}"
   end
 
   puts "created campaign '#{campaign.name}' with id '#{campaign.id}'"

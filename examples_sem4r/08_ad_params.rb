@@ -32,12 +32,12 @@ run_example(__FILE__) do |adwords|
     campaign = client_account.campaigns[0]
   else
     campaign = client_account.campaign do
-      name "campaign #{Time.now}"
+      name "campaign #{Time.now.strftime('%m%d-%H%M%S')}"
     end
   end
 
   campaign.ad_group do
-    name "ad_group #{Time.now}"
+    name "ad_group #{Time.now.strftime('%m%d-%H%M%S')}"
 
     text_ad do
       url           "http://www.pluto.com"

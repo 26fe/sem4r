@@ -29,6 +29,7 @@ require 'sem4r'
 require 'sem4r/cli/cli_sem'
 require 'sem4r/cli/cli_common_args'
 require 'sem4r/cli/cli_command'
+require 'sem4r/cli/cli_helpers'
 
 # commands
 require 'sem4r/cli/cli_commands'
