@@ -35,6 +35,10 @@ module Sem4r
       end
     end
 
+    def self.create(ad_group, &block)
+      new(ad_group, &block).save
+    end
+
     def self.from_element( ad_group, el )
       new(ad_group) do
         @id      = el.elements["id"].text.strip.to_i
@@ -42,12 +46,8 @@ module Sem4r
       end
     end
 
-    def self.create(ad_group, &block)
-      new(ad_group, &block).save
-    end
-
     def to_s
-      "#{@id} #{@type} #{@url}"
+      "#{saved? ? id : 'unsaved'} #{type} #{url}"
     end
 
     def xml(t)
@@ -61,5 +61,6 @@ module Sem4r
       t = builder.tag!(tag, "xsi:type" => "CriterionKeyword")
       xml(t)
     end
+
   end
 end

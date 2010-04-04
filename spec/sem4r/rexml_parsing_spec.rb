@@ -25,8 +25,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "Test Parsing with REXML" do
-
   include Sem4rSpecHelper
+
+
+  it "ddd" do
+    pending "test"
+    xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
+    els = REXML::XPath.match( xml_document, "//mutateResponse/rval/value/ad/id")
+    els.each {|e| puts e.text.strip.to_i }
+  end
 
   it "test_account_get_client_accounts" do
     xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")

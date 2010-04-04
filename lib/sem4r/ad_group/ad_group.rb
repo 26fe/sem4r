@@ -45,8 +45,15 @@ module Sem4r
       @criterions = nil
       self.name = name unless name.nil?
       if block_given?
+        @inside_initialize = true
         block.arity < 1 ? instance_eval(&block) : block.call(self)
+        save unless campaign.inside_initialize?
       end
+      @inside_initialize = false
+    end
+
+    def inside_initialize?
+      @inside_initialize
     end
 
     def id
@@ -83,6 +90,10 @@ module Sem4r
     ###########################################################################
     # management
 
+    def self.create(campaign, &block)
+      new(campaign, &block).save
+    end
+
     def self.from_element(campaign, el)
       new(campaign) do
         @id          = el.elements["id"].text.strip.to_i
@@ -92,32 +103,10 @@ module Sem4r
       end
     end
 
-    def self.create(campaign, &block)
-      new(campaign, &block).save
-    end
-
     def save
       _save
-      @criterions.each { |criterion| criterion.save } if @criterions
-
-      # save ads
-      if @ads
-        unsaved_ads = @ads.select { |a| !a.saved? }
-        unless unsaved_ads.empty?
-          xml = unsaved_ads.inject('') do |xml,ad|
-            o = AdGroupAdOperation.new.add(ad)
-            xml + o.to_xml("operations")
-          end
-          soap_message = service.ad_group_ad.mutate(credentials, xml)
-          add_counters( soap_message.counters )
-          els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/ad/id")
-          els.each_with_index do |e,index|
-            id = e.text.strip.to_i
-            unsaved_ads[index].instance_eval{ @id = id }
-          end
-        end
-      end
-
+      _save_criterions
+      _save_ads
       self
     end
 
@@ -198,6 +187,25 @@ module Sem4r
       end
     end
 
+    def _save_ads
+      return unless @ads
+
+      unsaved_ads = @ads.select { |a| !a.saved? }
+      return if unsaved_ads.empty?
+
+      xml = unsaved_ads.inject('') do |xml,ad|
+        o = AdGroupAdOperation.new.add(ad)
+        xml + o.to_xml("operations")
+      end
+      soap_message = service.ad_group_ad.mutate(credentials, xml)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/ad/id")
+      els.each_with_index do |e,index|
+        id = e.text.strip.to_i
+        unsaved_ads[index].instance_eval{ @id = id }
+      end
+    end
+
     public
 
     ###########################################################################
@@ -207,11 +215,8 @@ module Sem4r
       negative_criterion = NegativeAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       negative_criterion.criterion = criterion
-      negative_criterion.save
-
       @criterions ||= []
       @criterions.push( negative_criterion )
-      
       negative_criterion
     end
 
@@ -224,24 +229,17 @@ module Sem4r
       biddable_criterion = BiddableAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       biddable_criterion.criterion = criterion
-      biddable_criterion.save
-
       @criterions ||= []
       @criterions.push( biddable_criterion )
-
       biddable_criterion
     end
 
     def placement(url = nil, &block)
       biddable_criterion = BiddableAdGroupCriterion.new(self)
-
       criterion = CriterionPlacement.new(self, url, &block)
       biddable_criterion.criterion = criterion
-      biddable_criterion.save
-
       @criterions ||= []
       @criterions.push( biddable_criterion )
-
       biddable_criterion
     end
 
@@ -271,6 +269,27 @@ module Sem4r
       els = REXML::XPath.match( rval, "entries/criterion")
       @criterions = els.map do |el|
         Criterion.from_element( self, el )
+      end
+    end
+
+    def _save_criterions
+      # @criterions.each { |criterion| criterion.save } if @criterions
+
+      return unless @criterions
+
+      unsaved_criterions = @criterions.select { |a| !a.saved? }
+      return if unsaved_criterions.empty?
+
+      xml = unsaved_criterions.inject('') do |xml,ad|
+        o = AdGroupCriterionOperation.new.add(ad)
+        xml + o.to_xml("operations")
+      end
+      soap_message = service.ad_group_criterion.mutate(credentials, xml)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/criterion/id")
+      els.each_with_index do |e,index|
+        id = e.text.strip.to_i
+        unsaved_criterions[index].criterion.instance_eval{ @id = id }
       end
     end
 

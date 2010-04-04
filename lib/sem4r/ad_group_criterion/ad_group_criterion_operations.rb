@@ -23,25 +23,12 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-
   class AdGroupCriterionOperation < Operation
-
     def initialize(&block)
       @operation_type = "AdGroupCriterionOperation"
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
-
-  end
-
-  class AdGroupCriterionOperation
-    def initialize(&block)
-      @operation_type = "AdGroupCriterionOperation"
-      if block_given?
-        block.arity < 1 ? instance_eval(&block) : block.call(self)
-      end
-    end
-
   end
 end

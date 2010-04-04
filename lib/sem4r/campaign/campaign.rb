@@ -54,9 +54,15 @@ module Sem4r
       @ad_groups = nil
       self.name = name
       if block_given?
+        @inside_initialize = true
         block.arity < 1 ? instance_eval(&block) : block.call(self)
         save
       end
+      @inside_initialize = false
+    end
+
+    def inside_initialize?
+      @inside_initialize
     end
 
     def to_s

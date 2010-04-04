@@ -137,8 +137,8 @@ describe AdGroup do
       end
       adgroup.should have(1).criterions
       criterion = adgroup.criterions.first.criterion
-      criterion.id.should == 10
       criterion.text.should == "pippo"
+      criterion.id.should == 10
     end
 
     it "should add a CriterionKeyword with method 'keyword' + parameters" do
