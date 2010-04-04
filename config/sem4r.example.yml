@@ -1,5 +1,6 @@
 #
 # Example config file
+# Adwords profiles
 #
 google_adwords:
 
@@ -8,21 +9,43 @@ google_adwords:
     email:             example@gmail.com
     password:          password
     developer_token:   example@gmail.com++EUR
+    mutable:           true
 
   production:
     # default environment is production (cannot be changed)
     email:             production@mysite.com
     password:          password
     developer_token:   productiondevelopertoken
+    mutable:           true
 
-  client_sandbox:
+  # immutable profile
+  # cannot be called service that modify account
+  # as adding keyword, disable adgroup, ...
+  sandbox_read_only:
     environment:       sandbox
     email:             example@gmail.com
     password:          password
     developer_token:   example@gmail.com++EUR
+    mutable:           false
 
-  client_production:
+  production_read_only:
+    environment:       production
+    email:             production@mysite.com
+    password:          password
+    developer_token:   productiondevelopertoken
+    mutable:           false
+
+  myclient_sandbox:
+    environment:       sandbox
+    email:             example@gmail.com
+    password:          password
+    developer_token:   example@gmail.com++EUR
+    mutable:           true
+
+  myclient_production:
     environment:       production
     email:             production@anothersite.com
     password:          password
     developer_token:   productiondevelopertoken
+    mutable:           true
+    
