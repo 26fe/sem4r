@@ -27,25 +27,48 @@ module Sem4r
   CliListAds = CliCommand.define_command("ads", "list ads") do |account|
     puts "List AdGroup Advertising"
 
-    account.client_accounts.each do |client_account|
+    # if the accounts have client_accounts it is a master
+    client_accounts = account.client_accounts
+    if client_accounts.empty?
+      client_accounts = [account]
+    end
+
+    items = []
+    need_newline = false
+
+    client_accounts.each do |client_account|
+      if need_newline
+        puts
+        need_newline = false
+      end
+
+      #--
       puts "examinate account '#{client_account.credentials.client_email}'"
       client_account.campaigns.each do |campaign|
-        puts "examinate campaign '#{campaign}'"
+        # puts "examinate campaign '#{campaign}'"
         campaign.ad_groups.each do |ad_group|
-          puts "examinate adgroup '#{ad_group}'"
+          # puts "examinate adgroup '#{ad_group}'"
           ad_group.ads.each do |ad|
-            row = []
-            row << client_account.credentials.client_email
-            row << campaign.name
-            row << ad_group.name
-            row << ad.url
-            row << ad.display_url
-            puts row.join(",")
+            o = OpenStruct.new
+            o.client   = client_account.credentials.client_email
+            o.campaign = campaign.name
+            o.ad_group = ad_group.name
+            o.url      = ad.url
+            o.url      = ad.display_url
+            items << o
           end
+          print "."
+          need_newline = true
         end
       end
-    end
-    account.adwords.p_counters
+      #--
 
+    end
+    if need_newline
+      puts
+      need_newline = false
+    end
+    report(items, :client, :campaign, :ad_group, :url, :display_url)
+    account.adwords.p_counters
   end
 end

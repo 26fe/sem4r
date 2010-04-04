@@ -61,7 +61,11 @@ module Sem4r
     end
 
     def to_s
-      "account credentials: #{@email} - #{@client_email} (#{@mutable ? "mutable" : "read only"})"
+      if @client_email
+        "client account: #{@email} - #{@client_email} (#{@mutable ? "mutable" : "read only"})"
+      else
+        "master account: #{@email} (#{@mutable ? "mutable" : "read only"})"
+      end
     end
 
     def connector=(connector)
