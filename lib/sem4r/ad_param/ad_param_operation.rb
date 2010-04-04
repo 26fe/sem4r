@@ -22,34 +22,13 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe AdParamService do
-  include Sem4rSpecHelper
-
-  before do
-    @credentials = stub_credentials
+module Sem4r
+  class AdParamOperation < Operation
+    def initialize(&block)
+      @operation_type = "AdParamOperation"
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
   end
-
-  it "should define 'all'" do
-    response_xml = read_xml_file("services", "ad_param", "mutate_set-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-    service = AdParamService.new(connector)
-    soap_message = service.all( @credentials, "ad_group_id" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    els.should_not be_empty
-  end
-
-  it "should define 'set'" do
-    @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_param", "mutate_set-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-    service = AdParamService.new(connector)
-    soap_message = service.mutate( @credentials, "xml" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    els.should_not be_empty
-  end
-
 end

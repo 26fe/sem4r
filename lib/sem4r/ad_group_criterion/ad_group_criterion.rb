@@ -73,6 +73,10 @@ module Sem4r
       end
     end
 
+    def to_s
+      "biddable " + criterion.to_s
+    end
+
     def self.from_element(ad_group, el)
       new(ad_group) do
         criterion Criterion.from_element(ad_group, el.elements["criterion"])
@@ -107,6 +111,10 @@ module Sem4r
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
+    end
+
+    def to_s
+      "negative " + criterion.to_s
     end
 
     def self.from_element(ad_group, el)
