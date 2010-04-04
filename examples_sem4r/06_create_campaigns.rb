@@ -48,22 +48,22 @@ run_example(__FILE__) do |adwords|
   puts "created ad with id '#{adgroup_ad.id}'"
 
   CriterionKeyword.new(adgroup) do
-    text       "pippo"
+    text       "sem4r"
     match      "BROAD"
   end
 
   CriterionKeyword.new(adgroup) do
-    text       "pluto"
+    text       "adwords"
     match      "BROAD"
   end
 
   CriterionKeyword.new(adgroup) do
-    text       "paperino"
+    text       "library"
     match      "BROAD"
   end
 
   CriterionPlacement.new(adgroup) do
-    url       "http://github.com"
+    url       "http://www.sem4r.com"
   end
 
   #
@@ -74,7 +74,7 @@ run_example(__FILE__) do |adwords|
     name "adgroup dsl #{Time.now}"
 
     keyword do
-      text  "dsl paperino"
+      text  "adwords client library"
       match "BROAD"
     end
   end
