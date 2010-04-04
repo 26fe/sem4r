@@ -35,8 +35,14 @@ module Sem4r
       self.text = text   unless text.nil?     # TODO: text == nil raise error
       self.match = match unless match.nil?
       if block_given?
+        @inside_initialize = true
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
+      @inside_initialize = false
+    end
+
+    def inside_initialize?
+      @inside_initialize
     end
 
     def self.create(ad_group, &block)
@@ -52,7 +58,7 @@ module Sem4r
     end
 
     def to_s
-      "#{saved? ? id : 'unsaved' } #{type} #{text} #{match_type}"
+      "#{saved? ? id : 'unsaved' } #{type} #{text} #{match}"
     end
 
     def xml(t)

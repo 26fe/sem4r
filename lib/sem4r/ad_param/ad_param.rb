@@ -33,20 +33,24 @@ module Sem4r
 
     def initialize(ad_group, criterion, index = nil, text = nil, &block)
       super( ad_group.adwords, ad_group.credentials )
+      @saved = false
       @ad_group   = ad_group
       @criterion  = criterion
       self.index = index unless index.nil?
       self.text  = text  unless text.nil?
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
-        save
+        save unless criterion.inside_initialize? or ad_group.inside_initialize?
       end
+    end
+
+    def saved?
+      @saved
     end
 
     def to_s
       "#{@id} #{@index} #{@text}"
     end
-
 
     # adGroupId  	   Id of ad_group This field is required and should not be null.
     # criterionId 	 The id of the Keyword criterion that this ad parameter applies to.
@@ -57,13 +61,14 @@ module Sem4r
     #                within Operators : SET. The length of this string should be
     #                between 1 and 25, inclusive.
     # paramIndex
-    def to_xml
-      <<-EOFS
-        <adGroupId>#{@ad_group.id}</adGroupId>
-        <criterionId>#{@criterion.id}</criterionId>
-        <paramIndex>#{@index}</paramIndex>
-        <insertionText>#{@text}</insertionText>
-      EOFS
+    def to_xml(tag)
+      builder = Builder::XmlMarkup.new
+      builder.tag!(tag) do |t|
+        t.adGroupId     @ad_group.id
+        t.criterionId   @criterion.id
+        t.insertionText @text
+        t.paramIndex    @index
+      end
     end
 
     def self.from_element(ad_group, el)
@@ -77,13 +82,13 @@ module Sem4r
       end
     end
 
-    ############################################################################
-
     def save
       return if @saved
-      soap_message = service.ad_param.set(credentials, to_xml)
+      o = AdParamOperation.new.set( self )
+      soap_message = service.ad_param.mutate(credentials, o.to_xml("operations") )
       add_counters( soap_message.counters )
-      # ignore response ad_param don't have id
+      # ignore response ad_param doesn't have id
+      @saved = true
       self
     end
 

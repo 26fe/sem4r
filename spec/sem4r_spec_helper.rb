@@ -261,7 +261,7 @@ module Sem4rSpecHelper
   def stub_service_ad_param(service)
     # xml_document = read_xml_document("services", "ad_group_criterion_service", "mutate_add_criterion_keyword-res.xml")
     soap_message = stub("soap_message", :response => nil, :counters => nil)
-    ad_param_service = stub("ad_param_service", :set => soap_message)
+    ad_param_service = stub("ad_param_service", :mutate => soap_message)
     service.stub(:ad_param).and_return(ad_param_service)
   end
 
@@ -327,21 +327,22 @@ module Sem4rSpecHelper
     adwords = stub_adwords(services)
     credentials = stub_credentials
     stub("adgroup",
-      :adwords     => adwords,
-      :credentials => credentials,
-      :id          => id)
+      :adwords            => adwords,
+      :credentials        => credentials,
+      :inside_initialize? => false,
+      :id                 => id)
   end
 
   def stub_criterion(services = nil)
     adwords     = stub_adwords(services)
     credentials = stub_credentials
 
-    criterion = stub("criterion",
-      :adwords     => adwords,
-      :credentials => credentials,
-      :id          => 1000,
-      :ad_group    => stub_adgroup(services))
-    criterion
+    stub("criterion",
+      :adwords            => adwords,
+      :credentials        => credentials,
+      :inside_initialize? => false,
+      :id                 => 1000,
+      :ad_group           => stub_adgroup(services))
   end
 end
 
