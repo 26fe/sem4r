@@ -50,7 +50,9 @@ module Sem4r
     attr_reader :attributes
     
     def initialize(&block)
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def self.from_element(el)
@@ -83,7 +85,7 @@ module Sem4r
 
     def initialize(&block)
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
@@ -108,7 +110,7 @@ module Sem4r
 
     def initialize(&block)
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
@@ -138,7 +140,7 @@ module Sem4r
 
     def initialize(&block)
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 

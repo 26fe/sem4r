@@ -31,8 +31,7 @@ module Sem4r
       self.type = Placement
       self.url = url unless url.nil?
       if block_given?
-        instance_eval(&block)
-        # save
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
