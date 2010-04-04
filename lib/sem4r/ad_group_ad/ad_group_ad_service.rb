@@ -34,7 +34,7 @@ module Sem4r
     end
 
     soap_call_v2009 :all,   :mutate => false
-    soap_call_v2009 :create
+    soap_call_v2009 :mutate
 
     private
 
@@ -48,15 +48,8 @@ module Sem4r
       EOFS
     end
 
-    def _create(xml)
-      <<-EOFS
-      <mutate xmlns="#{@service_namespace}">
-        <operations xsi:type="AdGroupAdOperation">
-          <operator>ADD</operator>
-            #{xml}
-        </operations>
-      </mutate>
-      EOFS
+    def _mutate(xml)
+      "<mutate xmlns=\"#{@service_namespace}\">#{xml}</mutate>"
     end
 
   end
