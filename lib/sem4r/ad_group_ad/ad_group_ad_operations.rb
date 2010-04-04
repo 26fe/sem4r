@@ -28,7 +28,9 @@ module Sem4r
 
     def initialize(&block)
       @operation_type = "AdGroupAdOperation"
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
   end
@@ -38,7 +40,9 @@ module Sem4r
 
     def initialize(&block)
       @operation_type = "JobOperation"
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
   end

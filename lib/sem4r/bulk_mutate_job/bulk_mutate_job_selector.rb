@@ -27,7 +27,9 @@ module Sem4r
     include SoapAttributes
 
     def initialize(&block)
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     enum :JobStatuses, [

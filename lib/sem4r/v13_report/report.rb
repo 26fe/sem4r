@@ -85,7 +85,9 @@ module Sem4r
     def initialize(account, &block)
       super( account.adwords, account.credentials )
       @account = account
-      instance_eval(&block) if block_given?
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
     end
 
     def to_s

@@ -35,8 +35,7 @@ module Sem4r
       self.text = text   unless text.nil?     # TODO: text == nil raise error
       self.match = match unless match.nil?
       if block_given?
-        instance_eval(&block)
-        # save
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
