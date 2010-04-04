@@ -39,7 +39,7 @@ module Sem4r
     def self.from_element( ad_group, el )
       new(ad_group) do
         @id      = el.elements["id"].text.strip.to_i
-        url        el.elements["url"].text
+        url        el.elements["url"].text.strip
       end
     end
 

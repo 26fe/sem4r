@@ -73,7 +73,7 @@ module Sem4r
         # ad_param don't have id so use @saved to indicate if readed from xml
         @saved = true
         index         el.elements["paramIndex"].text.strip.to_i
-        text          el.elements["insertionText"].text
+        text          el.elements["insertionText"].text.strip
       end
     end
 

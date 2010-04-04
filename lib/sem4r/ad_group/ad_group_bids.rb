@@ -117,12 +117,12 @@ module Sem4r
         kel = el.elements["keywordMaxCpc"]
         if kel
           el_amount = kel.elements["amount"]
-          keyword_max_cpc     el_amount.elements["microAmount"].text.to_i
+          keyword_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
         end
         sel = el.elements["siteMaxCpc"]
         if sel
           el_amount = sel.elements["amount"]
-          site_max_cpc     el_amount.elements["microAmount"].text.to_i
+          site_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
         end
         # TODO: it is possible something like:
         #        el.elements["maxCpc"] do |el|
@@ -160,7 +160,7 @@ module Sem4r
         kel = el.elements["maxCpm"]
         if kel
           el_amount = kel.elements["amount"]
-          max_cpm     el_amount.elements["microAmount"].text.to_i
+          max_cpm     el_amount.elements["microAmount"].text.strip.to_i
         end
       end
     end
