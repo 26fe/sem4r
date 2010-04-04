@@ -28,18 +28,18 @@ describe Credentials do
 
   before do
     @opts = {
-      :environment => "sandbox",
-      :email => "prova",
-      :password => "prova",
-      :developer_token => "prova"}
+      :environment     => "sandbox",
+      :email           => "email",
+      :password        => "password",
+      :developer_token => "dev_token"}
   end
 
   it "should have getter" do
     credentials = Credentials.new(@opts)
 
-    credentials.email.should           eql "prova"
-    credentials.password.should        eql "prova"
-    credentials.developer_token.should eql "prova"
+    credentials.email.should           == "email"
+    credentials.password.should        == "password"
+    credentials.developer_token.should == "dev_token"
     credentials.should_not be_mutable
   end
 
@@ -59,7 +59,7 @@ describe Credentials do
     connector = SoapConnector.new
     connector.should_receive(:authentication_token).and_return("auth_token")
     credentials.connector= connector
-    credentials.authentication_token.should eql "auth_token"
+    credentials.authentication_token.should == "auth_token"
   end
 
 end

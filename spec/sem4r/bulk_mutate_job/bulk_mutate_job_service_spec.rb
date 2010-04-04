@@ -24,7 +24,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe AdGroupService do
+describe BulkMutateJobService do
   include Sem4rSpecHelper
 
   before do
@@ -32,33 +32,30 @@ describe AdGroupService do
   end
 
   it "should define 'all'" do
-    response_xml = read_xml_file("services", "ad_group", "get-first-res.xml")
+    response_xml = read_xml_file("services", "bulk_mutate_job", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.all( @credentials, "campaign_id" )
+    service = BulkMutateJobService.new(connector)
+
+    operation = mock("operation")
+    operation.stub(:to_xml).and_return("xml")
+
+    soap_message = service.all( @credentials, operation )
     els = REXML::XPath.match( soap_message.response, "//getResponse")
     els.should_not be_empty
   end
 
-  it "should define 'create'" do
+  it "should define 'mutate'" do
     @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_group", "mutate_add-res.xml")
+    response_xml = read_xml_file("services", "bulk_mutate_job", "mutate-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.create( @credentials, "xml" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    els.should_not be_empty
-  end
+    service = BulkMutateJobService.new(connector)
 
-  it "should define 'delete'"  do
-    @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_group", "mutate_add-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.delete( @credentials, "id" )
+    operation = mock("operation")
+    operation.stub(:to_xml).and_return("xml")
+    
+    soap_message = service.mutate( @credentials, operation )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
     els.should_not be_empty
   end
