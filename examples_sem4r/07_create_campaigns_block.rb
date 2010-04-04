@@ -50,8 +50,8 @@ run_example(__FILE__) do |adwords|
       end
   
       keyword   "adwords api",  "BROAD"
-      # keyword   "ruby adwords", "BROAD"
-      # placement "http://github.com"
+      keyword   "ruby adwords", "BROAD"
+      placement "http://www.sem4r.com"
   
       negative_keyword "java api library"
     end

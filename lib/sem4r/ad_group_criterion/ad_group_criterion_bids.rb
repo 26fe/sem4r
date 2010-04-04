@@ -57,7 +57,7 @@ module Sem4r
 
     def initialize(&block)
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 

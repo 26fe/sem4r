@@ -38,7 +38,7 @@ module Sem4r
       self.index = index unless index.nil?
       self.text  = text  unless text.nil?
       if block_given?
-        instance_eval(&block)
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
         save
       end
     end
@@ -89,7 +89,3 @@ module Sem4r
 
   end
 end
-
-
-
-
