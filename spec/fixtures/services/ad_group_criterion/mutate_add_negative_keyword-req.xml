@@ -1,4 +1,3 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupCriterionService' -->
 <?xml version='1.0' encoding='UTF-8'?> 
 <env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/' xmlns='https://adwords.google.com/api/adwords/cm/v200909' xmlns:s='https://adwords.google.com/api/adwords/cm/v200909'>
   <env:Header>
@@ -24,13 +23,9 @@
           ADD
         </operator>
         <operand xsi:type='NegativeAdGroupCriterion'>
-          <adGroupId>
-            3121689649
-          </adGroupId>
+          <adGroupId>1000</adGroupId>
           <criterion xsi:type='Keyword'>
-            <text>
-              java api library
-            </text>
+            <text>sem4r adwords api</text>
             <matchType>
               BROAD
             </matchType>
@@ -40,54 +35,3 @@
     </mutate>
   </env:Body>
 </env:Envelope>
-<!-- response -->
-<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
-  <soap:Header>
-    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
-      <requestId>
-        e8a2c7fdd97075c275e6244cbfb3170a
-      </requestId>
-      <operations>
-        1
-      </operations>
-      <responseTime>
-        374
-      </responseTime>
-      <units>
-        15
-      </units>
-    </ResponseHeader>
-  </soap:Header>
-  <soap:Body>
-    <mutateResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
-      <rval>
-        <ListReturnValue.Type>
-          AdGroupCriterionReturnValue
-        </ListReturnValue.Type>
-        <value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='NegativeAdGroupCriterion'>
-          <adGroupId>
-            3121689649
-          </adGroupId>
-          <criterion xsi:type='Keyword'>
-            <id>
-              12722941
-            </id>
-            <Criterion.Type>
-              Keyword
-            </Criterion.Type>
-            <text>
-              java api library
-            </text>
-            <matchType>
-              BROAD
-            </matchType>
-          </criterion>
-          <AdGroupCriterion.Type>
-            NegativeAdGroupCriterion
-          </AdGroupCriterion.Type>
-        </value>
-      </rval>
-    </mutateResponse>
-  </soap:Body>
-</soap:Envelope>
-<!-- end -->

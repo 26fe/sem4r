@@ -24,42 +24,36 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe AdGroupService do
+describe AccountService do
   include Sem4rSpecHelper
 
   before do
     @credentials = stub_credentials
   end
 
-  it "should define 'all'" do
-    response_xml = read_xml_file("services", "ad_group", "get-first-res.xml")
+  it "should define 'account_info'" do
+    response_xml = read_xml_file("services", "v13_account", "get_account_info-res.xml")
+
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.all( @credentials, "campaign_id" )
-    els = REXML::XPath.match( soap_message.response, "//getResponse")
+
+    service = AccountService.new(connector)
+    soap_message = service.account_info( @credentials )
+
+    els = REXML::XPath.match( soap_message.response, "//getAccountInfoResponse")
     els.should_not be_empty
   end
 
-  it "should define 'create'" do
-    @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_group", "mutate_add-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.create( @credentials, "xml" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    els.should_not be_empty
-  end
+  it "should define 'client_accounts'" do
+    response_xml = read_xml_file("services", "v13_account", "get_client_accounts-res.xml")
 
-  it "should define 'delete'"  do
-    @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_group", "mutate_add-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector)
-    soap_message = service.delete( @credentials, "id" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+
+    service = AccountService.new(connector)
+    soap_message = service.client_accounts( @credentials )
+
+    els = REXML::XPath.match( soap_message.response, "//getClientAccountsResponse")
     els.should_not be_empty
   end
 

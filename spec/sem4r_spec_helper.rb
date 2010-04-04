@@ -291,11 +291,12 @@ module Sem4rSpecHelper
       :client_email         => nil,
       :useragent            => "sem4r",
       :developer_token      => "dev_token",
-      :authentication_token => "1234567890"
+      :authentication_token => "1234567890",
+      :mutable?             => false
     )
   end
 
-  def mock_account(services)
+  def stub_account(services)
     adwords = stub_adwords(services)
     credentials = stub_credentials
     campaign = stub("account",
@@ -305,7 +306,7 @@ module Sem4rSpecHelper
     campaign
   end
 
-  def mock_campaign(services)
+  def stub_campaign(services)
     adwords = stub_adwords(services)
     credentials = stub_credentials
 
@@ -319,12 +320,10 @@ module Sem4rSpecHelper
   def stub_adgroup(services, id = 1000)
     adwords = stub_adwords(services)
     credentials = stub_credentials
-
-    ad_group = stub("adgroup",
+    stub("adgroup",
       :adwords     => adwords,
       :credentials => credentials,
       :id          => id)
-    ad_group
   end
 
   def stub_criterion(services)
@@ -334,7 +333,8 @@ module Sem4rSpecHelper
     criterion = stub("criterion",
       :adwords     => adwords,
       :credentials => credentials,
-      :id          => 1000)
+      :id          => 1000,
+      :ad_group    => stub_adgroup(services))
     criterion
   end
 end
