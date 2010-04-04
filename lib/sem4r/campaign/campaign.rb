@@ -86,8 +86,8 @@ module Sem4r
     def self.from_element(account, el)
       new(account) do
         @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text
-        status         el.elements['status'].text # ACTIVE, PAUSED, DELETED
+        name           el.elements["name"].text.strip
+        status         el.elements['status'].text.strip # ACTIVE, PAUSED, DELETED
         serving_status el.elements['servingStatus']
         start_date     el.elements['startDate']
         end_date       el.elements['endDate']

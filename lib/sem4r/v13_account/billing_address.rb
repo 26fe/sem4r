@@ -50,10 +50,10 @@ module Sem4r
     # </billingAddress>
     def self.from_element(el)
       new do
-        company_name          el.elements["companyName"].text
-        address_line1         el.elements["addressLine1"].text
-        address_line2         el.elements["addressLine2"].text
-        city                  el.elements["city"].text
+        company_name          el.elements["companyName"].text.strip
+        address_line1         el.elements["addressLine1"].text.strip
+        address_line2         el.elements["addressLine2"].text.strip
+        city                  el.elements["city"].text.strip
       end
     end
 

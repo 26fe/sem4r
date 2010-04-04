@@ -44,7 +44,7 @@ module Sem4r
 #    end
 
     def self.from_element( ad_group, el )
-      xml_type =       el.elements["Criterion.Type"].text
+      xml_type =       el.elements["Criterion.Type"].text.strip
       case xml_type
       when Keyword
         CriterionKeyword.from_element(ad_group, el)

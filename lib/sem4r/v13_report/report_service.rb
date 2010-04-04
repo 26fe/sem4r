@@ -34,11 +34,11 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/v13/ReportService"
     end
 
-    soap_call_v13 :all
-    soap_call_v13 :validate
-    soap_call_v13 :schedule
-    soap_call_v13 :status
-    soap_call_v13 :url
+    soap_call_v13 :all,      :mutate => false 
+    soap_call_v13 :validate, :mutate => false 
+    soap_call_v13 :schedule, :mutate => false 
+    soap_call_v13 :status,   :mutate => false 
+    soap_call_v13 :url,      :mutate => false 
 
     ################
 

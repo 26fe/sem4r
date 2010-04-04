@@ -129,10 +129,10 @@ module Sem4r
     def self.from_element(account, el)
       new(account) do
         @id       = el.elements["id"].text.strip.to_i         # id is read only
-        name        el.elements["name"].text
-        start_day   el.elements["startDay"].text
-        end_day     el.elements["endDay"].text
-        @status   = el.elements["status"].text     # status is read only
+        name        el.elements["name"].text.strip
+        start_day   el.elements["startDay"].text.strip
+        end_day     el.elements["endDay"].text.strip
+        @status   = el.elements["status"].text.strip     # status is read only
       end
     end
 
