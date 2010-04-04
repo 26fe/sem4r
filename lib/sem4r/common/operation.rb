@@ -38,16 +38,19 @@ module Sem4r
     def add(operand)
       operator "ADD"
       @operand = operand
+      self
     end
 
     def remove(operand)
       operator "REMOVE"
       @operand = operand
+      self
     end
 
     def set(operand)
       operator "SET"
       @operand = operand
+      self
     end
 
     def to_xml(tag)

@@ -33,7 +33,6 @@ module Sem4r
       :DELETED
     ]
 
-    attr_reader :id
     attr_reader :campaign
     
     g_accessor :name
@@ -47,12 +46,16 @@ module Sem4r
       self.name = name unless name.nil?
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
-        save
       end
     end
 
+    def id
+      _save unless @id
+      @id
+    end
+
     def to_s
-      "#{@id} '#{@name}' (#{@status}) - #{@bid}"
+      "#{@id ? @id : 'unsaved'} '#{@name}' (#{@status}) - #{@bid}"
     end
 
     def xml(t)
@@ -83,8 +86,8 @@ module Sem4r
     def self.from_element(campaign, el)
       new(campaign) do
         @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text
-        status         el.elements["status"].text
+        name           el.elements["name"].text.strip
+        status         el.elements["status"].text.strip
         bids           el.elements["bids"]
       end
     end
@@ -94,6 +97,33 @@ module Sem4r
     end
 
     def save
+      _save
+      @criterions.each { |criterion| criterion.save } if @criterions
+
+      # save ads
+      if @ads
+        unsaved_ads = @ads.select { |a| !a.saved? }
+        unless unsaved_ads.empty?
+          xml = unsaved_ads.inject('') do |xml,ad|
+            o = AdGroupAdOperation.new.add(ad)
+            xml + o.to_xml("operations")
+          end
+          soap_message = service.ad_group_ad.mutate(credentials, xml)
+          add_counters( soap_message.counters )
+          els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/ad/id")
+          els.each_with_index do |e,index|
+            id = e.text.strip.to_i
+            unsaved_ads[index].instance_eval{ @id = id }
+          end
+        end
+      end
+
+      self
+    end
+
+    private
+
+    def _save
       unless @id
         soap_message = service.ad_group.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
@@ -101,12 +131,9 @@ module Sem4r
         id = REXML::XPath.match( rval, "value/id" ).first
         @id = id.text.strip.to_i
       end
-      # save all criterion
-      @criterions.each { |criterion| criterion.save } if @criterions
-      # save ads
-      @ads.each{ |ad| ad.save } if @ads
-      self
     end
+
+    public
 
     def delete
       soap_message = service.ad_group.delete(credentials, @id)
@@ -134,7 +161,6 @@ module Sem4r
     # ad management
 
     def text_ad(&block)
-      save
       ad = AdGroupTextAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
@@ -142,7 +168,6 @@ module Sem4r
     end
 
     def mobile_ad(&block)
-      save
       ad = AdGroupMobileAd.new(self, &block)
       @ads ||= []
       @ads.push(ad)
@@ -164,7 +189,7 @@ module Sem4r
     private
 
     def _ads
-      soap_message = service.ad_group_ad.all(credentials, @id)
+      soap_message = service.ad_group_ad.all(credentials, id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries/ad")
@@ -179,8 +204,6 @@ module Sem4r
     # criterion management
 
     def negative_keyword(text = nil, match = CriterionKeyword::BROAD, &block)
-      save
-
       negative_criterion = NegativeAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       negative_criterion.criterion = criterion
@@ -198,8 +221,6 @@ module Sem4r
     # http://code.google.com/apis/adwords/v2009/docs/reference/AdGroupCriterionService.BiddableAdGroupCriterion.html
     #
     def keyword(text = nil, match = nil, &block)
-      save
-      
       biddable_criterion = BiddableAdGroupCriterion.new(self)
       criterion = CriterionKeyword.new(self, text, match, &block)
       biddable_criterion.criterion = criterion
@@ -212,8 +233,6 @@ module Sem4r
     end
 
     def placement(url = nil, &block)
-      save
-
       biddable_criterion = BiddableAdGroupCriterion.new(self)
 
       criterion = CriterionPlacement.new(self, url, &block)
@@ -246,7 +265,7 @@ module Sem4r
     private
 
     def _criterions
-      soap_message = service.ad_group_criterion.all(credentials, @id)
+      soap_message = service.ad_group_criterion.all(credentials, id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries/criterion")
@@ -261,7 +280,6 @@ module Sem4r
     # ad param management
 
     def ad_param(criterion, index = nil, text = nil, &block)
-      save
       ad_param = AdParam.new(self, criterion, index, text, &block)
       ad_param.save
       @ad_params ||= []
@@ -284,7 +302,7 @@ module Sem4r
     private
 
     def _ad_params
-      soap_message = service.ad_param.all(credentials, @id)
+      soap_message = service.ad_param.all(credentials, id)
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries")
