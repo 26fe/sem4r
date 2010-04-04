@@ -57,7 +57,7 @@ module Sem4r
       els = REXML::XPath.match( el, "data")
       @attributes = els.map do |el|
         el1 = el.elements["value"]
-        xml_type =       el1.elements["Attribute.Type"].text
+        xml_type =       el1.elements["Attribute.Type"].text.strip
         case xml_type
         when IdeaTypeAttribute
           TIdeaTypeAttribute.from_element(el1)

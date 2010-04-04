@@ -43,8 +43,8 @@ module Sem4r
     def self.from_element( ad_group, el )
       new(ad_group) do
         @id      = el.elements["id"].text.strip.to_i
-        text       el.elements["text"].text
-        match      el.elements["matchType"].text
+        text       el.elements["text"].text.strip
+        match      el.elements["matchType"].text.strip
       end
     end
 

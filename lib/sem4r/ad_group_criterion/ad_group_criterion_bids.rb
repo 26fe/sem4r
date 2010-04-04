@@ -35,7 +35,7 @@ module Sem4r
     ]
 
     def self.from_element(el)
-      type =  el.elements["AdGroupCriterionBids.Type"].text
+      type =  el.elements["AdGroupCriterionBids.Type"].text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -63,11 +63,11 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        bid_source       el.elements["bidSource"].text
+        bid_source       el.elements["bidSource"].text.strip
 
         el_maxCpc = el.elements["maxCpc"]
         el_amount = el_maxCpc.elements["amount"]
-        max_cpc     el_amount.elements["microAmount"].text.to_i
+        max_cpc     el_amount.elements["microAmount"].text.strip.to_i
 
         # TODO: it is possible something like:
         #        el.elements["maxCpc"] do |el|

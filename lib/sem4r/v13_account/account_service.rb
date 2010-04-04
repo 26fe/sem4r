@@ -31,8 +31,8 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
     end
 
-    soap_call_v13 :account_info
-    soap_call_v13 :client_accounts
+    soap_call_v13 :account_info,    :mutate => false
+    soap_call_v13 :client_accounts, :mutate => false
 
     private
 

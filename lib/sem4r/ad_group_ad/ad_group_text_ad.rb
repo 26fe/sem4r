@@ -70,11 +70,11 @@ module Sem4r
       new(ad_group) do
         @id         = el.elements["id"].text.strip.to_i
         # type          el.elements["Ad.Type"].text
-        url           el.elements["url"].text
-        display_url   el.elements["displayUrl"].text
-        headline      el.elements["headline"].text
-        description1  el.elements["description1"].text
-        description2  el.elements["description2"].text
+        url           el.elements["url"].text.strip
+        display_url   el.elements["displayUrl"].text.strip
+        headline      el.elements["headline"].text.strip
+        description1  el.elements["description1"].text.strip
+        description2  el.elements["description2"].text.strip
       end
     end
 

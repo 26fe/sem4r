@@ -61,6 +61,7 @@ module Sem4r
 
     module ClassMethods
       def soap_call(helper_version, method, options = {})
+        options.assert_valid_keys(:mutate)
         mutate = options.delete :mutate
         if mutate.nil? or mutate
           smutate = "credentials.mutable?"

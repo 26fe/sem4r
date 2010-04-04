@@ -36,7 +36,7 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/job/v200909/BulkMutateJobService"
     end
 
-    soap_call_v2009 :all
+    soap_call_v2009 :all,    :mutate => false
     soap_call_v2009 :mutate
 
     private

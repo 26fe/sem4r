@@ -70,7 +70,7 @@ module Sem4r
         unless profile_file
           raise Sem4rError, "config file 'sem4r' not found"
         end
-        puts "Loaded profiles from #{profile_file}"
+        # puts "Loaded profiles from #{profile_file}"
         yaml = YAML::load( File.open( profile_file ) )
         profiles = yaml['google_adwords'].keys.map &:to_s
         profiles.sort
@@ -133,7 +133,7 @@ module Sem4r
       unless config_file
         raise Sem4rError, "config file 'sem4r' not found"
       end
-      puts "Loaded profiles from #{config_file}"
+      # puts "Loaded profiles from #{config_file}"
       yaml = YAML::load( File.open( config_file ) )
       config  = yaml['google_adwords'][profile]
       config || {}

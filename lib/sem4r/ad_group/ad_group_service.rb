@@ -32,9 +32,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupService"
     end
 
-    soap_call_v2009 :all, :mutable => false
-    soap_call_v2009 :create # , :mutate => true
-    soap_call_v2009 :delete # , :mutate => true
+    soap_call_v2009 :all,       :mutate => false
+    soap_call_v2009 :create,    :mutate => true
+    soap_call_v2009 :delete,    :mutate => true
 
     def _all(campaign_id)
       <<-EOFS
@@ -69,21 +69,6 @@ module Sem4r
         </operations>
       </mutate>
       EOFS
-
-      #
-      # raise  [OperatorError.OPERATOR_NOT_SUPPORTED @ operations[0]] 
-      #
-
-      #      <<-EOFS
-      #      <mutate xmlns="#{@service_namespace}">
-      #        <operations xsi:type="AdGroupOperation">
-      #          <operator>REMOVE</operator>
-      #          <operand>
-      #            <id>#{id}</id>
-      #          </operand>
-      #        </operations>
-      #      </mutate>
-      #      EOFS
     end
 
   end
