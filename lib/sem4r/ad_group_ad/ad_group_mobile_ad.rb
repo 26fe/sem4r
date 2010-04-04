@@ -113,11 +113,11 @@ module Sem4r
       new(ad_group) do
         @id         = el.elements["id"].text.strip.to_i
         # type          el.elements["Ad.Type"].text
-        headline       el.elements["headline"].text
-        description    el.elements["description"].text
-        business_name  el.elements["businessName"].text
-        country_code   el.elements["countryCode"].text
-        phone_number   el.elements["phoneNumber"].text
+        headline       el.elements["headline"].text.strip
+        description    el.elements["description"].text.strip
+        business_name  el.elements["businessName"].text.strip
+        country_code   el.elements["countryCode"].text.strip
+        phone_number   el.elements["phoneNumber"].text.strip
         # TODO: estrarre le carriers
       end
     end

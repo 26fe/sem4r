@@ -107,7 +107,7 @@ module Sem4r
     def xml(t)
       t.adGroupId   criterion.ad_group.id
       # t.status "ENABLED"
-      criterion.to_xml(t)
+      criterion.xml(t)
     end
 
     def to_xml(tag)
