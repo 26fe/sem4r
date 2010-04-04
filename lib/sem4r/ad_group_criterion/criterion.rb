@@ -57,15 +57,10 @@ module Sem4r
     # ad params management
 
     def ad_param(&block)
-      # save
       ad_param = AdParam.new(ad_group, self, &block)
       @ad_params ||= []
       @ad_params << ad_param
       ad_param
-    end
-
-    def bids
-
     end
 
   end

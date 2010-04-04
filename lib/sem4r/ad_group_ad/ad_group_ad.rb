@@ -58,7 +58,6 @@ module Sem4r
       :DISAPPROVED
     ]
 
-    attr_reader   :id
     attr_reader   :ad_group
     attr_accessor :type
 
@@ -72,8 +71,17 @@ module Sem4r
       @ad_group = ad_group
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
-        save unless @id #TODO: pericolosissimo,
       end
+    end
+
+    def saved?
+      !@id.nil?
+    end
+    
+    # try to save when accessing id
+    def id
+      save unless @id
+      @id
     end
 
     def self.from_element( ad_group, el )

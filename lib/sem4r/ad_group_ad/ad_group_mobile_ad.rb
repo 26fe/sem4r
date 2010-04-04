@@ -123,11 +123,13 @@ module Sem4r
     end
 
     def save
-      soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
-      add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-      id = REXML::XPath.match( rval, "value/ad/id" ).first
-      @id = id.text.strip.to_i
+      unless @id
+        soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
+        add_counters( soap_message.counters )
+        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
+        id = REXML::XPath.match( rval, "value/ad/id" ).first
+        @id = id.text.strip.to_i
+      end
       self
     end
 
