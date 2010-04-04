@@ -25,31 +25,51 @@
 module Sem4r
 
   CliListKeywords = CliCommand.define_command("keywords", "list keywords") do |account |
-    account.client_accounts.each do |client_account|
+
+    # if the account have client_accounts it is a master
+    client_accounts = account.client_accounts
+    if client_accounts.empty?
+      client_accounts = [account]
+    end
+
+    items = []
+    need_newline = false
+    client_accounts.each do |client_account|
+      if need_newline
+        puts 
+        need_newline = false
+      end
       puts "examinate account '#{client_account.credentials.client_email}'"
       client_account.campaigns.each do |campaign|
-        puts "examinate campaign '#{campaign}'"
+        # puts "examinate campaign '#{campaign}'"
         campaign.ad_groups.each do |ad_group|
           ad_group.criterions.each do |criterion|
-            row = []
-            row << client_account.credentials.client_email
-            row << campaign.name
-            row << ad_group.name
+          
+            row = OpenStruct.new
+            row.client   = client_account.credentials.client_email
+            row.campaign = campaign.name
+            row.ad_group = ad_group.name
 
-            row << criterion.type
+            row.type     = criterion.type
             case criterion.type
             when Criterion::Keyword
-              row << criterion.text
-              row << criterion.match
+              row.text  = criterion.text
+              row.match = criterion.match
             when Criterion::Placement
-              row << criterion.url
+              row.text  = criterion.url
             end
-
-            puts row.join(",")
+            items << row
+            print "."
+            need_newline = true
           end
         end
       end
     end
+    if need_newline
+      puts
+      need_newline = false
+    end
+    report(items, :client, :campaign, :ad_group, :type, :text, :match)
     account.adwords.p_counters
   end
 

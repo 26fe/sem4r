@@ -164,15 +164,15 @@ module Sem4r
       Report.new(self, &block)
     end
 
-    def reports(refresh = false)
-      _reports unless @reports and !refresh
-      @reports
-    end
-
     def p_reports(refresh = false)
       reports(refresh).each do |report|
         puts report.to_s
       end
+    end
+
+    def reports(refresh = false)
+      _reports unless @reports and !refresh
+      @reports
     end
 
     private
@@ -231,7 +231,7 @@ module Sem4r
 
     def p_client_accounts(refresh = false)
       cs = client_accounts(refresh)
-      puts "#{cs.length} client accounts"
+      # puts "#{cs.length} client accounts"
       cs.each do |account|
         puts account.to_s
       end

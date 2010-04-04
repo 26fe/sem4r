@@ -271,7 +271,7 @@ module Sem4r
       # select account for command
       #
       if @options.client_email
-        account = adwords.account.client_accounts.find{ |c| c.client_email =~ /#{@options.client_account}/ }
+        account = adwords.account.client_accounts.find{ |c| c.client_email =~ /^#{@options.client_email}/ }
         if account.nil?
           puts "client account not found"
         else

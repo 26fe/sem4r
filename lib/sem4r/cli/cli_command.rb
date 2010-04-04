@@ -53,6 +53,11 @@ module Sem4r
       end
 
       def define_command(command_name, description_str, &block)
+
+        unless block_given?
+          raise "define_command: missing block"
+        end
+
         cls = Class.new(CliCommand) do
           def initialize(common_args)
             @common_args = common_args
@@ -72,7 +77,11 @@ module Sem4r
             opt_parser(options).parse( argv )
             return false if options.exit
             account = @common_args.account
-            block.call(account)
+            unless account
+              puts "select an account!"
+            else
+              block.call(account)
+            end
           end
         end
 

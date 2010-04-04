@@ -12,10 +12,10 @@ adwords = Adwords.sandbox
 account = adwords.account.client_accounts[1]
 
 campaign = account.create_campaign do
-  name "new campaign #{Time.now}"
+  name "new campaign #{Time.now.strftime('%m%d-%H%M%S')}"
 
   adgroup do
-    name "new adgroup #{Time.now}"
+    name "new adgroup #{Time.now.strftime('%m%d-%H%M%S')}"
     keyword do
       text       "keyword"
       match      "BROAD"
