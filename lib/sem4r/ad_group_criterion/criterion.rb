@@ -59,11 +59,8 @@ module Sem4r
     ############################################################################
     # ad params management
 
-    def ad_param(&block)
-      ad_param = AdParam.new(ad_group, self, &block)
-      @ad_params ||= []
-      @ad_params << ad_param
-      ad_param
+    def ad_param(index = nil, text = nil, &block)
+      ad_group.ad_param(self, index, text, &block)
     end
 
   end
