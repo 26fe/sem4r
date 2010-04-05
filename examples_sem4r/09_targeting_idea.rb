@@ -46,6 +46,12 @@ run_example(__FILE__) do |adwords|
       match_type 'EXACT'
     end
 
+    country_target_search_parameter do
+      country_code 'US'
+      # country_code 'UK'
+      # country_code 'IT'
+    end
+
   end
 
   ideas.each{ |idea| puts idea }
