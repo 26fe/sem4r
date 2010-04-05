@@ -34,6 +34,7 @@ require 'sem4r/cli/cli_helpers'
 # commands
 require 'sem4r/cli/cli_commands'
 require 'sem4r/cli/cli_download_report'
+require 'sem4r/cli/cli_ideas'
 require 'sem4r/cli/cli_list_ads'
 require 'sem4r/cli/cli_list_keywords'
 require 'sem4r/cli/cli_request_report'

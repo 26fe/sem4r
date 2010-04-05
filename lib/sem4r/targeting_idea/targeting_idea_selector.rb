@@ -110,7 +110,9 @@ module Sem4r
       xml = ""
       xml << '<s:searchParameters xsi:type="s:CountryTargetSearchParameter">'
       country_codes.each do |t|
-        xml << "<s:countryTargets><s:countryCode>#{t}</s:countryCode></s:countryTargets>"
+        # tag contryCode is into the cm namespace (sem4r main namespace)
+        # tag contryTarget is into o namespace (sem4r service namespace)
+        xml << "<s:countryTargets><countryCode>#{t}</countryCode></s:countryTargets>"
       end
       xml << '</s:searchParameters>'
     end
