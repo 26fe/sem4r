@@ -110,7 +110,28 @@ module Sem4r
       xml = ""
       xml << '<s:searchParameters xsi:type="s:CountryTargetSearchParameter">'
       country_codes.each do |t|
-        xml << "<s:countryTargets><s:countryCode>#{t}</s:countryCode></s:countryTargets>"
+        xml << "<s:countryTargets><countryCode>#{t}</countryCode></s:countryTargets>"
+      end
+      xml << '</s:searchParameters>'
+    end
+  end
+  
+  class NgramGroupsSearchParameter
+    include SoapAttributes
+
+    g_set_accessor :ngram
+
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def to_xml
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:NgramGroupsSearchParameter">'
+      ngrams.each do |t|
+        xml << "<s:ngramGroups>#{t}</s:ngramGroups>"
       end
       xml << '</s:searchParameters>'
     end
@@ -148,6 +169,10 @@ module Sem4r
 
     def country_target_search_parameter(&block)
       @search_parameters << CountryTargetSearchParameter.new(&block)
+    end
+    
+    def ngram_group_search_parameter(&block)
+      @search_parameters << NgramGroupsSearchParameter.new(&block)
     end
 
     def to_xml

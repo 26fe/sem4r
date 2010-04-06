@@ -50,6 +50,10 @@ describe TargetingIdeaSelector do
       country_target_search_parameter do
         country_code 'US'
       end
+      
+      ngram_group_search_parameter do
+        ngram 'dvd player'
+      end
     end
     
     xml_expected = read_model("//s:selector", "services", "targeting_idea", "get-req.xml")
@@ -113,6 +117,16 @@ describe TargetingIdeaSelector do
         country_code 'US'
       end
       xml_expected = read_model("//s:searchParameters[@xsi:type='s:CountryTargetSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      sp.to_xml.should  xml_equivalent(xml_expected)
+    end
+  end
+  
+  describe NgramGroupsSearchParameter do
+    it "should produce xml (input for google)" do
+      sp = NgramGroupsSearchParameter.new do
+        ngram 'dvd player'
+      end
+      xml_expected = read_model("//s:searchParameters[@xsi:type='s:NgramGroupsSearchParameter']", "services", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
