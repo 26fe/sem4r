@@ -47,7 +47,6 @@ Gem::Specification.new do |s|
      "examples_sem4r/05_request_report.rb",
      "examples_sem4r/06_create_campaigns.rb",
      "examples_sem4r/07_create_campaigns_block.rb",
-     "examples_sem4r/07_create_campaigns_simple.rb",
      "examples_sem4r/08_ad_params.rb",
      "examples_sem4r/09_targeting_idea.rb",
      "examples_sem4r/10_get_location.rb",
