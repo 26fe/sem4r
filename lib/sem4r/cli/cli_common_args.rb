@@ -88,7 +88,7 @@ module Sem4r
         options.exit = true
       end
 
-      opt_parser.on("--version", "show sem4r the version") do
+      opt_parser.on("--version", "show the sem4r version") do
         puts "sem4r version #{Sem4r::version}"
         options.exit = true
       end
