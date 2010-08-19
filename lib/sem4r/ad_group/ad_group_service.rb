@@ -27,9 +27,9 @@ module Sem4r
 
     def initialize(connector)
       @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201003"
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v200909"
       @header_namespace = @service_namespace
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/AdGroupService"
+      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v200909/AdGroupService"
     end
 
     soap_call_v2009 :all,       :mutate => false
@@ -40,7 +40,7 @@ module Sem4r
       <<-EOFS
       <get xmlns="#{@service_namespace}">
         <selector>
-          <campaignIds>#{campaign_id}</campaignIds>
+          <campaignId>#{campaign_id}</campaignId>
         </selector>
       </get>
       EOFS

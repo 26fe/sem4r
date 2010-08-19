@@ -41,11 +41,11 @@ module Sem4r
 
     def initialize(connector)
       @connector = connector
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = "https://adwords.google.com/api/adwords/info/v201003"
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v200909"
+      @service_namespace = "https://adwords.google.com/api/adwords/info/v200909"
 
-      @production_service_url = "https://adwords.google.com/api/adwords/info/v201003/InfoService"
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201003/InfoService"
+      @production_service_url = "https://adwords.google.com/api/adwords/info/v200909/InfoService"
+      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v200909/InfoService"
     end
 
 
