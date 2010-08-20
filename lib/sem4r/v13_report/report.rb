@@ -130,11 +130,11 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id       = el.elements["id"].text.strip.to_i         # id is read only
-        name        el.elements["name"].text.strip
-        start_day   el.elements["startDay"].text.strip
-        end_day     el.elements["endDay"].text.strip
-        @status   = el.elements["status"].text.strip     # status is read only
+        @id       = el.xpath("*[local-name()='id']", el.namespaces).text.strip.to_i # id is read only
+        name        el.xpath("*[local-name()='name']", el.namespaces).text.strip
+        start_day   el.xpath("*[local-name()='startDay']", el.namespaces).text.strip
+        end_day     el.xpath("*[local-name()='endDay']", el.namespaces).text.strip
+        @status   = el.xpath("*[local-name()='status']", el.namespaces).text.strip # status is read only
       end
     end
 
@@ -144,7 +144,9 @@ module Sem4r
       return @status unless refresh
       soap_message = service.report.status(credentials, @id)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getReportJobStatusResponse/getReportJobStatusReturn")
+      el = soap_message.response.xpath(
+          "//xmlns:getReportJobStatusResponse/xmlns:getReportJobStatusReturn", 
+          soap_message.response_namespaces).first
       @status = el.text
     end
 
@@ -163,7 +165,9 @@ module Sem4r
     def schedule
       soap_message = service.report.schedule(credentials, to_xml)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//scheduleReportJobResponse/scheduleReportJobReturn")
+      el = soap_message.response.xpath(
+          "//xmlns:scheduleReportJobResponse/xmlns:scheduleReportJobReturn",
+          soap_message.response_namespaces).first
       @id = el.text
       # puts "requested report assigned job nr. #{@job_id}"
       ReportJob.new(self, @id)
@@ -172,7 +176,9 @@ module Sem4r
     def url
       soap_message = service.report.url(credentials, @id)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getReportDownloadUrlResponse/getReportDownloadUrlReturn")
+      el = soap_message.response.xpath(
+          "//xmlns:getReportDownloadUrlResponse/getReportDownloadUrlReturn",
+          soap_message.response_namespaces).first
       url = el.text
       url
     end

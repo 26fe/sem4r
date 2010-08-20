@@ -40,7 +40,9 @@ describe ReportService do
     report_service = ReportService.new(connector)
     soap_message = report_service.all( @credentials )
 
-    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els = soap_message.response.xpath(
+        "//*[local-name()='getAllJobsReturn']",
+        soap_message.response_namespaces)
     els.should_not be_empty
     els.should have(4).elements
   end
@@ -54,7 +56,9 @@ describe ReportService do
     report_service = ReportService.new(connector)
     soap_message = report_service.validate( @credentials, "xml" )
 
-    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els = soap_message.response.xpath(
+        "//*[local-name()='getAllJobsReturn']",
+        soap_message.response_namespaces)
     els.should_not be_empty
     els.should have(4).elements
   end
@@ -68,7 +72,9 @@ describe ReportService do
     report_service = ReportService.new(connector)
     soap_message = report_service.schedule( @credentials, "xml" )
 
-    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els = soap_message.response.xpath(
+        "//*[local-name()='getAllJobsReturn']",
+        soap_message.response_namespaces)
     els.should_not be_empty
     els.should have(4).elements
   end
@@ -82,7 +88,9 @@ describe ReportService do
     report_service = ReportService.new(connector)
     soap_message = report_service.status( @credentials, "job_id" )
 
-    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els = soap_message.response.xpath(
+        "//*[local-name()='getAllJobsReturn']",
+        soap_message.response_namespaces)
     els.should_not be_empty
     els.should have(4).elements
   end
@@ -96,7 +104,9 @@ describe ReportService do
     report_service = ReportService.new(connector)
     soap_message = report_service.url( @credentials, "job_id" )
 
-    els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+    els = soap_message.response.xpath(
+        "//*[local-name()='getAllJobsReturn']",
+        soap_message.response_namespaces)
     els.should_not be_empty
     els.should have(4).elements
   end

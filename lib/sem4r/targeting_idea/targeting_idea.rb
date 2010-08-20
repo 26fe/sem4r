@@ -56,10 +56,10 @@ module Sem4r
     end
 
     def self.from_element(el)
-      els = REXML::XPath.match( el, "data")
+      els = el.xpath("ns2:data", el.namespaces)
       @attributes = els.map do |el|
-        el1 = el.elements["value"]
-        xml_type =       el1.elements["Attribute.Type"].text.strip
+        el1 = el.xpath("ns2:value", el.namespaces)
+        xml_type =       el1.xpath("ns2:Attribute.Type", el.namespaces).text.strip
         case xml_type
         when IdeaTypeAttribute
           TIdeaTypeAttribute.from_element(el1)
@@ -90,10 +90,11 @@ module Sem4r
     end
 
     def self.from_element( el )
-      el1 = el.elements["value"]
+      namespaces = el.document.collect_namespaces
+      el1 = el.at_xpath("ns2:value", namespaces)
       new do
-        text       el1.elements["text"].text
-        match_type el1.elements["matchType"].text
+        text       el1.at_xpath("xmlns:text", namespaces).text
+        match_type el1.at_xpath("xmlns:matchType", namespaces).text
       end
     end
 
@@ -118,9 +119,9 @@ module Sem4r
       historical_values = []
       el.elements.each do |node|
         next if node.name == "Attribute.Type"
-        historical_value = { :year => node.elements["year"].text,
-                             :month => node.elements["month"].text}
-        historical_value.merge!(:count => node.elements["count"].text) if node.elements["count"]
+        historical_value = { :year => node.xpath("xmlns:year", el.namespaces).text,
+                             :month => node.xpath("xmlns:month", el.namespaces).text}
+        historical_value.merge!(:count => node.xpath("xmlns:count", el.namespaces).text) if node.xpath("xmlns:count", el.namespaces)
         historical_values << historical_value
       end
       new do
@@ -146,7 +147,7 @@ module Sem4r
 
     def self.from_element( el )
       new do
-        value       el.elements["value"].text
+        value       el.xpath("ns2:value", el.document.collect_namespaces).text
       end
     end
 

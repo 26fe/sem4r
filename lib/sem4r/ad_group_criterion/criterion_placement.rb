@@ -41,8 +41,8 @@ module Sem4r
 
     def self.from_element( ad_group, el )
       new(ad_group) do
-        @id      = el.elements["id"].text.strip.to_i
-        url        el.elements["url"].text.strip
+        @id      = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
+        url        el.xpath("xmlns:url", el.namespaces).text.strip
       end
     end
 

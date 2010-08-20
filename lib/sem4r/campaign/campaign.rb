@@ -91,12 +91,12 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text.strip
-        status         el.elements['status'].text.strip # ACTIVE, PAUSED, DELETED
-        serving_status el.elements['servingStatus']
-        start_date     el.elements['startDate']
-        end_date       el.elements['endDate']
+        @id          = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
+        name           el.xpath("xmlns:name", el.namespaces).text.strip
+        status         el.at_xpath('xmlns:status', el.namespaces).text.strip # ACTIVE, PAUSED, DELETED
+        serving_status el.at_xpath('xmlns:servingStatus', el.namespaces)
+        start_date     el.at_xpath('xmlns:startDate', el.namespaces)
+        end_date       el.at_xpath('xmlns:endDate', el.namespaces)
       end
     end
 
@@ -108,8 +108,9 @@ module Sem4r
       unless @id
         soap_message = service.campaign.create(credentials, to_xml)
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/id" ).first
+        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
+            soap_message.response_namespaces).first
+        id = rval.xpath("xmlns:value/xmlns:id", soap_message.response_namespaces).first
         @id = id.text.strip.to_i
       end
       self
@@ -180,8 +181,9 @@ module Sem4r
     def _ad_groups
       soap_message = service.ad_group.all(credentials, @id)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces)
       @ad_groups = els.map do |el|
         AdGroup.from_element(self, el)
       end

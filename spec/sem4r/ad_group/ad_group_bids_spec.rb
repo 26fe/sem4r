@@ -51,12 +51,12 @@ describe AdGroupBids do
       bids = ManualCPCAdGroupBids.new
       bids.keyword_max_cpc 20000000
       bids.site_max_cpc 30000000
-      expected_xml = read_model("//bids", "services", "ad_group", "mutate_add-req.xml")
+      expected_xml = read_model("//xmlns:bids", "services", "ad_group", "mutate_add-req.xml")
       bids.to_xml.should xml_equivalent(expected_xml)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//bids", "services", "ad_group", "get-first-res.xml")
+      el = read_model("//xmlns:bids", "services", "ad_group", "get-first-res.xml")
       bids = AdGroupBids.from_element(el)
       bids.keyword_max_cpc.should == 20000000
       bids.site_max_cpc.should    == 30000000

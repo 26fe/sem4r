@@ -96,10 +96,10 @@ module Sem4r
 
     def self.from_element(campaign, el)
       new(campaign) do
-        @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text.strip
-        status         el.elements["status"].text.strip
-        bids           el.elements["bids"]
+        @id          = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
+        name           el.xpath("xmlns:name", el.namespaces).text.strip
+        status         el.xpath("xmlns:status", el.namespaces).text.strip
+        bids           el.xpath("xmlns:bids", el.namespaces)
       end
     end
 
@@ -117,8 +117,10 @@ module Sem4r
       unless @id
         soap_message = service.ad_group.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/id" ).first
+        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
+            soap_message.response_namespaces).first
+        id = rval.xpath("xmlns:value/xmlns:id", 
+            soap_message.response_namespaces).first
         @id = id.text.strip.to_i
       end
     end
@@ -181,8 +183,9 @@ module Sem4r
     def _ads
       soap_message = service.ad_group_ad.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries/ad")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval",
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries/xmlns:ad", soap_message.response_namespaces )
       @ads = els.map do |el|
         AdGroupAd.from_element( self, el )
       end
@@ -200,7 +203,8 @@ module Sem4r
       end
       soap_message = service.ad_group_ad.mutate(credentials, xml)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/ad/id")
+      els = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:ad/xmlns:id", 
+          soap_message.response_namespaces)
       els.each_with_index do |e,index|
         id = e.text.strip.to_i
         unsaved_ads[index].instance_eval{ @id = id }
@@ -266,8 +270,10 @@ module Sem4r
     def _criterions
       soap_message = service.ad_group_criterion.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries/criterion")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries/xmlns:criterion", 
+          soap_message.response_namespaces )
       @criterions = els.map do |el|
         Criterion.from_element( self, el )
       end
@@ -287,7 +293,9 @@ module Sem4r
       end
       soap_message = service.ad_group_criterion.mutate(credentials, xml)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/criterion/id")
+      els = soap_message.response.xpath(
+          "//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:criterion/xmlns:id", 
+          soap_message.response_namespaces)
       els.each_with_index do |e,index|
         id = e.text.strip.to_i
         unsaved_criterions[index].criterion.instance_eval{ @id = id }
@@ -324,8 +332,9 @@ module Sem4r
     def _ad_params
       soap_message = service.ad_param.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
       @ad_params = els.map do |el|
         AdParam.from_element( self, el )
       end

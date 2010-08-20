@@ -186,7 +186,7 @@ Gem::Specification.new do |s|
      "spec/sem4r/credentials_spec.rb",
      "spec/sem4r/adwords_spec.rb",
      "spec/sem4r/soap_attributes_spec.rb",
-     "spec/sem4r/rexml_parsing_spec.rb",
+     "spec/sem4r/nokogiri_parsing_spec.rb",
      "spec/sem4r/cli/cli_spec.rb",
      "spec/sem4r/ad_group_criterion/ad_group_criterion_bids_spec.rb",
      "spec/sem4r/ad_group_criterion/ad_group_criterion_spec.rb",

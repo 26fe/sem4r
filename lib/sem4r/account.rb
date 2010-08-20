@@ -98,7 +98,8 @@ module Sem4r
       raise "usage type '#{usage_type}' not permitted" unless UsageTypes.include?(usage_type)
       soap_message = service.info.unit_cost(@credentials, usage_type)
       add_counters( soap_message.counters )
-      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
+      cost = soap_message.response.xpath("//ns2:getResponse/ns2:rval/ns2:cost", 
+          soap_message.response_namespaces).first
       cost.text.to_i
     end
 
@@ -109,8 +110,9 @@ module Sem4r
       selector = TargetingIdeaSelector.new(&block)
       soap_message = service.targeting_idea.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
       els.map do |el|
         TargetingIdea.from_element( el )
       end
@@ -128,7 +130,8 @@ module Sem4r
       selector = BulkMutateJobSelector.new
       soap_message = service.bulk_mutate_job.all(credentials, selector)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getResponse/rval")
+      els = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces)
       jobs = els.map do |el|
         BulkMutateJob.from_element(el)
       end
@@ -143,7 +146,8 @@ module Sem4r
     def job_mutate(bulk_mutate_job)
       soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//rval")
+      el = soap_message.response.xpath("//xmlns:rval", 
+          soap_message.response_namespaces).first
       BulkMutateJob.from_element(el)
     end
 
@@ -153,7 +157,7 @@ module Sem4r
     def geo_location
       soap_message = service.geo_location.get(@credentials, "")
       add_counters( soap_message.counters )
-      # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
+      # cost = soap_message.response.xpath("//getResponse/rval/cost").first
       # cost.text.to_i
     end
 
@@ -180,7 +184,9 @@ module Sem4r
     def _reports
       soap_message = service.report.all(credentials)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+      els = soap_message.response.xpath(
+          "//*[local-name()='getAllJobsReturn']", 
+          soap_message.response_namespaces)
       @reports = els.map do |el|
         Report.from_element(self, el)
       end
@@ -213,10 +219,12 @@ module Sem4r
     def _info
       soap_message = service.account.account_info(credentials)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getAccountInfoResponse/getAccountInfoReturn")
-      @currency_code = el.elements['currencyCode'].text.strip
-      @customer_id   = el.elements['customerId'].text.strip
-      @billing_address = BillingAddress.from_element( el.elements['billingAddress'] )
+      el = soap_message.response.xpath(
+          "//xmlns:getAccountInfoResponse/xmlns:getAccountInfoReturn", 
+          soap_message.response_namespaces).first
+      @currency_code = el.at_xpath('xmlns:currencyCode', el.namespaces).text.strip
+      @customer_id   = el.at_xpath('xmlns:customerId', el.namespaces).text.strip
+      @billing_address = BillingAddress.from_element( el.at_xpath('xmlns:billingAddress', el.namespaces) )
     end
 
     public
@@ -246,7 +254,8 @@ module Sem4r
     def _client_accounts
       soap_message = service.account.client_accounts(credentials)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getClientAccountsReturn")
+      els = soap_message.response.xpath("//xmlns:getClientAccountsReturn", 
+          soap_message.response_namespaces)
       @accounts = els.map do |el|
         client_email = el.text
         Account.new( adwords, Credentials.new(@credentials, client_email) )
@@ -302,8 +311,9 @@ module Sem4r
     def _campaigns
       soap_message = service.campaign.all(credentials)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
+          soap_message.response_namespaces).first
+      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
       @campaigns = els.map do |el|
         Campaign.from_element(self, el)
       end

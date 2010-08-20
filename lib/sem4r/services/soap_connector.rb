@@ -122,7 +122,7 @@ module Sem4r
       if !@soap_dump_format
         str <<  request_xml
       else
-        xml_document = REXML::Document.new(request_xml)
+        xml_document = Nokogiri::XML::Document.parse(request_xml)
         f = REXML::Formatters::Pretty.new
         out = String.new
         f.write(xml_document, out)
@@ -134,7 +134,7 @@ module Sem4r
       if !@soap_dump_format
         str <<  response_xml
       else
-        xml_document = REXML::Document.new(response_xml)
+        xml_document = Nokogiri::XML::Document.parse(response_xml)
         f = REXML::Formatters::Pretty.new
         out = String.new
         f.write(xml_document, out)

@@ -68,13 +68,13 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        @id         = el.elements["id"].text.strip.to_i
-        # type          el.elements["Ad.Type"].text
-        url           el.elements["url"].text.strip
-        display_url   el.elements["displayUrl"].text.strip
-        headline      el.elements["headline"].text.strip
-        description1  el.elements["description1"].text.strip
-        description2  el.elements["description2"].text.strip
+        @id         = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
+        # type          el.xpath("xmlns:Ad.Type", el.namespaces).text
+        url           el.xpath("xmlns:url", el.namespaces).text.strip
+        display_url   el.xpath("xmlns:displayUrl", el.namespaces).text.strip
+        headline      el.xpath("xmlns:headline", el.namespaces).text.strip
+        description1  el.xpath("xmlns:description1", el.namespaces).text.strip
+        description2  el.xpath("xmlns:description2", el.namespaces).text.strip
       end
     end
 
@@ -85,10 +85,13 @@ module Sem4r
     def save
       unless @id
         ad_operation = AdGroupAdOperation.new.add self
-        soap_message = service.ad_group_ad.mutate(credentials, ad_operation.to_xml("operations"))
+        soap_message = service.ad_group_ad.mutate(credentials, 
+            ad_operation.to_xml("operations"))
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/ad/id" ).first
+        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval",
+            soap_message.response_namespaces).first
+        id = rval.xpath("xmlns:value/xmlns:ad/xmlns:id", 
+            soap_message.response_namespaces).first
         @id = id.text.strip.to_i
       end
       self
