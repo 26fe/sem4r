@@ -111,13 +111,13 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        @id         = el.elements["id"].text.strip.to_i
-        # type          el.elements["Ad.Type"].text
-        headline       el.elements["headline"].text.strip
-        description    el.elements["description"].text.strip
-        business_name  el.elements["businessName"].text.strip
-        country_code   el.elements["countryCode"].text.strip
-        phone_number   el.elements["phoneNumber"].text.strip
+        @id         = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
+        # type          el.xpath("xmlns:Ad.Type", el.namespaces).text
+        headline       el.xpath("xmlns:headline", el.namespaces).text.strip
+        description    el.xpath("xmlns:description", el.namespaces).text.strip
+        business_name  el.xpath("xmlns:businessName", el.namespaces).text.strip
+        country_code   el.xpath("xmlns:countryCode", el.namespaces).text.strip
+        phone_number   el.xpath("xmlns:phoneNumber", el.namespaces).text.strip
         # TODO: estrarre le carriers
       end
     end
@@ -126,8 +126,10 @@ module Sem4r
       unless @id
         soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/ad/id" ).first
+        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
+            soap_message.response_headers).first
+        id = rval.xpath("xmlns:value/xmlns:ad/xmlns:id", 
+            soap_message.response_namespaces).first
         @id = id.text.strip.to_i
       end
       self

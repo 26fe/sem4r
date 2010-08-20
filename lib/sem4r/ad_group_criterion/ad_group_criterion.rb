@@ -38,7 +38,8 @@ module Sem4r
     end
 
     def self.from_element(ad_group, el)
-      type =  el.elements["AdGroupCriterion.Type"].text.strip
+      namespaces = el.document.collect_namespaces
+      type =  el.at_xpath("xmlns:AdGroupCriterion.Type", namespaces).text.strip
       klass = Module::const_get(type)
       klass.from_element(ad_group, el)
     end
@@ -53,8 +54,9 @@ module Sem4r
         soap_message =
           criterion.service.ad_group_criterion.mutate(criterion.credentials, o.to_xml("operations"))
         criterion.add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
+        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
+            el.namespaces).first
+        id = rval.xpath("xmlns:value/xmlns:criterion/xmlns:id", el.namespaces).first
         criterion.instance_eval{ @id = id.text.strip.to_i }
       end
       self
@@ -79,8 +81,11 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.elements["criterion"])
-        bids      AdGroupCriterionBids.from_element(el.elements["bids"])
+        namespaces = el.document.collect_namespaces
+        criterion Criterion.from_element(ad_group, el.xpath("xmlns:criterion", 
+                                                                  namespaces))
+        bids      AdGroupCriterionBids.from_element(el.xpath("xmlns:bids", 
+                                                                  namespaces))
       end
     end
 
@@ -119,7 +124,8 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.elements["criterion"])
+        criterion Criterion.from_element(ad_group, 
+            el.xpath("xmlns:criterion", el.namespaces))
       end
     end
 

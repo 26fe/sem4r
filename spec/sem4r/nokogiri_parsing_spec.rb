@@ -24,27 +24,31 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe "Test Parsing with REXML" do
+describe "Test Parsing with Nokogiri" do
   include Sem4rSpecHelper
 
 
   it "ddd" do
     pending "test"
     xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
-    els = REXML::XPath.match( xml_document, "//mutateResponse/rval/value/ad/id")
+    els = xml_document.xpath(
+        "//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:ad/xmlns:id", 
+        xml_document.collect_namespaces)
     els.each {|e| puts e.text.strip.to_i }
   end
 
   it "test_account_get_client_accounts" do
     xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
-    els = REXML::XPath.match( xml_document, "//getClientAccountsReturn")
+    els = xml_document.xpath("//xmlns:getClientAccountsReturn", 
+        xml_document.collect_namespaces)
     els.length.should == 5
   end
 
   it "test_campaign_get" do
     xml_document = read_xml_document("services", "campaign", "get-res.xml")
-    rval = REXML::XPath.first( xml_document, "//getResponse/rval")
-    els = REXML::XPath.match( rval, "entries")
+    rval =  xml_document.xpath("//xmlns:getResponse/xmlns:rval", 
+        xml_document.collect_namespaces).first
+    els = rval.xpath( "xmlns:entries", xml_document.collect_namespaces )
 
     ids_expected =
       ["53614", "53615", "53616", "54034", "54035", "55405", "55420", "56761",
@@ -67,8 +71,13 @@ describe "Test Parsing with REXML" do
       "campaign 2010-02-13 09:39:14 +0100",
       "campaign 2010-02-13 09:39:46 +0100"]
 
-    ids   = els.map{|el| el.elements["id"].text.strip }
-    names = els.map{|el| el.elements["name"].text.strip }
+    ids   = els.map do |el| 
+      el.xpath("xmlns:id", xml_document.collect_namespaces).text.strip 
+    end
+    
+    names = els.map do |el| 
+      el.xpath("xmlns:name", xml_document.collect_namespaces ).text.strip
+    end
 
     ids_expected.should == ids
     names_expected.should == names
@@ -76,24 +85,28 @@ describe "Test Parsing with REXML" do
 
   it "test_adgroup_criterion_get" do
     xml_document = read_xml_document("services", "ad_group_criterion", "get-res.xml")
-    rval = REXML::XPath.first( xml_document, "//getResponse/rval")
+    namespaces = xml_document.collect_namespaces
+    rval = xml_document.xpath("//xmlns:getResponse/xmlns:rval", namespaces).first
 
-    el = REXML::XPath.first( rval, "entries/criterion[@xsi:type='Keyword']")
+    el = rval.xpath("xmlns:entries/xmlns:criterion[@xsi:type='Keyword']", 
+        namespaces).first
 
-    el.elements["id"].text.should == "11536082"
-    el.elements["text"].text.should == "pippo"
-    el.elements["matchType"].text.should == "BROAD"
+    el.xpath("xmlns:id", namespaces).text.should == "11536082"
+    el.xpath("xmlns:text", namespaces).text.should == "pippo"
+    el.xpath("xmlns:matchType", namespaces).text.should == "BROAD"
   end
 
   it "test_info_get" do
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
+    namespaces = xml_document.collect_namespaces
 
-    response_header = REXML::XPath.first(xml_document, "//ResponseHeader")
-    response_header.elements["operations"].text.strip.should == "1"
-    response_header.elements["responseTime"].text.strip.should == "173"
-    response_header.elements["units"].text.strip.should == "1"
+    response_header = xml_document.xpath("//ns2:ResponseHeader", namespaces).first
+    response_header.xpath("xmlns:operations", namespaces).text.strip.should == "1"
+    response_header.xpath("xmlns:responseTime", namespaces).text.strip.should == "173"
+    response_header.xpath("xmlns:units", namespaces).text.strip.should == "1"
 
-    cost = REXML::XPath.first( xml_document, "//getResponse/rval/cost")
+    cost = xml_document.xpath("//ns2:getResponse/ns2:rval/ns2:cost", 
+        namespaces).first
     cost.text.strip.should == "100"
   end
 

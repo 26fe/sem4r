@@ -14,7 +14,8 @@
     </requestId>
   </soapenv:Header>
   <soapenv:Body>
-    <getAllJobsResponse xmlns=''>
+    <getAllJobsResponse>
+    <!-- <getAllJobsResponse xmlns=''> -->
 
       <ns1:getAllJobsReturn xsi:type='ns1:DefinedReportJob' xmlns:ns1='https://adwords.google.com/api/adwords/v13'>
         <ns1:clientEmails xsi:nil='true'/>

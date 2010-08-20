@@ -40,7 +40,8 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.account_info( @credentials )
 
-    els = REXML::XPath.match( soap_message.response, "//getAccountInfoResponse")
+    els = soap_message.response.xpath("//xmlns:getAccountInfoResponse", 
+        soap_message.response_namespaces)
     els.should_not be_empty
   end
 
@@ -53,7 +54,8 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.client_accounts( @credentials )
 
-    els = REXML::XPath.match( soap_message.response, "//getClientAccountsResponse")
+    els = soap_message.response.xpath("//xmlns:getClientAccountsResponse", 
+        soap_message.response_namespaces)
     els.should_not be_empty
   end
 
