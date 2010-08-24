@@ -52,25 +52,26 @@ module Sem4r
     def send(service_url)
       response_xml = @connector.send(service_url, "", build_soap_message)
       # erase namespace so it more simple parsing the xml
-      # response_xml = response_xml.gsub(/ns\d:/, "")
+      response_xml.gsub!(/(ns\d:|xsi:|s:)/, "")
+      response_xml.gsub!(/xmlns=("|').*("|')/, "")
       @response = Nokogiri::XML::Document.parse(response_xml)
 
       #
       # extract information from header
       #
-      header = @response.at_xpath("//*[local-name()='ResponseHeader']")
+      header = @response.at_xpath("//ResponseHeader")
       if header
         @counters = {
-          :operations    => header.at_xpath("*[local-name()='operations']").text.to_i,
-          :response_time => header.at_xpath("*[local-name()='responseTime']").text.to_i,
-          :units         => header.at_xpath("*[local-name()='units']").text.to_i
+          :operations    => header.at_xpath("operations").text.to_i,
+          :response_time => header.at_xpath("responseTime").text.to_i,
+          :units         => header.at_xpath("units").text.to_i
         }
       end
 
       #
       # check soap fault
       #
-      fault_el = @response.at_xpath("//*[local-name()='Fault']")
+      fault_el = @response.at_xpath("//Fault")
       if fault_el
         fault_string = fault_el.at_xpath('faultstring').text
         @logger.error("soap error: #{fault_string}") if @logger
