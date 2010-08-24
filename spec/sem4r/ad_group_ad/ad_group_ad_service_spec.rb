@@ -37,8 +37,7 @@ describe AdGroupAdService do
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupAdService.new(connector)
     soap_message = service.all( @credentials, "ad_group_id" )
-    els = soap_message.response.xpath("//xmlns:getResponse", 
-        soap_message.response_namespaces)
+    els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
 
@@ -49,8 +48,7 @@ describe AdGroupAdService do
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupAdService.new(connector)
     soap_message = service.mutate( @credentials, "xml" )
-    els = soap_message.response.xpath("//xmlns:mutateResponse", 
-        soap_message.response_namespaces)
+    els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
 

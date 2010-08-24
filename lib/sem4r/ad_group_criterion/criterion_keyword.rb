@@ -50,11 +50,9 @@ module Sem4r
     end
 
     def self.from_element( ad_group, el )
-      new(ad_group) do
-        namespaces = el.document.collect_namespaces
-        @id      = el.xpath("xmlns:id", namespaces).text.strip.to_i
-        text       el.xpath("xmlns:text", namespaces).text.strip
-        match      el.xpath("xmlns:matchType", namespaces).text.strip
+      new(ad_group) do@id      = el.xpath("id").text.strip.to_i
+        text       el.xpath("text").text.strip
+        match      el.xpath("matchType").text.strip
       end
     end
 

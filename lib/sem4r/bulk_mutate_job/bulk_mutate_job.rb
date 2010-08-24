@@ -94,8 +94,8 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        @id          = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
-        status         el.xpath("xmlns:status", el.namespaces).text
+        @id          = el.xpath("id").text.strip.to_i
+        status         el.xpath("status").text
       end
     end
 

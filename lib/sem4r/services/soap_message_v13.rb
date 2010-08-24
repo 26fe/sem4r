@@ -26,7 +26,6 @@ module Sem4r
   class SoapMessageV13
 
     attr_reader :response
-    attr_reader :response_namespaces
     attr_reader :counters
 
     def initialize(connector, credentials)
@@ -44,9 +43,9 @@ module Sem4r
       soap_message = build_soap_message
       response_xml = @connector.send(service_url, soap_action, soap_message)
       # erase namespace 'nsX'so it more simple parsing the xml
-      # response_xml = response_xml.gsub(/ns\d:/, "")
+      response_xml.gsub!(/(ns\d:|xsi:|s:)/, "")
+      response_xml.gsub!(/xmlns=("|').*("|')/, "")
       @response = Nokogiri::XML::Document.parse(response_xml)
-      @response_namespaces = @response.collect_namespaces
 
       # extract information from header
       #  <soapenv:Header>
@@ -55,12 +54,12 @@ module Sem4r
       #      <units soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">5</units>
       #      <requestId soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">abade53d3dbecd45600e7d14563f10f1</requestId>
       #  </soapenv:Header>
-      header = @response.xpath("//soapenv:Header", @response_namespaces).first
+      header = @response.xpath("//Header").first
       if header
         @counters = {
-          :response_time => header.at_xpath('xmlns:responseTime', @response_namespaces).text.to_i,
-          :operations => header.at_xpath('xmlns:operations', @response_namespaces).text.to_i,
-          :units => header.at_xpath('xmlns:units', @response_namespaces).text.to_i
+          :response_time => header.at_xpath('responseTime').text.to_i,
+          :operations => header.at_xpath('operations').text.to_i,
+          :units => header.at_xpath('units').text.to_i
         }
       end
       
@@ -79,7 +78,7 @@ module Sem4r
       #  </soapenv:Fault>
       # </soapenv:Body>
       #</soapenv:Envelope>
-      fault_el = @response.xpath("//soapenv:Fault", @response_namespaces).first
+      fault_el = @response.xpath("//Fault").first
       if fault_el
         fault_code   = fault_el.at_xpath('faultcode').text
         fault_string = fault_el.at_xpath('faultstring').text

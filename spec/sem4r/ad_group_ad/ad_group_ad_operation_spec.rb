@@ -51,7 +51,7 @@ describe AdGroupAdOperation do
     text_ad.url          = "http://www.example.com"
     @ad_operation.add text_ad
 
-    expected_xml = read_model("//xmlns:operations", "services", "bulk_mutate_job", "mutate-req.xml")
+    expected_xml = read_model("//operations", "services", "bulk_mutate_job", "mutate-req.xml")
     @ad_operation.to_xml('operations').should xml_equivalent(expected_xml)
   end
 
@@ -81,7 +81,7 @@ describe AdGroupAdOperation do
     puts ad_operation_1.to_xml("operations")
     puts ad_operation_2.to_xml("operations")
 
-    #    expected_xml = read_model("//xmlns:operations", "services", "bulk_mutate_job", "mutate-req.xml")
+    #    expected_xml = read_model("//operations", "services", "bulk_mutate_job", "mutate-req.xml")
     #    @ad_operation.to_xml('operations').should xml_equivalent(expected_xml)
   end
 

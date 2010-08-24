@@ -51,7 +51,7 @@ describe Report do
   end
 
   it "should parse xml (produced by google)" do
-    el = read_model("//ns1:getAllJobsReturn", "services", "v13_report", "get_all_jobs-res.xml")
+    el = read_model("//getAllJobsReturn", "services", "v13_report", "get_all_jobs-res.xml")
     report = Report.from_element(@account, el)
     report.id.should == 11
     report.name.should == "report [11]"
@@ -72,7 +72,7 @@ describe Report do
       column               "KeywordTypeDisplay"
     end
 
-    expected = read_model("//xmlns:job", "services", "v13_report", "schedule_report_job-req.xml")
+    expected = read_model("//job", "services", "v13_report", "schedule_report_job-req.xml")
     report.to_xml.should xml_equivalent(expected)
   end
 

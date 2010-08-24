@@ -98,8 +98,7 @@ module Sem4r
       raise "usage type '#{usage_type}' not permitted" unless UsageTypes.include?(usage_type)
       soap_message = service.info.unit_cost(@credentials, usage_type)
       add_counters( soap_message.counters )
-      cost = soap_message.response.xpath("//ns2:getResponse/ns2:rval/ns2:cost", 
-          soap_message.response_namespaces).first
+      cost = soap_message.response.xpath("//getResponse/rval/cost").first
       cost.text.to_i
     end
 
@@ -110,9 +109,8 @@ module Sem4r
       selector = TargetingIdeaSelector.new(&block)
       soap_message = service.targeting_idea.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries" )
       els.map do |el|
         TargetingIdea.from_element( el )
       end
@@ -130,8 +128,7 @@ module Sem4r
       selector = BulkMutateJobSelector.new
       soap_message = service.bulk_mutate_job.all(credentials, selector)
       add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces)
+      els = soap_message.response.xpath("//getResponse/rval")
       jobs = els.map do |el|
         BulkMutateJob.from_element(el)
       end
@@ -146,8 +143,7 @@ module Sem4r
     def job_mutate(bulk_mutate_job)
       soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
       add_counters( soap_message.counters )
-      el = soap_message.response.xpath("//xmlns:rval", 
-          soap_message.response_namespaces).first
+      el = soap_message.response.xpath("//rval").first
       BulkMutateJob.from_element(el)
     end
 
@@ -185,8 +181,7 @@ module Sem4r
       soap_message = service.report.all(credentials)
       add_counters( soap_message.counters )
       els = soap_message.response.xpath(
-          "//*[local-name()='getAllJobsReturn']", 
-          soap_message.response_namespaces)
+          "//*[local-name()='getAllJobsReturn']")
       @reports = els.map do |el|
         Report.from_element(self, el)
       end
@@ -219,12 +214,10 @@ module Sem4r
     def _info
       soap_message = service.account.account_info(credentials)
       add_counters( soap_message.counters )
-      el = soap_message.response.xpath(
-          "//xmlns:getAccountInfoResponse/xmlns:getAccountInfoReturn", 
-          soap_message.response_namespaces).first
-      @currency_code = el.at_xpath('xmlns:currencyCode', el.namespaces).text.strip
-      @customer_id   = el.at_xpath('xmlns:customerId', el.namespaces).text.strip
-      @billing_address = BillingAddress.from_element( el.at_xpath('xmlns:billingAddress', el.namespaces) )
+      el = soap_message.response.at_xpath("//getAccountInfoResponse/getAccountInfoReturn")
+      @currency_code = el.at_xpath('currencyCode').text.strip
+      @customer_id   = el.at_xpath('customerId').text.strip
+      @billing_address = BillingAddress.from_element( el.at_xpath('billingAddress') )
     end
 
     public
@@ -254,8 +247,7 @@ module Sem4r
     def _client_accounts
       soap_message = service.account.client_accounts(credentials)
       add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//xmlns:getClientAccountsReturn", 
-          soap_message.response_namespaces)
+      els = soap_message.response.xpath("//getClientAccountsReturn")
       @accounts = els.map do |el|
         client_email = el.text
         Account.new( adwords, Credentials.new(@credentials, client_email) )
@@ -311,9 +303,8 @@ module Sem4r
     def _campaigns
       soap_message = service.campaign.all(credentials)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries" )
       @campaigns = els.map do |el|
         Campaign.from_element(self, el)
       end

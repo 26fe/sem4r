@@ -38,8 +38,7 @@ describe TargetingIdeaService do
     service = TargetingIdeaService.new(connector)
     soap_message = service.get( @credentials,  "xml" )
 
-    els = soap_message.response.xpath("//ns2:getResponse", 
-        soap_message.response_namespaces)
+    els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
 

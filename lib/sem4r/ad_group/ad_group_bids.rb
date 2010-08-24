@@ -40,8 +40,7 @@ module Sem4r
     end
 
     def self.from_element(el)
-      type = el.xpath("xmlns:AdGroupBids.Type", 
-          el.document.collect_namespaces).text.strip
+      type = el.xpath("AdGroupBids.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -115,19 +114,15 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        namespaces = el.document.collect_namespaces
-        
-        kel = el.at_xpath("xmlns:keywordMaxCpc", namespaces)
+        kel = el.at_xpath("keywordMaxCpc")
         if kel
-          el_amount = kel.at_xpath("xmlns:amount", namespaces)
-          keyword_max_cpc(el_amount.at_xpath("xmlns:microAmount", 
-              namespaces).text.strip.to_i)
+          el_amount = kel.at_xpath("amount")
+          keyword_max_cpc(el_amount.at_xpath("microAmount").text.strip.to_i)
         end
-        sel = el.at_xpath("xmlns:siteMaxCpc", namespaces)
+        sel = el.at_xpath("siteMaxCpc")
         if sel
-          el_amount = sel.at_xpath("xmlns:amount", namespaces)
-          site_max_cpc(el_amount.at_xpath("xmlns:microAmount", 
-              namespaces).text.strip.to_i)
+          el_amount = sel.at_xpath("amount")
+          site_max_cpc(el_amount.at_xpath("microAmount").text.strip.to_i)
         end
         # TODO: it is possible something like:
         #        el.xpath("maxCpc") do |el|
@@ -162,11 +157,10 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        kel = el.xpath("xmlns:maxCpm", el.first.namespaces).first
+        kel = el.xpath("maxCpm").first
         if kel
-          el_amount = kel.xpath("xmlns:amount", el.first.namespaces).first
-          max_cpm     el_amount.xpath("xmlns:microAmount", 
-                          el.first.namespaces).first.text.strip.to_i
+          el_amount = kel.xpath("amount").first
+          max_cpm     el_amount.xpath("microAmount").first.text.strip.to_i
         end
       end
     end

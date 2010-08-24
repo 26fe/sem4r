@@ -91,12 +91,12 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id          = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
-        name           el.xpath("xmlns:name", el.namespaces).text.strip
-        status         el.at_xpath('xmlns:status', el.namespaces).text.strip # ACTIVE, PAUSED, DELETED
-        serving_status el.at_xpath('xmlns:servingStatus', el.namespaces)
-        start_date     el.at_xpath('xmlns:startDate', el.namespaces)
-        end_date       el.at_xpath('xmlns:endDate', el.namespaces)
+        @id          = el.xpath("id").text.strip.to_i
+        name           el.xpath("name").text.strip
+        status         el.at_xpath('status').text.strip # ACTIVE, PAUSED, DELETED
+        serving_status el.at_xpath('servingStatus')
+        start_date     el.at_xpath('startDate')
+        end_date       el.at_xpath('endDate')
       end
     end
 
@@ -108,9 +108,8 @@ module Sem4r
       unless @id
         soap_message = service.campaign.create(credentials, to_xml)
         add_counters( soap_message.counters )
-        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
-            soap_message.response_namespaces).first
-        id = rval.xpath("xmlns:value/xmlns:id", soap_message.response_namespaces).first
+        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        id = rval.xpath("value/id").first
         @id = id.text.strip.to_i
       end
       self
@@ -181,9 +180,8 @@ module Sem4r
     def _ad_groups
       soap_message = service.ad_group.all(credentials, @id)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces)
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries")
       @ad_groups = els.map do |el|
         AdGroup.from_element(self, el)
       end
