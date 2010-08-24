@@ -26,7 +26,6 @@ module Sem4r
   class SoapMessageV2009
 
     attr_reader :response
-    attr_reader :response_namespaces
     attr_reader :counters
     
     def initialize(connector, credentials)
@@ -55,24 +54,23 @@ module Sem4r
       # erase namespace so it more simple parsing the xml
       # response_xml = response_xml.gsub(/ns\d:/, "")
       @response = Nokogiri::XML::Document.parse(response_xml)
-      @response_namespaces = @response.collect_namespaces
 
       #
       # extract information from header
       #
-      header = @response.at_xpath("//*[local-name()='ResponseHeader']", @response_namespaces)
+      header = @response.at_xpath("//*[local-name()='ResponseHeader']")
       if header
         @counters = {
-          :operations    => header.at_xpath("*[local-name()='operations']", @response_namespaces).text.to_i,
-          :response_time => header.at_xpath("*[local-name()='responseTime']", @response_namespaces).text.to_i,
-          :units         => header.at_xpath("*[local-name()='units']", @response_namespaces).text.to_i
+          :operations    => header.at_xpath("*[local-name()='operations']").text.to_i,
+          :response_time => header.at_xpath("*[local-name()='responseTime']").text.to_i,
+          :units         => header.at_xpath("*[local-name()='units']").text.to_i
         }
       end
 
       #
       # check soap fault
       #
-      fault_el = @response.at_xpath("//*[local-name()='Fault']", @response_namespaces)
+      fault_el = @response.at_xpath("//*[local-name()='Fault']")
       if fault_el
         fault_string = fault_el.at_xpath('faultstring').text
         @logger.error("soap error: #{fault_string}") if @logger

@@ -45,8 +45,7 @@ module Sem4r
     end
 
     def self.from_element( ad_group, el )
-      namespaces = el.document.collect_namespaces
-      xml_type = el.xpath("xmlns:Criterion.Type", namespaces).text.strip
+      xml_type = el.xpath("Criterion.Type").text.strip
       #      klass = Module::const_get(type)
       #      klass.from_element(ad_group, el)
       case xml_type

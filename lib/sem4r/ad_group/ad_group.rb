@@ -96,10 +96,10 @@ module Sem4r
 
     def self.from_element(campaign, el)
       new(campaign) do
-        @id          = el.xpath("xmlns:id", el.namespaces).text.strip.to_i
-        name           el.xpath("xmlns:name", el.namespaces).text.strip
-        status         el.xpath("xmlns:status", el.namespaces).text.strip
-        bids           el.xpath("xmlns:bids", el.namespaces)
+        @id          = el.xpath("id").text.strip.to_i
+        name           el.xpath("name").text.strip
+        status         el.xpath("status").text.strip
+        bids           el.xpath("bids")
       end
     end
 
@@ -117,10 +117,8 @@ module Sem4r
       unless @id
         soap_message = service.ad_group.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
-        rval = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval", 
-            soap_message.response_namespaces).first
-        id = rval.xpath("xmlns:value/xmlns:id", 
-            soap_message.response_namespaces).first
+        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        id = rval.xpath("value/id").first
         @id = id.text.strip.to_i
       end
     end
@@ -183,9 +181,8 @@ module Sem4r
     def _ads
       soap_message = service.ad_group_ad.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval",
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries/xmlns:ad", soap_message.response_namespaces )
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries/ad" )
       @ads = els.map do |el|
         AdGroupAd.from_element( self, el )
       end
@@ -203,8 +200,7 @@ module Sem4r
       end
       soap_message = service.ad_group_ad.mutate(credentials, xml)
       add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:ad/xmlns:id", 
-          soap_message.response_namespaces)
+      els = soap_message.response.xpath("//mutateResponse/rval/value/ad/id")
       els.each_with_index do |e,index|
         id = e.text.strip.to_i
         unsaved_ads[index].instance_eval{ @id = id }
@@ -270,10 +266,8 @@ module Sem4r
     def _criterions
       soap_message = service.ad_group_criterion.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries/xmlns:criterion", 
-          soap_message.response_namespaces )
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries/criterion" )
       @criterions = els.map do |el|
         Criterion.from_element( self, el )
       end
@@ -294,8 +288,7 @@ module Sem4r
       soap_message = service.ad_group_criterion.mutate(credentials, xml)
       add_counters( soap_message.counters )
       els = soap_message.response.xpath(
-          "//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:criterion/xmlns:id", 
-          soap_message.response_namespaces)
+          "//mutateResponse/rval/value/criterion/id")
       els.each_with_index do |e,index|
         id = e.text.strip.to_i
         unsaved_criterions[index].criterion.instance_eval{ @id = id }
@@ -332,9 +325,8 @@ module Sem4r
     def _ad_params
       soap_message = service.ad_param.all(credentials, id)
       add_counters( soap_message.counters )
-      rval = soap_message.response.xpath("//xmlns:getResponse/xmlns:rval", 
-          soap_message.response_namespaces).first
-      els = rval.xpath( "xmlns:entries", soap_message.response_namespaces )
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries" )
       @ad_params = els.map do |el|
         AdParam.from_element( self, el )
       end

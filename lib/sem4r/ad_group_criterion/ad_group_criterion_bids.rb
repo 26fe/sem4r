@@ -35,8 +35,7 @@ module Sem4r
     ]
 
     def self.from_element(el)
-      namespaces = el.document.collect_namespaces
-      type =  el.xpath("xmlns:AdGroupCriterionBids.Type", namespaces).text.strip
+      type =  el.xpath("AdGroupCriterionBids.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -64,12 +63,11 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        namespaces = el.document.collect_namespaces
-        bid_source       el.at_xpath("xmlns:bidSource", namespaces).text.strip
+        bid_source       el.at_xpath("bidSource").text.strip
 
-        el_maxCpc = el.at_xpath("xmlns:maxCpc", namespaces)
-        el_amount = el_maxCpc.at_xpath("xmlns:amount", namespaces)
-        max_cpc     el_amount.at_xpath("xmlns:microAmount", namespaces).text.strip.to_i
+        el_maxCpc = el.at_xpath("maxCpc")
+        el_amount = el_maxCpc.at_xpath("amount")
+        max_cpc     el_amount.at_xpath("microAmount").text.strip.to_i
       end
     end
 

@@ -32,23 +32,20 @@ describe "Test Parsing with Nokogiri" do
     pending "test"
     xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
     els = xml_document.xpath(
-        "//xmlns:mutateResponse/xmlns:rval/xmlns:value/xmlns:ad/xmlns:id", 
-        xml_document.collect_namespaces)
+        "//mutateResponse/rval/value/ad/id")
     els.each {|e| puts e.text.strip.to_i }
   end
 
   it "test_account_get_client_accounts" do
     xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
-    els = xml_document.xpath("//xmlns:getClientAccountsReturn", 
-        xml_document.collect_namespaces)
+    els = xml_document.xpath("//getClientAccountsReturn")
     els.length.should == 5
   end
 
   it "test_campaign_get" do
     xml_document = read_xml_document("services", "campaign", "get-res.xml")
-    rval =  xml_document.xpath("//xmlns:getResponse/xmlns:rval", 
-        xml_document.collect_namespaces).first
-    els = rval.xpath( "xmlns:entries", xml_document.collect_namespaces )
+    rval =  xml_document.xpath("//getResponse/rval").first
+    els = rval.xpath( "entries" )
 
     ids_expected =
       ["53614", "53615", "53616", "54034", "54035", "55405", "55420", "56761",
@@ -72,11 +69,11 @@ describe "Test Parsing with Nokogiri" do
       "campaign 2010-02-13 09:39:46 +0100"]
 
     ids   = els.map do |el| 
-      el.xpath("xmlns:id", xml_document.collect_namespaces).text.strip 
+      el.xpath("id").text.strip 
     end
     
     names = els.map do |el| 
-      el.xpath("xmlns:name", xml_document.collect_namespaces ).text.strip
+      el.xpath("name" ).text.strip
     end
 
     ids_expected.should == ids
@@ -85,28 +82,24 @@ describe "Test Parsing with Nokogiri" do
 
   it "test_adgroup_criterion_get" do
     xml_document = read_xml_document("services", "ad_group_criterion", "get-res.xml")
-    namespaces = xml_document.collect_namespaces
-    rval = xml_document.xpath("//xmlns:getResponse/xmlns:rval", namespaces).first
+    rval = xml_document.xpath("//getResponse/rval").first
 
-    el = rval.xpath("xmlns:entries/xmlns:criterion[@xsi:type='Keyword']", 
-        namespaces).first
+    el = rval.xpath("entries/criterion[@type='Keyword']").first
 
-    el.xpath("xmlns:id", namespaces).text.should == "11536082"
-    el.xpath("xmlns:text", namespaces).text.should == "pippo"
-    el.xpath("xmlns:matchType", namespaces).text.should == "BROAD"
+    el.xpath("id").text.should == "11536082"
+    el.xpath("text").text.should == "pippo"
+    el.xpath("matchType").text.should == "BROAD"
   end
 
   it "test_info_get" do
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
-    namespaces = xml_document.collect_namespaces
 
-    response_header = xml_document.xpath("//ns2:ResponseHeader", namespaces).first
-    response_header.xpath("xmlns:operations", namespaces).text.strip.should == "1"
-    response_header.xpath("xmlns:responseTime", namespaces).text.strip.should == "173"
-    response_header.xpath("xmlns:units", namespaces).text.strip.should == "1"
+    response_header = xml_document.xpath("//ResponseHeader").first
+    response_header.xpath("operations").text.strip.should == "1"
+    response_header.xpath("responseTime").text.strip.should == "173"
+    response_header.xpath("units").text.strip.should == "1"
 
-    cost = xml_document.xpath("//ns2:getResponse/ns2:rval/ns2:cost", 
-        namespaces).first
+    cost = xml_document.xpath("//getResponse/rval/cost").first
     cost.text.strip.should == "100"
   end
 

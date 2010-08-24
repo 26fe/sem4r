@@ -130,11 +130,11 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id       = el.xpath("*[local-name()='id']", el.namespaces).text.strip.to_i # id is read only
-        name        el.xpath("*[local-name()='name']", el.namespaces).text.strip
-        start_day   el.xpath("*[local-name()='startDay']", el.namespaces).text.strip
-        end_day     el.xpath("*[local-name()='endDay']", el.namespaces).text.strip
-        @status   = el.xpath("*[local-name()='status']", el.namespaces).text.strip # status is read only
+        @id       = el.xpath("*[local-name()='id']").text.strip.to_i # id is read only
+        name        el.xpath("*[local-name()='name']").text.strip
+        start_day   el.xpath("*[local-name()='startDay']").text.strip
+        end_day     el.xpath("*[local-name()='endDay']").text.strip
+        @status   = el.xpath("*[local-name()='status']").text.strip # status is read only
       end
     end
 
@@ -145,8 +145,7 @@ module Sem4r
       soap_message = service.report.status(credentials, @id)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath(
-          "//xmlns:getReportJobStatusResponse/xmlns:getReportJobStatusReturn", 
-          soap_message.response_namespaces).first
+          "//getReportJobStatusResponse/getReportJobStatusReturn").first
       @status = el.text
     end
 
@@ -166,8 +165,7 @@ module Sem4r
       soap_message = service.report.schedule(credentials, to_xml)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath(
-          "//xmlns:scheduleReportJobResponse/xmlns:scheduleReportJobReturn",
-          soap_message.response_namespaces).first
+          "//scheduleReportJobResponse/scheduleReportJobReturn").first
       @id = el.text
       # puts "requested report assigned job nr. #{@job_id}"
       ReportJob.new(self, @id)
@@ -177,8 +175,7 @@ module Sem4r
       soap_message = service.report.url(credentials, @id)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath(
-          "//xmlns:getReportDownloadUrlResponse/getReportDownloadUrlReturn",
-          soap_message.response_namespaces).first
+          "//getReportDownloadUrlResponse/getReportDownloadUrlReturn").first
       url = el.text
       url
     end

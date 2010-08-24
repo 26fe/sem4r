@@ -40,8 +40,7 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.account_info( @credentials )
 
-    els = soap_message.response.xpath("//xmlns:getAccountInfoResponse", 
-        soap_message.response_namespaces)
+    els = soap_message.response.xpath("//getAccountInfoResponse")
     els.should_not be_empty
   end
 
@@ -54,8 +53,7 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.client_accounts( @credentials )
 
-    els = soap_message.response.xpath("//xmlns:getClientAccountsResponse", 
-        soap_message.response_namespaces)
+    els = soap_message.response.xpath("//getClientAccountsResponse")
     els.should_not be_empty
   end
 
