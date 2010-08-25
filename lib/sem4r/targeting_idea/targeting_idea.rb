@@ -58,8 +58,8 @@ module Sem4r
     def self.from_element(el)
       els = el.xpath("data")
       @attributes = els.map do |el|
-        el1 = el.xpath("value")
-        xml_type =       el1.xpath("Attribute.Type").text.strip
+        el1 = el.at_xpath("value")
+        xml_type = el1.at_xpath("Attribute.Type").text.strip
         case xml_type
         when IdeaTypeAttribute
           TIdeaTypeAttribute.from_element(el1)
