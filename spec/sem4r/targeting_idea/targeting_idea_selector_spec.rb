@@ -43,8 +43,10 @@ describe TargetingIdeaSelector do
       end
 
       related_to_keyword_search_parameter do
-        text       'dvd player'
-        match_type 'EXACT'
+        ['dvd player', 'car stereo'].each do |term|
+          text       term
+          match_type 'EXACT'
+        end
       end
       
       country_target_search_parameter do
@@ -81,8 +83,10 @@ describe TargetingIdeaSelector do
   describe RelatedToKeywordSearchParameter do
     it "should produce xml (input for google)" do
       sp = RelatedToKeywordSearchParameter.new do
-        text "dvd player"
-        match_type "EXACT"
+        ['dvd player', 'car stereo'].each do |term|
+          text       term
+          match_type 'EXACT'
+        end
       end
       xml_expected = read_model("//searchParameters[@type='RelatedToKeywordSearchParameter']", "services", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
