@@ -116,11 +116,11 @@ module Sem4r
 
     def self.from_element( el )
       historical_values = []
-      el.elements.each do |node|
+      el.children.each do |node|
         next if node.name == "Attribute.Type"
-        historical_value = { :year => node.xpath("year").text,
-                             :month => node.xpath("month").text}
-        historical_value.merge!(:count => node.xpath("count").text) if node.xpath("count")
+        historical_value = { :year => node.at_xpath("year").text,
+                             :month => node.at_xpath("month").text}
+        historical_value.merge!(:count => node.at_xpath("count").text) if node.at_xpath("count")
         historical_values << historical_value
       end
       new do

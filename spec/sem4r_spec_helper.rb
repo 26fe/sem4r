@@ -202,7 +202,7 @@ module Sem4rSpecHelper
     elsif xpath
       el = xml_document.xpath(xpath).first
     else
-      el = xml_document.root.elements.to_a.first
+      el = xml_document.root.children.to_a.first
     end
     if el.nil?
       raise "xml element not found '#{xpath}'"
