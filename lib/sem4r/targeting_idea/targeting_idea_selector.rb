@@ -27,7 +27,7 @@ module Sem4r
   class RelatedToKeywordSearchParameter
     include SoapAttributes
 
-    g_accessor :text
+    g_set_accessor :text
     g_accessor :match_type
 
     def initialize(&block)
@@ -37,15 +37,16 @@ module Sem4r
     end
 
     def to_xml
-      <<-EOS
-          <s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">
-            <s:keywords xsi:type="Keyword">
-              <Criterion.Type>Keyword</Criterion.Type>
-              <text>#{text}</text>
-              <matchType>#{match_type}</matchType>
-            </s:keywords>
-          </s:searchParameters>
-      EOS
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">'
+      texts.each do |t|
+        xml << '<s:keywords xsi:type="Keyword">'
+          xml << "<Criterion.Type>Keyword</Criterion.Type>"
+          xml << "<text>#{t}</text>"
+          xml << "<matchType>#{match_type}</matchType>"
+        xml << "</s:keywords>"
+      end
+      xml << '</s:searchParameters>'
     end
   end
 

@@ -40,6 +40,11 @@
             <text>dvd player</text>
             <matchType>EXACT</matchType>
           </s:keywords>
+          <s:keywords xsi:type='Keyword'>
+            <Criterion.Type>Keyword</Criterion.Type>
+            <text>car stereo</text>
+            <matchType>EXACT</matchType>
+          </s:keywords>          
         </s:searchParameters>
 
         <s:searchParameters xsi:type='s:CountryTargetSearchParameter'>
