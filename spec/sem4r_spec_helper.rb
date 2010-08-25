@@ -49,15 +49,15 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
     
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
-      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      expected_xml  = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
       expected_xml = REXML::Document.new(expected_xml)
     end
     expected_normalized = pretty_xml(expected_xml)
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n| {2,})/, "").strip
+    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n| {2,})/, "").strip
 
     if xml.class == String
-      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      xml  = xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
       begin
         xml = REXML::Document.new(xml)
       rescue RuntimeError
@@ -68,7 +68,7 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
       end
     end
     xml_normalized = pretty_xml(xml)
-    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    xml_normalized = xml_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
 
     if xml_normalized != expected_normalized
       puts "----differ start"
@@ -92,15 +92,15 @@ Spec::Matchers.define :xml_contains do |expected_xml|
   match do |xml|
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
-      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      expected_xml  = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
       expected_xml = REXML::Document.new(expected_xml)
     end
     expected_normalized = pretty_xml(expected_xml)
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    expected_normalized = expected_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
 
     if xml.class == String
-      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      xml  = xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
       begin
         xml = REXML::Document.new(xml)
       rescue RuntimeError
@@ -111,7 +111,7 @@ Spec::Matchers.define :xml_contains do |expected_xml|
       end
     end
     xml_normalized = pretty_xml(xml)
-    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    xml_normalized = xml_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
 
     unless xml_normalized.match(expected_normalized)
       false
@@ -187,8 +187,8 @@ module Sem4rSpecHelper
       raise "file #{xml_filepath} not exists"
     end
     contents = File.open(xml_filepath).read
-    contents.gsub!(/(ns\d:|xsi:|s:)/, "")
-    contents.gsub!(/xmlns=("|').*("|')/, "")
+    contents.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+    contents.gsub!(/xmlns=["'].*?['"]/, '')
     contents
   end
 
