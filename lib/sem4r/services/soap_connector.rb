@@ -122,8 +122,8 @@ module Sem4r
       if !@soap_dump_format
         str <<  request_xml
       else
-        request_xml.gsub!(/(ns\d:|xsi:|s:)/, "")
-        request_xml.gsub!(/xmlns=("|').*("|')/, "")
+        request_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+        request_xml.gsub!(/xmlns=["'].*?['"]/, '')
         xml_document = Nokogiri::XML::Document.parse(request_xml)
         f = REXML::Formatters::Pretty.new
         out = String.new
@@ -136,8 +136,8 @@ module Sem4r
       if !@soap_dump_format
         str <<  response_xml
       else
-        response_xml.gsub!(/(ns\d:|xsi:|s:)/, "")
-        response_xml.gsub!(/xmlns=("|').*("|')/, "")
+        response_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+        response_xml.gsub!(/xmlns=["'].*?['"]/, '')
         xml_document = Nokogiri::XML::Document.parse(response_xml)
         f = REXML::Formatters::Pretty.new
         out = String.new

@@ -52,8 +52,8 @@ module Sem4r
     def send(service_url)
       response_xml = @connector.send(service_url, "", build_soap_message)
       # erase namespace so it more simple parsing the xml
-      response_xml.gsub!(/(ns\d:|xsi:|s:)/, "")
-      response_xml.gsub!(/xmlns=("|').*("|')/, "")
+      response_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+      response_xml.gsub!(/xmlns=["'].*?['"]/, '')
       @response = Nokogiri::XML::Document.parse(response_xml)
 
       #
