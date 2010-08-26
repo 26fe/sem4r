@@ -94,8 +94,8 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        @id          = el.xpath("id").text.strip.to_i
-        status         el.xpath("status").text
+        @id          = el.at_xpath("id").text.strip.to_i
+        status         el.at_xpath("status").text
       end
     end
 

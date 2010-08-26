@@ -68,13 +68,13 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        @id         = el.xpath("id").text.strip.to_i
-        # type          el.xpath("Ad.Type").text
-        url           el.xpath("url").text.strip
-        display_url   el.xpath("displayUrl").text.strip
-        headline      el.xpath("headline").text.strip
-        description1  el.xpath("description1").text.strip
-        description2  el.xpath("description2").text.strip
+        @id         = el.at_xpath("id").text.strip.to_i
+        # type          el.at_xpath("Ad.Type").text
+        url           el.at_xpath("url").text.strip
+        display_url   el.at_xpath("displayUrl").text.strip
+        headline      el.at_xpath("headline").text.strip
+        description1  el.at_xpath("description1").text.strip
+        description2  el.at_xpath("description2").text.strip
       end
     end
 

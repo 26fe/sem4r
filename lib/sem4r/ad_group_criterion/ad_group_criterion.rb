@@ -79,8 +79,8 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.xpath("criterion"))
-        bids      AdGroupCriterionBids.from_element(el.xpath("bids"))
+        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
+        bids      AdGroupCriterionBids.from_element(el.at_xpath("bids"))
       end
     end
 
@@ -119,8 +119,7 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, 
-            el.xpath("criterion"))
+        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
       end
     end
 

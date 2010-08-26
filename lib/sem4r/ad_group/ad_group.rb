@@ -96,10 +96,10 @@ module Sem4r
 
     def self.from_element(campaign, el)
       new(campaign) do
-        @id          = el.xpath("id").text.strip.to_i
-        name           el.xpath("name").text.strip
-        status         el.xpath("status").text.strip
-        bids           el.xpath("bids")
+        @id          = el.at_xpath("id").text.strip.to_i
+        name           el.at_xpath("name").text.strip
+        status         el.at_xpath("status").text.strip
+        bids           el.at_xpath("bids")
       end
     end
 

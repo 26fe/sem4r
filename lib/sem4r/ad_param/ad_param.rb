@@ -72,13 +72,13 @@ module Sem4r
     end
 
     def self.from_element(ad_group, el)
-      criterion_id = el.xpath("criterionId").text.strip.to_i
+      criterion_id = el.at_xpath("criterionId").text.strip.to_i
       criterion = ad_group.find_criterion(criterion_id)
       new(ad_group, criterion) do
         # ad_param don't have id so use @saved to indicate if readed from xml
         @saved = true
-        index         el.xpath("paramIndex").text.strip.to_i
-        text          el.xpath("insertionText").text.strip
+        index         el.at_xpath("paramIndex").text.strip.to_i
+        text          el.at_xpath("insertionText").text.strip
       end
     end
 

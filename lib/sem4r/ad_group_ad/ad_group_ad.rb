@@ -85,7 +85,7 @@ module Sem4r
     end
 
     def self.from_element( ad_group, el )
-      xml_type =       el.xpath("Ad.Type").text.strip
+      xml_type =       el.at_xpath("Ad.Type").text.strip
       case xml_type
       when TextAd
         AdGroupTextAd.from_element(ad_group, el)

@@ -91,8 +91,8 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id          = el.xpath("id").text.strip.to_i
-        name           el.xpath("name").text.strip
+        @id          = el.at_xpath("id").text.strip.to_i
+        name           el.at_xpath("name").text.strip
         status         el.at_xpath('status').text.strip # ACTIVE, PAUSED, DELETED
         serving_status el.at_xpath('servingStatus')
         start_date     el.at_xpath('startDate')

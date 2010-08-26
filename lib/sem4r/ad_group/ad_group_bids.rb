@@ -40,7 +40,7 @@ module Sem4r
     end
 
     def self.from_element(el)
-      type = el.xpath("AdGroupBids.Type").text.strip
+      type = el.at_xpath("AdGroupBids.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -124,12 +124,6 @@ module Sem4r
           el_amount = sel.at_xpath("amount")
           site_max_cpc(el_amount.at_xpath("microAmount").text.strip.to_i)
         end
-        # TODO: it is possible something like:
-        #        el.xpath("maxCpc") do |el|
-        #          el.xpath("amount") do el
-        #            max_cpc el["microAmount"]
-        #          end
-        #        end
       end
     end
   end
