@@ -111,13 +111,13 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        @id         = el.xpath("id").text.strip.to_i
-        # type          el.xpath("Ad.Type").text
-        headline       el.xpath("headline").text.strip
-        description    el.xpath("description").text.strip
-        business_name  el.xpath("businessName").text.strip
-        country_code   el.xpath("countryCode").text.strip
-        phone_number   el.xpath("phoneNumber").text.strip
+        @id         = el.at_xpath("id").text.strip.to_i
+        # type          el.at_xpath("Ad.Type").text
+        headline       el.at_xpath("headline").text.strip
+        description    el.at_xpath("description").text.strip
+        business_name  el.at_xpath("businessName").text.strip
+        country_code   el.at_xpath("countryCode").text.strip
+        phone_number   el.at_xpath("phoneNumber").text.strip
         # TODO: estrarre le carriers
       end
     end

@@ -69,11 +69,11 @@ describe "Test Parsing with Nokogiri" do
       "campaign 2010-02-13 09:39:46 +0100"]
 
     ids   = els.map do |el| 
-      el.xpath("id").text.strip 
+      el.at_xpath("id").text.strip 
     end
     
     names = els.map do |el| 
-      el.xpath("name" ).text.strip
+      el.at_xpath("name" ).text.strip
     end
 
     ids_expected.should == ids
@@ -86,24 +86,21 @@ describe "Test Parsing with Nokogiri" do
 
     el = rval.xpath("entries/criterion[@type='Keyword']").first
 
-    el.xpath("id").text.should == "11536082"
-    el.xpath("text").text.should == "pippo"
-    el.xpath("matchType").text.should == "BROAD"
+    el.at_xpath("id").text.should == "11536082"
+    el.at_xpath("text").text.should == "pippo"
+    el.at_xpath("matchType").text.should == "BROAD"
   end
 
   it "test_info_get" do
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
 
-    response_header = xml_document.xpath("//ResponseHeader").first
-    response_header.xpath("operations").text.strip.should == "1"
-    response_header.xpath("responseTime").text.strip.should == "173"
-    response_header.xpath("units").text.strip.should == "1"
+    response_header = xml_document.at_xpath("//ResponseHeader")
+    response_header.at_xpath("operations").text.strip.should == "1"
+    response_header.at_xpath("responseTime").text.strip.should == "173"
+    response_header.at_xpath("units").text.strip.should == "1"
 
-    cost = xml_document.xpath("//getResponse/rval/cost").first
+    cost = xml_document.at_xpath("//getResponse/rval/cost")
     cost.text.strip.should == "100"
   end
 
 end
-
-
-

@@ -35,7 +35,7 @@ module Sem4r
     ]
 
     def self.from_element(el)
-      type =  el.xpath("AdGroupCriterionBids.Type").text.strip
+      type =  el.at_xpath("AdGroupCriterionBids.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end

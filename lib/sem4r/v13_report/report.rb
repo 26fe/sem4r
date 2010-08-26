@@ -130,11 +130,11 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id       = el.xpath("*[local-name()='id']").text.strip.to_i # id is read only
-        name        el.xpath("*[local-name()='name']").text.strip
-        start_day   el.xpath("*[local-name()='startDay']").text.strip
-        end_day     el.xpath("*[local-name()='endDay']").text.strip
-        @status   = el.xpath("*[local-name()='status']").text.strip # status is read only
+        @id       = el.at_xpath("id").text.strip.to_i # id is read only
+        name        el.at_xpath("name").text.strip
+        start_day   el.at_xpath("startDay").text.strip
+        end_day     el.at_xpath("endDay").text.strip
+        @status   = el.at_xpath("status").text.strip # status is read only
       end
     end
 

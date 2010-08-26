@@ -146,7 +146,7 @@ module Sem4r
 
     def self.from_element( el )
       new do
-        value       el.xpath("value").text
+        value       el.at_xpath("value").text
       end
     end
 
