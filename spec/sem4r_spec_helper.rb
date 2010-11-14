@@ -187,7 +187,7 @@ module Sem4rSpecHelper
 
   def read_model(xpath, *args, &blk)
     contents = read_xml_file(*args)
-    response_xml_wns = contents.gsub(/ns\d:/, "")
+    response_xml_wns = contents.gsub(/n(s?)\d:/, "")
     xml_document = REXML::Document.new(response_xml_wns)
     if xpath && blk
       el = REXML::XPath.each(xml_document, xpath) do |node|
@@ -274,6 +274,11 @@ module Sem4rSpecHelper
       :all => all_soap_message)
 
     service.stub(:report).and_return(report_service)
+  end
+
+  def stub_service_report_definition(service)
+    report_definition_service   = stub("report_definition_service")
+    service.stub(:report_definition).and_return(report_definition_service)
   end
 
   #############################################################################
