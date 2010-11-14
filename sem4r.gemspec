@@ -5,21 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sem4r}
-  s.version = "0.0.9"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2010-04-05}
+  s.date = %q{2010-06-19}
   s.default_executable = %q{sem}
   s.description = %q{
        Sem4r is a library to access google adwords api.
-       The idea is to use a high level model instead of a low level api.
-       You think about clients, campaigns, keywords and not about operations, operands, service calls.
-       The library could decide which api use (sync or async) and when call it!
        It will works with ruby 1.9 and ruby 1.8 without soap4r.
+       It uses a high level model instead of a low level api.
+       You think about clients, campaigns, keywords and not about operations, operands, selectors, service calls.
 
        This is a ALPHA version don't use in production.
-       If you want experiment you are welcome, but the first usable version will be the 0.1.0.
        If you are interested in this project let me now: install it and update periodically, so the gemcutter
        download counter go up. Or subscribe to my feed at sem4r.com. Or watch the project on github.
        Or simply drop me a line in email. However I will know there is someone out of here.
@@ -122,61 +120,12 @@ Gem::Specification.new do |s|
      "lib/sem4r/v13_report/report_service.rb",
      "lib/sem4r/v13_traffic_estimator/traffic_estimator_service.rb",
      "lib/sem4r_cli.rb",
-     "sem4r.gemspec",
-     "spec/fixtures/sem4r.example.yml",
-     "spec/fixtures/services/ad_group/get-first-req.xml",
-     "spec/fixtures/services/ad_group/get-first-res.xml",
-     "spec/fixtures/services/ad_group/get-manual-cpm-bids-req.xml",
-     "spec/fixtures/services/ad_group/get-manual-cpm-bids-res.xml",
-     "spec/fixtures/services/ad_group/mutate_add-req.xml",
-     "spec/fixtures/services/ad_group/mutate_add-res.xml",
-     "spec/fixtures/services/ad_group_ad/get_mobile_ad-req.xml",
-     "spec/fixtures/services/ad_group_ad/get_mobile_ad-res.xml",
-     "spec/fixtures/services/ad_group_ad/get_text_ad-req.xml",
-     "spec/fixtures/services/ad_group_ad/get_text_ad-res.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_mobile_ad-req.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_mobile_ad-res.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_text_ad-req.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_text_ad-res.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_two_criterions-req.xml",
-     "spec/fixtures/services/ad_group_ad/mutate_add_two_criterions-res.xml",
-     "spec/fixtures/services/ad_group_criterion/get-req.xml",
-     "spec/fixtures/services/ad_group_criterion/get-res.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_keyword-req.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_keyword-res.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_placement-req.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_placement-res.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_negative_keyword-req.xml",
-     "spec/fixtures/services/ad_group_criterion/mutate_add_negative_keyword-res.xml",
-     "spec/fixtures/services/ad_param/mutate_set-req.xml",
-     "spec/fixtures/services/ad_param/mutate_set-res.xml",
-     "spec/fixtures/services/bulk_mutate_job/get-req.xml",
-     "spec/fixtures/services/bulk_mutate_job/get-res.xml",
-     "spec/fixtures/services/bulk_mutate_job/mutate-req.xml",
-     "spec/fixtures/services/bulk_mutate_job/mutate-res.xml",
-     "spec/fixtures/services/campaign/get-req.xml",
-     "spec/fixtures/services/campaign/get-res.xml",
-     "spec/fixtures/services/campaign/mutate_add-req.xml",
-     "spec/fixtures/services/campaign/mutate_add-res.xml",
-     "spec/fixtures/services/error.xml",
-     "spec/fixtures/services/info/get_unit_count-req.xml",
-     "spec/fixtures/services/info/get_unit_count-res.xml",
-     "spec/fixtures/services/targeting_idea/get-req-all-options.xml",
-     "spec/fixtures/services/targeting_idea/get-req.xml",
-     "spec/fixtures/services/targeting_idea/get-res.xml",
-     "spec/fixtures/services/v13_account/get_account_info-req.xml",
-     "spec/fixtures/services/v13_account/get_account_info-res.xml",
-     "spec/fixtures/services/v13_account/get_client_accounts-req.xml",
-     "spec/fixtures/services/v13_account/get_client_accounts-res.xml",
-     "spec/fixtures/services/v13_report/get_all_jobs-req.xml",
-     "spec/fixtures/services/v13_report/get_all_jobs-res.xml",
-     "spec/fixtures/services/v13_report/schedule_report_job-req.xml",
-     "spec/fixtures/services/v13_report/schedule_report_job-res.xml"
+     "sem4r.gemspec"
   ]
   s.homepage = %q{http://www.sem4r.com}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
   s.test_files = [
     "spec/sem4r/services/soap_message_v13_spec.rb",
@@ -213,14 +162,74 @@ Gem::Specification.new do |s|
      "spec/sem4r/v13_account/account_service_spec.rb",
      "spec/spec_helper.rb",
      "spec/sem4r_spec_helper.rb",
-     "spec/aggregates_spec_helper.rb"
+     "spec/aggregates_spec_helper.rb",
+     "spec/fixtures/sem4r.example.yml",
+     "spec/fixtures/services",
+     "spec/fixtures/services/ad_group",
+     "spec/fixtures/services/ad_group/mutate_add-req.xml",
+     "spec/fixtures/services/ad_group/get-first-req.xml",
+     "spec/fixtures/services/ad_group/mutate_add-res.xml",
+     "spec/fixtures/services/ad_group/get-first-res.xml",
+     "spec/fixtures/services/ad_group/get-manual-cpm-bids-res.xml",
+     "spec/fixtures/services/ad_group/get-manual-cpm-bids-req.xml",
+     "spec/fixtures/services/v13_report",
+     "spec/fixtures/services/v13_report/get_all_jobs-req.xml",
+     "spec/fixtures/services/v13_report/get_all_jobs-res.xml",
+     "spec/fixtures/services/v13_report/schedule_report_job-req.xml",
+     "spec/fixtures/services/v13_report/schedule_report_job-res.xml",
+     "spec/fixtures/services/bulk_mutate_job",
+     "spec/fixtures/services/bulk_mutate_job/get-res.xml",
+     "spec/fixtures/services/bulk_mutate_job/get-req.xml",
+     "spec/fixtures/services/bulk_mutate_job/mutate-res.xml",
+     "spec/fixtures/services/bulk_mutate_job/mutate-req.xml",
+     "spec/fixtures/services/ad_param",
+     "spec/fixtures/services/ad_param/mutate_set-res.xml",
+     "spec/fixtures/services/ad_param/mutate_set-req.xml",
+     "spec/fixtures/services/campaign",
+     "spec/fixtures/services/campaign/get-res.xml",
+     "spec/fixtures/services/campaign/mutate_add-req.xml",
+     "spec/fixtures/services/campaign/mutate_add-res.xml",
+     "spec/fixtures/services/campaign/get-req.xml",
+     "spec/fixtures/services/info",
+     "spec/fixtures/services/info/get_unit_count-req.xml",
+     "spec/fixtures/services/info/get_unit_count-res.xml",
+     "spec/fixtures/services/error.xml",
+     "spec/fixtures/services/ad_group_ad",
+     "spec/fixtures/services/ad_group_ad/get_text_ad-res.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_text_ad-res.xml",
+     "spec/fixtures/services/ad_group_ad/get_mobile_ad-req.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_text_ad-req.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_mobile_ad-res.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_mobile_ad-req.xml",
+     "spec/fixtures/services/ad_group_ad/get_text_ad-req.xml",
+     "spec/fixtures/services/ad_group_ad/get_mobile_ad-res.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_two_criterions-req.xml",
+     "spec/fixtures/services/ad_group_ad/mutate_add_two_criterions-res.xml",
+     "spec/fixtures/services/v13_account",
+     "spec/fixtures/services/v13_account/get_account_info-req.xml",
+     "spec/fixtures/services/v13_account/get_account_info-res.xml",
+     "spec/fixtures/services/v13_account/get_client_accounts-res.xml",
+     "spec/fixtures/services/v13_account/get_client_accounts-req.xml",
+     "spec/fixtures/services/ad_group_criterion",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_placement-res.xml",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_placement-req.xml",
+     "spec/fixtures/services/ad_group_criterion/get-res.xml",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_keyword-res.xml",
+     "spec/fixtures/services/ad_group_criterion/get-req.xml",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_criterion_keyword-req.xml",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_negative_keyword-res.xml",
+     "spec/fixtures/services/ad_group_criterion/mutate_add_negative_keyword-req.xml",
+     "spec/fixtures/services/targeting_idea",
+     "spec/fixtures/services/targeting_idea/get-req.xml",
+     "spec/fixtures/services/targeting_idea/get-res.xml",
+     "spec/fixtures/services/targeting_idea/get-req-all-options.xml"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<builder>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<differ>, [">= 0"])

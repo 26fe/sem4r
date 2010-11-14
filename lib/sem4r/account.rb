@@ -29,6 +29,7 @@ module Sem4r
       super( adwords, credentials )
       @campaigns = nil
       @reports = nil
+      @report_definitions = nil
     end
 
     def to_s
@@ -183,6 +184,37 @@ module Sem4r
       els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
       @reports = els.map do |el|
         Report.from_element(self, el)
+      end
+    end
+
+    public
+
+    ############################################################################
+    # Report Definitions - Service Report Definition
+
+    def report_definition(&block)
+      ReportDefinition.new(self, &block)
+    end
+
+    def p_report_definitions(refresh = false)
+      report_definitions(refresh).each do |report_definition|
+        puts report_definition.to_s
+      end
+    end
+
+    def report_definitions(refresh = false)
+      _report_definitions unless @report_definitions and !refresh
+      @report_definitions
+    end
+
+    private
+
+    def _report_definitions
+      soap_message = service.report_definition.get(credentials, ReportDefinitionSelector.new.to_xml)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+      @report_definitions = els.map do |el|
+        ReportDefinition.from_element(self, el)
       end
     end
 

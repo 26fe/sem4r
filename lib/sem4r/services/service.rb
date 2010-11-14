@@ -44,7 +44,7 @@ module Sem4r
     end
 
     ###########################################################################
-    # services v2009
+    # services v201003
 
     %w{ ad_extension_override
         ad_group
@@ -57,7 +57,8 @@ module Sem4r
         geo_location
         info
         targeting_idea
-        bulk_mutate_job }.each do |service|
+        bulk_mutate_job
+        report_definition }.each do |service|
       klass_name = service.split('_').map{|p| p.capitalize}.join('')
       str=<<-EOFR
         require 'sem4r/#{service}/#{service}_service'

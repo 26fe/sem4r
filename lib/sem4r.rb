@@ -131,3 +131,12 @@ require 'sem4r/v13_account/billing_address'
 #
 require 'sem4r/v13_report/report'
 require 'sem4r/v13_report/report_job'
+
+
+#
+# report_definition
+#
+require 'sem4r/report_definition/report_definition'
+require 'sem4r/report_definition/report_definition_selector'
+require 'sem4r/report_definition/report_definition_operation'
+
