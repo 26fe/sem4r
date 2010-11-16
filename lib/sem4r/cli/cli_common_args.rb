@@ -43,25 +43,30 @@ module Sem4r
     end
 
     def parse(argv)
-      rest = opt_parser(@options).parse(argv)
+
+      begin
+        rest = opt_parser(@options).parse(argv)
+      rescue OptionParser::AmbiguousOption => e
+        puts e.message
+        return false
+      end
 
       if rest.length > 0
-        # cannot be happen
+        # cannot happen
         puts "unknow options #{rest.join}"
+        return false
       end
 
       if @options.list_profiles
         puts "Profiles:"
-        strs = Adwords.list_profiles( @options.config_name )
-        strs.each do |s|
-          puts "  #{s}"
+        profiles = Adwords.profiles( @options.config_name )
+        names = profiles.keys.map &:to_s
+        names.sort.each do |s|
+          puts "  #{s} (#{profiles[s]['email']})"
         end
       end
 
-      if @options.exit
-        return false
-      end
-      return true
+      !@options.exit
     end
 
     def opt_parser(options)

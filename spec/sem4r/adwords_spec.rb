@@ -102,7 +102,7 @@ describe Adwords do
 
 
   it "should list profiles" do
-    values = Adwords.list_profiles(@test_config_filename)
+    values = Adwords.profiles(@test_config_filename)
     values.should have(4).profiles
   end
 

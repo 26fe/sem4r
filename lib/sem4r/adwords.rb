@@ -65,15 +65,15 @@ module Sem4r
         nil
       end
 
-      def list_profiles( profile_file = nil )
+      def profiles( profile_file = nil )
         profile_file = search_config_file unless profile_file
         unless profile_file
           raise Sem4rError, "config file 'sem4r' not found"
         end
         # puts "Loaded profiles from #{profile_file}"
         yaml = YAML::load( File.open( profile_file ) )
-        profiles = yaml['google_adwords'].keys.map &:to_s
-        profiles.sort
+        profiles = yaml['google_adwords']
+        profiles
       end
     end
 

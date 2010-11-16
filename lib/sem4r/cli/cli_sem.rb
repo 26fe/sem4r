@@ -52,9 +52,10 @@ module Sem4r
 
       begin
         cmd = CliCommand.commands[command].new(cli_common_args)
-        cmd.parse_and_run(command_args)
+        return cmd.parse_and_run(command_args)
       rescue Sem4rError
         puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
+        return false
       end
     end
 
