@@ -29,11 +29,13 @@ module Sem4r
     puts account.to_s    
     account.p_client_accounts
     account.adwords.p_counters
+    true
   end
   
   CliListReport = CliCommand.define_command("reports", "list reports") do |account|
     report(account.reports, :id, :name, :status)
     account.adwords.p_counters
+    true
   end
 
   CliInfo = CliCommand.define_command("info", "account info") do |account|
@@ -45,12 +47,14 @@ module Sem4r
     end
     report(items, :usage_type, :n)
     account.adwords.p_counters
+    true
   end
 
   CliCampaign = CliCommand.define_command("campaigns", "list campaigns") do |account|
     puts "listing campaings in #{account}"
     report( account.campaigns, :id, :name, :status )
     account.adwords.p_counters
+    true
   end
 
 end

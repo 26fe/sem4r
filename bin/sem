@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby 
 
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
@@ -26,13 +26,9 @@
 
 require 'rubygems'
 
-begin
-  require 'sem4r_cli'
-rescue LoadError
-  cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
-  $:.unshift(cwd) unless $:.include?(cwd)
-  require 'sem4r_cli'
-end
+cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
+$:.unshift(cwd) unless $:.include?(cwd)
+require 'sem4r_cli'
 
 include Sem4r
 exit CliSem.run

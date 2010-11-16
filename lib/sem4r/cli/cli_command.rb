@@ -79,8 +79,9 @@ module Sem4r
             account = @common_args.account
             unless account
               puts "select an account!"
+              false
             else
-              block.call(account)
+              return block.call(account)
             end
           end
         end
