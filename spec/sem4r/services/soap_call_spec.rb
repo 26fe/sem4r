@@ -38,10 +38,10 @@ describe SoapCall do
       @connector = connector
     end
 
-    soap_call_v2009 :get,          :mutate => false
-    soap_call_v2009 :get_with_arg, :mutate => false
-    soap_call_v2009 :mutate
-    soap_call_v2009 :mutate_bis,   :mutate => true
+    soap_call_v2010 :get,          :mutate => false
+    soap_call_v2010 :get_with_arg, :mutate => false
+    soap_call_v2010 :mutate
+    soap_call_v2010 :mutate_bis,   :mutate => true
 
     private
 

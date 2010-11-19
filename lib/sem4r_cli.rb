@@ -32,9 +32,6 @@ require 'sem4r/cli/cli_command'
 require 'sem4r/cli/cli_helpers'
 
 # commands
-require 'sem4r/cli/cli_commands'
-require 'sem4r/cli/cli_download_report'
-require 'sem4r/cli/cli_ideas'
-require 'sem4r/cli/cli_list_ads'
-require 'sem4r/cli/cli_list_keywords'
-require 'sem4r/cli/cli_request_report'
+Dir[File.join( File.dirname(__FILE__), "sem4r", "cli", "commands", "*.rb" )].each do |f|
+  require f
+end

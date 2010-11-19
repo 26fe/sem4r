@@ -66,6 +66,10 @@ module Sem4r
         end
       end
 
+      if @options.ask_password
+         puts "ask_password"
+      end
+
       !@options.exit
     end
 
@@ -162,9 +166,11 @@ module Sem4r
       end
 
       # password
-      opt_parser.on("--password PASSWORD",
-        "password of adwords account") do |password|
-        options.password = password
+      opt_parser.on("--password [PASSWORD]",
+        "password of adwords account",
+        "If password is not given it's asked from the tty") do |password|
+        options.ask_password = !password
+        options.password = password if password
       end
 
       # developer token

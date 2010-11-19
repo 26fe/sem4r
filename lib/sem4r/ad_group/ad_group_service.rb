@@ -32,9 +32,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/AdGroupService"
     end
 
-    soap_call_v2009 :all,       :mutate => false
-    soap_call_v2009 :create,    :mutate => true
-    soap_call_v2009 :delete,    :mutate => true
+    soap_call_v2010 :all,       :mutate => false
+    soap_call_v2010 :create,    :mutate => true
+    soap_call_v2010 :delete,    :mutate => true
 
     def _all(campaign_id)
       <<-EOFS

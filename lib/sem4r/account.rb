@@ -41,69 +41,6 @@ module Sem4r
     end
 
     ############################################################################
-    # Info Service
-
-    # FREE_USAGE_API_UNITS_PER_MONTH
-    #   Retrieves the number of  free API units that can be used by the developer
-    #   token being used to make the call for this month.
-    #   Specify only the apiUsageType parameter.
-    #
-    # TOTAL_USAGE_API_UNITS_PER_MONTH
-    #   Retrieves the total number of API units for this entire month that can
-    #   be used by the developer token being used to make this call. Includes
-    #   both free and paid API units.
-    #   Specify only the apiUsageType parameter.
-    #
-    # OPERATION_COUNT
-    #   Retrieves the number of operations recorded for the developer token
-    #   being used to make this call over the given date range.
-    #   The given dates
-    #   are inclusive; to get the operation count for a single day, supply it as
-    #   both the start and end date.
-    #   Specify the apiUsageType and dateRange parameters.
-    #
-    # UNIT_COUNT
-    #   Retrieves the number of API units recorded for the developer token being
-    #   used to make this call.
-    #     o Specify the apiUsageType and dateRange parameters to retrieve
-    #       the units recorded over the given date range.
-    #     o Specify the apiUsageType, serviceName, methodName, operator,
-    #       dateRange to retrieve the units recorded over the given date
-    #       range for a specified method.
-    #
-    # UNIT_COUNT_FOR_CLIENTS
-    #   Retrieves the number of API units recorded for a subset of clients over
-    #   the given date range for the developer token being used to make this
-    #   call.
-    #   The given dates are inclusive; to get the unit count for a single
-    #   day, supply it as both the start and end date.
-    #   Specify the apiUsageType, dateRange and clientEmails parameters.
-    #
-    # METHOD_COST
-    #   Retrieves the cost, in API units per operation, of the given method on
-    #   a specific date for the developer token being used to make this call.
-    #
-    #   Methods default to a cost of 1. Specify the apiUsageType, dateRange
-    #   (start date and end date should be the same), serviceName, methodName,
-    #   operator parameters.
-
-    enum :UsageTypes, [
-      :FREE_USAGE_API_UNITS_PER_MONTH,
-      :UNIT_COUNT,
-      :TOTAL_USAGE_API_UNITS_PER_MONTH,
-      :OPERATION_COUNT,
-      :UNIT_COUNT_FOR_CLIENTS,
-      :METHOD_COST]
-
-    def year_unit_cost(usage_type)
-      raise "usage type '#{usage_type}' not permitted" unless UsageTypes.include?(usage_type)
-      soap_message = service.info.unit_cost(@credentials, usage_type)
-      add_counters( soap_message.counters )
-      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
-      cost.text.to_i
-    end
-
-    ############################################################################
     # Targeting Idea
 
     def targeting_idea(&block)
@@ -282,62 +219,6 @@ module Sem4r
       @accounts = els.map do |el|
         client_email = el.text
         Account.new( adwords, Credentials.new(@credentials, client_email) )
-      end
-    end
-
-    public
-
-    ############################################################################
-    # Campaign - Service Campaign
-
-    # TODO: accettare un parametro opzionale campaign(name=nil,&block)
-    #       la campagna che verra' creata ha il nome gia' settato
-    #       se esiste gia' una campagna con quel nome allora fara' da contesto
-    #       e non verra' creata
-    def campaign(name = nil, &block)
-      campaign = Campaign.new(self, name, &block)
-      campaign.save
-      @campaigns ||= []
-      @campaigns.push(campaign)
-      campaign
-    end
-
-    alias create_campaign campaign
-
-    def campaigns(refresh = false, opts = {}) # conditions = nil
-      if refresh.respond_to?(:keys)
-        opts = refresh
-        refresh = false
-      end
-      _campaigns unless @campaigns and !refresh
-      @campaigns
-      # return @campaigns unless conditions
-      # @campaigns.find_all {|c| c.name =~ conditions}
-    end
-
-    def p_campaigns(refresh = false, opts = {}) # conditions = nil
-      if refresh.respond_to?(:keys)
-        opts = refresh
-        refresh = false
-      end
-
-      cs = campaigns(refresh, opts)
-      puts "#{cs.length} campaigns"
-      campaigns(refresh).each do |campaign|
-        puts campaign.to_s
-      end
-      self
-    end
-
-    private
-
-    def _campaigns
-      soap_message = service.campaign.all(credentials)
-      add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
-      @campaigns = els.map do |el|
-        Campaign.from_element(self, el)
       end
     end
 
