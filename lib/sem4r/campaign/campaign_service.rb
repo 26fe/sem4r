@@ -34,9 +34,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/CampaignService"
     end
 
-    soap_call_v2009 :all,   :mutate => false
-    soap_call_v2009 :create
-    soap_call_v2009 :delete
+    soap_call_v2010 :all,   :mutate => false
+    soap_call_v2010 :create
+    soap_call_v2010 :delete
 
     private
 

@@ -91,7 +91,7 @@ module Sem4r
         soap_call("helper_call_v13", method, options)
       end
 
-      def soap_call_v2009(method, options = {})
+      def soap_call_v2010(method, options = {})
         soap_call("helper_call_v2009", method, options)
       end
     end

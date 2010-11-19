@@ -22,37 +22,33 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class GeoLocationService
+
+  class ReportDefinitionService
     include SoapCall
 
     def initialize(connector)
       @connector = connector
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201003"
+      @header_namespace = @service_namespace
 
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = @header_namespace
-
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/GeoLocationService"
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201003/GeoLocationService"
+      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/ReportDefinitionService"
     end
 
-    soap_call_v2010 :get
-
-    ################
+    soap_call_v2010 :get,             :mutate => false
+    soap_call_v2010 :getReportFields, :mutate => false
+    soap_call_v2010 :mutate
 
     private
 
     def _get(xml)
-      <<-EOFS
-      <s:get>
-        <s:selector>
-          <addresses>
-            <streetAddress>Via Nazionale,10</streetAddress>
-            <cityName>Rome</cityName>
-            <countryCode>IT</countryCode>
-          </addresses>
-        </s:selector>
-      </s:get>
-      EOFS
+      "<get>#{xml}</get>"
+    end
+
+    def _get_report_fields
+    end
+
+    def _mutate(xml)
+      "<mutate>#{xml}</mutate>"
     end
 
   end

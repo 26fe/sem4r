@@ -41,15 +41,15 @@ module Sem4r
 
     def initialize(connector)
       @connector = connector
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = "https://adwords.google.com/api/adwords/info/v201003"
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
+      @service_namespace = "https://adwords.google.com/api/adwords/info/v201008"
 
-      @production_service_url = "https://adwords.google.com/api/adwords/info/v201003/InfoService"
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201003/InfoService"
+      @production_service_url = "https://adwords.google.com/api/adwords/info/v201008/InfoService"
+      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService"
     end
 
-
-    soap_call_v2009 :unit_cost
+#    soap_call_v2010 :unit_cost, :mutate => false
+    soap_call_v2010 :get, :mutate => false
 
     def _unit_cost( usage_type )
       <<-EOFS
@@ -62,6 +62,12 @@ module Sem4r
           <s:apiUsageType>#{usage_type}</s:apiUsageType>
         </s:selector>
       </s:get>
+      EOFS
+    end
+
+    def _get(xml)
+      <<-EOFS
+      <s:get>#{xml}</s:get>
       EOFS
     end
 

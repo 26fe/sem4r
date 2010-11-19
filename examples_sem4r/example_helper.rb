@@ -23,13 +23,9 @@
 
 require 'rubygems'
 
-begin
-  require 'sem4r'
-rescue LoadError
-  cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
-  $:.unshift(cwd) unless $:.include?(cwd)
-  require 'sem4r'
-end
+cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
+$:.unshift(cwd) unless $:.include?(cwd)
+require 'sem4r'
 include Sem4r
 
 def tmp_dirname
@@ -112,4 +108,3 @@ def run_example(file)
   puts "---------------------------------------------------------------------"
 
 end
-

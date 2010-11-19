@@ -54,7 +54,8 @@ require 'sem4r/soap_attributes'
 
 require 'sem4r/base'
 require 'sem4r/account'
-
+require 'sem4r/campaign/account_campaign_extension'
+require 'sem4r/info/account_info_extension'
 
 #
 # soap connection layer
@@ -114,6 +115,10 @@ require 'sem4r/bulk_mutate_job/bulk_mutate_job'
 #
 require 'sem4r/campaign/campaign'
 
+#
+# info
+#
+require'sem4r/info/info_selector'
 
 #
 # targeting_idea

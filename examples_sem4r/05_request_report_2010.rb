@@ -21,39 +21,20 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  class GeoLocationService
-    include SoapCall
 
-    def initialize(connector)
-      @connector = connector
+require File.dirname(__FILE__) + "/example_helper"
 
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = @header_namespace
+run_example(__FILE__) do |adwords|
 
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/GeoLocationService"
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201003/GeoLocationService"
-    end
+  account = adwords.account
 
-    soap_call_v2010 :get
+  # account.p_report_definitions
 
-    ################
-
-    private
-
-    def _get(xml)
-      <<-EOFS
-      <s:get>
-        <s:selector>
-          <addresses>
-            <streetAddress>Via Nazionale,10</streetAddress>
-            <cityName>Rome</cityName>
-            <countryCode>IT</countryCode>
-          </addresses>
-        </s:selector>
-      </s:get>
-      EOFS
-    end
-
+  rd = account.report_definition do
+    name "report"
   end
+  rd.save
+
+  puts rd.to_s
+
 end

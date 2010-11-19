@@ -21,39 +21,45 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  class GeoLocationService
-    include SoapCall
+require File.dirname(__FILE__) + "/example_helper"
 
-    def initialize(connector)
-      @connector = connector
+run_example(__FILE__) do |adwords|
 
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = @header_namespace
+  puts "Create example campaigns"
+  client_account = adwords.account.client_accounts.first
 
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/cm/v201003/GeoLocationService"
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201003/GeoLocationService"
+  #
+  # 1. campaign
+  #
+  campaign = client_account.campaign "sem4r web campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
+  
+    ad_group "sem4r search page #{Time.now.strftime('%m%d-%H%M%S')}" do
+
+      text_ad do
+        url           "http://www.sem4r.com"
+        display_url   "www.Sem4R.com"
+        headline      "adwords api library"
+        description1  "adwords made simple"
+        description2  "set up you campaings in a snap!"
+      end
+  
+      text_ad do
+        url           "http://www.sem4r.com"
+        display_url   "www.Sem4R.com"
+        headline      "adwords library"
+        description1  "no more headache"
+        description2  "set up you campaings in a snap!"
+      end
+
+      puts      "first keyword"
+      keyword   "adwords api",  "BROAD"
+      puts      "second keyword"
+      keyword   "ruby adwords", "BROAD"
     end
-
-    soap_call_v2010 :get
-
-    ################
-
-    private
-
-    def _get(xml)
-      <<-EOFS
-      <s:get>
-        <s:selector>
-          <addresses>
-            <streetAddress>Via Nazionale,10</streetAddress>
-            <cityName>Rome</cityName>
-            <countryCode>IT</countryCode>
-          </addresses>
-        </s:selector>
-      </s:get>
-      EOFS
-    end
-
   end
+
+  puts "created campaign '#{campaign.name}'"
+  adgroup = campaign.ad_groups.first
+  adgroup.p_ads
+  adgroup.p_criterions
 end
