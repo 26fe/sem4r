@@ -24,7 +24,6 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-
 describe Account do
 
   include Sem4rSpecHelper
@@ -38,7 +37,7 @@ describe Account do
     @adwords = stub_adwords(services)
     @credentials = stub_credentials
 
-      @account = Account.new(@adwords, @credentials)
+    @account = Account.new(@adwords, @credentials)
   end
 
   describe "account management" do

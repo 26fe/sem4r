@@ -41,7 +41,7 @@ def pretty_xml(xml)
   xml_pretty
 end
 
-Spec::Matchers.define :xml_equivalent do |expected_xml|
+RSpec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
@@ -84,7 +84,7 @@ Spec::Matchers.define :xml_equivalent do |expected_xml|
   end
 end
 
-Spec::Matchers.define :xml_contains do |expected_xml|
+RSpec::Matchers.define :xml_contains do |expected_xml|
   match do |xml|
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
@@ -222,7 +222,7 @@ module Sem4rSpecHelper
   def stub_service_info(service)
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
-    account_service = stub("account_service", :unit_cost => soap_message)
+    account_service = stub("account_service", :get => soap_message)
     service.stub(:info).and_return(account_service)
   end
 

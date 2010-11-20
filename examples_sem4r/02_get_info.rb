@@ -25,7 +25,7 @@ require File.dirname(__FILE__) + "/example_helper"
 
 run_example(__FILE__) do |adwords|
   adwords.account.p_info
-  (Account::UsageTypes - [Account::METHOD_COST]).each do |usage_type|
+  (InfoSelector::UsageTypes - [InfoSelector::METHOD_COST]).each do |usage_type|
     n = adwords.account.year_unit_cost(usage_type)
     puts "#{usage_type} -> #{n}"
   end
