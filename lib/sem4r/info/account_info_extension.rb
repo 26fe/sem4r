@@ -27,10 +27,11 @@ module Sem4r
   module AccountInfoExtension
 
     def year_unit_cost(usage_type)
+      now = Time.new
       selector = InfoSelector.new do
         usage_type    usage_type
-        min           "20090101"
-        max           "20091105"
+        min           now.strftime("%Y0101") # first January
+        max           now.strftime("%Y%m%d")
       end
       soap_message = service.info.get(@credentials, selector.to_xml)
 

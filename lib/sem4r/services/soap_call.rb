@@ -48,8 +48,8 @@ module Sem4r
       end
     end
 
-    def helper_call_v2009(credentials, soap_body_content)
-      soap_message = SoapMessageV2009.new(@connector, credentials)
+    def helper_call_v2010(credentials, soap_body_content)
+      soap_message = SoapMessageV2010.new(@connector, credentials)
       soap_message.init( @header_namespace, @service_namespace )
       soap_message.body = soap_body_content
       if credentials.sandbox?
@@ -92,7 +92,7 @@ module Sem4r
       end
 
       def soap_call_v2010(method, options = {})
-        soap_call("helper_call_v2009", method, options)
+        soap_call("helper_call_v2010", method, options)
       end
     end
 
