@@ -82,18 +82,20 @@ end
 # spec
 #
 
-#require 'spec/rake/spectask'
-#
-#desc "Run all examples"
-#Spec::Rake::SpecTask.new('spec') do |t|
-#  t.spec_files = FileList['spec/**/*_spec.rb']
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+
+#RSpec::Core::RakeTask.new(:core) do |spec|
+#  spec.pattern = 'spec/**/*_spec.rb'
+#  spec.rspec_opts = ['--backtrace']
 #end
 #
+#
 #desc "Generate HTML report for failing examples"
-#Spec::Rake::SpecTask.new('failing_examples_with_html') do |t|
-#  t.spec_files = FileList['failing_examples/**/*.rb']
-#  t.spec_opts = ["--format", "html:doc/reports/tools/failing_examples.html", "--diff"]
-#  t.fail_on_error = false
+#RSpec::Core::RakeTask.new('failing_examples_with_html') do |spec|
+#  spec.pattern = 'failing_examples/**/*.rb'
+#  spec.rspec_opts = ["--format", "html:doc/reports/tools/failing_examples.html", "--diff"]
+#  spec.fail_on_error = false
 #end
 
 task :test => :check_dependencies
