@@ -23,148 +23,6 @@
 
 module Sem4r
 
-  class HttpConnector
-    begin
-      require 'patron'
-      UsePatron = false
-      # $stderr.puts "Using patron gems"
-    rescue LoadError
-      UsePatron = false
-      # $stderr.puts "Patron not found, degrade to net/https"
-    end
-
-    if !UsePatron
-      require 'net/https'
-      require 'uri'
-      # $stderr.puts "Using standard net/https"
-    end
-
-    def get_sess_for_host(uri)
-      @sessions ||= {}
-
-      if UsePatron
-        url = uri.scheme + "://" + uri.host
-        sess = @sessions[url]
-        unless sess
-          sess = Patron::Session.new
-          # sess.connect_timeout = 3000 #millis
-          sess.timeout = 12
-          sess.base_url = url
-          sess.headers['User-Agent'] = 'ruby'
-          @sessions[url] = sess
-        end
-        sess
-      else
-        url = uri.scheme + "://" + uri.host
-        sess = @sessions[url]
-        unless sess
-          sess = Net::HTTP.new(uri.host, uri.port)
-          sess.use_ssl = (uri.scheme == "https")
-          @sessions[url] = sess
-        end
-        sess
-      end
-    end
-
-    def invalidate_sess(uri)
-      sess = @sessions[uri.host]
-      if sess
-        # sess.close
-        @sessions[uri.host] = nil
-      end
-    end
-
-    def download(url, path_name)
-
-      if UsePatron
-        uri = URI.parse(url)
-        sess = get_sess_for_host(uri)
-        sess.get_file(uri.path, path_name)
-      else
-        require 'open-uri'
-        data = open(url){ |f| f.read }
-        File.open(path_name, "w") { |f| f.write(data) }
-      end
-
-    end
-  end
-
-  module SoapDumper
-
-    def initialize
-      @soap_dump = false
-      @soap_dump_log = nil
-    end
-
-    def dump_soap_options( dump_options )
-      @soap_dump = true
-      @soap_dump_log = nil
-
-      if dump_options[:directory]
-        @soap_dump_dir = dump_options[:directory]
-      else
-        @soap_dump_log = File.open( dump_options[:file], "w" )
-      end
-      @soap_dump_format = false || dump_options[:format]
-    end
-
-    def dump_soap(service_url, request_xml, response_xml)
-      return unless @soap_dump
-
-      %w{email password developerToken authToken clientEmail}.each do |tag|
-        request_xml = request_xml.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
-      end
-      response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
-
-      str =""
-      str << "<!-- Post to '#{service_url}' -->\n"
-
-      if !@soap_dump_format
-        str <<  request_xml
-      else
-        xml_document = REXML::Document.new(request_xml)
-        f = REXML::Formatters::Pretty.new
-        out = String.new
-        f.write(xml_document, out)
-        str << out
-      end
-      str << "\n"
-
-      str <<  "<!-- response -->\n"
-      if !@soap_dump_format
-        str <<  response_xml
-      else
-        xml_document = REXML::Document.new(response_xml)
-        f = REXML::Formatters::Pretty.new
-        out = String.new
-        f.write(xml_document, out)
-        str << out
-      end
-      str << "\n"
-      str <<  "<!-- end -->"
-
-      if @soap_dump_dir
-        service = service_url.match(/\/([^\/]*)$/)[1]
-        filename = Time.now.strftime "%Y%m%d-%H%M%S-%L-#{service}.log.xml"
-
-        if not File.directory?(@soap_dump_dir)
-          FileUtils.mkdir_p(@soap_dump_dir)
-        end
-
-        pathname = File.join(@soap_dump_dir, filename)
-        File.open(pathname, "w") {|f|
-          f.puts str
-        }
-      else
-        @soap_dump_log.puts str
-        @soap_dump_log.flush
-      end
-    end
-
-  end
-
-  #################
-
   class SoapConnector < HttpConnector
     include SoapDumper
 
@@ -272,13 +130,10 @@ module Sem4r
       end
 
       response_xml = response.body
-      dump_soap(service_url, soap_message, response_xml)
+      dump_soap_request(service_url, soap_message)
+      dump_soap_response(service_url, response_xml)
       response_xml
     end
-
-    private
-
-    
   end
 
 end

@@ -44,7 +44,7 @@ module Sem4r
     end
 
     ###########################################################################
-    # services v201003
+    # services v2010x
 
     %w{ ad_extension_override
         ad_group

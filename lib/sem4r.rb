@@ -61,9 +61,11 @@ require 'sem4r/info/account_info_extension'
 # soap connection layer
 #
 require 'sem4r/services/soap_error'
+require 'sem4r/services/http_connector'
+require 'sem4r/services/soap_dumper'
 require 'sem4r/services/soap_connector'
 require 'sem4r/services/soap_message_v13'
-require 'sem4r/services/soap_message_v2009'
+require 'sem4r/services/soap_message_v2010'
 require 'sem4r/services/soap_call'
 require 'sem4r/services/service'
 

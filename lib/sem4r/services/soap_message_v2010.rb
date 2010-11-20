@@ -23,7 +23,7 @@
 
 module Sem4r
 
-  class SoapMessageV2009
+  class SoapMessageV2010
 
     attr_reader :response
     attr_reader :counters
