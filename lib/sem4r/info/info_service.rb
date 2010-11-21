@@ -21,20 +21,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-#  <env:Body>
-#    <n3:get xmlns:n3="https://adwords.google.com/api/adwords/info/v200909">
-#      <n3:selector>
-#        <n3:dateRange xmlns:n4="https://adwords.google.com/api/adwords/cm/v200909">
-#          <n4:min>20090101</n4:min>
-#          <n4:max>20091030</n4:max>
-#        </n3:dateRange>
-#        <n3:apiUsageType>UNIT_COUNT</n3:apiUsageType>
-#      </n3:selector>
-#    </n3:get>
-#  </env:Body>
-#</env:Envelope>
-
-
 module Sem4r
   class InfoService
     include SoapCall
@@ -48,7 +34,6 @@ module Sem4r
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService"
     end
 
-#    soap_call_v2010 :unit_cost, :mutate => false
     soap_call_v2010 :get, :mutate => false
 
     def _unit_cost( usage_type )
@@ -70,52 +55,6 @@ module Sem4r
       <s:get>#{xml}</s:get>
       EOFS
     end
-
-
-    # Total units used since the beginning of the year: 0
-    #    def old_unit_cost(credentials)
-    #
-    #      soap_message = @connector.message_v2009(credentials, @header_namespace, @service_namespace )
-    #      soap_message.body = "soap_body_content"
-    #
-    #
-    #      soap_message.instance_eval do
-    #        def build_soap_message
-    #          str = <<-EOFS
-    #<?xml version="1.0" encoding="utf-8" ?>
-    #  <env:Envelope
-    #    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    #    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    #    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-    #    xmlns="https://adwords.google.com/api/adwords/cm/v200909"
-    #    xmlns:s="https://adwords.google.com/api/adwords/info/v200909">
-    #    <env:Header>
-    #      <s:RequestHeader env:mustUnderstand="0">
-    #        <authToken>#{@credentials.authentication_token}</authToken>
-    #        <userAgent>adwords4r: Sample User Agent</userAgent>
-    #        <developerToken>#{@credentials.developer_token}</developerToken>
-    #      </s:RequestHeader>
-    #    </env:Header>
-    #    <env:Body  >
-    #      <s:get>
-    #        <s:selector>
-    #          <s:dateRange>
-    #            <min>20090101</min>
-    #            <max>20091105</max>
-    #          </s:dateRange>
-    #          <s:apiUsageType>UNIT_COUNT</s:apiUsageType>
-    #        </s:selector>
-    #      </s:get>
-    #    </env:Body>
-    #  </env:Envelope>
-    #EOFS
-    #          str
-    #        end
-    #      end
-    #
-    #      result_xml = soap_message.send(@sandbox_service_url)
-    #      result_xml
-    #    end
-
+    
   end
 end

@@ -50,7 +50,7 @@ module Sem4r
       %w{email password developerToken authToken clientEmail}.each do |tag|
         request_xml = request_xml.gsub(/<#{tag}([^>]*)>.*<\/#{tag}>/, "<#{tag}\\1>***censured***</#{tag}>")
       end
-      str =""
+      str = ""
       str << "<!-- Post to '#{service_url}' -->\n"
       str << xml_to_s(request_xml) << "\n"
       dump(service_url, "req", str)
@@ -60,9 +60,9 @@ module Sem4r
       return unless @soap_dump
       response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
       str = ""
-      str <<  "<!-- response -->\n"
+      str <<  "<!-- response -->\n" unless @soap_dump_dir
       str << xml_to_s(response_xml) << "\n"
-      str <<  "<!-- end -->"
+      str <<  "<!-- end -->" unless @soap_dump_dir
       dump(service_url, "res", str)
     end
 

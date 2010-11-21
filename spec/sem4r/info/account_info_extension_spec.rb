@@ -1,4 +1,4 @@
-# -------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -19,37 +19,32 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# -------------------------------------------------------------------
+#
+# -------------------------------------------------------------------------
 
-module Sem4r
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-  class ReportDefinitionService
-    include SoapCall
+describe "cli" do
+  include Sem4rSpecHelper
 
-    def initialize(connector)
-      @connector = connector
-      @header_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
+  before do
+    services = stub("services")
+    stub_service_account(services)
+    stub_service_info(services)
+    stub_service_campaign(services)
+    stub_service_report(services)
+    @adwords = stub_adwords(services)
+    @credentials = stub_credentials
 
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/ReportDefinitionService"
-    end
+    @account = Account.new(@adwords, @credentials)
+  end
 
-    soap_call_v2010 :get,             :mutate => false
-    soap_call_v2010 :report_fields,   :mutate => false
-    soap_call_v2010 :mutate
+  describe "account management" do
 
-    private
-
-    def _get(xml)
-      "<get>#{xml}</get>"
-    end
-
-    def _report_fields
-      "<getReportFields><reportType>URL_PERFORMANCE_REPORT</reportType></getReportFields>"
-    end
-
-    def _mutate(xml)
-      "<mutate>#{xml}</mutate>"
+    it "should retrieve cost" do
+      @account.year_unit_cost("UNIT_COUNT").should == 0
     end
 
   end
+
 end

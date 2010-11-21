@@ -1,29 +1,27 @@
-<!-- response -->
 <soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
   <soap:Header>
-    <ns2:ResponseHeader xmlns:ns2='https://adwords.google.com/api/adwords/info/v200909' xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
-      <requestId>
-        057cafe91c99b1d4c8e60db1b193b728
-      </requestId>
-      <operations>
+    <ResponseHeader xmlns:ns2='https://adwords.google.com/api/adwords/cm/v201008' xmlns='https://adwords.google.com/api/adwords/info/v201008'>
+      <ns2:requestId>
+        731b12813c87527c580a88ef93578944
+      </ns2:requestId>
+      <ns2:operations>
         1
-      </operations>
-      <responseTime>
-        173
-      </responseTime>
-      <units>
+      </ns2:operations>
+      <ns2:responseTime>
+        291
+      </ns2:responseTime>
+      <ns2:units>
         1
-      </units>
-    </ns2:ResponseHeader>
+      </ns2:units>
+    </ResponseHeader>
   </soap:Header>
   <soap:Body>
-    <ns2:getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909' xmlns:ns2='https://adwords.google.com/api/adwords/info/v200909'>
-      <ns2:rval>
-        <ns2:cost>
-          100
-        </ns2:cost>
-      </ns2:rval>
-    </ns2:getResponse>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/info/v201008' xmlns:ns2='https://adwords.google.com/api/adwords/cm/v201008'>
+      <rval>
+        <cost>
+          0
+        </cost>
+      </rval>
+    </getResponse>
   </soap:Body>
 </soap:Envelope>
-<!-- end -->

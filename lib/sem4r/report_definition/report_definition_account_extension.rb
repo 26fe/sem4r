@@ -23,25 +23,46 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
+  
+  module ReportDefinitionAccountExtension
+    ############################################################################
+    # Report Definitions - Service Report Definition
 
-  module AccountInfoExtension
-
-    def year_unit_cost(usage_type)
-      now = Time.new
-      selector = InfoSelector.new do
-        usage_type    usage_type
-        min           now.strftime("%Y0101") # first January
-        max           now.strftime("%Y%m%d")
-      end
-      soap_message = service.info.get(@credentials, selector.to_xml)
+    def report_fields
+      soap_message = service.report_definition.report_fields(credentials)
       add_counters( soap_message.counters )
-      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
-      cost.text.to_i
     end
+
+    def report_definition(&block)
+      ReportDefinition.new(self, &block)
+    end
+
+    def p_report_definitions(refresh = false)
+      report_definitions(refresh).each do |report_definition|
+        puts report_definition.to_s
+      end
+    end
+
+    def report_definitions(refresh = false)
+      _report_definitions unless @report_definitions and !refresh
+      @report_definitions
+    end
+
+    private
+
+    def _report_definitions
+      soap_message = service.report_definition.get(credentials, ReportDefinitionSelector.new.to_xml)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+      @report_definitions = els.map do |el|
+        ReportDefinition.from_element(self, el)
+      end
+    end
+
   end
 
   class Account
-    include AccountInfoExtension
+    include ReportDefinitionAccountExtension
   end
 
 end

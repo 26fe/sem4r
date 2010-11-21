@@ -59,6 +59,16 @@ module Sem4r
       end
     end
 
+    def helper_call_v2010_raw(credentials, xml_message)
+      soap_message = SoapMessageV2010.new(@connector, credentials)
+      soap_message.init( @header_namespace, @service_namespace )
+      if credentials.sandbox?
+        soap_message.send_raw(@sandbox_service_url, xml_message)
+      else
+        soap_message.send_raw(@production_service_url, xml_message)
+      end
+    end
+
     module ClassMethods
       def soap_call(helper_version, method, options = {})
         options.assert_valid_keys(:mutate)
@@ -72,13 +82,25 @@ module Sem4r
 
         # private_method_pars = args.join(",")
         # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
-
         rubystr =<<-EOFS
           define_method :#{method.to_sym} do |*args|
             credentials = args.shift
             if #{smutate}
               soap_body_content = send("_#{method}", *args)
               #{helper_version}(credentials, soap_body_content)
+            else
+              raise "mutate methods '#{method}' cannot be called on read_only profile"
+            end
+          end
+        EOFS
+        eval rubystr
+
+        rubystr =<<-EOFS
+          define_method :#{(method.to_s + "_raw").to_sym} do |*args|
+            credentials  = args.shift
+            soap_message = args.shift
+            if #{smutate}
+              #{helper_version}_raw(credentials, soap_message)
             else
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end

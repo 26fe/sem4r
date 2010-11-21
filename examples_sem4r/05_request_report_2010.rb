@@ -21,20 +21,23 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-
 require File.dirname(__FILE__) + "/example_helper"
 
 run_example(__FILE__) do |adwords|
 
   account = adwords.account
 
+  # account.report_fields
   # account.p_report_definitions
 
   rd = account.report_definition do
-    name "report"
+    name       "report"
+    type       "URL_PERFORMANCE_REPORT"
+    date_range "LAST_WEEK"
+    format     "CSV"
   end
   rd.save
+  puts rd.id
 
   puts rd.to_s
-
 end
