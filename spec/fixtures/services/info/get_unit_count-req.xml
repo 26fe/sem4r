@@ -1,10 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<env:Envelope
-    xmlns:xsd='http://www.w3.org/2001/XMLSchema'
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'
-    xmlns='https://adwords.google.com/api/adwords/cm/v201008'
-    xmlns:s='https://adwords.google.com/api/adwords/info/v201008'>
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService' -->
+ 
+<env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/' xmlns='https://adwords.google.com/api/adwords/cm/v201008' xmlns:s='https://adwords.google.com/api/adwords/info/v201008'>
   <env:Header>
     <s:RequestHeader env:mustUnderstand='0'>
       <authToken>
@@ -23,14 +19,14 @@
       <s:selector>
         <s:dateRange>
           <min>
-            20090101
+            20100101
           </min>
           <max>
-            20091105
+            20101120
           </max>
         </s:dateRange>
         <s:apiUsageType>
-          UNIT_COUNT_FOR_CLIENTS
+          UNIT_COUNT
         </s:apiUsageType>
       </s:selector>
     </s:get>

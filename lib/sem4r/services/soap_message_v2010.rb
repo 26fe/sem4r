@@ -50,7 +50,23 @@ module Sem4r
     end
 
     def send(service_url)
-      response_xml = @connector.send(service_url, "", build_soap_message)
+      send_raw(service_url, build_soap_message)
+    end
+
+    def send_raw(service_url, soap_message)
+      soap_message = soap_message.dup
+      soap_message.gsub!(/{authentication_token}/,      @credentials.authentication_token)
+      soap_message.gsub!(/{useragent}/,       @credentials.useragent)
+      soap_message.gsub!(/{developer_token}/, @credentials.developer_token)
+      # soap_message.gsub!(/{client_email}/,    @credentials.client_email)
+
+      _send_raw(service_url, soap_message)
+    end
+
+    private
+
+    def _send_raw(service_url, soap_message)
+      response_xml = @connector.send(service_url, "", soap_message)
       # erase namespace so it more simple parsing the xml
       response_xml = response_xml.gsub(/ns\d:/, "")
       @response = REXML::Document.new(response_xml)
@@ -77,6 +93,8 @@ module Sem4r
         raise fault_string
       end
       self
+
+
 
       #  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       #    <soap:Header>
@@ -107,8 +125,6 @@ module Sem4r
       #    </soap:Body>
       #</soap:Envelope>
     end
-
-    private
 
     def build_soap_header
       auth_token = @credentials.authentication_token

@@ -34,7 +34,28 @@ puts "---------------------------------------------------------------------"
 
 
 class DumpInterceptor
-  def call()
+
+  def initialize(dir)
+    @dir = dir
+  end
+
+  def call(service_url, type, str)
+    # puts "dump interceptor #{service_url} #{type}"
+
+    # https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService
+    match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/info\/v201008\/([^\/]*)$/)
+    case match_data[1]
+    when "InfoService"
+      dir = File.join(@dir, "info")
+      FileUtils.mkdir_p(dir) unless File.directory?(dir)
+      pathname = File.join(dir, "get_unit_count-#{type}.xml")
+      puts "writing to #{pathname}"
+      File.open(pathname, "w") {|f|
+        f.puts str
+      }
+    else
+      puts "unknow service #{match_data[1]}"
+    end
 
   end
 end
@@ -46,12 +67,15 @@ begin
   log_directory = File.expand_path(log_directory)
   Dir.mkdir(log_directory) unless File.directory?(log_directory)
   puts "dump soap messages in '#{log_directory}'"
-  dump_options = { :directory => log_directory, :format => true }
+
+  fixtures_dir = File.join( File.dirname(__FILE__), "fixtures", "services")
+  interceptor = DumpInterceptor.new(fixtures_dir)
+  dump_options = { :directory => log_directory, :format => true, :interceptor => interceptor}
   adwords.dump_soap_options( dump_options )
   adwords.logger = Logger.new(STDOUT)
 
   # info
-  adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT_FOR_CLIENTS)
+  adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
 
 rescue Sem4rError
   puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
