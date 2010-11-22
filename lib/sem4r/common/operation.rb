@@ -60,7 +60,8 @@ module Sem4r
 
       xml = ""
       if tag
-        xml += "<#{tag} xsi:type='#{operation_type}'>"
+        xml += "<#{tag} xsi:type='#{operation_type}' #{if @namespace then @namespace else '' end}>"
+        # xsi:type="n1:ReportDefinitionOperation" xmlns:n1="https://adwords.google.com/api/adwords/cm/v201008"
       end
       xml +=<<-EOS
         <operator>#{operator}</operator>

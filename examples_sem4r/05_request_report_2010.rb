@@ -28,16 +28,28 @@ run_example(__FILE__) do |adwords|
   account = adwords.account
 
   # account.report_fields
-  # account.p_report_definitions
+
 
   rd = account.report_definition do
-    name       "report"
-    type       "URL_PERFORMANCE_REPORT"
-    date_range "LAST_WEEK"
+    name       "Keywords performance report #1290336379254"
+    type       "KEYWORDS_PERFORMANCE_REPORT"
+    date_range "CUSTOM_DATE"
+    from       "20100101"
+    to         "20100110"
     format     "CSV"
+
+    field "AdGroupId"
+    field "Id"
+    field "KeywordText"
+    field "KeywordMatchType"
+    field "Impressions"
+    field "Clicks"
+    field "Cost"
   end
   rd.save
   puts rd.id
 
   puts rd.to_s
+
+  account.p_report_definitions
 end

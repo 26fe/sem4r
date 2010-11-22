@@ -198,8 +198,10 @@ module Sem4r
         o = AdGroupAdOperation.new.add(ad)
         xml + o.to_xml("operations")
       end
+
       soap_message = service.ad_group_ad.mutate(credentials, xml)
       add_counters( soap_message.counters )
+
       els = REXML::XPath.match( soap_message.response, "//mutateResponse/rval/value/ad/id")
       els.each_with_index do |e,index|
         id = e.text.strip.to_i
