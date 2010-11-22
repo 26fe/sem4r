@@ -55,10 +55,15 @@ require 'sem4r/soap_attributes'
 require 'sem4r/base'
 require 'sem4r/account'
 
-require 'sem4r/campaign/account_campaign_extension'
-require 'sem4r/info/account_info_extension'
+require 'sem4r/bulk_mutate_job/bulk_mutate_job_account_extension'
+require 'sem4r/campaign/campaign_account_extension'
+require 'sem4r/geo_location/geo_location_account_extension'
+require 'sem4r/info/info_account_extension'
 require 'sem4r/report_definition/report_definition_account_extension'
-require 'sem4r/targeting_idea/targeting_idea_extension'
+require 'sem4r/targeting_idea/targeting_idea_account_extension'
+
+require 'sem4r/v13_report/report_account_extension'
+require 'sem4r/v13_account/account_account_extension'
 
 #
 # soap connection layer

@@ -51,6 +51,7 @@ module Sem4r
     #   <state>CA</state>
     # </billingAddress>
     def self.from_element(el)
+      return nil unless el
       new do
         company_name          el.elements["companyName"].text.strip
         address_line1         el.elements["addressLine1"].text.strip
