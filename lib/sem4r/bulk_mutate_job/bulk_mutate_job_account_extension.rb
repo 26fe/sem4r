@@ -1,6 +1,6 @@
-# -------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-#
+# 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-#
+# 
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,27 +19,41 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# -------------------------------------------------------------------
+# 
+# -------------------------------------------------------------------------
 
 module Sem4r
 
-  class Account < Base
-    
-    def initialize( adwords, credentials )
-      super( adwords, credentials )
-      @campaigns = nil
-      @reports = nil
-      @report_definitions = nil
+  module BulkMutateJobAccountExtension
+    ############################################################################
+    # Bulk Jobs
+
+    def p_jobs
+      selector = BulkMutateJobSelector.new
+      soap_message = service.bulk_mutate_job.all(credentials, selector)
+      add_counters( soap_message.counters )
+      els = REXML::XPath.match( soap_message.response, "//getResponse/rval")
+      jobs = els.map do |el|
+        BulkMutateJob.from_element(el)
+      end
+
+      puts "#{jobs.length} bulk mutate jobs"
+      jobs.each do |job|
+        puts job.to_s
+      end
+      self
     end
 
-    def to_s
-      credentials.to_s
+    def job_mutate(bulk_mutate_job)
+      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
+      add_counters( soap_message.counters )
+      el = REXML::XPath.first( soap_message.response, "//rval")
+      BulkMutateJob.from_element(el)
     end
+  end
 
-    def client_email
-      credentials.client_email
-    end
-
+  class Account
+    include BulkMutateJobAccountExtension
   end
 
 end
