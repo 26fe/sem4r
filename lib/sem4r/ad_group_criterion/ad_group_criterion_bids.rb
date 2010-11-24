@@ -35,10 +35,7 @@ module Sem4r
     ]
 
     def self.from_element(el)
-      type =  el.elements["AdGroupCriterionBids.Type"].text.strip
-      #=======
-      #      type =  el.at_xpath("AdGroupCriterionBids.Type").text.strip
-      #>>>>>>> wordtracker/master
+      type =  el.at_xpath("AdGroupCriterionBids.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -66,25 +63,17 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        bid_source       el.elements["bidSource"].text.strip
+        bid_source       el.at_xpath("bidSource").text.strip
 
-        el_maxCpc = el.elements["maxCpc"]
-        el_amount = el_maxCpc.elements["amount"]
-        max_cpc     el_amount.elements["microAmount"].text.strip.to_i
-
+        el_maxCpc = el.at_xpath("maxCpc")
+        el_amount = el_maxCpc.at_xpath("amount")
+        max_cpc     el_amount.at_xpath("microAmount").text.strip.to_i
         # TODO: it is possible something like:
         #        el.elements["maxCpc"] do |el|
         #          el.elements["amount"] do el
         #            max_cpc el["microAmount"]
         #          end
         #        end
-        #=======
-        #        bid_source       el.at_xpath("bidSource").text.strip
-        #
-        #        el_maxCpc = el.at_xpath("maxCpc")
-        #        el_amount = el_maxCpc.at_xpath("amount")
-        #        max_cpc     el_amount.at_xpath("microAmount").text.strip.to_i
-        #>>>>>>> wordtracker/master
       end
     end
 

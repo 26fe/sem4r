@@ -39,9 +39,9 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       type =  el.elements["AdGroupCriterion.Type"].text.strip
-#=======
-#      type =  el.at_xpath("AdGroupCriterion.Type").text.strip
-#>>>>>>> wordtracker/master
+      #=======
+      #      type =  el.at_xpath("AdGroupCriterion.Type").text.strip
+      #>>>>>>> wordtracker/master
       klass = Module::const_get(type)
       klass.from_element(ad_group, el)
     end
@@ -56,12 +56,8 @@ module Sem4r
         soap_message =
           criterion.service.ad_group_criterion.mutate(criterion.credentials, o.to_xml("operations"))
         criterion.add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/criterion/id" ).first
-#=======
-#        rval = soap_message.response.xpath("//mutateResponse/rval").first
-#        id = rval.xpath("value/criterion/id").first
-#>>>>>>> wordtracker/master
+        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        id = rval.xpath("value/criterion/id").first
         criterion.instance_eval{ @id = id.text.strip.to_i }
       end
       self
@@ -86,12 +82,8 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.elements["criterion"])
-        bids      AdGroupCriterionBids.from_element(el.elements["bids"])
-#=======
-#        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
-#        bids      AdGroupCriterionBids.from_element(el.at_xpath("bids"))
-#>>>>>>> wordtracker/master
+        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
+        bids      AdGroupCriterionBids.from_element(el.at_xpath("bids"))
       end
     end
 
@@ -130,10 +122,7 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        criterion Criterion.from_element(ad_group, el.elements["criterion"])
-#=======
-#        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
-#>>>>>>> wordtracker/master
+        criterion Criterion.from_element(ad_group, el.at_xpath("criterion"))
       end
     end
 
