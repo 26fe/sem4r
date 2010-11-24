@@ -38,10 +38,7 @@ module Sem4r
     end
 
     def self.from_element(ad_group, el)
-      type =  el.elements["AdGroupCriterion.Type"].text.strip
-      #=======
-      #      type =  el.at_xpath("AdGroupCriterion.Type").text.strip
-      #>>>>>>> wordtracker/master
+      type =  el.at_xpath("AdGroupCriterion.Type").text.strip
       klass = Module::const_get(type)
       klass.from_element(ad_group, el)
     end
