@@ -43,6 +43,10 @@ module Sem4r
       new(ad_group) do
         @id      = el.elements["id"].text.strip.to_i
         url        el.elements["url"].text.strip
+        #=======
+        #        @id      = el.at_xpath("id").text.strip.to_i
+        #        url        el.at_xpath("url").text.strip
+        #>>>>>>> wordtracker/master
       end
     end
 

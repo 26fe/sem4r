@@ -96,6 +96,10 @@ module Sem4r
       new do
         @id          = el.elements["id"].text.strip.to_i
         status         el.elements["status"].text
+        #=======
+        #        @id          = el.at_xpath("id").text.strip.to_i
+        #        status         el.at_xpath("status").text
+        #>>>>>>> wordtracker/master
       end
     end
 

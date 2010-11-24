@@ -97,6 +97,14 @@ module Sem4r
         serving_status el.elements['servingStatus']
         start_date     el.elements['startDate']
         end_date       el.elements['endDate']
+        #=======
+        #        @id          = el.at_xpath("id").text.strip.to_i
+        #        name           el.at_xpath("name").text.strip
+        #        status         el.at_xpath('status').text.strip # ACTIVE, PAUSED, DELETED
+        #        serving_status el.at_xpath('servingStatus')
+        #        start_date     el.at_xpath('startDate')
+        #        end_date       el.at_xpath('endDate')
+        #>>>>>>> wordtracker/master
       end
     end
 
@@ -110,6 +118,10 @@ module Sem4r
         add_counters( soap_message.counters )
         rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
         id = REXML::XPath.match( rval, "value/id" ).first
+        #=======
+        #        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        #        id = rval.xpath("value/id").first
+        #>>>>>>> wordtracker/master
         @id = id.text.strip.to_i
       end
       self
@@ -182,6 +194,10 @@ module Sem4r
       add_counters( soap_message.counters )
       rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
       els = REXML::XPath.match( rval, "entries")
+      #      =======
+      #        rval = soap_message.response.xpath("//getResponse/rval").first
+      #      els = rval.xpath( "entries")
+      #      >>>>>>> wordtracker/master
       @ad_groups = els.map do |el|
         AdGroup.from_element(self, el)
       end

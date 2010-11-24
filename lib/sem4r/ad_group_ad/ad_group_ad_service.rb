@@ -35,7 +35,7 @@ module Sem4r
 
     soap_call_v2010 :all,   :mutate => false
     soap_call_v2010 :mutate
-
+      
     private
 
     def _all(ad_group_id)

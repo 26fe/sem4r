@@ -38,6 +38,9 @@ describe CampaignService do
     service = CampaignService.new(connector)
     soap_message = service.all( @credentials )
     els = REXML::XPath.match( soap_message.response, "//getResponse")
+    #=======
+    #    els = soap_message.response.xpath("//getResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 
@@ -49,6 +52,9 @@ describe CampaignService do
     service = CampaignService.new(connector)
     soap_message = service.create( @credentials, "xml" )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+    #=======
+    #    els = soap_message.response.xpath("//mutateResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 
@@ -59,7 +65,11 @@ describe CampaignService do
     connector.should_receive(:send).and_return(response_xml)
     service = CampaignService.new(connector)
     soap_message = service.delete( @credentials, "xml" )
+    <<<<<<< HEAD
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+    =======
+      els = soap_message.response.xpath("//mutateResponse")
+    >>>>>>> wordtracker/master
     els.should_not be_empty
   end
 

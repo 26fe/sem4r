@@ -37,7 +37,7 @@ module Sem4r
     soap_call_v2010 :all,   :mutate => false
     soap_call_v2010 :create
     soap_call_v2010 :delete
-
+      
     private
 
     def _all(statuses = [Campaign::ACTIVE, Campaign::PAUSED])

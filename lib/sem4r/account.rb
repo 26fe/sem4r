@@ -39,7 +39,7 @@ module Sem4r
     def client_email
       credentials.client_email
     end
-
+  
   end
 
 end

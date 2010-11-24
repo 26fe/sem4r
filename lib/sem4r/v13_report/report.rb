@@ -135,6 +135,13 @@ module Sem4r
         start_day   el.elements["startDay"].text.strip
         end_day     el.elements["endDay"].text.strip
         @status   = el.elements["status"].text.strip     # status is read only
+#=======
+#        @id       = el.at_xpath("id").text.strip.to_i # id is read only
+#        name        el.at_xpath("name").text.strip
+#        start_day   el.at_xpath("startDay").text.strip
+#        end_day     el.at_xpath("endDay").text.strip
+#        @status   = el.at_xpath("status").text.strip # status is read only
+#>>>>>>> wordtracker/master
       end
     end
 
@@ -145,6 +152,10 @@ module Sem4r
       soap_message = service.report.status(credentials, @id)
       add_counters( soap_message.counters )
       el = REXML::XPath.first( soap_message.response, "//getReportJobStatusResponse/getReportJobStatusReturn")
+#=======
+#      el = soap_message.response.xpath(
+#          "//getReportJobStatusResponse/getReportJobStatusReturn").first
+#>>>>>>> wordtracker/master
       @status = el.text
     end
 
@@ -164,6 +175,10 @@ module Sem4r
       soap_message = service.report.schedule(credentials, to_xml)
       add_counters( soap_message.counters )
       el = REXML::XPath.first( soap_message.response, "//scheduleReportJobResponse/scheduleReportJobReturn")
+#=======
+#      el = soap_message.response.xpath(
+#          "//scheduleReportJobResponse/scheduleReportJobReturn").first
+#>>>>>>> wordtracker/master
       @id = el.text
       # puts "requested report assigned job nr. #{@job_id}"
       ReportJob.new(self, @id)
@@ -173,6 +188,10 @@ module Sem4r
       soap_message = service.report.url(credentials, @id)
       add_counters( soap_message.counters )
       el = REXML::XPath.first( soap_message.response, "//getReportDownloadUrlResponse/getReportDownloadUrlReturn")
+#=======
+#      el = soap_message.response.xpath(
+#          "//getReportDownloadUrlResponse/getReportDownloadUrlReturn").first
+#>>>>>>> wordtracker/master
       url = el.text
       url
     end

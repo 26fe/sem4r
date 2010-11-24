@@ -32,4 +32,3 @@ module Sem4r
     end
   end
 end
-
