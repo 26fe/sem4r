@@ -94,12 +94,8 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        @id          = el.elements["id"].text.strip.to_i
-        status         el.elements["status"].text
-        #=======
-        #        @id          = el.at_xpath("id").text.strip.to_i
-        #        status         el.at_xpath("status").text
-        #>>>>>>> wordtracker/master
+        @id          = el.at_xpath("id").text.strip.to_i
+        status         el.at_xpath("status").text
       end
     end
 
