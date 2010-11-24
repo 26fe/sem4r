@@ -41,10 +41,7 @@ describe BulkMutateJobService do
     operation.stub(:to_xml).and_return("xml")
 
     soap_message = service.all( @credentials, operation )
-    els = REXML::XPath.match( soap_message.response, "//getResponse")
-    #=======
-    #    els = soap_message.response.xpath("//getResponse")
-    #>>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
 
@@ -59,10 +56,7 @@ describe BulkMutateJobService do
     operation.stub(:to_xml).and_return("xml")
     
     soap_message = service.mutate( @credentials, operation )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    #    =======
-    #      els = soap_message.response.xpath("//mutateResponse")
-    #    >>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
 

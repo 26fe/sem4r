@@ -91,20 +91,12 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text.strip
-        status         el.elements['status'].text.strip # ACTIVE, PAUSED, DELETED
-        serving_status el.elements['servingStatus']
-        start_date     el.elements['startDate']
-        end_date       el.elements['endDate']
-        #=======
-        #        @id          = el.at_xpath("id").text.strip.to_i
-        #        name           el.at_xpath("name").text.strip
-        #        status         el.at_xpath('status').text.strip # ACTIVE, PAUSED, DELETED
-        #        serving_status el.at_xpath('servingStatus')
-        #        start_date     el.at_xpath('startDate')
-        #        end_date       el.at_xpath('endDate')
-        #>>>>>>> wordtracker/master
+        @id          = el.at_xpath("id").text.strip.to_i
+        name           el.at_xpath("name").text.strip
+        status         el.at_xpath('status').text.strip # ACTIVE, PAUSED, DELETED
+        serving_status el.at_xpath('servingStatus')
+        start_date     el.at_xpath('startDate')
+        end_date       el.at_xpath('endDate')
       end
     end
 
@@ -116,12 +108,8 @@ module Sem4r
       unless @id
         soap_message = service.campaign.create(credentials, to_xml)
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/id" ).first
-        #=======
-        #        rval = soap_message.response.xpath("//mutateResponse/rval").first
-        #        id = rval.xpath("value/id").first
-        #>>>>>>> wordtracker/master
+        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        id = rval.xpath("value/id").first
         @id = id.text.strip.to_i
       end
       self
@@ -192,12 +180,8 @@ module Sem4r
     def _ad_groups
       soap_message = service.ad_group.all(credentials, @id)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
-      #      =======
-      #        rval = soap_message.response.xpath("//getResponse/rval").first
-      #      els = rval.xpath( "entries")
-      #      >>>>>>> wordtracker/master
+      rval = soap_message.response.xpath("//getResponse/rval").first
+      els = rval.xpath( "entries")
       @ad_groups = els.map do |el|
         AdGroup.from_element(self, el)
       end
