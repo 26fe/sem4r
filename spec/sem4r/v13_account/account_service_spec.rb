@@ -40,9 +40,7 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.account_info( @credentials )
 
-    els = REXML::XPath.match( soap_message.response, "//getAccountInfoResponse")
-#    els = soap_message.response.xpath("//getAccountInfoResponse")
-#>>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//getAccountInfoResponse")
     els.should_not be_empty
   end
 
@@ -55,9 +53,7 @@ describe AccountService do
     service = AccountService.new(connector)
     soap_message = service.client_accounts( @credentials )
 
-    els = REXML::XPath.match( soap_message.response, "//getClientAccountsResponse")
-#    els = soap_message.response.xpath("//getClientAccountsResponse")
-#>>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//getClientAccountsResponse")
     els.should_not be_empty
   end
 

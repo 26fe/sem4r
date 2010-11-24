@@ -53,17 +53,10 @@ module Sem4r
     def self.from_element(el)
       return nil unless el
       new do
-        company_name          el.elements["companyName"].text.strip
-        address_line1         el.elements["addressLine1"].text.strip
-        address_line2         el.elements["addressLine2"].text.strip
-        city                  el.elements["city"].text.strip
-        #=======
-        #      new do
-        #        company_name          el.at_xpath("companyName").text.strip
-        #        address_line1         el.at_xpath("addressLine1").text.strip
-        #        address_line2         el.at_xpath("addressLine2").text.strip
-        #        city                  el.at_xpath("city").text.strip
-        #>>>>>>> wordtracker/master
+        company_name          el.at_xpath("companyName").text.strip
+        address_line1         el.at_xpath("addressLine1").text.strip
+        address_line2         el.at_xpath("addressLine2").text.strip
+        city                  el.at_xpath("city").text.strip
       end
     end
 

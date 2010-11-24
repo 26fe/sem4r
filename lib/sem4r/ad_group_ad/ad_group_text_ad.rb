@@ -68,14 +68,6 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        #        @id         = el.elements["id"].text.strip.to_i
-        #        # type          el.elements["Ad.Type"].text
-        #        url           el.elements["url"].text.strip
-        #        display_url   el.elements["displayUrl"].text.strip
-        #        headline      el.elements["headline"].text.strip
-        #        description1  el.elements["description1"].text.strip
-        #        description2  el.elements["description2"].text.strip
-        #=======
         @id         = el.at_xpath("id").text.strip.to_i
         # type          el.at_xpath("Ad.Type").text
         url           el.at_xpath("url").text.strip
@@ -83,7 +75,6 @@ module Sem4r
         headline      el.at_xpath("headline").text.strip
         description1  el.at_xpath("description1").text.strip
         description2  el.at_xpath("description2").text.strip
-        #>>>>>>> wordtracker/master
       end
     end
 
@@ -94,16 +85,10 @@ module Sem4r
     def save
       unless @id
         ad_operation = AdGroupAdOperation.new.add self
-        # soap_message = service.ad_group_ad.mutate(credentials, ad_operation.to_xml("operations"))
-        # add_counters( soap_message.counters )
-        # rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/ad/id" ).first
-        #        =======
         soap_message = service.ad_group_ad.mutate(credentials, ad_operation.to_xml("operations"))
         add_counters( soap_message.counters )
         rval = soap_message.response.xpath("//mutateResponse/rval").first
         id = rval.xpath("value/ad/id").first
-        #        >>>>>>> wordtracker/master
         @id = id.text.strip.to_i
       end
       self

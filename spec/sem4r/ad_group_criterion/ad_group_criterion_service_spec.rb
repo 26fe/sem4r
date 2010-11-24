@@ -37,10 +37,7 @@ describe AdGroupCriterionService do
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupCriterionService.new(connector)
     soap_message = service.all( @credentials, "ad_group_id" )
-    els = REXML::XPath.match( soap_message.response, "//getResponse")
-    #=======
-    #    els = soap_message.response.xpath("//getResponse")
-    #>>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
 
@@ -51,10 +48,7 @@ describe AdGroupCriterionService do
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupCriterionService.new(connector)
     soap_message = service.mutate( @credentials, "xml" )
-    els = REXML::XPath.match( soap_message.response, "//mutateResponse")
-    #=======
-    #    els = soap_message.response.xpath("//mutateResponse")
-    #>>>>>>> wordtracker/master
+    els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
 

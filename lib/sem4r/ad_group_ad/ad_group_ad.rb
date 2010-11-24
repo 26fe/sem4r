@@ -85,10 +85,7 @@ module Sem4r
     end
 
     def self.from_element( ad_group, el )
-      # xml_type =       el.elements["Ad.Type"].text.strip
-      #=======
       xml_type =       el.at_xpath("Ad.Type").text.strip
-      #>>>>>>> wordtracker/master
       case xml_type
       when TextAd
         AdGroupTextAd.from_element(ad_group, el)

@@ -103,9 +103,6 @@ describe Adwords do
 
   it "should list profiles" do
     values = Adwords.profiles(@test_config_filename)
-    #=======
-    #    values = Adwords.list_profiles(@test_config_filename)
-    #>>>>>>> wordtracker/master
     values.should have(4).profiles
   end
 

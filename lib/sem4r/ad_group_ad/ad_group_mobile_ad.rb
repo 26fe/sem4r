@@ -111,14 +111,6 @@ module Sem4r
 
     def self.from_element(ad_group, el)
       new(ad_group) do
-        #        @id         = el.elements["id"].text.strip.to_i
-        #        # type          el.elements["Ad.Type"].text
-        #        headline       el.elements["headline"].text.strip
-        #        description    el.elements["description"].text.strip
-        #        business_name  el.elements["businessName"].text.strip
-        #        country_code   el.elements["countryCode"].text.strip
-        #        phone_number   el.elements["phoneNumber"].text.strip
-        #=======
         @id         = el.at_xpath("id").text.strip.to_i
         # type          el.at_xpath("Ad.Type").text
         headline       el.at_xpath("headline").text.strip
@@ -126,7 +118,6 @@ module Sem4r
         business_name  el.at_xpath("businessName").text.strip
         country_code   el.at_xpath("countryCode").text.strip
         phone_number   el.at_xpath("phoneNumber").text.strip
-        #>>>>>>> wordtracker/master
         # TODO: estrarre le carriers
       end
     end
@@ -135,13 +126,8 @@ module Sem4r
       unless @id
         soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "value/ad/id" ).first
-        #=======
-        #        rval = soap_message.response.xpath("//mutateResponse/rval",
-        #            soap_message.response_headers).first
-        #        id = rval.xpath("value/ad/id").first
-        #>>>>>>> wordtracker/master
+        rval = soap_message.response.xpath("//mutateResponse/rval", soap_message.response_headers).first
+        id = rval.xpath("value/ad/id").first
         @id = id.text.strip.to_i
       end
       self
