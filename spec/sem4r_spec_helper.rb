@@ -41,19 +41,23 @@ def pretty_xml(xml)
   xml_pretty
 end
 
-RSpec::Matchers.define :xml_equivalent do |expected_xml|
+Spec::Matchers.define :xml_equivalent do |expected_xml|
   match do |xml|
+    if expected_xml.class != String
+      expected_xml = expected_xml.to_s
+    end
+    
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
-      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      expected_xml  = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
       expected_xml = REXML::Document.new(expected_xml)
     end
     expected_normalized = pretty_xml(expected_xml)
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n| {2,})/, "").strip
+    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n| {2,})/, "").strip
 
     if xml.class == String
-      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      xml  = xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
       begin
         xml = REXML::Document.new(xml)
       rescue RuntimeError
@@ -64,7 +68,7 @@ RSpec::Matchers.define :xml_equivalent do |expected_xml|
       end
     end
     xml_normalized = pretty_xml(xml)
-    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    xml_normalized = xml_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
 
     if xml_normalized != expected_normalized
       puts "----differ start"
@@ -84,19 +88,19 @@ RSpec::Matchers.define :xml_equivalent do |expected_xml|
   end
 end
 
-RSpec::Matchers.define :xml_contains do |expected_xml|
+Spec::Matchers.define :xml_contains do |expected_xml|
   match do |xml|
     if expected_xml.class == String
       # erase namespaces i.e. <ns1:tag> -> <tag>
-      expected_xml  = expected_xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      expected_xml  = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
       expected_xml = REXML::Document.new(expected_xml)
     end
     expected_normalized = pretty_xml(expected_xml)
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_normalized = expected_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    expected_normalized = expected_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
 
     if xml.class == String
-      xml  = xml.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+      xml  = xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "").strip
       begin
         xml = REXML::Document.new(xml)
       rescue RuntimeError
@@ -107,7 +111,7 @@ RSpec::Matchers.define :xml_contains do |expected_xml|
       end
     end
     xml_normalized = pretty_xml(xml)
-    xml_normalized = xml_normalized.gsub(/(ns\d:|xsi:|s:|^\n)/, "").strip
+    xml_normalized = xml_normalized.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
 
     unless xml_normalized.match(expected_normalized)
       false
@@ -182,21 +186,23 @@ module Sem4rSpecHelper
     unless File.exist?(xml_filepath)
       raise "file #{xml_filepath} not exists"
     end
-    File.open(xml_filepath).read
+    contents = File.open(xml_filepath).read
+    contents.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+    contents.gsub!(/xmlns=["'].*?['"]/, '')
+    contents
   end
 
   def read_model(xpath, *args, &blk)
     contents = read_xml_file(*args)
-    response_xml_wns = contents.gsub(/n(s?)\d:/, "")
-    xml_document = REXML::Document.new(response_xml_wns)
+    xml_document = Nokogiri::XML::Document.parse(contents)
     if xpath && blk
-      el = REXML::XPath.each(xml_document, xpath) do |node|
+      el = xml_document.xpath.each do |node|
         yield node
       end
     elsif xpath
-      el = REXML::XPath.first(xml_document, xpath)
+      el = xml_document.xpath(xpath).first
     else
-      el = xml_document.root.elements.to_a.first
+      el = xml_document.root.children.to_a.first
     end
     if el.nil?
       raise "xml element not found '#{xpath}'"
@@ -206,8 +212,7 @@ module Sem4rSpecHelper
 
   def read_xml_document(*args)
     contents = read_xml_file(*args)
-    response_xml_wns = contents.gsub(/ns\d:/, "")
-    REXML::Document.new(response_xml_wns)
+    Nokogiri::XML::Document.parse(contents)
   end
 
   #############################################################################
@@ -222,7 +227,7 @@ module Sem4rSpecHelper
   def stub_service_info(service)
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
-    account_service = stub("account_service", :get => soap_message)
+    account_service = stub("account_service", :unit_cost => soap_message)
     service.stub(:info).and_return(account_service)
   end
 

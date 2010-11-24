@@ -38,6 +38,9 @@ describe AdGroupAdService do
     service = AdGroupAdService.new(connector)
     soap_message = service.all( @credentials, "ad_group_id" )
     els = REXML::XPath.match( soap_message.response, "//getResponse")
+    #=======
+    #    els = soap_message.response.xpath("//getResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 
@@ -49,6 +52,9 @@ describe AdGroupAdService do
     service = AdGroupAdService.new(connector)
     soap_message = service.mutate( @credentials, "xml" )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+    #=======
+    #    els = soap_message.response.xpath("//mutateResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 

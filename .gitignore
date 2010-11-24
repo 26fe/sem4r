@@ -10,19 +10,24 @@ tmtags
 \#*
 .\#*
 
+## Other editors
+*.bak
+
 ## VIM
 *.swp
 
+## Netbean
+nbproject
+
 ## PROJECT::GENERAL
+.bundle
 coverage
 rdoc
 pkg
 tmp
 
 ## PROJECT::SPECIFIC
-*.bak
 config/sem4r.yml
-nbproject
 
 *.log.xml
 *.log

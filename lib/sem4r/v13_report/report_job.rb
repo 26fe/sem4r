@@ -43,6 +43,9 @@ module Sem4r
       soap_message = service.report.status(credentials, @job_id)
       add_counters( soap_message.counters )
       el = REXML::XPath.first( soap_message.response, "//getReportJobStatusResponse/getReportJobStatusReturn")
+      #=======
+      #      el = soap_message.response.xpath("//getReportJobStatusResponse/getReportJobStatusReturn").first
+      #>>>>>>> wordtracker/master
       status = el.text
       status
     end

@@ -57,6 +57,13 @@ module Sem4r
         address_line1         el.elements["addressLine1"].text.strip
         address_line2         el.elements["addressLine2"].text.strip
         city                  el.elements["city"].text.strip
+        #=======
+        #      new do
+        #        company_name          el.at_xpath("companyName").text.strip
+        #        address_line1         el.at_xpath("addressLine1").text.strip
+        #        address_line2         el.at_xpath("addressLine2").text.strip
+        #        city                  el.at_xpath("city").text.strip
+        #>>>>>>> wordtracker/master
       end
     end
 

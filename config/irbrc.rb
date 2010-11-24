@@ -22,7 +22,7 @@
 # 
 # -------------------------------------------------------------------------
 
-puts "maaaaa"
+puts "sem4r_irbrc.rb"
 
 require File.dirname(__FILE__) + "/../examples/example_helper"
 

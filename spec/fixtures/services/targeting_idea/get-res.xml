@@ -1,50 +1,41 @@
-<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
   <soap:Header>
-    <ns2:ResponseHeader xmlns:ns2='https://adwords.google.com/api/adwords/o/v200909'
-                        xmlns='https://adwords.google.com/api/adwords/cm/v200909'>
+    <ns2:ResponseHeader xmlns:ns2="https://adwords.google.com/api/adwords/o/v200909" xmlns="https://adwords.google.com/api/adwords/cm/v200909">
       <requestId>124f360c070e00346b261d83a5d7e277</requestId>
       <operations>100</operations>
       <responseTime>4058</responseTime>
       <units>100</units>
     </ns2:ResponseHeader>
   </soap:Header>
-
   <soap:Body>
-    <ns2:getResponse xmlns='https://adwords.google.com/api/adwords/cm/v200909' xmlns:ns2='https://adwords.google.com/api/adwords/o/v200909'>
+    <ns2:getResponse xmlns="https://adwords.google.com/api/adwords/cm/v200909" xmlns:ns2="https://adwords.google.com/api/adwords/o/v200909">
       <ns2:rval>
-
         <ns2:totalNumEntries>300</ns2:totalNumEntries>
-
         <ns2:entries>
           <ns2:data>
             <ns2:key>KEYWORD</ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
               <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
                 <Criterion.Type>Keyword</Criterion.Type>
                 <text>sample keyword</text>
                 <matchType>EXACT</matchType>
               </ns2:value>
-
             </ns2:value>
           </ns2:data>
-
           <ns2:data>
             <ns2:key>IDEA_TYPE</ns2:key>
-
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
               <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
               <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
-
           </ns2:data>
         </ns2:entries>
-
         <ns2:entries>
           <ns2:data>
             <ns2:key>KEYWORD</ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
               <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
                 <Criterion.Type>Keyword</Criterion.Type>
@@ -53,33 +44,21 @@
               </ns2:value>
             </ns2:value>
           </ns2:data>
-
           <ns2:data>
             <ns2:key>IDEA_TYPE</ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
-
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 0
                 </text>
@@ -90,104 +69,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 1
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 1
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 1
                 </text>
@@ -198,104 +137,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 2
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 2
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 2
                 </text>
@@ -306,104 +205,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 3
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 3
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 3
                 </text>
@@ -414,104 +273,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 4
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 4
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 4
                 </text>
@@ -522,104 +341,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 5
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 5
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 5
                 </text>
@@ -630,104 +409,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 6
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 6
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 6
                 </text>
@@ -738,104 +477,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 7
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 7
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 7
                 </text>
@@ -846,104 +545,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 8
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 8
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 8
                 </text>
@@ -954,104 +613,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 9
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 9
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 9
                 </text>
@@ -1062,104 +681,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 10
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 10
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 10
                 </text>
@@ -1170,104 +749,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 11
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 11
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 11
                 </text>
@@ -1278,104 +817,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 12
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 12
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 12
                 </text>
@@ -1386,104 +885,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 13
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 13
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 13
                 </text>
@@ -1494,104 +953,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 14
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 14
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 14
                 </text>
@@ -1602,104 +1021,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 15
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 15
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 15
                 </text>
@@ -1710,104 +1089,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 16
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 16
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 16
                 </text>
@@ -1818,104 +1157,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 17
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 17
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 17
                 </text>
@@ -1926,104 +1225,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 18
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 18
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 18
                 </text>
@@ -2034,104 +1293,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 19
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 19
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 19
                 </text>
@@ -2142,104 +1361,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 20
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 20
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 20
                 </text>
@@ -2250,104 +1429,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 21
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 21
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 21
                 </text>
@@ -2358,104 +1497,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 22
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 22
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 22
                 </text>
@@ -2466,104 +1565,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 23
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 23
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 23
                 </text>
@@ -2574,104 +1633,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 24
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 24
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 24
                 </text>
@@ -2682,104 +1701,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 25
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 25
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 25
                 </text>
@@ -2790,104 +1769,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 26
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 26
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 26
                 </text>
@@ -2898,104 +1837,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 27
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 27
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 27
                 </text>
@@ -3006,104 +1905,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 28
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 28
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 28
                 </text>
@@ -3114,104 +1973,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 29
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 29
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 29
                 </text>
@@ -3222,104 +2041,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 30
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 30
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 30
                 </text>
@@ -3330,104 +2109,64 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 31
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 31
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 31
                 </text>
@@ -3438,160 +2177,96 @@
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 32
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   sample keyword 1271053329 32
                 </text>
-                <matchType>
-                  PHRASE
-                </matchType>
+                <matchType>PHRASE</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
-                <text>
-                  sample keyword 1271053329 32
-                </text>
-                <matchType>
-                  BROAD
-                </matchType>
+                <Criterion.Type>Keyword</Criterion.Type>
+                <text>sample keyword 1271053329 32</text>
+                <matchType>BROAD</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>
         <ns2:entries>
           <ns2:data>
-            <ns2:key>
-              KEYWORD
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:KeywordAttribute'>
-              <ns2:Attribute.Type>
-                KeywordAttribute
-              </ns2:Attribute.Type>
+            <ns2:key>KEYWORD</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:KeywordAttribute">
+              <ns2:Attribute.Type>KeywordAttribute</ns2:Attribute.Type>
               <ns2:value>
-                <Criterion.Type>
-                  Keyword
-                </Criterion.Type>
+                <Criterion.Type>Keyword</Criterion.Type>
                 <text>
                   Red Herring 33
                 </text>
-                <matchType>
-                  EXACT
-                </matchType>
+                <matchType>EXACT</matchType>
               </ns2:value>
             </ns2:value>
           </ns2:data>
           <ns2:data>
-            <ns2:key>
-              IDEA_TYPE
-            </ns2:key>
-            <ns2:value xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='ns2:IdeaTypeAttribute'>
-              <ns2:Attribute.Type>
-                IdeaTypeAttribute
-              </ns2:Attribute.Type>
-              <ns2:value>
-                KEYWORD
-              </ns2:value>
+            <ns2:key>IDEA_TYPE</ns2:key>
+            <ns2:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:IdeaTypeAttribute">
+              <ns2:Attribute.Type>IdeaTypeAttribute</ns2:Attribute.Type>
+              <ns2:value>KEYWORD</ns2:value>
             </ns2:value>
           </ns2:data>
         </ns2:entries>

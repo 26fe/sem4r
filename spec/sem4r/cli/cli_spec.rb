@@ -26,7 +26,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "cli" do
   include Sem4rSpecHelper
-  
+
   describe CliSem do
     
     it "should show help" do

@@ -1,5 +1,9 @@
 # -------------------------------------------------------------------------
+<<<<<<< HEAD
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+=======
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+>>>>>>> wordtracker/master
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,7 +31,7 @@ module Sem4r
   class RelatedToKeywordSearchParameter
     include SoapAttributes
 
-    g_accessor :text
+    g_set_accessor :text
     g_accessor :match_type
 
     def initialize(&block)
@@ -37,15 +41,16 @@ module Sem4r
     end
 
     def to_xml
-      <<-EOS
-          <s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">
-            <s:keywords xsi:type="Keyword">
-              <Criterion.Type>Keyword</Criterion.Type>
-              <text>#{text}</text>
-              <matchType>#{match_type}</matchType>
-            </s:keywords>
-          </s:searchParameters>
-      EOS
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">'
+      texts.each do |t|
+        xml << '<s:keywords xsi:type="Keyword">'
+          xml << "<Criterion.Type>Keyword</Criterion.Type>"
+          xml << "<text>#{t}</text>"
+          xml << "<matchType>#{match_type}</matchType>"
+        xml << "</s:keywords>"
+      end
+      xml << '</s:searchParameters>'
     end
   end
 
@@ -118,6 +123,27 @@ module Sem4r
     end
   end
   
+  class NgramGroupsSearchParameter
+    include SoapAttributes
+
+    g_set_accessor :ngram
+
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
+      end
+    end
+
+    def to_xml
+      xml = ""
+      xml << '<s:searchParameters xsi:type="s:NgramGroupsSearchParameter">'
+      ngrams.each do |t|
+        xml << "<s:ngramGroups>#{t}</s:ngramGroups>"
+      end
+      xml << '</s:searchParameters>'
+    end
+  end
+  
   class TargetingIdeaSelector
     include SoapAttributes
 
@@ -152,6 +178,10 @@ module Sem4r
 
     def country_target_search_parameter(&block)
       @search_parameters << CountryTargetSearchParameter.new(&block)
+    end
+    
+    def ngram_group_search_parameter(&block)
+      @search_parameters << NgramGroupsSearchParameter.new(&block)
     end
 
     def to_xml

@@ -40,7 +40,9 @@ module Sem4r
     end
 
     def self.from_element(el)
-      type =  el.elements["AdGroupBids.Type"].text.strip
+      # type =  el.elements["AdGroupBids.Type"].text.strip
+      type = el.at_xpath("AdGroupBids.Type").text.strip
+      #>>>>>>> wordtracker/master
       klass = Module::const_get(type)
       klass.from_element(el)
     end
@@ -114,22 +116,36 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        kel = el.elements["keywordMaxCpc"]
-        if kel
-          el_amount = kel.elements["amount"]
-          keyword_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
-        end
-        sel = el.elements["siteMaxCpc"]
-        if sel
-          el_amount = sel.elements["amount"]
-          site_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
-        end
+        # kel = el.elements["keywordMaxCpc"]
+        # if kel
+        #  el_amount = kel.elements["amount"]
+        #  keyword_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
+        #end
+        #sel = el.elements["siteMaxCpc"]
+        #if sel
+        #  el_amount = sel.elements["amount"]
+        #  site_max_cpc     el_amount.elements["microAmount"].text.strip.to_i
+        #end
+
         # TODO: it is possible something like:
         #        el.elements["maxCpc"] do |el|
         #          el.elements["amount"] do el
         #            max_cpc el["microAmount"]
         #          end
         #        end
+
+        #        =======
+        kel = el.at_xpath("keywordMaxCpc")
+        if kel
+          el_amount = kel.at_xpath("amount")
+          keyword_max_cpc(el_amount.at_xpath("microAmount").text.strip.to_i)
+        end
+        sel = el.at_xpath("siteMaxCpc")
+        if sel
+          el_amount = sel.at_xpath("amount")
+          site_max_cpc(el_amount.at_xpath("microAmount").text.strip.to_i)
+        end
+        #        >>>>>>> wordtracker/master
       end
     end
   end
@@ -157,10 +173,17 @@ module Sem4r
 
     def self.from_element(el)
       new do
-        kel = el.elements["maxCpm"]
+        #        kel = el.elements["maxCpm"]
+        #        if kel
+        #          el_amount = kel.elements["amount"]
+        #          max_cpm     el_amount.elements["microAmount"].text.strip.to_i
+        #        end
+        #          =======
+        kel = el.xpath("maxCpm").first
         if kel
-          el_amount = kel.elements["amount"]
-          max_cpm     el_amount.elements["microAmount"].text.strip.to_i
+          el_amount = kel.xpath("amount").first
+          max_cpm     el_amount.xpath("microAmount").first.text.strip.to_i
+          #            >>>>>>> wordtracker/master
         end
       end
     end

@@ -67,7 +67,7 @@ module Sem4r
       end
 
       if @options.ask_password
-         puts "ask_password"
+        puts "ask_password"
       end
 
       !@options.exit

@@ -38,6 +38,9 @@ describe AdParamService do
     service = AdParamService.new(connector)
     soap_message = service.all( @credentials, "ad_group_id" )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+    #=======
+    #    els = soap_message.response.xpath("//mutateResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 
@@ -49,6 +52,9 @@ describe AdParamService do
     service = AdParamService.new(connector)
     soap_message = service.mutate( @credentials, "xml" )
     els = REXML::XPath.match( soap_message.response, "//mutateResponse")
+    #=======
+    #    els = soap_message.response.xpath("//mutateResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 

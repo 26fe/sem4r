@@ -40,7 +40,7 @@ module Sem4r
       <<-EOFS
       <get xmlns="#{@service_namespace}">
         <selector>
-          <campaignIds>#{campaign_id}</campaignIds>
+          <campaignId>#{campaign_id}</campaignId>
         </selector>
       </get>
       EOFS

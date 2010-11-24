@@ -38,6 +38,10 @@ describe TargetingIdeaService do
     service = TargetingIdeaService.new(connector)
     soap_message = service.get( @credentials,  "xml" )
     els = REXML::XPath.match( soap_message.response, "//getResponse")
+    #=======
+    #
+    #    els = soap_message.response.xpath("//getResponse")
+    #>>>>>>> wordtracker/master
     els.should_not be_empty
   end
 
