@@ -72,8 +72,8 @@ module Sem4r
     def _campaigns
       soap_message = service.campaign.all(credentials)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.at_xpath("//getResponse/rval")
+      els = rval.xpath("entries")
       @campaigns = els.map do |el|
         Campaign.from_element(self, el)
       end

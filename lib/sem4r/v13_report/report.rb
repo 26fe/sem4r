@@ -130,18 +130,11 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id       = el.elements["id"].text.strip.to_i         # id is read only
-        name        el.elements["name"].text.strip
-        start_day   el.elements["startDay"].text.strip
-        end_day     el.elements["endDay"].text.strip
-        @status   = el.elements["status"].text.strip     # status is read only
-#=======
-#        @id       = el.at_xpath("id").text.strip.to_i # id is read only
-#        name        el.at_xpath("name").text.strip
-#        start_day   el.at_xpath("startDay").text.strip
-#        end_day     el.at_xpath("endDay").text.strip
-#        @status   = el.at_xpath("status").text.strip # status is read only
-#>>>>>>> wordtracker/master
+        @id       = el.at_xpath("id").text.strip.to_i # id is read only
+        name        el.at_xpath("name").text.strip
+        start_day   el.at_xpath("startDay").text.strip
+        end_day     el.at_xpath("endDay").text.strip
+        @status   = el.at_xpath("status").text.strip # status is read only
       end
     end
 
@@ -151,11 +144,7 @@ module Sem4r
       return @status unless refresh
       soap_message = service.report.status(credentials, @id)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getReportJobStatusResponse/getReportJobStatusReturn")
-#=======
-#      el = soap_message.response.xpath(
-#          "//getReportJobStatusResponse/getReportJobStatusReturn").first
-#>>>>>>> wordtracker/master
+      el = soap_message.response.xpath("//getReportJobStatusResponse/getReportJobStatusReturn").first
       @status = el.text
     end
 
@@ -174,11 +163,7 @@ module Sem4r
     def schedule
       soap_message = service.report.schedule(credentials, to_xml)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//scheduleReportJobResponse/scheduleReportJobReturn")
-#=======
-#      el = soap_message.response.xpath(
-#          "//scheduleReportJobResponse/scheduleReportJobReturn").first
-#>>>>>>> wordtracker/master
+      el = soap_message.response.xpath("//scheduleReportJobResponse/scheduleReportJobReturn").first
       @id = el.text
       # puts "requested report assigned job nr. #{@job_id}"
       ReportJob.new(self, @id)
@@ -187,11 +172,7 @@ module Sem4r
     def url
       soap_message = service.report.url(credentials, @id)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getReportDownloadUrlResponse/getReportDownloadUrlReturn")
-#=======
-#      el = soap_message.response.xpath(
-#          "//getReportDownloadUrlResponse/getReportDownloadUrlReturn").first
-#>>>>>>> wordtracker/master
+      el = soap_message.response.xpath("//getReportDownloadUrlResponse/getReportDownloadUrlReturn").first
       url = el.text
       url
     end

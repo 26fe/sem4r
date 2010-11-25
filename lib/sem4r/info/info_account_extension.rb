@@ -35,7 +35,8 @@ module Sem4r
       end
       soap_message = service.info.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
-      cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
+      # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
+      cost = soap_message.response.at_xpath("//getResponse/rval/cost")
       cost.text.to_i
     end
   end

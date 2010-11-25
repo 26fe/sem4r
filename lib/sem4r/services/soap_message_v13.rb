@@ -43,13 +43,12 @@ module Sem4r
       soap_message = build_soap_message
       response_xml = @connector.send(service_url, soap_action, soap_message)
       # erase namespace 'nsX'so it more simple parsing the xml
-      response_xml = response_xml.gsub(/ns\d:/, "")
-      @response = REXML::Document.new(response_xml)
-#=======
-#      response_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
-#      response_xml.gsub!(/xmlns=["'].*?['"]/, '')
-#      @response = Nokogiri::XML::Document.parse(response_xml)
-#>>>>>>> wordtracker/master
+
+      # response_xml = response_xml.gsub(/ns\d:/, "")
+      # @response = REXML::Document.new(response_xml)
+      response_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+      response_xml.gsub!(/xmlns=["'].*?['"]/, '')
+      @response = Nokogiri::XML::Document.parse(response_xml)
 
       # extract information from header
       #  <soapenv:Header>
@@ -58,20 +57,13 @@ module Sem4r
       #      <units soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">5</units>
       #      <requestId soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="0" xmlns="https://adwords.google.com/api/adwords/v13">abade53d3dbecd45600e7d14563f10f1</requestId>
       #  </soapenv:Header>
-      header = REXML::XPath.first(@response, "//soapenv:Header")
+
+      header = @response.xpath("//Header").first
       if header
         @counters = {
-          :response_time => header.elements['responseTime'].text.to_i,
-          :operations => header.elements['operations'].text.to_i,
-          :units => header.elements['units'].text.to_i
-#=======
-#      header = @response.xpath("//Header").first
-#      if header
-#        @counters = {
-#          :response_time => header.at_xpath('responseTime').text.to_i,
-#          :operations => header.at_xpath('operations').text.to_i,
-#          :units => header.at_xpath('units').text.to_i
-#>>>>>>> wordtracker/master
+          :response_time => header.at_xpath('responseTime').text.to_i,
+          :operations => header.at_xpath('operations').text.to_i,
+          :units => header.at_xpath('units').text.to_i
         }
       end
       
@@ -90,16 +82,11 @@ module Sem4r
       #  </soapenv:Fault>
       # </soapenv:Body>
       #</soapenv:Envelope>
-      fault_el = REXML::XPath.first(@response, "//soapenv:Fault")
+      #=======
+      fault_el = @response.xpath("//Fault").first
       if fault_el
-        fault_code   = fault_el.elements['faultcode'].text
-        fault_string = fault_el.elements['faultstring'].text
-#=======
-#      fault_el = @response.xpath("//Fault").first
-#      if fault_el
-#        fault_code   = fault_el.at_xpath('faultcode').text
-#        fault_string = fault_el.at_xpath('faultstring').text
-#>>>>>>> wordtracker/master
+        fault_code   = fault_el.at_xpath('faultcode').text
+        fault_string = fault_el.at_xpath('faultstring').text
         raise SoapError,  "#{fault_code}: '#{fault_string}'"
       end
       self

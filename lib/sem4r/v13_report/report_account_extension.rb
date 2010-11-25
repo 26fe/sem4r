@@ -48,7 +48,7 @@ module Sem4r
     def _reports
       soap_message = service.report.all(credentials)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+      els = soap_message.response.xpath("//getAllJobsResponse/getAllJobsReturn")
       @reports = els.map do |el|
         Report.from_element(self, el)
       end

@@ -59,7 +59,6 @@ module Sem4r
       soap_message.gsub!(/{useragent}/,       @credentials.useragent)
       soap_message.gsub!(/{developer_token}/, @credentials.developer_token)
       # soap_message.gsub!(/{client_email}/,    @credentials.client_email)
-
       _send_raw(service_url, soap_message)
     end
 
@@ -68,33 +67,32 @@ module Sem4r
     def _send_raw(service_url, soap_message)
       response_xml = @connector.send(service_url, "", soap_message)
       # erase namespace so it more simple parsing the xml
-      response_xml = response_xml.gsub(/ns\d:/, "")
-      @response = REXML::Document.new(response_xml)
+      response_xml.gsub!(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:)/, "")
+      response_xml.gsub!(/xmlns=["'].*?['"]/, '')
+      @response = Nokogiri::XML::Document.parse(response_xml)
 
       #
       # extract information from header
       #
-      header = REXML::XPath.first(@response, "//ResponseHeader")
+      header = @response.at_xpath("//ResponseHeader")
       if header
         @counters = {
-          :operations    => header.elements['operations'].text.to_i,
-          :response_time => header.elements['responseTime'].text.to_i,
-          :units         => header.elements['units'].text.to_i
+          :operations    => header.at_xpath("operations").text.to_i,
+          :response_time => header.at_xpath("responseTime").text.to_i,
+          :units         => header.at_xpath("units").text.to_i
         }
       end
 
       #
       # check soap fault
       #
-      fault_el = REXML::XPath.first(@response, "//soap:Fault")
+      fault_el = @response.at_xpath("//Fault")
       if fault_el
-        fault_string = fault_el.elements['faultstring'].text
+        fault_string = fault_el.at_xpath('faultstring').text
         @logger.error("soap error: #{fault_string}") if @logger
         raise fault_string
       end
       self
-
-
 
       #  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       #    <soap:Header>

@@ -23,10 +23,14 @@
 
 require 'yaml'
 require 'pathname'
-require 'rubygems'
+
+# use bundler
+require "rubygems"
+require "bundler/setup"
+
 require 'builder'
 # require 'rexml/document'
-require 'nokogiri' # wordtracker/master
+require 'nokogiri'
 require 'uri'
 require 'pp'
 require 'logger'
@@ -155,4 +159,3 @@ require 'sem4r/v13_report/report_job'
 require 'sem4r/report_definition/report_definition'
 require 'sem4r/report_definition/report_definition_selector'
 require 'sem4r/report_definition/report_definition_operation'
-

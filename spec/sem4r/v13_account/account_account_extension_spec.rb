@@ -1,4 +1,4 @@
-# -------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -19,48 +19,28 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# -------------------------------------------------------------------
+#
+# -------------------------------------------------------------------------
 
-module Sem4r
-  class CriterionPlacement < Criterion
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-    g_accessor :url
+describe AccountAccountExtension do
+  include Sem4rSpecHelper
 
-    def initialize(ad_group, url = nil, &block)
-      super( ad_group )
-      self.type = Placement
-      self.url = url unless url.nil?
-      if block_given?
-        block.arity < 1 ? instance_eval(&block) : block.call(self)
-      end
-    end
+  before do
+    services = stub("services")
+    stub_service_account(services)
+    stub_service_info(services)
+    stub_service_campaign(services)
+    stub_service_report(services)
+    @adwords = stub_adwords(services)
+    @credentials = stub_credentials
 
-    def self.create(ad_group, &block)
-      new(ad_group, &block).save
-    end
-
-    def self.from_element( ad_group, el )
-      new(ad_group) do
-        @id      = el.at_xpath("id").text.strip.to_i
-        url        el.at_xpath("url").text.strip
-      end
-    end
-
-    def to_s
-      "#{saved? ? id : 'unsaved'} #{type} #{url}"
-    end
-
-    def xml(t)
-      t.criterion("xsi:type" => "#{type}") do |ad|
-        ad.url  url
-      end
-    end
-
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      t = builder.tag!(tag, "xsi:type" => "CriterionKeyword")
-      xml(t)
-    end
-
+    @account = Account.new(@adwords, @credentials)
   end
+
+  it "should extracts list of account with 'account.client_accounts'" do
+    @account.client_accounts.should have(5).items
+  end
+
 end

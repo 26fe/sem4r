@@ -91,6 +91,8 @@ module Sem4r
       if !@soap_dump_format
         xml
       else
+        # TODO: using nokogiri also for pretty print xml ?
+        require 'rexml/document'
         xml_document = REXML::Document.new(xml)
         f = REXML::Formatters::Pretty.new
         out = String.new
