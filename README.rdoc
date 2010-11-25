@@ -44,9 +44,27 @@ Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new release
 
   sudo gem install sem4r
 
+== Contribute
+
+So you want your prefered service supported by sem4r. Great! Please follow this steps:
+
+* Fork the project
+* Clone down your fork 
+* Create a topic branch to contain your change ( git checkout -b my_awesome_feature )
+* Hack away, add tests. Not necessarily in that order.
+* Make sure rspec tests passes by running rake
+* Add an example of use of the new feature or service.
+* Make sure all examples run without errors. This will take some time. ( rake sem4r:examples )
+* If necessary, rebase your commits.
+* Push the branch up ( git push origin my_awesome_feature )
+* Send a pull request
+
 == Contributors
 
+If I miss someone send me a note.
+
 * Glenn Gillen {http://github.com/rubypond}
+
 
 == License
 

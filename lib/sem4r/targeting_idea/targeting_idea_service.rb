@@ -28,11 +28,11 @@ module Sem4r
     def initialize(connector)
       @connector = connector
 
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201003"
-      @service_namespace = "https://adwords.google.com/api/adwords/o/v201003"
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
+      @service_namespace = "https://adwords.google.com/api/adwords/o/v201008"
 
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/o/v201003/TargetingIdeaService"
-      @production_service_url = "https://adwords.google.com/api/adwords/o/v201003/TargetingIdeaService"
+      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/o/v201008/TargetingIdeaService"
+      @production_service_url = "https://adwords.google.com/api/adwords/o/v201008/TargetingIdeaService"
     end
 
     soap_call_v2010 :get, :mutate => false
