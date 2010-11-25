@@ -137,8 +137,8 @@ module Sem4r
         op = ReportDefinitionOperation.new.add(self)
         soap_message = service.report_definition.mutate(credentials, op.to_xml("operations"))
         add_counters( soap_message.counters )
-        rval = REXML::XPath.first( soap_message.response, "//mutateResponse/rval")
-        id = REXML::XPath.match( rval, "id" ).first
+        rval = soap_message.response.at_xpath("//mutateResponse/rval")
+        id = rval.at_xpath("id" )
         @id = id.text.strip.to_i
       end
       self

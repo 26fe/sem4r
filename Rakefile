@@ -32,6 +32,7 @@ begin
     #
     # gem.add_dependency 'patron'
     gem.add_dependency 'builder'
+    gem.add_dependency 'nokogiri'
     gem.add_development_dependency 'rspec'
     gem.add_development_dependency 'differ'
 

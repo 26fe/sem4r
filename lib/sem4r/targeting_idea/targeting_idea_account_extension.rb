@@ -32,8 +32,8 @@ module Sem4r
       selector = TargetingIdeaSelector.new(&block)
       soap_message = service.targeting_idea.get(@credentials, selector.to_xml)
       add_counters( soap_message.counters )
-      rval = REXML::XPath.first( soap_message.response, "//getResponse/rval")
-      els = REXML::XPath.match( rval, "entries")
+      rval = soap_message.response.at_xpath("//getResponse/rval")
+      els = rval.xpath("entries")
       els.map do |el|
         TargetingIdea.from_element( el )
       end

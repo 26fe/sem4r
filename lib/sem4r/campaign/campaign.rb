@@ -108,7 +108,7 @@ module Sem4r
       unless @id
         soap_message = service.campaign.create(credentials, to_xml)
         add_counters( soap_message.counters )
-        rval = soap_message.response.xpath("//mutateResponse/rval").first
+        rval = soap_message.response.at_xpath("//mutateResponse/rval")
         id = rval.xpath("value/id").first
         @id = id.text.strip.to_i
       end

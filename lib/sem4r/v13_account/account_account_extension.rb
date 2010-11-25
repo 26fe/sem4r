@@ -24,7 +24,7 @@
 
 module Sem4r
 
-  module AccountInfoAccountExtension
+  module AccountAccountExtension
     ############################################################################
     # Info Account - Service Account
 
@@ -50,10 +50,10 @@ module Sem4r
     def _info
       soap_message = service.account.account_info(credentials)
       add_counters( soap_message.counters )
-      el = REXML::XPath.first( soap_message.response, "//getAccountInfoResponse/getAccountInfoReturn")
-      @currency_code = el.elements['currencyCode'].text.strip
-      @customer_id   = el.elements['customerId'].text.strip
-      @billing_address = BillingAddress.from_element( el.elements['billingAddress'] )
+      el = soap_message.response.at_xpath("//getAccountInfoResponse/getAccountInfoReturn")
+      @currency_code = el.at_xpath('currencyCode').text.strip
+      @customer_id   = el.at_xpath('customerId').text.strip
+      @billing_address = BillingAddress.from_element( el.at_xpath('billingAddress') )
     end
 
     public
@@ -83,7 +83,7 @@ module Sem4r
     def _client_accounts
       soap_message = service.account.client_accounts(credentials)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getClientAccountsReturn")
+      els = soap_message.response.xpath("//getClientAccountsReturn")
       @accounts = els.map do |el|
         client_email = el.text
         Account.new( adwords, Credentials.new(@credentials, client_email) )
@@ -97,7 +97,7 @@ module Sem4r
   end
 
   class Account
-    include AccountInfoAccountExtension
+    include AccountAccountExtension
   end
   
 end

@@ -1,9 +1,5 @@
 # -------------------------------------------------------------------------
-<<<<<<< HEAD
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-=======
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
->>>>>>> wordtracker/master
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the

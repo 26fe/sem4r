@@ -51,14 +51,9 @@ module Sem4r
 
     def self.from_element( ad_group, el )
       new(ad_group) do
-        @id      = el.elements["id"].text.strip.to_i
-        text       el.elements["text"].text.strip
-        match      el.elements["matchType"].text.strip
-        #=======
-        #        @id      = el.at_xpath("id").text.strip.to_i
-        #        text       el.at_xpath("text").text.strip
-        #        match      el.at_xpath("matchType").text.strip
-        #>>>>>>> wordtracker/master
+        @id      = el.at_xpath("id").text.strip.to_i
+        text       el.at_xpath("text").text.strip
+        match      el.at_xpath("matchType").text.strip
       end
     end
 

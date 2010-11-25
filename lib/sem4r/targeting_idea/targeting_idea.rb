@@ -56,16 +56,10 @@ module Sem4r
     end
 
     def self.from_element(el)
-      els = REXML::XPath.match( el, "data")
+      els = el.xpath("data")
       @attributes = els.map do |el|
-        el1 = el.elements["value"]
-        xml_type =       el1.elements["Attribute.Type"].text.strip
-        #=======
-        #      els = el.xpath("data")
-        #      @attributes = els.map do |el|
-        #        el1 = el.at_xpath("value")
-        #        xml_type = el1.at_xpath("Attribute.Type").text.strip
-        #>>>>>>> wordtracker/master
+        el1 = el.at_xpath("value")
+        xml_type = el1.at_xpath("Attribute.Type").text.strip
         case xml_type
         when IdeaTypeAttribute
           TIdeaTypeAttribute.from_element(el1)
@@ -96,16 +90,10 @@ module Sem4r
     end
 
     def self.from_element( el )
-      el1 = el.elements["value"]
+      el1 = el.at_xpath("value")
       new do
-        text       el1.elements["text"].text
-        match_type el1.elements["matchType"].text
-        #=======
-        #      el1 = el.at_xpath("value")
-        #      new do
-        #        text       el1.at_xpath("text").text
-        #        match_type el1.at_xpath("matchType").text
-        #>>>>>>> wordtracker/master
+        text       el1.at_xpath("text").text
+        match_type el1.at_xpath("matchType").text
       end
     end
 
@@ -128,18 +116,11 @@ module Sem4r
 
     def self.from_element( el )
       historical_values = []
-      el.elements.each do |node|
+      el.children.each do |node|
         next if node.name == "Attribute.Type"
-        historical_value = { :year => node.elements["year"].text,
-          :month => node.elements["month"].text}
-        historical_value.merge!(:count => node.elements["count"].text) if node.elements["count"]
-        #=======
-        #      el.children.each do |node|
-        #        next if node.name == "Attribute.Type"
-        #        historical_value = { :year => node.at_xpath("year").text,
-        #                             :month => node.at_xpath("month").text}
-        #        historical_value.merge!(:count => node.at_xpath("count").text) if node.at_xpath("count")
-        #>>>>>>> wordtracker/master
+        historical_value = { :year => node.at_xpath("year").text,
+          :month => node.at_xpath("month").text}
+        historical_value.merge!(:count => node.at_xpath("count").text) if node.at_xpath("count")
         historical_values << historical_value
       end
       new do
@@ -165,10 +146,7 @@ module Sem4r
 
     def self.from_element( el )
       new do
-        value       el.elements["value"].text
-        #=======
-        #        value       el.at_xpath("value").text
-        #>>>>>>> wordtracker/master
+        value       el.at_xpath("value").text
       end
     end
 

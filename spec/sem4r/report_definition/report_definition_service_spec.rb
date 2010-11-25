@@ -37,7 +37,7 @@ describe ReportDefinitionService do
     connector.should_receive(:send).and_return(response_xml)
     service = ReportDefinitionService.new(connector)
     soap_message = service.all( @credentials )
-    els = REXML::XPath.match( soap_message.response, "//getResponse")
+    els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
 

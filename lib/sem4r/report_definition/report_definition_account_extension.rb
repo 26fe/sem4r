@@ -53,7 +53,7 @@ module Sem4r
     def _report_definitions
       soap_message = service.report_definition.get(credentials, ReportDefinitionSelector.new.to_xml)
       add_counters( soap_message.counters )
-      els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
+      els = soap_message.response.xpath("//getAllJobsResponse/getAllJobsReturn")
       @report_definitions = els.map do |el|
         ReportDefinition.from_element(self, el)
       end
