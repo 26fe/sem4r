@@ -22,19 +22,18 @@
 #
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
 describe "Test Parsing with Nokogiri" do
   include Sem4rSpecHelper
 
 
-  it "ddd" do
-    pending "test"
-    xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
-    els = xml_document.xpath(
-        "//mutateResponse/rval/value/ad/id")
-    els.each {|e| puts e.text.strip.to_i }
-  end
+#  it "ddd" do
+#    pending "test"
+#    xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
+#    els = xml_document.xpath("//mutateResponse/rval/value/ad/id")
+#    els.each {|e| puts e.text.strip.to_i }
+#  end
 
   it "test_account_get_client_accounts" do
     xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
@@ -96,11 +95,11 @@ describe "Test Parsing with Nokogiri" do
 
     response_header = xml_document.at_xpath("//ResponseHeader")
     response_header.at_xpath("operations").text.strip.should == "1"
-    response_header.at_xpath("responseTime").text.strip.should == "173"
+    response_header.at_xpath("responseTime").text.strip.should == "291"
     response_header.at_xpath("units").text.strip.should == "1"
 
     cost = xml_document.at_xpath("//getResponse/rval/cost")
-    cost.text.strip.should == "100"
+    cost.text.strip.should == "0"
   end
 
 end

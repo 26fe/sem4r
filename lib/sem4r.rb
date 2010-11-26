@@ -85,7 +85,7 @@ require 'sem4r/services/service'
 #
 # common
 #
-require 'sem4r/common/operation'
+require 'sem4r/operation'
 
 #
 # adgroup

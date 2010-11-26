@@ -22,27 +22,27 @@
 #
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
 describe "Test Parsing with REXML" do
   include Sem4rSpecHelper
 
 
-  it "ddd" do
-    pending "test"
-    xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
-    els = REXML::XPath.match( xml_document, "//mutateResponse/rval/value/ad/id")
-    els.each {|e| puts e.text.strip.to_i }
-  end
+#  it "ddd" do
+#    pending "test"
+#    xml_document = read_xml_document_with_rexml("services", "ad_group_ad", "mutate_add_two_criterions-res.xml")
+#    els = REXML::XPath.match( xml_document, "//mutateResponse/rval/value/ad/id")
+#    els.each {|e| puts e.text.strip.to_i }
+#  end
 
   it "test_account_get_client_accounts" do
-    xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
+    xml_document = read_xml_document_with_rexml("services", "v13_account", "get_client_accounts-res.xml")
     els = REXML::XPath.match( xml_document, "//getClientAccountsReturn")
     els.length.should == 5
   end
 
   it "test_campaign_get" do
-    xml_document = read_xml_document("services", "campaign", "get-res.xml")
+    xml_document = read_xml_document_with_rexml("services", "campaign", "get-res.xml")
     rval = REXML::XPath.first( xml_document, "//getResponse/rval")
     els = REXML::XPath.match( rval, "entries")
 
@@ -74,27 +74,27 @@ describe "Test Parsing with REXML" do
     names_expected.should == names
   end
 
-  it "test_adgroup_criterion_get" do
-    xml_document = read_xml_document("services", "ad_group_criterion", "get-res.xml")
-    rval = REXML::XPath.first( xml_document, "//getResponse/rval")
-
-    el = REXML::XPath.first( rval, "entries/criterion[@xsi:type='Keyword']")
-
-    el.elements["id"].text.should == "11536082"
-    el.elements["text"].text.should == "pippo"
-    el.elements["matchType"].text.should == "BROAD"
-  end
+#  it "test_adgroup_criterion_get" do
+#    xml_document = read_xml_document_with_rexml("services", "ad_group_criterion", "get-res.xml")
+#    rval = REXML::XPath.first( xml_document, "//getResponse/rval")
+#
+#    el = REXML::XPath.first( rval, "entries/criterion[@xsi:type='Keyword']")
+#
+#    el.elements["id"].text.should == "11536082"
+#    el.elements["text"].text.should == "pippo"
+#    el.elements["matchType"].text.should == "BROAD"
+#  end
 
   it "test_info_get" do
-    xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
+    xml_document = read_xml_document_with_rexml("services", "info", "get_unit_count-res.xml")
 
     response_header = REXML::XPath.first(xml_document, "//ResponseHeader")
     response_header.elements["operations"].text.strip.should == "1"
-    response_header.elements["responseTime"].text.strip.should == "173"
+    response_header.elements["responseTime"].text.strip.should == "291"
     response_header.elements["units"].text.strip.should == "1"
 
     cost = REXML::XPath.first( xml_document, "//getResponse/rval/cost")
-    cost.text.strip.should == "100"
+    cost.text.strip.should == "0"
   end
 
 end

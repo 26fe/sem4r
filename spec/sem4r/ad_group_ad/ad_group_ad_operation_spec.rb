@@ -22,8 +22,7 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
+require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
 describe AdGroupAdOperation do
   include Sem4rSpecHelper

@@ -44,6 +44,8 @@ Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new release
 
   sudo gem install sem4r
 
+== How to submit a bug report
+
 == Contribute
 
 So you want your prefered service supported by sem4r. Great! Please follow this steps:

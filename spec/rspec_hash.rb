@@ -22,39 +22,45 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
+module Sem4rSpecHelper
+  ##
+  # rSpec Hash additions.
+  #
+  # From
+  #   * http://wincent.com/knowledge-base/Fixtures_considered_harmful%3F
+  #   * Neil Rahilly
 
-describe AccountService do
-  include Sem4rSpecHelper
+  class Hash
 
-  before do
-    @credentials = stub_credentials
+    ##
+    # Filter keys out of a Hash.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.except(:a)
+    #   => { :b => 2, :c => 3 }
+
+    def except(*keys)
+      self.reject { |k,v| keys.include?(k || k.to_sym) }
+    end
+
+    ##
+    # Override some keys.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.with(:a => 4)
+    #   => { :a => 4, :b => 2, :c => 3 }
+
+    def with(overrides = {})
+      self.merge overrides
+    end
+
+    ##
+    # Returns a Hash with only the pairs identified by +keys+.
+    #
+    #   { :a => 1, :b => 2, :c => 3 }.only(:a)
+    #   => { :a => 1 }
+
+    def only(*keys)
+      self.reject { |k,v| !keys.include?(k || k.to_sym) }
+    end
+
   end
-
-  it "should define 'account_info'" do
-    response_xml = read_xml_file("services", "v13_account", "get_account_info-res.xml")
-
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-
-    service = AccountService.new(connector)
-    soap_message = service.account_info( @credentials )
-
-    els = soap_message.response.xpath("//getAccountInfoResponse")
-    els.should_not be_empty
-  end
-
-  it "should define 'client_accounts'" do
-    response_xml = read_xml_file("services", "v13_account", "get_client_accounts-res.xml")
-
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-
-    service = AccountService.new(connector)
-    soap_message = service.client_accounts( @credentials )
-
-    els = soap_message.response.xpath("//getClientAccountsResponse")
-    els.should_not be_empty
-  end
-
 end

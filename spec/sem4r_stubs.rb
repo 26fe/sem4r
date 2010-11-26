@@ -30,68 +30,68 @@ module Sem4rSpecHelper
 
   def stub_service_account(service)
     xml_document = read_xml_document("services", "v13_account", "get_account_info-res.xml")
-    soap_message_account_info = stub("soap_message", :response => xml_document, :counters => nil)
+    soap_message_account_info = stub("soap_message_account_info", :response => xml_document, :counters => nil)
 
     xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
-    soap_message_client_accounts = stub("soap_message", :response => xml_document, :counters => nil)
+    soap_message_client_accounts = stub("soap_message_client_accounts", :response => xml_document, :counters => nil)
 
-    account_service = stub("account_service",
+    service_account = stub("service_account",
       :account_info => soap_message_account_info,
       :client_accounts => soap_message_client_accounts)
-    service.stub(:account).and_return(account_service)
+    service.stub(:account).and_return(service_account)
   end
 
   def stub_service_info(service)
     xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
-    account_service = stub("account_service", :unit_cost => soap_message)
-
-    service.stub(:info).and_return(account_service)
+    
+    service_info = stub("service_info", :get => soap_message)
+    service.stub(:info).and_return(service_info)
   end
 
   def stub_service_campaign(service)
     xml_document = read_xml_document("services", "campaign", "mutate_add-res.xml")
-    soap_message_create = stub("soap_message", :response => xml_document, :counters => nil)
+    soap_message_create = stub("soap_message_create", :response => xml_document, :counters => nil)
 
     xml_document = read_xml_document("services", "campaign", "get-res.xml")
-    soap_message_all = stub("soap_message", :response => xml_document, :counters => nil)
+    soap_message_all = stub("soap_message_all", :response => xml_document, :counters => nil)
 
-    campaign_service = stub("campaign_service",
+    service_campaign = stub("service_campaign",
       :create => soap_message_create,
       :all => soap_message_all)
-    service.stub(:campaign).and_return(campaign_service)
+    service.stub(:campaign).and_return(service_campaign)
   end
 
   def stub_service_ad_group(service)
     xml_document = read_xml_document("services", "ad_group", "mutate_add-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
 
-    ad_group_service = stub("adgroup_service", :create => soap_message)
-    service.stub(:ad_group).and_return(ad_group_service)
+    service_ad_group = stub("service_ad_group", :create => soap_message)
+    service.stub(:ad_group).and_return(service_ad_group)
   end
 
   def stub_service_ad_group_ad(service)
     xml_document = read_xml_document("services", "ad_group_ad", "mutate_add_text_ad-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
 
-    ad_group_ad_service = stub("ad_group_ad_service", :mutate => soap_message)
-    service.stub(:ad_group_ad).and_return(ad_group_ad_service)
+    service_ad_group_ad = stub("service_ad_group_ad", :mutate => soap_message)
+    service.stub(:ad_group_ad).and_return(service_ad_group_ad)
   end
 
   def stub_service_ad_group_criterion(service)
     xml_document = read_xml_document("services", "ad_group_criterion", "mutate_add_criterion_keyword-res.xml")
     soap_message = stub("soap_message", :response => xml_document, :counters => nil)
 
-    ad_group_criterion_service = stub("ad_group_criterion_service", :mutate => soap_message)
-    service.stub(:ad_group_criterion).and_return(ad_group_criterion_service)
+    service_ad_group_criterion = stub("service_ad_group_criterion", :mutate => soap_message)
+    service.stub(:ad_group_criterion).and_return(service_ad_group_criterion)
   end
 
   def stub_service_ad_param(service)
     # xml_document = read_xml_document("services", "ad_group_criterion_service", "mutate_add_criterion_keyword-res.xml")
     soap_message = stub("soap_message", :response => nil, :counters => nil)
 
-    ad_param_service = stub("ad_param_service", :mutate => soap_message)
-    service.stub(:ad_param).and_return(ad_param_service)
+    service_ad_param = stub("service_ad_param", :mutate => soap_message)
+    service.stub(:ad_param).and_return(service_ad_param)
   end
 
   def stub_service_report(service)
@@ -99,16 +99,16 @@ module Sem4rSpecHelper
     all_soap_message = stub("soap_message", :response => all_xml_document, :counters => nil)
     set_soap_message = stub("soap_message", :response => nil, :counters => nil)
 
-    report_service   = stub("report_service",
+    service_report   = stub("service_report",
       :set => set_soap_message,
       :all => all_soap_message)
 
-    service.stub(:report).and_return(report_service)
+    service.stub(:report).and_return(service_report)
   end
 
   def stub_service_report_definition(service)
-    report_definition_service   = stub("report_definition_service")
-    service.stub(:report_definition).and_return(report_definition_service)
+    service_report_definition   = stub("service_report_definition")
+    service.stub(:report_definition).and_return(service_report_definition)
   end
 
   #############################################################################
@@ -139,11 +139,11 @@ module Sem4rSpecHelper
   def stub_account(services = nil)
     adwords = stub_adwords(services)
     credentials = stub_credentials
-    campaign = stub("account",
+    account = stub("account",
       :adwords     => adwords,
       :credentials => credentials,
       :id          => 1000)
-    campaign
+    account
   end
 
   def stub_campaign(services = nil)
