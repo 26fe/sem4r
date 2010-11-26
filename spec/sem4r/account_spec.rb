@@ -22,7 +22,7 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
 describe Account do
 
@@ -47,7 +47,7 @@ describe Account do
     end
 
     it "should retrieve cost" do
-      @account.year_unit_cost("UNIT_COUNT").should == 100
+      @account.year_unit_cost("UNIT_COUNT").should == 0
     end
 
   end

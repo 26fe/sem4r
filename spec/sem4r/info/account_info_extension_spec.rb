@@ -22,7 +22,7 @@
 #
 # -------------------------------------------------------------------------
 
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../rspec_helper'
 
 describe "cli" do
   include Sem4rSpecHelper

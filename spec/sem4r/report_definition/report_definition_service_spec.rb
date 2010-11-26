@@ -22,7 +22,7 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
 describe ReportDefinitionService do
   include Sem4rSpecHelper
@@ -32,6 +32,7 @@ describe ReportDefinitionService do
   end
 
   it "should define 'mutate'" do
+    pending "test"
     response_xml = read_xml_file("services", "report_definition", "mutate-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)

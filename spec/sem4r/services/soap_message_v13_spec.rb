@@ -22,20 +22,13 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
 describe SoapMessageV13 do
-
   include Sem4rSpecHelper
 
-  before(:all) do
-    @credentials = mock("credentials")
-    # @credentials.should_receive(:sandbox?).and_return(true)
-    @credentials.should_receive(:email).and_return("example@gmail.com")
-    @credentials.should_receive(:password).and_return("secret")
-    @credentials.should_receive(:client_email).and_return(nil)
-    @credentials.should_receive(:useragent).and_return("sem4r")
-    @credentials.should_receive(:developer_token).and_return("dev_token")
+  before do
+    @credentials = stub_credentials
   end
 
   it "should update counters" do
