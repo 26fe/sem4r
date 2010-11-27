@@ -31,6 +31,10 @@ module Sem4r
     def report_fields
       soap_message = service.report_definition.report_fields(credentials)
       add_counters( soap_message.counters )
+      els = soap_message.response.xpath("//getReportFieldsResponse/rval")
+      els.map do |el|
+        ReportField.from_element(el)
+      end
     end
 
     def report_definition(&block)

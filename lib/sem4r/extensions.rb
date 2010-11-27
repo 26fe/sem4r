@@ -54,9 +54,29 @@ module Sem4r #:nodoc:
         raise(ArgumentError, "Missing key(s): #{missing_keys.join(", ")}") unless missing_keys.empty?
       end
     end
+
+    # Rails' ActiveSupport
+    module String #:nodoc:
+      def underscore
+        # strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class_name))
+        self.gsub(/::/, '/').
+          gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+          gsub(/([a-z\d])([A-Z])/,'\1_\2').
+          tr("-", "_").
+          downcase
+      end
+
+      def camel_case
+        self.gsub(/_([a-z])/) { $1.upcase }
+      end
+    end
   end
 end
 
 class Hash #:nodoc:
   include Sem4r::CoreExtensions::Hash
+end
+
+class String
+  include Sem4r::CoreExtensions::String
 end

@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,43 +19,20 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
+#
 # -------------------------------------------------------------------------
 
-module Sem4r
-  class BillingAddress
-    include SoapAttributes
+require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
-    attrs =[
-      :company_name,
-      :address_line1,
-      :address_line2,
-      :city,
-      :country_code,
-      :email_address,
-      :fax_number,
-      :name,
-      :phone_number,
-      :postal_code,
-      :state]
+describe BillingAddress do
+  include Sem4rSpecHelper
 
-    attrs.each do |s|
-      g_accessor s
-    end
-
-    def initialize(&block)
-      if block_given?
-        block.arity < 1 ? instance_eval(&block) : block.call(self)
-      end
-    end
-
-    def self.from_element(*args)
-      _from_element(*args)
-    end
-    
-    def to_s
-      "#{@company_name} #{@address_line1} #{@address_line2} #{@city}"
-    end
-
+  it "should parse xml (produced by google)" do
+    model = read_model( "//billingAddress", "services", "v13_account", "get_account_info-res.xml")
+    ba = BillingAddress.from_element(model)
+    ba.city.should == "Mountain View"
+    ba.country_code.should == "US"
+    ba.phone_number.should == "4085551212"
   end
+
 end

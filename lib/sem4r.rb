@@ -55,7 +55,7 @@ require 'sem4r/extensions.rb'
 require 'sem4r/adwords'
 require 'sem4r/credentials'
 require 'sem4r/sem4r_error'
-require 'sem4r/soap_attributes'
+require 'soap_helpers/soap_attributes'
 
 require 'sem4r/base'
 require 'sem4r/account'
@@ -157,5 +157,6 @@ require 'sem4r/v13_report/report_job'
 # report_definition
 #
 require 'sem4r/report_definition/report_definition'
+require 'sem4r/report_definition/report_field'
 require 'sem4r/report_definition/report_definition_selector'
 require 'sem4r/report_definition/report_definition_operation'
