@@ -44,6 +44,13 @@ Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new release
 
   sudo gem install sem4r
 
+== Ruby Versions
+
+Sem4r works on the following rubies:
+
+* 1.9.2-p0
+* ...
+
 == How to submit a bug report
 
 == Contribute

@@ -22,10 +22,30 @@
 # -------------------------------------------------------------------
 
 module Sem4r
+
+  class MetaSoapAttribute
+    attr_reader :name, :enum
+    def initialize(name, enum)
+      @name, @enum = name.to_sym, enum
+    end
+  end
+
   module SoapAttributes
 
     def self.included(base)
       base.extend ClassMethods
+    end
+
+    def _to_xml(tag)
+      builder = Builder::XmlMarkup.new
+      builder.tag!(tag) do |t|
+        self.class.attributes.each do |a|
+          unless a.enum
+            value = self.send(a.name)
+            t.__send__(a.name, value) unless value.nil?
+          end
+        end
+      end
     end
 
     module ClassMethods
@@ -41,7 +61,13 @@ module Sem4r
         const_set( set.to_sym, tmp )
       end
 
+      def attributes
+        @attributes
+      end
+
       def g_reader(name)
+        @attributes  ||= []
+        @attributes << MetaSoapAttribute.new(name, false)
         attr_reader name
       end
 
@@ -53,6 +79,8 @@ module Sem4r
       #       cioe' invece di scrivere headline       el.at_xpath("headline").text dovrebbe bastare scrivere  
       #       headline el
       def g_accessor(name, constraints = {})
+        @attributes  ||= []
+        @attributes << MetaSoapAttribute.new(name, false)
         name = name.to_s
 
         # vales_in
@@ -102,6 +130,9 @@ module Sem4r
         column  = column.to_s
         columns = "#{column}s"
 
+        @attributes  ||= []
+        @attributes << MetaSoapAttribute.new(columns, true)
+
         # values_in
         enum = nil
         if constraints.key?(:values_in)
@@ -131,11 +162,21 @@ module Sem4r
             instance_variable_get "@#{columns}"
           end
         end
+      end      
 
+      def _from_element(el)
+        return nil unless el
+        obj = new
+        attributes.each do |a|
+          unless a.enum
+            value = el.at_xpath(a.name.to_s.camel_case)
+            obj.send a.name, value.text.strip unless value.nil?
+          end
+        end
+        obj
       end
-      
-    end
 
-  end
-end
+    end # ClassMethods
 
+  end # SoapAttributes
+end # Sem4r
