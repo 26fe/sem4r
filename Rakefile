@@ -39,7 +39,7 @@ begin
     #
     # files
     #
-    gem.files  = %w{LICENSE README.rdoc Rakefile VERSION.yml sem4r.gemspec}
+    gem.files  = %w{LICENSE README.rdoc Rakefile VERSION.yml sem4r.gemspec Gemfile Gemfile.lock}
     gem.files << 'config/sem4r.example.yml'
     gem.files.concat Dir['examples_sem4r/*.rb']
     gem.files.concat Dir['examples_blog/*.rb']
@@ -49,6 +49,7 @@ begin
     # test files
     #
     gem.test_files = Dir['spec/**/*.rb']
+    gem.test_files.concat Dir['spec/**/*.xml']
     gem.test_files.concat Dir['spec/fixtures/**/*']
 
     #
