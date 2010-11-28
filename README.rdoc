@@ -46,9 +46,10 @@ Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new release
 
 == Ruby Versions
 
-Sem4r works on the following rubies:
+Sem4r tested on following ruby version:
 
-* 1.9.2-p0
+* 1.9.2-p0 - linux (works)
+* jruby 1.5.5 - linux (some example are not working, certificate verify failed OpenSSL in sandbox)
 * ...
 
 == How to submit a bug report
@@ -74,6 +75,8 @@ If I miss someone send me a note.
 
 * Glenn Gillen {http://github.com/rubypond}
 
+
+To see all contributors execute: git shortlog -n -s --no-merges
 
 == License
 
