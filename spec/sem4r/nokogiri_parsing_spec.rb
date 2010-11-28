@@ -36,13 +36,13 @@ describe "Test Parsing with Nokogiri" do
 #  end
 
   it "test_account_get_client_accounts" do
-    xml_document = read_xml_document("services", "v13_account", "get_client_accounts-res.xml")
+    xml_document = read_xml_document("v13_account", "get_client_accounts-res.xml")
     els = xml_document.xpath("//getClientAccountsReturn")
     els.length.should == 5
   end
 
   it "test_campaign_get" do
-    xml_document = read_xml_document("services", "campaign", "get-res.xml")
+    xml_document = read_xml_document("campaign", "get-res.xml")
     rval =  xml_document.xpath("//getResponse/rval").first
     els = rval.xpath( "entries" )
 
@@ -80,7 +80,7 @@ describe "Test Parsing with Nokogiri" do
   end
 
   it "test_adgroup_criterion_get" do
-    xml_document = read_xml_document("services", "ad_group_criterion", "get-res.xml")
+    xml_document = read_xml_document("ad_group_criterion", "get-res.xml")
     rval = xml_document.xpath("//getResponse/rval").first
 
     el = rval.xpath("entries/criterion[@type='Keyword']").first
@@ -91,7 +91,7 @@ describe "Test Parsing with Nokogiri" do
   end
 
   it "test_info_get" do
-    xml_document = read_xml_document("services", "info", "get_unit_count-res.xml")
+    xml_document = read_xml_document("info", "get_unit_count-res.xml")
 
     response_header = xml_document.at_xpath("//ResponseHeader")
     response_header.at_xpath("operations").text.strip.should == "1"

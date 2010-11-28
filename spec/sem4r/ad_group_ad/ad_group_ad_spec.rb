@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -38,7 +39,7 @@ describe AdGroupAd do
   describe AdGroupAd do
 
     it "should parse xml (output from google)" do
-      el = read_model("//ad", "services", "ad_group_ad", "get_text_ad-res.xml")
+      el = read_model("//ad", "ad_group_ad", "get_text_ad-res.xml")
       ad = AdGroupAd.from_element(@adgroup, el)
       # ad.id.should == 218770
       ad.url.should == "http://www.pluto.com"
@@ -108,7 +109,7 @@ describe AdGroupAd do
         url          "http://www.pluto.com"
         display_url  "www.Pluto.com"
       end
-      expected_xml = read_model("//operand", "services", "ad_group_ad", "mutate_add_text_ad-req.xml")
+      expected_xml = read_model("//operand", "ad_group_ad", "mutate_add_text_ad-req.xml")
       text_ad.to_xml("operand").should xml_equivalent(expected_xml)
     end
 
@@ -158,12 +159,12 @@ describe AdGroupAd do
         phone_number  "0612345"
       end
 
-      expected_xml = read_model("//operand", "services", "ad_group_ad", "mutate_add_mobile_ad-req.xml")
+      expected_xml = read_model("//operand", "ad_group_ad", "mutate_add_mobile_ad-req.xml")
       mobile_ad.to_xml("operand").should xml_equivalent(expected_xml)
     end
 
     it "should parse xml (output from google)" do
-      el = read_model("//ad", "services", "ad_group_ad", "get_mobile_ad-res.xml")
+      el = read_model("//ad", "ad_group_ad", "get_mobile_ad-res.xml")
       ad = AdGroupAd.from_element(@adgroup, el)
       ad.headline.should == "sem4r"
     end

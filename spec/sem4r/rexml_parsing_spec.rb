@@ -36,13 +36,13 @@ describe "Test Parsing with REXML" do
 #  end
 
   it "test_account_get_client_accounts" do
-    xml_document = read_xml_document_with_rexml("services", "v13_account", "get_client_accounts-res.xml")
+    xml_document = read_xml_document_with_rexml("v13_account", "get_client_accounts-res.xml")
     els = REXML::XPath.match( xml_document, "//getClientAccountsReturn")
     els.length.should == 5
   end
 
   it "test_campaign_get" do
-    xml_document = read_xml_document_with_rexml("services", "campaign", "get-res.xml")
+    xml_document = read_xml_document_with_rexml("campaign", "get-res.xml")
     rval = REXML::XPath.first( xml_document, "//getResponse/rval")
     els = REXML::XPath.match( rval, "entries")
 
@@ -75,7 +75,7 @@ describe "Test Parsing with REXML" do
   end
 
 #  it "test_adgroup_criterion_get" do
-#    xml_document = read_xml_document_with_rexml("services", "ad_group_criterion", "get-res.xml")
+#    xml_document = read_xml_document_with_rexml("ad_group_criterion", "get-res.xml")
 #    rval = REXML::XPath.first( xml_document, "//getResponse/rval")
 #
 #    el = REXML::XPath.first( rval, "entries/criterion[@xsi:type='Keyword']")
@@ -86,7 +86,7 @@ describe "Test Parsing with REXML" do
 #  end
 
   it "test_info_get" do
-    xml_document = read_xml_document_with_rexml("services", "info", "get_unit_count-res.xml")
+    xml_document = read_xml_document_with_rexml("info", "get_unit_count-res.xml")
 
     response_header = REXML::XPath.first(xml_document, "//ResponseHeader")
     response_header.elements["operations"].text.strip.should == "1"

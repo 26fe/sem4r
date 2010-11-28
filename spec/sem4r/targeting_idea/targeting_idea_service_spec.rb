@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe TargetingIdeaService do
   end
 
   it "should define 'get'" do
-    response_xml = read_xml_file("services", "targeting_idea", "get-res.xml")
+    response_xml = read_xml("targeting_idea", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = TargetingIdeaService.new(connector)

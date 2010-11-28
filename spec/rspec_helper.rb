@@ -5,7 +5,7 @@ require 'sem4r'
 require 'sem4r_cli'
 include Sem4r
 
-require 'sem4r_rspec_helper'
+require 'rspec_sem4r_helper'
 require 'rspec_matchers'
 require 'sem4r_stubs'
 require 'aggregates_rspec_helper'

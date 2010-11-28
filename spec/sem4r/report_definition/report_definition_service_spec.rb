@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -33,7 +34,7 @@ describe ReportDefinitionService do
 
   it "should define 'mutate'" do
     pending "test"
-    response_xml = read_xml_file("services", "report_definition", "mutate-res.xml")
+    response_xml = read_xml("report_definition", "mutate-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = ReportDefinitionService.new(connector)

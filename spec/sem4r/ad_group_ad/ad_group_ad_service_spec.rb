@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe AdGroupAdService do
   end
 
   it "should define 'all'" do
-    response_xml = read_xml_file("services", "ad_group_ad", "get_mobile_ad-res.xml")
+    response_xml = read_xml("ad_group_ad", "get_mobile_ad-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupAdService.new(connector)
@@ -43,7 +44,7 @@ describe AdGroupAdService do
 
   it "should define 'mutate'" do
     @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_group_ad", "mutate_add_mobile_ad-res.xml")
+    response_xml = read_xml("ad_group_ad", "mutate_add_mobile_ad-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = AdGroupAdService.new(connector)

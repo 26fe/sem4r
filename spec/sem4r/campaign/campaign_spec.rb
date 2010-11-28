@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -55,7 +56,7 @@ describe Campaign do
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "services", "campaign", "get-res.xml")
+      el = read_model("//entries", "campaign", "get-res.xml")
       campaign = Campaign.from_element(@account, el)
       campaign.id.should == 53614
       campaign.name.should == "test campaign"

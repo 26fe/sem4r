@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -28,11 +29,12 @@ describe BillingAddress do
   include Sem4rSpecHelper
 
   it "should parse xml (produced by google)" do
-    model = read_model( "//billingAddress", "services", "v13_account", "get_account_info-res.xml")
+    model = read_model( "//billingAddress", "v13_account", "get_account_info-res.xml")
     ba = BillingAddress.from_element(model)
     ba.city.should == "Mountain View"
     ba.country_code.should == "US"
-    ba.phone_number.should == "4085551212"
+    ba.phone.should == "4085551212"
+    ba.email.should == "Some@email"
   end
 
 end

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -85,12 +86,12 @@ describe AdGroup do
           site_max_cpc 30000000
         end
       end
-      exepected_xml = read_model("//operand", "services", "ad_group", "mutate_add-req.xml")
+      exepected_xml = read_model("//operand", "ad_group", "mutate_add-req.xml")
       adgroup.to_xml("operand").should xml_equivalent(exepected_xml)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "services", "ad_group", "get-first-res.xml")
+      el = read_model("//entries", "ad_group", "get-first-res.xml")
       adgroup = AdGroup.from_element(@campaign, el)
       adgroup.id.should == 3060217923
       adgroup.name.should == "test adgroup"
@@ -98,7 +99,7 @@ describe AdGroup do
     end
 
     it "should parse xml (produced by google) with manual cpm bids" do
-      el = read_model("//entries", "services", "ad_group", "get-manual-cpm-bids-res.xml")
+      el = read_model("//entries", "ad_group", "get-manual-cpm-bids-res.xml")
       adgroup = AdGroup.from_element(@campaign, el)
       adgroup.bids.should be_instance_of(ManualCPMAdGroupBids)
     end

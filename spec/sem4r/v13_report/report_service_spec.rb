@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe ReportService do
   end
 
   it "should define 'all'" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -46,7 +47,7 @@ describe ReportService do
   end
 
   it "should define 'validate'" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -60,7 +61,7 @@ describe ReportService do
   end
 
   it "should define 'schedule'" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -74,7 +75,7 @@ describe ReportService do
   end
 
   it "should define 'status'" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -89,7 +90,7 @@ describe ReportService do
   end
 
   it "should define 'url'" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)

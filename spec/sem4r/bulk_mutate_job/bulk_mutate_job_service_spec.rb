@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe BulkMutateJobService do
   end
 
   it "should define 'all'" do
-    response_xml = read_xml_file("services", "bulk_mutate_job", "get-res.xml")
+    response_xml = read_xml("bulk_mutate_job", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = BulkMutateJobService.new(connector)
@@ -47,7 +48,7 @@ describe BulkMutateJobService do
 
   it "should define 'mutate'" do
     @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "bulk_mutate_job", "mutate-res.xml")
+    response_xml = read_xml("bulk_mutate_job", "mutate-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = BulkMutateJobService.new(connector)

@@ -45,8 +45,9 @@ module Sem4rSpecHelper
 
   #############################################################################
 
-  def read_xml_file(*args)
-    xml_filepath  = File.join(File.dirname(__FILE__), "fixtures", *args)
+  def read_xml(service, xml_file, *args)
+    # xml_filepath  = File.join(File.dirname(__FILE__), "fixtures", *args)
+    xml_filepath  = File.join(File.dirname(__FILE__), "sem4r", service, "fixtures", xml_file)
     unless File.exist?(xml_filepath)
       raise "file #{xml_filepath} not exists"
     end
@@ -56,8 +57,8 @@ module Sem4rSpecHelper
     contents
   end
 
-  def read_model(xpath, *args, &blk)
-    contents = read_xml_file(*args)
+  def read_model(xpath, service, xml_file, *args, &blk)
+    contents = read_xml(service, xml_file, *args)
     xml_document = Nokogiri::XML::Document.parse(contents)
     if xpath && blk
       el = xml_document.xpath(xpath).each do |node|
@@ -74,13 +75,13 @@ module Sem4rSpecHelper
     el
   end
 
-  def read_xml_document(*args)
-    contents = read_xml_file(*args)
+  def read_xml_document(service, xml_file, *args)
+    contents = read_xml(service, xml_file, *args)
     Nokogiri::XML::Document.parse(contents)
   end
 
-  def read_xml_document_with_rexml(*args)
-    contents = read_xml_file(*args)
+  def read_xml_document_with_rexml(service, xml_file, *args)
+    contents = read_xml(service, xml_file, *args)
     REXML::Document.new(contents)
   end
 

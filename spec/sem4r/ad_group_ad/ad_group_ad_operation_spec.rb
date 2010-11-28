@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -50,7 +51,7 @@ describe AdGroupAdOperation do
     text_ad.url          = "http://www.example.com"
     @ad_operation.add text_ad
 
-    expected_xml = read_model("//operations", "services", "bulk_mutate_job", "mutate-req.xml")
+    expected_xml = read_model("//operations", "bulk_mutate_job", "mutate-req.xml")
     @ad_operation.to_xml('operations').should xml_equivalent(expected_xml)
   end
 

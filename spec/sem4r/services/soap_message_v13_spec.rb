@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe SoapMessageV13 do
   end
 
   it "should update counters" do
-    response_xml = read_xml_file("services", "v13_report", "get_all_jobs-res.xml")
+    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 

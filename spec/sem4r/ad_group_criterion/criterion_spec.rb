@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -50,12 +51,12 @@ describe Criterion do
         text       "sem4r adwords api"
         match      "BROAD"
       end
-      xml_expected = read_model("//criterion", "services", "ad_group_criterion", "mutate_add_criterion_keyword-req.xml")
+      xml_expected = read_model("//criterion", "ad_group_criterion", "mutate_add_criterion_keyword-req.xml")
       keyword.to_xml("criterion").should  xml_equivalent(xml_expected)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries/criterion", "services", "ad_group_criterion", "get-res.xml")
+      el = read_model("//entries/criterion", "ad_group_criterion", "get-res.xml")
       keyword = CriterionKeyword.from_element(@ad_group, el)
       keyword.id.should == 11536082
       keyword.text.should == "pippo"
@@ -74,7 +75,7 @@ describe Criterion do
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//criterion", "services", "ad_group_criterion", "mutate_add_criterion_placement-res.xml")
+      el = read_model("//criterion", "ad_group_criterion", "mutate_add_criterion_placement-res.xml")
       placement = CriterionPlacement.from_element(@ad_group, el)
       placement.id.should == 11536085
       placement.url.should == "github.com"

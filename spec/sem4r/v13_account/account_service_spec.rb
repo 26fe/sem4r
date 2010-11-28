@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe AccountService do
   end
 
   it "should define 'account_info'" do
-    response_xml = read_xml_file("services", "v13_account", "get_account_info-res.xml")
+    response_xml = read_xml("v13_account", "get_account_info-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -45,7 +46,7 @@ describe AccountService do
   end
 
   it "should define 'client_accounts'" do
-    response_xml = read_xml_file("services", "v13_account", "get_client_accounts-res.xml")
+    response_xml = read_xml("v13_account", "get_client_accounts-res.xml")
 
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)

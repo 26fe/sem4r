@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -48,7 +49,7 @@ describe AdParam do
 
   it "should parse xml" do
     @adgroup.should_receive(:find_criterion).with(100).and_return(@criterion)
-    el = read_model("//rval", "services", "ad_param", "mutate_set-res.xml")
+    el = read_model("//rval", "ad_param", "mutate_set-res.xml")
     ad_param = AdParam.from_element(@adgroup, el)
     ad_param.index.should == 1
     ad_param.text.should  == "$99.99"
