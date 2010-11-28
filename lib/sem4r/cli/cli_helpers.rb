@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Sem4r
   # From http://gist.github.com/72234
   #

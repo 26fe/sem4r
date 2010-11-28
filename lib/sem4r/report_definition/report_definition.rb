@@ -65,9 +65,9 @@ module Sem4r
       :GZIPPED_XML
     ]
 
-    g_accessor :name
-    g_accessor :type, { :values_in => :ReportTypes }
-    g_accessor :format,  { :values_in => :DownloadFormatTypes }
+    g_accessor :name,    { :xpath => 'reportName' }
+    g_accessor :type,    { :xpath => 'reportType',     :values_in => :ReportTypes }
+    g_accessor :format,  { :xpath => 'downloadFormat', :values_in => :DownloadFormatTypes }
 
     g_accessor :date_range, { :values_in => :DateRangeTypes }    
     g_accessor :from
@@ -91,13 +91,20 @@ module Sem4r
     end
 
     def to_s
-      "'#{@name}'"
+      "#{@id}: '#{@name}'"
     end
 
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
       builder.tag!(tag) do |t|
 
+        t.id             @id         if @id
+        t.reportName     @name       if @name
+        t.reportType     @type       if @type
+        t.dateRangeType  @date_range if @date_range
+        t.downloadFormat @format     if @format
+
+        #TODO: non costruire selector se il contenuto e' vuoto utile per l'operazione di delete
         t.selector do |t|
           fields.each { |f| t.fields f}
           if from and to
@@ -108,10 +115,6 @@ module Sem4r
           end
         end
 
-        t.reportName     @name
-        t.reportType     @type
-        t.dateRangeType  @date_range
-        t.downloadFormat @format
       end
     end
 
@@ -119,12 +122,13 @@ module Sem4r
 
     def self.from_element(account, el)
       new(account) do
-        @id          = el.elements["id"].text.strip.to_i
-        name           el.elements["name"].text.strip
-        status         el.elements['status'].text.strip # ACTIVE, PAUSED, DELETED
-        serving_status el.elements['servingStatus']
-        start_date     el.elements['startDate']
-        end_date       el.elements['endDate']
+
+        @id          = el.at_xpath("id").text.strip.to_i
+        name           el.at_xpath('reportName').text.strip
+        type           el.at_xpath('reportType').text.strip
+        format         el.at_xpath('downloadFormat').text.strip
+        # start_date     el.at_xpath('startDate')
+        # end_date       el.at_xpath('endDate')
       end
     end
 

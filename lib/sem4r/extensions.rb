@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Sem4r #:nodoc:
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:
