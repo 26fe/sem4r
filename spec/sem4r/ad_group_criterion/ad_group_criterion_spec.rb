@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -59,12 +60,12 @@ describe AdGroupCriterion do
       biddable_criterion.criterion keyword
       biddable_criterion.bids bids
 
-      xml_expected = read_model("//operand", "services", "ad_group_criterion", "mutate_add_criterion_keyword-req.xml")
+      xml_expected = read_model("//operand", "ad_group_criterion", "mutate_add_criterion_keyword-req.xml")
       biddable_criterion.to_xml("operand").should  xml_equivalent(xml_expected)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "services", "ad_group_criterion", "get-res.xml")
+      el = read_model("//entries", "ad_group_criterion", "get-res.xml")
       biddable_criterion = BiddableAdGroupCriterion.from_element(@ad_group, el)
       biddable_criterion.bids.should be_instance_of(ManualCPCAdGroupCriterionBids)
       biddable_criterion.criterion.should be_instance_of(CriterionKeyword)
@@ -87,12 +88,12 @@ describe AdGroupCriterion do
       end
       biddable_criterion = NegativeAdGroupCriterion.new(@ad_group)
       biddable_criterion.criterion keyword
-      xml_expected = read_model("//operand", "services", "ad_group_criterion", "mutate_add_negative_keyword-req.xml")
+      xml_expected = read_model("//operand", "ad_group_criterion", "mutate_add_negative_keyword-req.xml")
       biddable_criterion.to_xml("operand").should  xml_equivalent(xml_expected)
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//value", "services", "ad_group_criterion", "mutate_add_negative_keyword-res.xml")
+      el = read_model("//value", "ad_group_criterion", "mutate_add_negative_keyword-res.xml")
       negative = AdGroupCriterion.from_element(@ad_group, el)
       negative.criterion.text.should == "java api library"
       negative.criterion.match.should == "BROAD"

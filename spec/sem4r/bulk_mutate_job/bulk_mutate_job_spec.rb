@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -50,7 +51,7 @@ describe BulkMutateJob do
   end
 
   it "should parse xml" do
-    el = read_model("//rval", "services", "bulk_mutate_job", "get-res.xml")
+    el = read_model("//rval", "bulk_mutate_job", "get-res.xml")
     job = BulkMutateJob.from_element(el)
     job.id.should == 56889
     job.status.should == "PENDING"
@@ -62,7 +63,7 @@ describe BulkMutateJob do
     @campaign.stub(:id).and_return(100)
     job = create_bulk_mutate_job(@campaign, @adgroup)
 
-    expected = read_model("//operand", "services", "bulk_mutate_job", "mutate-req.xml")
+    expected = read_model("//operand", "bulk_mutate_job", "mutate-req.xml")
     job.to_xml('operand').should xml_equivalent(expected)
   end
 end

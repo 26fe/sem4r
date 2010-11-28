@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -82,8 +83,9 @@ describe ReportDefinition do
 #        site_max_cpc 30000000
 #      end
     end
-    exepected_xml = read_model("//operand", "services", "report_definition", "mutate_add-req.xml")
-    report_definition.to_xml("operand").should xml_equivalent(exepected_xml)
+    expected_xml = read_model("//operand", "report_definition", "mutate_add-req.xml")
+    puts expected_xml.to_s
+    report_definition.to_xml("operand").should xml_equivalent(expected_xml)
   end
 
   #

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -58,7 +59,7 @@ describe TargetingIdeaSelector do
       end
     end
     
-    xml_expected = read_model("//selector", "services", "targeting_idea", "get-req.xml")
+    xml_expected = read_model("//selector", "targeting_idea", "get-req.xml")
     idea_selector.to_xml.should  xml_equivalent(xml_expected)
   end
   
@@ -75,7 +76,7 @@ describe TargetingIdeaSelector do
         match_type 'EXACT'
       end
     end
-    read_model("//requestedAttributeTypes", "services", "targeting_idea", "get-req-all-options.xml") do |attribute_type|
+    read_model("//requestedAttributeTypes", "targeting_idea", "get-req-all-options.xml") do |attribute_type|
       idea_selector.to_xml.should xml_contains(attribute_type)
     end
   end
@@ -88,7 +89,7 @@ describe TargetingIdeaSelector do
           match_type 'EXACT'
         end
       end
-      xml_expected = read_model("//searchParameters[@type='RelatedToKeywordSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      xml_expected = read_model("//searchParameters[@type='RelatedToKeywordSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end    
   end
@@ -99,7 +100,7 @@ describe TargetingIdeaSelector do
         text "media player"
         match_type "EXACT"
       end
-      xml_expected = read_model("//searchParameters[@type='ExcludedKeywordSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      xml_expected = read_model("//searchParameters[@type='ExcludedKeywordSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
@@ -110,7 +111,7 @@ describe TargetingIdeaSelector do
         match_type 'BROAD'
         match_type "EXACT"
       end
-      xml_expected = read_model("//searchParameters[@type='KeywordMatchTypeSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      xml_expected = read_model("//searchParameters[@type='KeywordMatchTypeSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
@@ -120,7 +121,7 @@ describe TargetingIdeaSelector do
       sp = CountryTargetSearchParameter.new do
         country_code 'US'
       end
-      xml_expected = read_model("//searchParameters[@type='CountryTargetSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      xml_expected = read_model("//searchParameters[@type='CountryTargetSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
@@ -130,7 +131,7 @@ describe TargetingIdeaSelector do
       sp = NgramGroupsSearchParameter.new do
         ngram 'dvd player'
       end
-      xml_expected = read_model("//searchParameters[@type='NgramGroupsSearchParameter']", "services", "targeting_idea", "get-req.xml")
+      xml_expected = read_model("//searchParameters[@type='NgramGroupsSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end

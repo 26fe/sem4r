@@ -33,6 +33,7 @@ describe SoapAttributes do
     enum :Columns, [:Id, :Campaign, :Keyword]
 
     g_accessor :name
+    g_accessor :name2,  {:xpath => "alternativeName"}
     g_accessor :type,   {:values_in => :Types}
     g_accessor :day,    {:if_type => "Daily"}
     g_accessor :month,  {:if_type => "Monthly"}
@@ -47,7 +48,7 @@ describe SoapAttributes do
   end
 
   it "attributes must be definited" do
-    TSoapAttributes.should have(7).attributes
+    TSoapAttributes.should have(8).attributes
     TSoapAttributes.attributes.select {|a| a.name == :name}.should have(1).attributes
     TSoapAttributes.attributes.select {|a| a.name == :columns}.should have(1).attributes
     TSoapAttributes.attributes.select {|a| a.name == :column}.should be_empty
@@ -74,7 +75,7 @@ describe SoapAttributes do
       lambda { @t.type "Dailyy" }.should raise_error
     end
 
-    it "with contraint on type" do
+    it "with constraint on type" do
       @t.type = "Daily"
       @t.day = "2009-10-10"
       @t.day.should == "2009-10-10"
@@ -112,15 +113,17 @@ describe SoapAttributes do
   end
 
   it "must generate xml" do
-    @t.name = "donald"
-    expected = "<object><name>donald</name><myflag>false</myflag></object>"
+    @t.name  = "donald"
+    @t.name2 = "paperino"
+    expected = "<object><name>donald</name><alternativeName>paperino</alternativeName><myflag>false</myflag></object>"
     @t._to_xml("object").should == expected
   end
 
   it "must read xml" do
-    expected = "<object><name>donald</name><myflag>true</myflag></object>"
+    expected = "<object><name>donald</name><alternativeName>paperino</alternativeName><myflag>false</myflag></object>"
     d = Nokogiri::XML::Document.parse(expected)
     t = TSoapAttributes._from_element(d.at_xpath("//object"))
     t.name.should == "donald"
+    t.name2.should == "paperino"
   end
 end

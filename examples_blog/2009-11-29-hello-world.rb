@@ -9,4 +9,3 @@ adwords = Adwords.sandbox
 #  :password => "secret",
 #  :developer_token => "<myaccount>@gmail.com++EUR")
 adwords.account.p_client_accounts
-

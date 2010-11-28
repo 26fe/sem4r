@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -32,7 +33,7 @@ describe AdParamService do
   end
 
   it "should define 'all'" do
-    response_xml = read_xml_file("services", "ad_param", "mutate_set-res.xml")
+    response_xml = read_xml("ad_param", "mutate_set-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = AdParamService.new(connector)
@@ -43,7 +44,7 @@ describe AdParamService do
 
   it "should define 'set'" do
     @credentials.should_receive(:mutable?).and_return(true)
-    response_xml = read_xml_file("services", "ad_param", "mutate_set-res.xml")
+    response_xml = read_xml("ad_param", "mutate_set-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
     service = AdParamService.new(connector)
