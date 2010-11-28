@@ -25,8 +25,15 @@
 module Sem4r
   
   module ReportDefinitionAccountExtension
-    ############################################################################
-    # Report Definitions - Service Report Definition
+
+    def report_definition_delete(report_definition_id)
+      report_definition = ReportDefinition.new(self)
+      report_definition.instance_eval { @id = report_definition_id }
+      op = ReportDefinitionOperation.new
+      op.remove(report_definition)
+      soap_message = service.report_definition.mutate(credentials, op.to_xml("operations"))
+      add_counters( soap_message.counters )
+    end
 
     def report_fields
       soap_message = service.report_definition.report_fields(credentials)
@@ -57,7 +64,7 @@ module Sem4r
     def _report_definitions
       soap_message = service.report_definition.get(credentials, ReportDefinitionSelector.new.to_xml)
       add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//getAllJobsResponse/getAllJobsReturn")
+      els = soap_message.response.xpath("//entries")
       @report_definitions = els.map do |el|
         ReportDefinition.from_element(self, el)
       end

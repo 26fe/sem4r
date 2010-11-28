@@ -26,22 +26,17 @@ module Sem4r
   class BillingAddress
     include SoapAttributes
 
-    attrs =[
-      :company_name,
-      :address_line1,
-      :address_line2,
-      :city,
-      :country_code,
-      :email_address,
-      :fax_number,
-      :name,
-      :phone_number,
-      :postal_code,
-      :state]
-
-    attrs.each do |s|
-      g_accessor s
-    end
+    g_accessor :company_name
+    g_accessor :address_line1
+    g_accessor :address_line2
+    g_accessor :city
+    g_accessor :country_code
+    g_accessor :email,           :xpath => 'emailAddress'
+    g_accessor :fax_number
+    g_accessor :name
+    g_accessor :phone,           :xpath => 'phoneNumber'
+    g_accessor :postal_code
+    g_accessor :state
 
     def initialize(&block)
       if block_given?

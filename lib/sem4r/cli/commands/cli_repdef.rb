@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -55,7 +56,7 @@ module Sem4r
         return false
       end
 
-      if rest.length != 1
+      if rest.empty?
         puts "missing command"
         return false
       end
@@ -71,6 +72,10 @@ module Sem4r
 
       when "list"
         account.p_report_definitions
+
+      when "delete"
+        report_definition_id = rest[1]
+        account.report_definition_delete(report_definition_id)
 
       when "create"
         rd = account.report_definition do
