@@ -67,6 +67,11 @@ module Sem4r
           TKeywordAttribute.from_element(el1)
         when MonthlySearchVolumeAttribute
           TMonthlySearchVolumeAttribute.from_element(el1)
+        else
+          # added from biilmann trunk
+          Struct.new(:key, :text).new(
+            el.xpath("key").text.strip,
+            el1.xpath("value").text.strip)
         end
       end
     end
