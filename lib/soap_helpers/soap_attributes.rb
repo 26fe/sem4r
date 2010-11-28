@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -24,9 +25,18 @@
 module Sem4r
 
   class MetaSoapAttribute
-    attr_reader :name, :enum
-    def initialize(name, enum)
-      @name, @enum = name.to_sym, enum
+    attr_reader :name, :xpath
+    def initialize(name, is_enum, xpath = nil)
+      @name, @is_enum = name.to_sym, is_enum
+      if xpath
+        @xpath = xpath
+      else
+        @xpath = name.to_s.camel_case 
+      end
+    end
+
+    def enum?
+      @is_enum
     end
   end
 
@@ -40,12 +50,22 @@ module Sem4r
       builder = Builder::XmlMarkup.new
       builder.tag!(tag) do |t|
         self.class.attributes.each do |a|
-          unless a.enum
+          unless a.enum?
             value = self.send(a.name)
-            t.__send__(a.name, value) unless value.nil?
+            t.__send__(a.xpath, value) unless value.nil? # value could be a boolean so 'if value' is wrong
           end
         end
       end
+    end
+
+    def _from_element(el)
+      self.class.attributes.each do |a|
+        unless a.enum?
+          value = el.at_xpath(a.xpath)
+          __send__ a.name, value.text.strip unless value.nil?
+        end
+      end
+      self
     end
 
     module ClassMethods
@@ -71,19 +91,26 @@ module Sem4r
         attr_reader name
       end
 
+
       #
       # constraints
-      #   values_in
+      #   :values_in
+      #   :if_type
+      #   :default
       #
       # TODO: g_accessor prende in input anche elements ed estrae automaticamente l'elemento che interessa
-      #       cioe' invece di scrivere headline       el.at_xpath("headline").text dovrebbe bastare scrivere  
+      #       cioe' invece di scrivere headline       el.at_xpath("headline").text dovrebbe bastare scrivere
       #       headline el
       def g_accessor(name, constraints = {})
-        @attributes  ||= []
-        @attributes << MetaSoapAttribute.new(name, false)
+        constraints.assert_valid_keys(:xpath, :values_in, :if_type, :default)
+        attribute = add_attribute(name, false, constraints[:xpath])
         name = name.to_s
 
-        # vales_in
+        #
+        # define setter
+        #
+
+        # values_in
         enum = nil
         if constraints.key?(:values_in)
           enum = const_get(constraints[:values_in])
@@ -96,12 +123,6 @@ module Sem4r
           other_instance_var = "type"
         end
 
-        # default_value
-        default_value = nil
-        if constraints.key?(:default)
-          default_value = constraints[:default]
-        end
-
         define_method "#{name}=" do |value|
           if enum and !enum.include?(value)
             raise "Value '#{value}' not permitted "
@@ -111,6 +132,16 @@ module Sem4r
             raise "type must be '#{if_type}' instead of '#{type}'" unless if_type == type
           end
           instance_variable_set "@#{name}", value
+        end
+
+        #
+        # define getter ( almost :-) )
+        #
+
+        # default_value
+        default_value = nil
+        if constraints.key?(:default)
+          default_value = constraints[:default]
         end
 
         define_method "#{name}" do |*values|  # |value = nil| is incorrect in ruby 1.8
@@ -127,17 +158,23 @@ module Sem4r
       end
       
       def g_set_accessor(column, constraints = {})
+        constraints.assert_valid_keys(:values_in)
+
         column  = column.to_s
         columns = "#{column}s"
-
-        @attributes  ||= []
-        @attributes << MetaSoapAttribute.new(columns, true)
+        attribute = add_attribute(columns, true)
 
         # values_in
         enum = nil
         if constraints.key?(:values_in)
           enum = const_get(constraints[:values_in])
         end
+
+        #
+        # define
+        #    column= :a
+        #    column :a
+        #
 
         define_method "#{column}=" do |value|
           if enum and !enum.include?(value)
@@ -151,6 +188,13 @@ module Sem4r
 
         alias_method column, "#{column}="
 
+        #
+        # define
+        #    colums [:a,:b,:c]
+        # define
+        #    colums
+        #
+
         define_method "#{columns}" do |*values|
           if values and !values.empty?
             instance_eval "@#{columns} ||= []"
@@ -162,18 +206,25 @@ module Sem4r
             instance_variable_get "@#{columns}"
           end
         end
-      end      
+      end
 
       def _from_element(el)
         return nil unless el
-        obj = new
-        attributes.each do |a|
-          unless a.enum
-            value = el.at_xpath(a.name.to_s.camel_case)
-            obj.send a.name, value.text.strip unless value.nil?
-          end
+        new._from_element(el)
+      end
+
+      private
+
+      def add_attribute(name, is_enum, xpath = nil)
+        @attributes  ||= []
+        name = name.to_sym
+        m = @attributes.find { |e| e.name == name.to_sym }
+        if m
+          raise "attribute #{name} already defined!!"
         end
-        obj
+        m = MetaSoapAttribute.new(name, is_enum, xpath)
+        @attributes << m
+        m
       end
 
     end # ClassMethods
