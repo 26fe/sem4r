@@ -106,7 +106,7 @@ module Sem4r
 
     def save
       unless @id
-        soap_message = service.campaign.create(credentials, to_xml)
+        soap_message = service.campaign.create(to_xml)
         add_counters( soap_message.counters )
         rval = soap_message.response.at_xpath("//mutateResponse/rval")
         id = rval.xpath("value/id").first
@@ -116,7 +116,7 @@ module Sem4r
     end
 
     def delete
-      soap_message = service.campaign.delete(credentials, @id)
+      soap_message = service.campaign.delete(@id)
       add_counters( soap_message.counters )
       @id = -1 # logical delete
     end
@@ -178,7 +178,7 @@ module Sem4r
     private
 
     def _ad_groups
-      soap_message = service.ad_group.all(credentials, @id)
+      soap_message = service.ad_group.all(@id)
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries")

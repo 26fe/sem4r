@@ -38,8 +38,8 @@ describe AccountService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    service = AccountService.new(connector)
-    soap_message = service.account_info( @credentials )
+    service = AccountService.new(connector, @credentials)
+    soap_message = service.account_info
 
     els = soap_message.response.xpath("//getAccountInfoResponse")
     els.should_not be_empty
@@ -51,8 +51,8 @@ describe AccountService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    service = AccountService.new(connector)
-    soap_message = service.client_accounts( @credentials )
+    service = AccountService.new(connector, @credentials)
+    soap_message = service.client_accounts
 
     els = soap_message.response.xpath("//getClientAccountsResponse")
     els.should_not be_empty

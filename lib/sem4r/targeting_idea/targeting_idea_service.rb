@@ -25,8 +25,9 @@ module Sem4r
   class TargetingIdeaService
     include SoapCall
 
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
+      @credentials = credentials
 
       @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
       @service_namespace = "https://adwords.google.com/api/adwords/o/v201008"

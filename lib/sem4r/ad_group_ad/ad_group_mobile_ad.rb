@@ -124,7 +124,7 @@ module Sem4r
 
     def save
       unless @id
-        soap_message = service.ad_group_ad.create(credentials, to_xml("operand"))
+        soap_message = service.ad_group_ad.create( to_xml("operand") )
         add_counters( soap_message.counters )
         rval = soap_message.response.xpath("//mutateResponse/rval", soap_message.response_headers).first
         id = rval.xpath("value/ad/id").first

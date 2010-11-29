@@ -26,8 +26,9 @@ module Sem4r
   class ReportDefinitionService
     include SoapCall
 
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
+      @credentials = credentials
       @header_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
 
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/ReportDefinitionService"

@@ -28,15 +28,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 describe SoapCall do
   include Sem4rSpecHelper
 
-  def mock_connector
-    mock("connector", :send => "send")
-  end
-
   class TSoapService
     include SoapCall
 
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
+      @credentials = credentials
     end
 
     soap_call_v2010 :get,          :mutate => false
@@ -59,8 +56,13 @@ describe SoapCall do
   end
 
 
+  before do
+    @mock_connector = mock("connector", :send => "send")
+    @credentials = stub_credentials
+  end
+
   it "should define a new method" do
-    t = TSoapService.new(mock_connector)
+    t = TSoapService.new(@mock_connector, @credentials)
     r = t.methods.grep /^get$/
     # t.methods.should include(:get)
     r.length.should == 1
@@ -75,42 +77,36 @@ describe SoapCall do
 
   it "calling 'get' should call private method _get" do
     pending "Test"
-    credentials = stub_credentials
-    @connector = mock("connector", :send => "send")
     # @connector.should_receive().with("get")
-    t = TSoapService.new(@connector)
+    t = TSoapService.new(@connector, @credentials)
     t.should_receive(:_get).with("foo").and_return("get")
-    soap_message = t.get(credentials, "foo")
+    soap_message = t.get("foo")
     # soap_message.response.should == "send"
   end
 
   it "calling 'get_with_arg' should call private method _get_with_arg" do
-    credentials = stub_credentials
-    t = TSoapService.new(mock_connector)
-    t.get_with_arg(credentials, "foo")
+    t = TSoapService.new(@mock_connector, @credentials)
+    t.get_with_arg("foo")
   end
 
   it "calling 'mutate' should raise an exception with read_only profile" do
-    credentials = stub_credentials
-    credentials.should_receive(:mutable?).and_return(false)
-    t = TSoapService.new(mock_connector)
+    @credentials.should_receive(:mutable?).and_return(false)
+    t = TSoapService.new(@mock_connector, @credentials)
     t.should_not_receive(:_mutate)
-    lambda{ t.mutate(credentials, "foo")}.should raise_error(RuntimeError)
+    lambda{ t.mutate("foo")}.should raise_error(RuntimeError)
   end
 
   it "call 'mutate' should call private methods _mutate with the right profile" do
-    credentials = stub_credentials
-    credentials.should_receive(:mutable?).and_return(true)
-    t = TSoapService.new(mock_connector)
+    @credentials.should_receive(:mutable?).and_return(true)
+    t = TSoapService.new(@mock_connector, @credentials)
     t.should_receive(:_mutate).with("foo").and_return("")
-    t.mutate(credentials, "foo")
+    t.mutate("foo")
   end
 
   it "call 'mutate_bis' should raise an exception with read_only profile" do
-    credentials = stub_credentials
-    credentials.should_receive(:mutable?).and_return(false)
-    t = TSoapService.new(mock_connector)
+    @credentials.should_receive(:mutable?).and_return(false)
+    t = TSoapService.new(@mock_connector, @credentials)
     t.should_not_receive(:_mutate_bis)
-    lambda{ t.mutate_bis(credentials, "foo")}.should raise_error(RuntimeError)
+    lambda{ t.mutate_bis("foo")}.should raise_error(RuntimeError)
   end
 end

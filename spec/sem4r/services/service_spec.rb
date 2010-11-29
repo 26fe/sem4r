@@ -30,7 +30,7 @@ describe Service do
 
   it "should contains ad_group service" do
     connector = mock("connector")
-    s = Service.new(connector)
+    s = Service.new(connector, nil)
     s.ad_group.should_not == nil
   end
 
