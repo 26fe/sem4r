@@ -30,7 +30,7 @@ module Sem4r
 
     def p_jobs
       selector = BulkMutateJobSelector.new
-      soap_message = service.bulk_mutate_job.all(credentials, selector)
+      soap_message = service.bulk_mutate_job.all(selector)
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//getResponse/rval")
       jobs = els.map do |el|
@@ -45,7 +45,7 @@ module Sem4r
     end
 
     def job_mutate(bulk_mutate_job)
-      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
+      soap_message = service.bulk_mutate_job.mutate(bulk_mutate_job)
       add_counters( soap_message.counters )
       el = soap_message.response.at_xpath("//rval")
       BulkMutateJob.from_element(el)

@@ -36,8 +36,8 @@ describe AdGroupCriterionService do
     response_xml = read_xml("ad_group_criterion", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupCriterionService.new(connector)
-    soap_message = service.all( @credentials, "ad_group_id" )
+    service = AdGroupCriterionService.new(connector, @credentials)
+    soap_message = service.all(  "ad_group_id" )
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
@@ -47,8 +47,8 @@ describe AdGroupCriterionService do
     response_xml = read_xml("ad_group_criterion", "mutate_add_criterion_keyword-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupCriterionService.new(connector)
-    soap_message = service.mutate( @credentials, "xml" )
+    service = AdGroupCriterionService.new(connector, @credentials)
+    soap_message = service.mutate( "xml" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end

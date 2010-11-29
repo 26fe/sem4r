@@ -26,9 +26,9 @@ module Sem4r
   class BulkMutateJobService
     include SoapCall
 
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
-
+      @credentials = credentials
       @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
       @header_namespace = @service_namespace
 

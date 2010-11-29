@@ -115,7 +115,7 @@ module Sem4r
 
     def _save
       unless @id
-        soap_message = service.ad_group.create(credentials, to_xml("operand"))
+        soap_message = service.ad_group.create( to_xml("operand") )
         add_counters( soap_message.counters )
         rval = soap_message.response.xpath("//mutateResponse/rval").first
         id = rval.xpath("value/id").first
@@ -126,7 +126,7 @@ module Sem4r
     public
 
     def delete
-      soap_message = service.ad_group.delete(credentials, @id)
+      soap_message = service.ad_group.delete( @id )
       add_counters( soap_message.counters )
       @id = -1 # logical delete
     end
@@ -179,7 +179,7 @@ module Sem4r
     private
 
     def _ads
-      soap_message = service.ad_group_ad.all(credentials, id)
+      soap_message = service.ad_group_ad.all( id )
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries/ad" )
@@ -199,7 +199,7 @@ module Sem4r
         xml + o.to_xml("operations")
       end
 
-      soap_message = service.ad_group_ad.mutate(credentials, xml)
+      soap_message = service.ad_group_ad.mutate( xml )
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//mutateResponse/rval/value/ad/id")
 
@@ -266,7 +266,7 @@ module Sem4r
     private
 
     def _criterions
-      soap_message = service.ad_group_criterion.all(credentials, id)
+      soap_message = service.ad_group_criterion.all( id )
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries/criterion" )
@@ -287,7 +287,7 @@ module Sem4r
         o = AdGroupCriterionOperation.new.add(ad)
         xml + o.to_xml("operations")
       end
-      soap_message = service.ad_group_criterion.mutate(credentials, xml)
+      soap_message = service.ad_group_criterion.mutate( xml )
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//mutateResponse/rval/value/criterion/id")
       els.each_with_index do |e,index|
@@ -324,7 +324,7 @@ module Sem4r
     private
 
     def _ad_params
-      soap_message = service.ad_param.all(credentials, id)
+      soap_message = service.ad_param.all( id )
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries" )

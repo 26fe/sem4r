@@ -51,7 +51,7 @@ module Sem4r
       unless criterion.saved?
         o = AdGroupCriterionOperation.new.add(self)
         soap_message =
-          criterion.service.ad_group_criterion.mutate(criterion.credentials, o.to_xml("operations"))
+          criterion.service.ad_group_criterion.mutate( o.to_xml("operations") )
         criterion.add_counters( soap_message.counters )
         rval = soap_message.response.xpath("//mutateResponse/rval").first
         id = rval.xpath("value/criterion/id").first

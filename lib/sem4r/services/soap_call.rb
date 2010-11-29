@@ -28,7 +28,7 @@ module Sem4r
       base.extend ClassMethods
     end
     
-    def helper_call_v13(credentials, soap_body_content)
+    def helper_call_v13(soap_body_content)
       re = /<(\w+)/m   # use double blackslash because we are into string
       match_data = soap_body_content.match(re)
       if match_data
@@ -39,30 +39,30 @@ module Sem4r
         raise "Soapaction not found"
       end
 
-      soap_message = SoapMessageV13.new( @connector, credentials)
+      soap_message = SoapMessageV13.new(@connector, @credentials)
       soap_message.body = soap_body_content
-      if credentials.sandbox?
+      if @credentials.sandbox?
         soap_message.send(@sandbox_service_url, soap_action)
       else
         soap_message.send(@production_service_url, soap_action)
       end
     end
 
-    def helper_call_v2010(credentials, soap_body_content)
-      soap_message = SoapMessageV2010.new(@connector, credentials)
+    def helper_call_v2010(soap_body_content)
+      soap_message = SoapMessageV2010.new(@connector, @credentials)
       soap_message.init( @header_namespace, @service_namespace )
       soap_message.body = soap_body_content
-      if credentials.sandbox?
+      if @credentials.sandbox?
         soap_message.send(@sandbox_service_url)
       else
         soap_message.send(@production_service_url)
       end
     end
 
-    def helper_call_v2010_raw(credentials, xml_message)
-      soap_message = SoapMessageV2010.new(@connector, credentials)
+    def helper_call_v2010_raw(xml_message)
+      soap_message = SoapMessageV2010.new(@connector, @credentials)
       soap_message.init( @header_namespace, @service_namespace )
-      if credentials.sandbox?
+      if @credentials.sandbox?
         soap_message.send_raw(@sandbox_service_url, xml_message)
       else
         soap_message.send_raw(@production_service_url, xml_message)
@@ -74,7 +74,7 @@ module Sem4r
         options.assert_valid_keys(:mutate)
         mutate = options.delete :mutate
         if mutate.nil? or mutate
-          smutate = "credentials.mutable?"
+          smutate = "@credentials.mutable?"
         else
           smutate = "true"
         end
@@ -84,10 +84,9 @@ module Sem4r
         # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
         rubystr =<<-EOFS
           define_method :#{method.to_sym} do |*args|
-            credentials = args.shift
             if #{smutate}
               soap_body_content = send("_#{method}", *args)
-              #{helper_version}(credentials, soap_body_content)
+              #{helper_version}(soap_body_content)
             else
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
@@ -97,10 +96,9 @@ module Sem4r
 
         rubystr =<<-EOFS
           define_method :#{(method.to_s + "_raw").to_sym} do |*args|
-            credentials  = args.shift
             soap_message = args.shift
             if #{smutate}
-              #{helper_version}_raw(credentials, soap_message)
+              #{helper_version}_raw(soap_message)
             else
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end

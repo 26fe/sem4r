@@ -36,8 +36,8 @@ describe AdParamService do
     response_xml = read_xml("ad_param", "mutate_set-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdParamService.new(connector)
-    soap_message = service.all( @credentials, "ad_group_id" )
+    service = AdParamService.new(connector, @credentials)
+    soap_message = service.all( "ad_group_id" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
@@ -47,8 +47,8 @@ describe AdParamService do
     response_xml = read_xml("ad_param", "mutate_set-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdParamService.new(connector)
-    soap_message = service.mutate( @credentials, "xml" )
+    service = AdParamService.new(connector, @credentials)
+    soap_message = service.mutate( "xml" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end

@@ -26,8 +26,9 @@ module Sem4r
 
     include SoapCall
 
-    def initialize(connector)
+    def initialize(connector, credentials)
       @connector = connector
+      @credentials = credentials
       @namespace = "https://adwords.google.com/api/adwords/v13"
 
       @sandbox_service_url    = "https://sandbox.google.com/api/adwords/v13/ReportService"

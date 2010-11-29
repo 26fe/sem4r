@@ -25,8 +25,6 @@
 module Sem4r
 
   module AccountAccountExtension
-    ############################################################################
-    # Info Account - Service Account
 
     def p_info
       _info unless @currency_code
@@ -48,7 +46,7 @@ module Sem4r
     private
 
     def _info
-      soap_message = service.account.account_info(credentials)
+      soap_message = service.account.account_info
       add_counters( soap_message.counters )
       el = soap_message.response.at_xpath("//getAccountInfoResponse/getAccountInfoReturn")
       @currency_code = el.at_xpath('currencyCode').text.strip
@@ -81,7 +79,7 @@ module Sem4r
     private
 
     def _client_accounts
-      soap_message = service.account.client_accounts(credentials)
+      soap_message = service.account.client_accounts
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//getClientAccountsReturn")
       @accounts = els.map do |el|
