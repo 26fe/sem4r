@@ -25,7 +25,7 @@
 
 module Sem4r
 
-  class CliCommonArgs
+  class CliCommonArgs #:nodoc: all
 
     def initialize
       # defaults

@@ -25,7 +25,7 @@
 
 module Sem4r
 
-  class CliCommand
+  class CliCommand #:nodoc: all
 
     class << self
 

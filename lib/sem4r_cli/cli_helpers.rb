@@ -21,7 +21,7 @@ module Sem4r
   # +------+-----------+--------------------------------+
   # 5 rows in set
   #
-  def self.report(items, *fields)
+  def self.report(items, *fields) #:nodoc: all
     # find max length for each field; start with the field names themselves
     max_len = Hash[*fields.map {|f| [f, f.to_s.length]}.flatten]
 
