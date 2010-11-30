@@ -25,7 +25,7 @@
 
 module Sem4r
 
-  class CliRequestReport < CliCommand
+  class CliRequestReport < CliCommand #:nodoc: all
 
     def self.command
       "request"

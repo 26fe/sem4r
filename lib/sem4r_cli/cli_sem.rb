@@ -26,7 +26,7 @@
 
 module Sem4r
 
-  class CliSem
+  class CliSem #:nodoc: all
 
     def self.run
       cli = self.new
