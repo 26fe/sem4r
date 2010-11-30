@@ -4,28 +4,39 @@
 ## TEXTMATE
 *.tmproj
 tmtags
+
 ## EMACS
 *~
 \#*
 .\#*
+
 ## Other editors
 *.bak
+
 ## VIM
 *.swp
+
 ## Netbean
 nbproject
+
 ## PROJECT::GENERAL
 .bundle
 coverage
 rdoc
 pkg
 tmp
+
+# yard
+.yardoc
+doc
+
 ## PROJECT::SPECIFIC
 config/sem4r.yml
 *.log.xml
 *.log
 tmp/*
 examples_adwords4r
+
 ## installed by bundler
 bin/htmldiff
 bin/jeweler
