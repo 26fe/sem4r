@@ -22,8 +22,8 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class GeoLocationService
-    include SoapCall
+  class GeoLocationService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

@@ -24,7 +24,7 @@
 
 module Sem4r
   class BulkMutateJobSelector
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     def initialize(&block)
       if block_given?

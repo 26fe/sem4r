@@ -23,8 +23,8 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class AdParamService
-    include SoapCall
+  class AdParamService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

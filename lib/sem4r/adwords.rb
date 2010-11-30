@@ -215,7 +215,7 @@ module Sem4r
     def deferred_initialize
       @initialized = true
 
-      @connector = SoapConnector.new
+      @connector = Soap::SoapConnector.new
       @connector.dump_soap_options(@dump_soap_options) if @dump_soap_options
       @connector.logger=(@logger) if @logger
 

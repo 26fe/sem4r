@@ -23,8 +23,8 @@
 
 module Sem4r
 
-  class CampaignService
-    include SoapCall
+  class CampaignService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

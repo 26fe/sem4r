@@ -56,7 +56,7 @@ require 'sem4r/extensions.rb'
 require 'sem4r/adwords'
 require 'sem4r/credentials'
 require 'sem4r/sem4r_error'
-require 'soap_helpers/soap_attributes'
+require 'sem4r_soap/soap_attributes'
 
 require 'sem4r/base'
 require 'sem4r/account'
@@ -74,14 +74,15 @@ require 'sem4r/v13_account/account_account_extension'
 #
 # soap connection layer
 #
-require 'sem4r/services/soap_error'
-require 'sem4r/services/http_connector'
-require 'sem4r/services/soap_dumper'
-require 'sem4r/services/soap_connector'
-require 'sem4r/services/soap_message_v13'
-require 'sem4r/services/soap_message_v2010'
-require 'sem4r/services/soap_call'
-require 'sem4r/services/service'
+require 'sem4r_soap/soap_error'
+require 'sem4r_soap/http_connector'
+require 'sem4r_soap/soap_dumper'
+require 'sem4r_soap/soap_connector'
+require 'sem4r_soap/soap_message_v13'
+require 'sem4r_soap/soap_message_v2010'
+require 'sem4r_soap/soap_call'
+
+require 'sem4r/service'
 
 #
 # common

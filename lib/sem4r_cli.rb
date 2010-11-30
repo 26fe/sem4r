@@ -27,12 +27,12 @@ require 'ostruct'
 # require "highline/import" # to ask password on command line
 
 require 'sem4r'
-require 'sem4r/cli/cli_sem'
-require 'sem4r/cli/cli_common_args'
-require 'sem4r/cli/cli_command'
-require 'sem4r/cli/cli_helpers'
+require 'sem4r_cli/cli_sem'
+require 'sem4r_cli/cli_common_args'
+require 'sem4r_cli/cli_command'
+require 'sem4r_cli/cli_helpers'
 
 # commands
-Dir[File.join( File.dirname(__FILE__), "sem4r", "cli", "commands", "*.rb" )].each do |f|
+Dir[File.join( File.dirname(__FILE__), "sem4r_cli", "commands", "*.rb" )].each do |f|
   require f
 end

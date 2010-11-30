@@ -25,7 +25,7 @@
 module Sem4r
 
   class ReportField
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     attrs =[
       :field_name,

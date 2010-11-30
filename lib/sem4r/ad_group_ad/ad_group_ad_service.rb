@@ -22,8 +22,8 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdGroupAdService
-    include SoapCall
+  class AdGroupAdService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

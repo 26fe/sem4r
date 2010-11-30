@@ -25,7 +25,7 @@
 module Sem4r
 
   class RelatedToKeywordSearchParameter
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_set_accessor :text
     g_accessor :match_type
@@ -51,7 +51,7 @@ module Sem4r
   end
 
   class ExcludedKeywordSearchParameter
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_accessor :text
     g_accessor :match_type
@@ -76,7 +76,7 @@ module Sem4r
   end
 
   class KeywordMatchTypeSearchParameter
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_set_accessor :match_type
 
@@ -97,7 +97,7 @@ module Sem4r
   end
 
   class CountryTargetSearchParameter
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_set_accessor :country_code
 
@@ -120,7 +120,7 @@ module Sem4r
   end
   
   class NgramGroupsSearchParameter
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_set_accessor :ngram
 
@@ -141,7 +141,7 @@ module Sem4r
   end
   
   class TargetingIdeaSelector
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     enum :IdeaTypes, [:KEYWORD, :PLACEMENT]
     enum :RequestTypes, [:IDEAS, :STATS]

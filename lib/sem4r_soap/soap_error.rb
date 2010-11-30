@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -22,17 +23,21 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class SoapError < Sem4rError
-    #    attr_reader :fault_code
-    #    attr_reader :fault_string
-    #
-    #    def initialize(fault_code, fault_string)
-    #      @fault_code = fault_code
-    #      @fault_string = fault_string
-    #    end
-    #
-    #    def to_s
-    #      "#{@fault_code}: '#{@fault_string}'"
-    #    end
+  module Soap
+
+    class SoapError < Sem4rError
+      #    attr_reader :fault_code
+      #    attr_reader :fault_string
+      #
+      #    def initialize(fault_code, fault_string)
+      #      @fault_code = fault_code
+      #      @fault_string = fault_string
+      #    end
+      #
+      #    def to_s
+      #      "#{@fault_code}: '#{@fault_string}'"
+      #    end
+    end
+
   end
 end

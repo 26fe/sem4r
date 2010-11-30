@@ -23,8 +23,8 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class InfoService
-    include SoapCall
+  class InfoService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

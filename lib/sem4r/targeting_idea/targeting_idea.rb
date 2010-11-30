@@ -26,7 +26,7 @@ module Sem4r
 
 
   class TargetingIdea
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     enum :AttributeTypes, [
       :AdFormatSpecListAttribute,
@@ -83,7 +83,7 @@ module Sem4r
   end
 
   class TKeywordAttribute
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_accessor :text
     g_accessor :match_type
@@ -108,7 +108,7 @@ module Sem4r
   end
   
   class TMonthlySearchVolumeAttribute
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_accessor :text
     g_accessor :values
@@ -139,7 +139,7 @@ module Sem4r
   end
 
   class TIdeaTypeAttribute
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_accessor :value
 

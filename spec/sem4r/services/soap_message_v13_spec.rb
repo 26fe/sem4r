@@ -25,7 +25,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
-describe SoapMessageV13 do
+describe Soap::SoapMessageV13 do
   include Sem4rSpecHelper
 
   before do
@@ -37,7 +37,7 @@ describe SoapMessageV13 do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    message_v13 = SoapMessageV13.new(connector, @credentials)
+    message_v13 = Soap::SoapMessageV13.new(connector, @credentials)
     message_v13.body = ""
     message_v13.send("service_url", "soap_action")
 
