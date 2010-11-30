@@ -22,8 +22,8 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class TargetingIdeaService
-    include SoapCall
+  class TargetingIdeaService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

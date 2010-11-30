@@ -22,32 +22,33 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class Service
 
-    def initialize(connector, credentials)
-      @connector = connector
-      @credentials = credentials
-    end
+    class Service #:nodoc: all
 
-    ###########################################################################
-    # services v13
+      def initialize(connector, credentials)
+        @connector = connector
+        @credentials = credentials
+      end
 
-    %w{ account report traffic_estimator }.each do |service|
-      klass_name = service.split('_').map{|p| p.capitalize}.join('')
-      str=<<-EOFR
+      ###########################################################################
+      # services v13
+
+      %w{ account report traffic_estimator }.each do |service|
+        klass_name = service.split('_').map{|p| p.capitalize}.join('')
+        str=<<-EOFR
         require 'sem4r/v13_#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
           @#{service}_service = #{klass_name}Service.new(@connector, @credentials)
         end
-      EOFR
-      eval str
-    end
+        EOFR
+        eval str
+      end
 
-    ###########################################################################
-    # services v2010xx
+      ###########################################################################
+      # services v2010xx
 
-    %w{ ad_extension_override
+      %w{ ad_extension_override
         ad_group
         ad_group_ad
         ad_param
@@ -60,16 +61,17 @@ module Sem4r
         targeting_idea
         bulk_mutate_job
         report_definition }.each do |service|
-      klass_name = service.split('_').map{|p| p.capitalize}.join('')
-      str=<<-EOFR
+        klass_name = service.split('_').map{|p| p.capitalize}.join('')
+        str=<<-EOFR
         require 'sem4r/#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
           @#{service}_service = #{klass_name}Service.new(@connector, @credentials)
         end
-      EOFR
-      eval str
+        EOFR
+        eval str
+      end
+
     end
 
-  end
-end
+end # module Sem4r

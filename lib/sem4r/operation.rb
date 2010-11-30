@@ -26,7 +26,7 @@
 module Sem4r
 
   class Operation
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     enum :Operations, [
       :ADD,

@@ -24,7 +24,7 @@
 
 module Sem4r
   class BillingAddress
-    include SoapAttributes
+    include Soap::SoapAttributes
 
     g_accessor :company_name
     g_accessor :address_line1

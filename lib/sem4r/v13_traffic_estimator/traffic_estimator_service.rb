@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class TrafficEstimatorService
+  class TrafficEstimatorService #:nodoc: all
     def initialize
     
     end

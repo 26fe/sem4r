@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class CampaignTargetService
+  class CampaignTargetService #:nodoc: all
     def initialize
     
     end

@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdExtensionOverrideService
+  class AdExtensionOverrideService #:nodoc: all
     def initialize
     
     end

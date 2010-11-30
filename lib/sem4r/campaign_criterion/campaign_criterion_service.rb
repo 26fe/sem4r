@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class CampaignCriterionService
+  class CampaignCriterionService #:nodoc: all
     def initialize
     
     end

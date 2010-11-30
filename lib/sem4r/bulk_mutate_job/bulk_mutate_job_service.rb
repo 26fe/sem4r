@@ -23,8 +23,8 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class BulkMutateJobService
-    include SoapCall
+  class BulkMutateJobService #:nodoc: all
+    include Soap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector
