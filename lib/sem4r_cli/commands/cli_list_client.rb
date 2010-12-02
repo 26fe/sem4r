@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   CliListClient = CliCommand.define_command("clients", "list clients account") do |account|
     puts account.adwords.to_s

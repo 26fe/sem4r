@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
   
   CliListCampaign = CliCommand.define_command("campaigns", "list campaigns") do |account|
     puts "listing campaings in #{account}"

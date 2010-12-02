@@ -24,7 +24,7 @@
 
 module Sem4r
   class BulkMutateJob
-    include Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
 
     attr_reader :id
     attr_accessor :campaign_id

@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   class CliCommand #:nodoc: all
 

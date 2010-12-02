@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   class CliIdeas < CliCommand #:nodoc: all
 
@@ -98,4 +98,4 @@ module Sem4r
     end
 
   end
-end
+end  # module Sem4rCli

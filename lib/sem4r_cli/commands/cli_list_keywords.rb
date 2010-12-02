@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   CliListKeywords = CliCommand.define_command("keywords", "list keywords") do |account |
 

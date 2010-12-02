@@ -22,22 +22,20 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  module Soap
+module Sem4rSoap
 
-    class SoapError < Sem4rError
-      #    attr_reader :fault_code
-      #    attr_reader :fault_string
-      #
-      #    def initialize(fault_code, fault_string)
-      #      @fault_code = fault_code
-      #      @fault_string = fault_string
-      #    end
-      #
-      #    def to_s
-      #      "#{@fault_code}: '#{@fault_string}'"
-      #    end
-    end
-
+  class SoapError < Sem4r::Sem4rError
+    #    attr_reader :fault_code
+    #    attr_reader :fault_string
+    #
+    #    def initialize(fault_code, fault_string)
+    #      @fault_code = fault_code
+    #      @fault_string = fault_string
+    #    end
+    #
+    #    def to_s
+    #      "#{@fault_code}: '#{@fault_string}'"
+    #    end
   end
+
 end

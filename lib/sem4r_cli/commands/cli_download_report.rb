@@ -23,7 +23,8 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
+
   class CliDownloadReport < CliCommand #:nodoc: all
 
     def self.command
@@ -79,4 +80,4 @@ module Sem4r
     end
 
   end
-end
+end # module Sem4rCli

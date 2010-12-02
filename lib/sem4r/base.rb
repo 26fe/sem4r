@@ -24,7 +24,7 @@
 
 module Sem4r
   class Base
-    include Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
 
     attr_reader :adwords
     attr_reader :credentials

@@ -31,4 +31,5 @@ $:.unshift(cwd) unless $:.include?(cwd)
 require 'sem4r_cli'
 
 include Sem4r
+include Sem4rCli
 exit CliSem.run

@@ -23,13 +23,13 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Soap::SoapCall do
+describe Sem4rSoap::SoapCall do
   include Sem4rSpecHelper
 
   class TSoapService
-    include Soap::SoapCall
+    include Sem4rSoap::SoapCall
 
     def initialize(connector, credentials)
       @connector = connector

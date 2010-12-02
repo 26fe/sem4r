@@ -57,7 +57,7 @@ describe Credentials do
   
   it "should call connector when request for an authentication token" do
     credentials = Credentials.new(@opts)
-    connector = Soap::SoapConnector.new
+    connector = Sem4rSoap::SoapConnector.new
     connector.should_receive(:authentication_token).and_return("auth_token")
     credentials.connector= connector
     credentials.authentication_token.should == "auth_token"

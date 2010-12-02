@@ -27,7 +27,7 @@ module Sem4r
   # http://code.google.com/apis/adwords/v2009/docs/reference/AdGroupCriterionService.AdGroupCriterion.html
   #
   class AdGroupCriterion
-    include Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
     
     g_accessor :criterion
 
