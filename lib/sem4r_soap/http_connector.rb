@@ -28,6 +28,8 @@ module Sem4r
 
     class HttpConnector
 
+      MAXRETRIES = 3
+
       def get_sess_for_host(uri)
         @sessions ||= {}
 
@@ -53,6 +55,36 @@ module Sem4r
       def download(url, path_name)
         data = open(url){ |f| f.read }
         File.open(path_name, "w") { |f| f.write(data) }
+      end
+
+      def request_post(uri, str, headers)
+        sess = get_sess_for_host(uri)
+        retries = 0; response = nil
+        while retries <= MAXRETRIES and response.nil?
+          retries += 1
+          e = nil
+          begin
+            #########################
+            response = sess.request_post(uri.path, str, headers )
+            # pp response.methods
+            # pp response.class.to_s
+            status = response.code.to_i
+            # pp "status: #{status}"
+            ##########################
+          rescue StandardError => e
+          end
+
+          if e
+            @logger.warn("request_post retries!!! #{e.to_s}") if @logger
+            invalidate_sess(uri)
+            sleep(2 * retries) # wait 1 sec
+            sess = get_sess_for_host(uri)
+          end
+        end
+        unless response
+          raise "Connection Error, Network is down?? :-((("
+        end
+        response
       end
     end
 

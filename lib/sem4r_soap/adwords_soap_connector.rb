@@ -54,44 +54,15 @@ module Sem4r
       def authentication_token(email, password)
         str = "accountType=GOOGLE&Email=#{email}&Passwd=#{password}&service=adwords"
         str = URI.escape(str)
-
         uri = URI.parse( "https://www.google.com/accounts/ClientLogin" )
-        sess = get_sess_for_host(uri)
-        retries = 0; response = nil
-        while retries <= MAXRETRIES and response.nil?
-          retries += 1
-
-          headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
-
-          e = nil
-          begin
-            #########################
-            response = sess.request_post(uri.path, str, headers )
-            # pp response.methods
-            # pp response.class.to_s
-            status = response.code.to_i
-            # pp "status: #{status}"
-            ##########################
-          rescue Error => e
-          end
-
-          if e
-            @logger.warn("authentication retries!!! #{e.to_s}") if @logger
-            invalidate_sess(uri)
-            sleep(2 * retries) # wait 1 sec
-            sess = get_sess_for_host(uri)
-          end
-        end
-        unless response
-          raise "Connection Error, Network is down?? :-((("
-        end
-
+        headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+        response = request_post(uri, str, headers )
+        status = response.code.to_i
         if status == 200
           return response.body[/Auth=(.*)/, 1]
         end
         raise Sem4rError, "authentication failed status is #{status}"
       end
-
     end
 
   end # module Soap
