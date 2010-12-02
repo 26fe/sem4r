@@ -27,9 +27,6 @@ module Sem4r
   module Soap
 
     class HttpConnector
-      require 'net/https'
-      require 'uri'
-      # $stderr.puts "Using standard net/https"
 
       def get_sess_for_host(uri)
         @sessions ||= {}
@@ -39,6 +36,7 @@ module Sem4r
         unless sess
           sess = Net::HTTP.new(uri.host, uri.port)
           sess.use_ssl = (uri.scheme == "https")
+          sess.verify_mode = OpenSSL::SSL::VERIFY_NONE
           @sessions[url] = sess
         end
         sess
@@ -53,7 +51,6 @@ module Sem4r
       end
 
       def download(url, path_name)
-        require 'open-uri'
         data = open(url){ |f| f.read }
         File.open(path_name, "w") { |f| f.write(data) }
       end
