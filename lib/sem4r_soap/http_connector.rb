@@ -27,46 +27,21 @@ module Sem4r
   module Soap
 
     class HttpConnector
-      begin
-        require 'patron'
-        UsePatron = false
-        # $stderr.puts "Using patron gems"
-      rescue LoadError
-        UsePatron = false
-        # $stderr.puts "Patron not found, degrade to net/https"
-      end
-
-      if !UsePatron
-        require 'net/https'
-        require 'uri'
-        # $stderr.puts "Using standard net/https"
-      end
+      require 'net/https'
+      require 'uri'
+      # $stderr.puts "Using standard net/https"
 
       def get_sess_for_host(uri)
         @sessions ||= {}
 
-        if UsePatron
-          url = uri.scheme + "://" + uri.host
-          sess = @sessions[url]
-          unless sess
-            sess = Patron::Session.new
-            # sess.connect_timeout = 3000 #millis
-            sess.timeout = 12
-            sess.base_url = url
-            sess.headers['User-Agent'] = 'ruby'
-            @sessions[url] = sess
-          end
-          sess
-        else
-          url = uri.scheme + "://" + uri.host
-          sess = @sessions[url]
-          unless sess
-            sess = Net::HTTP.new(uri.host, uri.port)
-            sess.use_ssl = (uri.scheme == "https")
-            @sessions[url] = sess
-          end
-          sess
+        url = uri.scheme + "://" + uri.host
+        sess = @sessions[url]
+        unless sess
+          sess = Net::HTTP.new(uri.host, uri.port)
+          sess.use_ssl = (uri.scheme == "https")
+          @sessions[url] = sess
         end
+        sess
       end
 
       def invalidate_sess(uri)
@@ -78,17 +53,9 @@ module Sem4r
       end
 
       def download(url, path_name)
-
-        if UsePatron
-          uri = URI.parse(url)
-          sess = get_sess_for_host(uri)
-          sess.get_file(uri.path, path_name)
-        else
-          require 'open-uri'
-          data = open(url){ |f| f.read }
-          File.open(path_name, "w") { |f| f.write(data) }
-        end
-
+        require 'open-uri'
+        data = open(url){ |f| f.read }
+        File.open(path_name, "w") { |f| f.write(data) }
       end
     end
 
