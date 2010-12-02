@@ -23,7 +23,8 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
+
   class CliRepDef < CliCommand #:nodoc: all
 
     def self.command

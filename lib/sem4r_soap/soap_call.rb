@@ -22,70 +22,69 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  module Soap
+module Sem4rSoap
 
-    module SoapCall
+  module SoapCall
 
-      def self.included(base)
-        base.extend ClassMethods
-      end
+    def self.included(base)
+      base.extend ClassMethods
+    end
     
-      def helper_call_v13(soap_body_content)
-        re = /<(\w+)/m   # use double blackslash because we are into string
-        match_data = soap_body_content.match(re)
-        if match_data
-          soap_action = match_data[1]
-        else
-          puts "errore"
-          puts soap_body_content
-          raise "Soapaction not found"
-        end
-
-        soap_message = SoapMessageV13.new(@connector, @credentials)
-        soap_message.body = soap_body_content
-        if @credentials.sandbox?
-          soap_message.send(@sandbox_service_url, soap_action)
-        else
-          soap_message.send(@production_service_url, soap_action)
-        end
+    def helper_call_v13(soap_body_content)
+      re = /<(\w+)/m   # use double blackslash because we are into string
+      match_data = soap_body_content.match(re)
+      if match_data
+        soap_action = match_data[1]
+      else
+        puts "errore"
+        puts soap_body_content
+        raise "Soapaction not found"
       end
 
-      def helper_call_v2010(soap_body_content)
-        soap_message = SoapMessageV2010.new(@connector, @credentials)
-        soap_message.init( @header_namespace, @service_namespace )
-        soap_message.body = soap_body_content
-        if @credentials.sandbox?
-          soap_message.send(@sandbox_service_url)
-        else
-          soap_message.send(@production_service_url)
-        end
+      soap_message = SoapMessageV13.new(@connector, @credentials)
+      soap_message.body = soap_body_content
+      if @credentials.sandbox?
+        soap_message.send(@sandbox_service_url, soap_action)
+      else
+        soap_message.send(@production_service_url, soap_action)
       end
+    end
 
-      def helper_call_v2010_raw(xml_message)
-        soap_message = SoapMessageV2010.new(@connector, @credentials)
-        soap_message.init( @header_namespace, @service_namespace )
-        if @credentials.sandbox?
-          soap_message.send_raw(@sandbox_service_url, xml_message)
-        else
-          soap_message.send_raw(@production_service_url, xml_message)
-        end
+    def helper_call_v2010(soap_body_content)
+      soap_message = SoapMessageV2010.new(@connector, @credentials)
+      soap_message.init( @header_namespace, @service_namespace )
+      soap_message.body = soap_body_content
+      if @credentials.sandbox?
+        soap_message.send(@sandbox_service_url)
+      else
+        soap_message.send(@production_service_url)
       end
+    end
 
-      module ClassMethods
-        def soap_call(helper_version, method, options = {})
-          options.assert_valid_keys(:mutate)
-          mutate = options.delete :mutate
-          if mutate.nil? or mutate
-            smutate = "@credentials.mutable?"
-          else
-            smutate = "true"
-          end
-          # public_method_pars = ['credentials'].concat(args).join(",")
+    def helper_call_v2010_raw(xml_message)
+      soap_message = SoapMessageV2010.new(@connector, @credentials)
+      soap_message.init( @header_namespace, @service_namespace )
+      if @credentials.sandbox?
+        soap_message.send_raw(@sandbox_service_url, xml_message)
+      else
+        soap_message.send_raw(@production_service_url, xml_message)
+      end
+    end
 
-          # private_method_pars = args.join(",")
-          # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
-          rubystr =<<-EOFS
+    module ClassMethods
+      def soap_call(helper_version, method, options = {})
+        options.assert_valid_keys(:mutate)
+        mutate = options.delete :mutate
+        if mutate.nil? or mutate
+          smutate = "@credentials.mutable?"
+        else
+          smutate = "true"
+        end
+        # public_method_pars = ['credentials'].concat(args).join(",")
+
+        # private_method_pars = args.join(",")
+        # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
+        rubystr =<<-EOFS
           define_method :#{method.to_sym} do |*args|
             if #{smutate}
               soap_body_content = send("_#{method}", *args)
@@ -94,10 +93,10 @@ module Sem4r
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
           end
-          EOFS
-          eval rubystr
+        EOFS
+        eval rubystr
 
-          rubystr =<<-EOFS
+        rubystr =<<-EOFS
           define_method :#{(method.to_s + "_raw").to_sym} do |*args|
             soap_message = args.shift
             if #{smutate}
@@ -106,20 +105,19 @@ module Sem4r
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
           end
-          EOFS
-          eval rubystr
-        end
-
-        def soap_call_v13(method, options = {})
-          soap_call("helper_call_v13", method, options)
-        end
-
-        def soap_call_v2010(method, options = {})
-          soap_call("helper_call_v2010", method, options)
-        end
+        EOFS
+        eval rubystr
       end
 
+      def soap_call_v13(method, options = {})
+        soap_call("helper_call_v13", method, options)
+      end
+
+      def soap_call_v2010(method, options = {})
+        soap_call("helper_call_v2010", method, options)
+      end
     end
 
-  end # module Soap
+  end
+
 end # module Sem4r

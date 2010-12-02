@@ -22,45 +22,43 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  module Soap
+module Sem4rSoap
 
-    class SoapConnector < HttpConnector
-      include SoapDumper
+  class SoapConnector < HttpConnector
+    include SoapDumper
 
-      def initialize
-        super
-        @logger = nil
-      end
-
-      def logger=(log)
-        @logger = log
-      end
-
-      def send(service_url, soap_action, soap_message)
-        begin
-          uri = URI.parse(service_url)
-        rescue URI::InvalidURIError
-          puts "Invalid url --  #{service_url}"
-          raise
-        end
-
-        headers = {
-          "Content-Type" => "text/xml; charset=utf-8",
-          "Content-Length" => soap_message.length.to_s,
-          "SOAPAction" => soap_action}
-
-        @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
-        response = request_post(uri, soap_message, headers)
-        unless response
-          raise Sem4rError, "Connection Error"
-        end
-        response_xml = response.body
-        dump_soap_request(service_url, soap_message)
-        dump_soap_response(service_url, response_xml)
-        response_xml
-      end
+    def initialize
+      super
+      @logger = nil
     end
 
-  end # module Soap
+    def logger=(log)
+      @logger = log
+    end
+
+    def send(service_url, soap_action, soap_message)
+      begin
+        uri = URI.parse(service_url)
+      rescue URI::InvalidURIError
+        puts "Invalid url --  #{service_url}"
+        raise
+      end
+
+      headers = {
+        "Content-Type" => "text/xml; charset=utf-8",
+        "Content-Length" => soap_message.length.to_s,
+        "SOAPAction" => soap_action}
+
+      @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
+      response = request_post(uri, soap_message, headers)
+      unless response
+        raise Sem4rError, "Connection Error"
+      end
+      response_xml = response.body
+      dump_soap_request(service_url, soap_message)
+      dump_soap_response(service_url, response_xml)
+      response_xml
+    end
+  end
+
 end # module Sem4r

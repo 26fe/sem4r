@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   CliListReport = CliCommand.define_command("reports", "list reports") do |account|
     report(account.reports, :id, :name, :status)

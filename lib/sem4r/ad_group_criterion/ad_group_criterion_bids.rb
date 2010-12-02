@@ -25,7 +25,7 @@
 module Sem4r
 
   class AdGroupCriterionBids
-    include Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
 
     enum :Types, [
       :BudgetOptimizerAdGroupCriterionBids,

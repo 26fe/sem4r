@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-module Sem4r
+module Sem4rCli
+  
   # From http://gist.github.com/72234
   #
   # mysql-style output for an array of ActiveRecord objects

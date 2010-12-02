@@ -24,7 +24,7 @@
 
 # stdlib
 
-module Sem4r
+module Sem4rCli
 
   class CliSem #:nodoc: all
 
@@ -62,4 +62,4 @@ module Sem4r
 
   end
 
-end
+end # module Sem4rCli

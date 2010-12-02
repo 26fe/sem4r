@@ -23,26 +23,15 @@
 # 
 # -------------------------------------------------------------------------
 
-require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Soap::SoapMessageV13 do
+describe Service do
   include Sem4rSpecHelper
 
-  before do
-    @credentials = stub_credentials
-  end
-
-  it "should update counters" do
-    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
+  it "should contains ad_group service" do
     connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-
-    message_v13 = Soap::SoapMessageV13.new(connector, @credentials)
-    message_v13.body = ""
-    message_v13.send("service_url", "soap_action")
-
-    message_v13.counters.should_not be_empty
-    message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
+    s = Service.new(connector, nil)
+    s.ad_group.should_not == nil
   end
 
 end

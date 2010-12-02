@@ -73,7 +73,7 @@ module Sem4r
   #   operator parameters.
 
   class InfoSelector
-    include Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
 
     enum :UsageTypes, [
       :FREE_USAGE_API_UNITS_PER_MONTH,

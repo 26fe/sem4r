@@ -47,23 +47,21 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  module Soap
+module Sem4rSoap
 
-    class AdwordsSoapConnector < SoapConnector
-      def authentication_token(email, password)
-        str = "accountType=GOOGLE&Email=#{email}&Passwd=#{password}&service=adwords"
-        str = URI.escape(str)
-        uri = URI.parse( "https://www.google.com/accounts/ClientLogin" )
-        headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
-        response = request_post(uri, str, headers )
-        status = response.code.to_i
-        if status == 200
-          return response.body[/Auth=(.*)/, 1]
-        end
-        raise Sem4rError, "authentication failed status is #{status}"
+  class AdwordsSoapConnector < SoapConnector
+    def authentication_token(email, password)
+      str = "accountType=GOOGLE&Email=#{email}&Passwd=#{password}&service=adwords"
+      str = URI.escape(str)
+      uri = URI.parse( "https://www.google.com/accounts/ClientLogin" )
+      headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+      response = request_post(uri, str, headers )
+      status = response.code.to_i
+      if status == 200
+        return response.body[/Auth=(.*)/, 1]
       end
+      raise Sem4rError, "authentication failed status is #{status}"
     end
+  end
 
-  end # module Soap
 end # module Sem4r

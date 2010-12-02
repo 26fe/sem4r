@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   CliInfo = CliCommand.define_command("info", "account info") do |account|
     account.p_info

@@ -25,10 +25,10 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Soap::SoapAttributes do
+describe Sem4rSoap::SoapAttributes do
 
   class TSoapAttributes
-    include Sem4r::Soap::SoapAttributes
+    include Sem4rSoap::SoapAttributes
 
     enum :Types,   [:Daily, :Monthly, :Weekly, :Yearly]
     enum :Columns, [:Id, :Campaign, :Keyword]

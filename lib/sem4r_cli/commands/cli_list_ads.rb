@@ -23,7 +23,7 @@
 # 
 # -------------------------------------------------------------------------
 
-module Sem4r
+module Sem4rCli
 
   CliListAds = CliCommand.define_command("ads", "list ads") do |account|
     puts "List AdGroup Advertising"
