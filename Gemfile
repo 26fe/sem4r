@@ -1,9 +1,12 @@
 source :gemcutter
 
 gem "builder"
-gem "jeweler"
-gem "rake"
 gem "nokogiri"
+
+group :development do
+  gem "jeweler"
+  gem "rake"
+end
 
 group :test do
   gem "differ"

@@ -50,12 +50,12 @@ module Sem4rSoap
         "SOAPAction" => soap_action}
 
       @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
+      dump_soap_request(service_url, soap_message)
       response = request_post(uri, soap_message, headers)
       unless response
         raise Sem4rError, "Connection Error"
       end
       response_xml = response.body
-      dump_soap_request(service_url, soap_message)
       dump_soap_response(service_url, response_xml)
       response_xml
     end

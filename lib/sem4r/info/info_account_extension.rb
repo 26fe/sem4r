@@ -28,7 +28,7 @@ module Sem4r
   module AccountInfoExtension
 
     def year_unit_cost(usage_type)
-      now = Time.new
+      now = Time.new - 60 * 60 * 24  # - 1 day time in which timezone?
       selector = InfoSelector.new do
         usage_type    usage_type
         min           now.strftime("%Y0101") # first January

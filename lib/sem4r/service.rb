@@ -33,7 +33,7 @@ module Sem4r
       ###########################################################################
       # services v13
 
-      %w{ account report traffic_estimator }.each do |service|
+      %w{ account report }.each do |service|
         klass_name = service.split('_').map{|p| p.capitalize}.join('')
         str=<<-EOFR
         require 'sem4r/v13_#{service}/#{service}_service'
@@ -48,14 +48,12 @@ module Sem4r
       ###########################################################################
       # services v2010xx
 
-      %w{ ad_extension_override
+      %w{ 
         ad_group
         ad_group_ad
         ad_param
         ad_group_criterion
         campaign
-        campaign_criterion 
-        campaign_target
         geo_location
         info
         targeting_idea

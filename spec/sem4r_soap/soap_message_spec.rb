@@ -32,7 +32,7 @@ describe Sem4rSoap::SoapMessageV13 do
     @credentials = stub_credentials
   end
 
-  it "should update counters" do
+  it "should update counters (v13 api)" do
     response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -45,4 +45,16 @@ describe Sem4rSoap::SoapMessageV13 do
     message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
   end
 
+  it "should update counters (v13 api)" do
+    response_xml = read_xml("ad_group", "get-first-res.xml")
+    connector = mock("connector")
+    connector.should_receive(:send).and_return(response_xml)
+
+    message = Sem4rSoap::SoapMessageV2010.new(connector, @credentials)
+    message.body = ""
+    message.send("service_url")
+
+    message.counters.should_not be_empty
+    message.counters.should ==  { :response_time => 170, :operations => 2, :units => 2 }
+  end
 end
