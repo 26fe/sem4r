@@ -1,0 +1,29 @@
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header>
+    <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+      <requestId>e7c3b00f339bcaf56b7df47db97efdb7</requestId>
+      <operations>1</operations>
+      <responseTime>231</responseTime>
+      <units>1</units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <soap:Fault>
+      <faultcode>soap:Server</faultcode>
+      <faultstring>[CampaignError.DUPLICATE_CAMPAIGN_NAME @ operations[0].operand.name]</faultstring>
+      <detail>
+        <ApiExceptionFault xmlns="https://adwords.google.com/api/adwords/cm/v200909">
+          <message>[CampaignError.DUPLICATE_CAMPAIGN_NAME @ operations[0].operand.name]</message>
+          <ApplicationException.Type>ApiException</ApplicationException.Type>
+          <errors xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CampaignError">
+            <fieldPath>operations[0].operand.name</fieldPath>
+            <trigger></trigger>
+            <ApiError.Type>CampaignError</ApiError.Type>
+            <reason>DUPLICATE_CAMPAIGN_NAME</reason>
+          </errors>
+        </ApiExceptionFault>
+      </detail>
+    </soap:Fault>
+  </soap:Body>
+</soap:Envelope>

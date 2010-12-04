@@ -31,7 +31,7 @@ module Sem4rSoap
     end
     
     def helper_call_v13(soap_body_content)
-      re = /<(\w+)/m   # use double blackslash because we are into string
+      re = /<(\w+)/m
       match_data = soap_body_content.match(re)
       if match_data
         soap_action = match_data[1]

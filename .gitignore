@@ -16,8 +16,9 @@ tmtags
 ## VIM
 *.swp
 
-## Netbean
+## IDE Netbean
 nbproject
+.idea
 
 ## PROJECT::GENERAL
 .bundle
@@ -35,7 +36,7 @@ config/sem4r.yml
 *.log.xml
 *.log
 tmp/*
-examples_adwords4r
+extra
 
 ## installed by bundler
 bin/htmldiff

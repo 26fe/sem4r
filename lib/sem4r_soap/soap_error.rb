@@ -24,7 +24,7 @@
 
 module Sem4rSoap
 
-  class SoapError < Sem4r::Sem4rError
+  class SoapError # < Sem4r::Sem4rError
     #    attr_reader :fault_code
     #    attr_reader :fault_string
     #
