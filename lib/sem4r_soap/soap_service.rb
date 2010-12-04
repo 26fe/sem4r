@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -21,36 +22,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  class AdGroupAdService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+module Sem4rSoap
 
-    def initialize(connector, credentials)
-      @connector = connector
-      @credentials = credentials
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
-      @header_namespace = @service_namespace
-      
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupAdService"
-    end
-
-    soap_call_v2010 :all,   :mutate => false
-    soap_call_v2010 :mutate
-      
-    private
-
-    def _all(ad_group_id)
-      <<-EOFS
-      <get xmlns="#{@service_namespace}">
-        <selector>
-          <adGroupIds>#{ad_group_id}</adGroupIds>
-        </selector>
-      </get>
-      EOFS
-    end
-
-    def _mutate(xml)
-      "<mutate xmlns=\"#{@service_namespace}\">#{xml}</mutate>"
-    end
-
+  class SoapServiceV2010
+    include Sem4rSoap::SoapCall
   end
-end
+
+  class SoapServiceV13
+    include Sem4rSoap::SoapCall
+  end
+
+end # module Sem4rSoap

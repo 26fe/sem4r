@@ -29,39 +29,34 @@ module Sem4rSoap
     def self.included(base)
       base.extend ClassMethods
     end
-    
-    def helper_call_v13(soap_body_content)
-      re = /<(\w+)/m
-      match_data = soap_body_content.match(re)
-      if match_data
-        soap_action = match_data[1]
-      else
-        puts "errore"
-        puts soap_body_content
-        raise "Soapaction not found"
+
+    def helper_call(api_version, soap_body_content)
+      soap_action = ""
+
+      case api_version
+        when "v13"
+          soap_message = SoapMessageV13.new(@connector, @credentials)
+          match_data = soap_body_content.match(/<(\w+)/m)
+          if match_data
+            soap_action = match_data[1]
+          else
+            raise "Soapaction not found in #{soap_body_content}"
+          end
+        when "v2010"
+          soap_message = SoapMessageV2010.new(@connector, @credentials)
+          soap_message.init(@header_namespace, @service_namespace)
+        else
+          raise "unkwnow api version #{api_version}"
       end
 
-      soap_message = SoapMessageV13.new(@connector, @credentials)
-      soap_message.body = soap_body_content
       if @credentials.sandbox?
-        soap_message.send(@sandbox_service_url, soap_action)
+        soap_message.send(@sandbox_service_url, soap_action, soap_body_content)
       else
-        soap_message.send(@production_service_url, soap_action)
+        soap_message.send(@production_service_url, soap_action, soap_body_content)
       end
     end
 
-    def helper_call_v2010(soap_body_content)
-      soap_message = SoapMessageV2010.new(@connector, @credentials)
-      soap_message.init( @header_namespace, @service_namespace )
-      soap_message.body = soap_body_content
-      if @credentials.sandbox?
-        soap_message.send(@sandbox_service_url)
-      else
-        soap_message.send(@production_service_url)
-      end
-    end
-
-    def helper_call_v2010_raw(xml_message)
+    def helper_call_raw(xml_message)
       soap_message = SoapMessageV2010.new(@connector, @credentials)
       soap_message.init( @header_namespace, @service_namespace )
       if @credentials.sandbox?
@@ -72,7 +67,7 @@ module Sem4rSoap
     end
 
     module ClassMethods
-      def soap_call(helper_version, method, options = {})
+      def soap_call(api_version, method, options = {})
         options.assert_valid_keys(:mutate)
         mutate = options.delete :mutate
         if mutate.nil? or mutate
@@ -81,14 +76,13 @@ module Sem4rSoap
           smutate = "true"
         end
         # public_method_pars = ['credentials'].concat(args).join(",")
-
         # private_method_pars = args.join(",")
         # private_method_pars = ", #{private_method_pars}" unless private_method_pars.empty?
         rubystr =<<-EOFS
           define_method :#{method.to_sym} do |*args|
             if #{smutate}
               soap_body_content = send("_#{method}", *args)
-              #{helper_version}(soap_body_content)
+              helper_call('#{api_version}', soap_body_content)
             else
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
@@ -100,7 +94,7 @@ module Sem4rSoap
           define_method :#{(method.to_s + "_raw").to_sym} do |*args|
             soap_message = args.shift
             if #{smutate}
-              #{helper_version}_raw(soap_message)
+              helper_call_raw('#{api_version}', soap_message)
             else
               raise "mutate methods '#{method}' cannot be called on read_only profile"
             end
@@ -110,11 +104,11 @@ module Sem4rSoap
       end
 
       def soap_call_v13(method, options = {})
-        soap_call("helper_call_v13", method, options)
+        soap_call("v13", method, options)
       end
 
       def soap_call_v2010(method, options = {})
-        soap_call("helper_call_v2010", method, options)
+        soap_call("v2010", method, options)
       end
     end
 

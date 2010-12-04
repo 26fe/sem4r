@@ -29,28 +29,8 @@ module Sem4rSoap
     def initialize
       @soap_header_namespaces = {}
     end
-    #
-    #    v13
-    #
-    #    def build_soap_message
-    #      soap_message = '<?xml version="1.0" encoding="utf-8" ?>'
-    #      soap_message +=<<-EOFS
-    #      <env:Envelope
-    #         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    #         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    #         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-    #      EOFS
-    #      soap_message += build_soap_header(@credentials)
-    #      soap_message += "<env:Body>"
-    #      soap_message += @soap_body_content
-    #      soap_message += <<-EOFS
-    #      </env:Body>
-    #    </env:Envelope>
-    #      EOFS
-    #      soap_message
-    #    end
 
-    def build_soap_message
+    def build_soap_message(soap_body_content)
       soap_message = '<?xml version="1.0" encoding="utf-8" ?>'
       soap_message +=<<-EOFS
       <env:Envelope
@@ -66,7 +46,7 @@ module Sem4rSoap
 
       soap_message += build_soap_header(@credentials)
       soap_message += "<env:Body>"
-      soap_message += @soap_body_content
+      soap_message += soap_body_content
       soap_message += <<-EOFS
       </env:Body>
     </env:Envelope>

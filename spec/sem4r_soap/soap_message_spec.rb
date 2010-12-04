@@ -38,8 +38,7 @@ describe Sem4rSoap::SoapMessageV13 do
     connector.should_receive(:send).and_return(response_xml)
 
     message_v13 = Sem4rSoap::SoapMessageV13.new(connector, @credentials)
-    message_v13.body = ""
-    message_v13.send("service_url", "soap_action")
+    message_v13.send("service_url", "soap_action", "")
 
     message_v13.counters.should_not be_empty
     message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
@@ -51,8 +50,7 @@ describe Sem4rSoap::SoapMessageV13 do
     connector.should_receive(:send).and_return(response_xml)
 
     message = Sem4rSoap::SoapMessageV2010.new(connector, @credentials)
-    message.body = ""
-    message.send("service_url")
+    message.send("service_url", "", "")
 
     message.counters.should_not be_empty
     message.counters.should ==  { :response_time => 170, :operations => 2, :units => 2 }
