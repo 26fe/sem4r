@@ -24,8 +24,7 @@
 
 module Sem4r
 
-  class ReportDefinitionService #:nodoc: all
-    include Sem4rSoap::SoapCall
+  class ReportDefinitionService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
     def initialize(connector, credentials)
       @connector = connector

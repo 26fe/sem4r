@@ -48,12 +48,8 @@ module Sem4rSoap
       @soap_header_namespaces = {'xmlns' => header_namespace, 'xmlns:s' => service_namespace}
     end
 
-    def body=(soap_body_content)
-      @soap_body_content = soap_body_content
-    end
-
-    def send(service_url)
-      _send_raw(service_url, build_soap_message)
+    def send(service_url, soap_action, soap_body_content)
+      _send_raw(service_url, build_soap_message(soap_body_content))
     end
 
     def send_raw(service_url, soap_message)
