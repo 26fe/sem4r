@@ -35,7 +35,7 @@ module Sem4r
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService"
     end
 
-    soap_call_v2010 :get, :mutate => false
+    soap_call :get, :mutate => false
 
     def _unit_cost( usage_type )
       <<-EOFS

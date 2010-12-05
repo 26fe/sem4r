@@ -26,10 +26,14 @@ module Sem4r
 
   module AccountAccountExtension
 
+    ############################################################################
+    # Info
+
     def p_info
       _info unless @currency_code
       puts "currency_code: #{@currency_code}"
       puts "customer_id: #{@customer_id}"
+      puts "email: #{@credentials.client_email}" if @credentials.client_email
       puts @billing_address
     end
 
@@ -57,7 +61,7 @@ module Sem4r
     public
 
     ############################################################################
-    # Account - Service Account
+    # Client
 
     def client_accounts(refresh = false)
       _client_accounts unless @accounts and !refresh
@@ -65,9 +69,8 @@ module Sem4r
     end
 
     def p_client_accounts(refresh = false)
-      cs = client_accounts(refresh)
-      # puts "#{cs.length} client accounts"
-      cs.each do |account|
+      client_accounts(refresh)
+      @accounts.each do |account|
         puts account.to_s
       end
       self
@@ -87,10 +90,6 @@ module Sem4r
         Account.new( adwords, Credentials.new(@credentials, client_email) )
       end
     end
-
-    public
-
-    ###########################################################################
 
   end
 

@@ -34,9 +34,9 @@ module Sem4r
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/ReportDefinitionService"
     end
 
-    soap_call_v2010 :get,             :mutate => false
-    soap_call_v2010 :report_fields,   :mutate => false
-    soap_call_v2010 :mutate
+    soap_call :get,             :mutate => false
+    soap_call :report_fields,   :mutate => false
+    soap_call :mutate
 
     private
 

@@ -25,24 +25,22 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Sem4rSoap::SoapCall do
+describe Sem4rSoap::SoapService do
   include Sem4rSpecHelper
 
-  class TSoapService
-    include Sem4rSoap::SoapCall
+  class TSoapService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector, credentials)
       @connector = connector
       @credentials = credentials
     end
 
-    soap_call_v2010 :get,          :mutate => false
-    soap_call_v2010 :get_with_arg, :mutate => false
-    soap_call_v2010 :mutate
-    soap_call_v2010 :mutate_bis,   :mutate => true
+    soap_call :get,          :mutate => false
+    soap_call :get_with_arg, :mutate => false
+    soap_call :mutate
+    soap_call :mutate_bis,   :mutate => true
 
-    private
-
+    # private
 
     def _get(xml)
       <<-EOFS
@@ -55,58 +53,46 @@ describe Sem4rSoap::SoapCall do
     end
   end
 
-
   before do
-    @mock_connector = mock("connector", :send => "send")
-    @credentials = stub_credentials
+    @connector = mock("connector", :send => "send")
+    @readonly_credentials = stub_credentials
+    @service = TSoapService.new(@connector, @readonly_credentials)
   end
 
-  it "should define a new method" do
-    t = TSoapService.new(@mock_connector, @credentials)
-    r = t.methods.grep /^get$/
-    # t.methods.should include(:get)
+  it "should define a new method get" do
+    @service.methods.should include(:get)    if RUBY_VERSION =~ /1\.9/
+    @service.methods.should include("get")   if RUBY_VERSION =~ /1\.8/
+    r = @service.methods.grep /^get$/
     r.length.should == 1
   end
 
-#  it "should add a parameter to private method" do
-#    pending "test"
-#    get = TSoapService.instance_method(:get)
-#    _get = TSoapService.instance_method(:_get)
-#    get.arity.should == _get.arity + 1
-#  end
-
   it "calling 'get' should call private method _get" do
-    pending "Test"
-    # @connector.should_receive().with("get")
-    t = TSoapService.new(@connector, @credentials)
-    t.should_receive(:_get).with("foo").and_return("get")
-    soap_message = t.get("foo")
-    # soap_message.response.should == "send"
+    @service.should_receive(:_get).with("foo").and_return("get")
+    soap_message = @service.get("foo")
   end
 
   it "calling 'get_with_arg' should call private method _get_with_arg" do
-    t = TSoapService.new(@mock_connector, @credentials)
-    t.get_with_arg("foo")
+    @service.should_receive(:_get_with_arg).with("foo").and_return("get")
+    @service.get_with_arg("foo")
   end
 
   it "calling 'mutate' should raise an exception with read_only profile" do
-    @credentials.should_receive(:mutable?).and_return(false)
-    t = TSoapService.new(@mock_connector, @credentials)
-    t.should_not_receive(:_mutate)
-    lambda{ t.mutate("foo")}.should raise_error(RuntimeError)
-  end
-
-  it "call 'mutate' should call private methods _mutate with the right profile" do
-    @credentials.should_receive(:mutable?).and_return(true)
-    t = TSoapService.new(@mock_connector, @credentials)
-    t.should_receive(:_mutate).with("foo").and_return("")
-    t.mutate("foo")
+    @service.should_not_receive(:_mutate)
+    lambda{ @service.mutate("foo")}.should raise_error(RuntimeError)
   end
 
   it "call 'mutate_bis' should raise an exception with read_only profile" do
-    @credentials.should_receive(:mutable?).and_return(false)
-    t = TSoapService.new(@mock_connector, @credentials)
-    t.should_not_receive(:_mutate_bis)
-    lambda{ t.mutate_bis("foo")}.should raise_error(RuntimeError)
+    @service.should_not_receive(:_mutate_bis)
+    lambda{ @service.mutate_bis("foo")}.should raise_error(RuntimeError)
   end
+
+  it "call 'mutate' should call private methods _mutate with the right profile" do
+    @mutable_credentials = stub_credentials
+    @mutable_credentials.should_receive(:mutable?).and_return(true)
+    @mutable_service = TSoapService.new(@connector, @mutable_credentials)
+    
+    @mutable_service.should_receive(:_mutate).with("foo").and_return("")
+    @mutable_service.mutate("foo")
+  end
+
 end
