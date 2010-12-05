@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AccountService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+  class AccountService < Sem4rSoap::SoapServiceV13 #:nodoc: all
 
     def initialize(connector, credentials)
       @connector = connector
@@ -31,8 +31,8 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
     end
 
-    soap_call_v13 :account_info,    :mutate => false
-    soap_call_v13 :client_accounts, :mutate => false
+    soap_call :account_info,    :mutate => false
+    soap_call :client_accounts, :mutate => false
 
     private
 

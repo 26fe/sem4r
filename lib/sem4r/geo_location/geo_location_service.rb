@@ -35,7 +35,7 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/cm/v201008/GeoLocationService"
     end
 
-    soap_call_v2010 :get
+    soap_call :get
 
     ################
 

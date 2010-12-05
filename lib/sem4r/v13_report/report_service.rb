@@ -22,7 +22,7 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class ReportService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+  class ReportService < Sem4rSoap::SoapServiceV13 #:nodoc: all
 
     def initialize(connector, credentials)
       @connector = connector
@@ -33,11 +33,11 @@ module Sem4r
       @production_service_url = "https://adwords.google.com/api/adwords/v13/ReportService"
     end
 
-    soap_call_v13 :all,      :mutate => false 
-    soap_call_v13 :validate, :mutate => false 
-    soap_call_v13 :schedule, :mutate => false 
-    soap_call_v13 :status,   :mutate => false 
-    soap_call_v13 :url,      :mutate => false 
+    soap_call :all,      :mutate => false 
+    soap_call :validate, :mutate => false
+    soap_call :schedule, :mutate => false
+    soap_call :status,   :mutate => false
+    soap_call :url,      :mutate => false
 
     ################
 
