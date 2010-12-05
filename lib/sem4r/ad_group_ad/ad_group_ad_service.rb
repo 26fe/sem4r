@@ -24,9 +24,8 @@
 module Sem4r
   class AdGroupAdService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
-    def initialize(connector, credentials)
+    def initialize(connector)
       @connector = connector
-      @credentials = credentials
       @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
       @header_namespace = @service_namespace
       

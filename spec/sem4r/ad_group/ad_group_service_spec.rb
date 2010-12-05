@@ -36,8 +36,8 @@ describe AdGroupService do
     response_xml = read_xml("ad_group", "get-first-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector, @credentials)
-    soap_message = service.all( "campaign_id" )
+    service = AdGroupService.new(connector)
+    soap_message = service.all(@credentials, "campaign_id" )
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
@@ -47,8 +47,8 @@ describe AdGroupService do
     response_xml = read_xml("ad_group", "mutate_add-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector, @credentials)
-    soap_message = service.create( "xml" )
+    service = AdGroupService.new(connector)
+    soap_message = service.create( @credentials, "xml" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
@@ -58,8 +58,8 @@ describe AdGroupService do
     response_xml = read_xml("ad_group", "mutate_add-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = AdGroupService.new(connector, @credentials)
-    soap_message = service.delete( "id" )
+    service = AdGroupService.new(connector)
+    soap_message = service.delete( @credentials, "id" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end

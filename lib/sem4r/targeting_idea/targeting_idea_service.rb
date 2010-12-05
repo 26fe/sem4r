@@ -24,9 +24,8 @@
 module Sem4r
   class TargetingIdeaService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
-    def initialize(connector, credentials)
+    def initialize(connector)
       @connector = connector
-      @credentials = credentials
 
       @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
       @service_namespace = "https://adwords.google.com/api/adwords/o/v201008"

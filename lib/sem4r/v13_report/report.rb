@@ -142,7 +142,7 @@ module Sem4r
 
     def status(refresh = false)
       return @status unless refresh
-      soap_message = service.report.status(@id)
+      soap_message = service.report.status(credentials, @id)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath("//getReportJobStatusResponse/getReportJobStatusReturn").first
       @status = el.text
@@ -152,7 +152,7 @@ module Sem4r
     # If it is not, an AdWords::Error::ApiError will be thrown.
     def validate
       begin
-        service.report.validate(to_xml)
+        service.report.validate(credentials, to_xml)
         return true
       rescue SoapError => e
         puts e
@@ -161,7 +161,7 @@ module Sem4r
     end
 
     def schedule
-      soap_message = service.report.schedule(to_xml)
+      soap_message = service.report.schedule(credentials, to_xml)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath("//scheduleReportJobResponse/scheduleReportJobReturn").first
       @id = el.text
@@ -170,7 +170,7 @@ module Sem4r
     end
 
     def url
-      soap_message = service.report.url(@id)
+      soap_message = service.report.url(credentials, @id)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath("//getReportDownloadUrlResponse/getReportDownloadUrlReturn").first
       url = el.text

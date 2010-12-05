@@ -30,7 +30,7 @@ module Sem4rSoap
       @soap_header_namespaces = {}
     end
 
-    def build_soap_message(soap_body_content)
+    def build_soap_message(soap_header, soap_body)
       soap_message = '<?xml version="1.0" encoding="utf-8" ?>'
       soap_message +=<<-EOFS
       <env:Envelope
@@ -44,13 +44,12 @@ module Sem4rSoap
       end
       soap_message += ">"
 
-      soap_message += build_soap_header(@credentials)
+      soap_message += soap_header
       soap_message += "<env:Body>"
-      soap_message += soap_body_content
-      soap_message += <<-EOFS
-      </env:Body>
-    </env:Envelope>
-      EOFS
+      soap_message += soap_body
+      soap_message += "</env:Body>"
+
+      soap_message += "</env:Envelope>"
       soap_message
     end
 
@@ -63,20 +62,20 @@ module Sem4rSoap
       #
       # extract information from header
       #
-      header = @response.at_xpath("/Envelope/Header/ResponseHeader")   # v2010xx
+      header    = @response.at_xpath("/Envelope/Header/ResponseHeader") # v2010xx
       if header
         @counters = {
-          :operations    => header.at_xpath("operations").text.to_i,
-          :response_time => header.at_xpath("responseTime").text.to_i,
-          :units         => header.at_xpath("units").text.to_i
-        }
-      else
-        header = @response.at_xpath("/Envelope/Header")   # v13
-        if header
-          @counters = {
             :operations    => header.at_xpath("operations").text.to_i,
             :response_time => header.at_xpath("responseTime").text.to_i,
             :units         => header.at_xpath("units").text.to_i
+        }
+      else
+        header = @response.at_xpath("/Envelope/Header") # v13
+        if header
+          @counters = {
+              :operations    => header.at_xpath("operations").text.to_i,
+              :response_time => header.at_xpath("responseTime").text.to_i,
+              :units         => header.at_xpath("units").text.to_i
           }
         end
       end

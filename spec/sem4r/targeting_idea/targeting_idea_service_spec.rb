@@ -36,8 +36,8 @@ describe TargetingIdeaService do
     response_xml = read_xml("targeting_idea", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = TargetingIdeaService.new(connector, @credentials)
-    soap_message = service.get( "xml" )
+    service = TargetingIdeaService.new(connector)
+    soap_message = service.get( @credentials, "xml" )
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end

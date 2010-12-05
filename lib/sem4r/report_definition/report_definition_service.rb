@@ -26,9 +26,8 @@ module Sem4r
 
   class ReportDefinitionService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
-    def initialize(connector, credentials)
+    def initialize(connector)
       @connector = connector
-      @credentials = credentials
       @header_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
 
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/ReportDefinitionService"

@@ -38,8 +38,8 @@ describe ReportService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    report_service = ReportService.new(connector, @credentials)
-    soap_message = report_service.all
+    report_service = ReportService.new(connector)
+    soap_message = report_service.all(@credentials)
 
     els = soap_message.response.xpath("//getAllJobsReturn")
     els.should_not be_empty
@@ -52,8 +52,8 @@ describe ReportService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    report_service = ReportService.new(connector, @credentials)
-    soap_message = report_service.validate( "xml" )
+    report_service = ReportService.new(connector)
+    soap_message = report_service.validate(@credentials, "xml" )
 
     els = soap_message.response.xpath("//getAllJobsReturn")
     els.should_not be_empty
@@ -66,8 +66,8 @@ describe ReportService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    report_service = ReportService.new(connector, @credentials)
-    soap_message = report_service.schedule( "xml" )
+    report_service = ReportService.new(connector)
+    soap_message = report_service.schedule( @credentials, "xml" )
 
     els = soap_message.response.xpath("//getAllJobsReturn")
     els.should_not be_empty
@@ -80,8 +80,8 @@ describe ReportService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    report_service = ReportService.new(connector, @credentials)
-    soap_message = report_service.status( "job_id" )
+    report_service = ReportService.new(connector)
+    soap_message = report_service.status( @credentials, "job_id" )
 
     # els = REXML::XPath.match( soap_message.response, "//getAllJobsResponse/getAllJobsReturn")
     els = soap_message.response.xpath("//getAllJobsReturn")
@@ -95,8 +95,8 @@ describe ReportService do
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
 
-    report_service = ReportService.new(connector, @credentials)
-    soap_message = report_service.url( "job_id" )
+    report_service = ReportService.new(connector)
+    soap_message = report_service.url( @credentials, "job_id" )
 
     els = soap_message.response.xpath("//getAllJobsReturn")
     els.should_not be_empty

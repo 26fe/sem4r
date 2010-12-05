@@ -48,15 +48,15 @@ module Sem4rSoap
       @soap_header_namespaces = {'xmlns' => header_namespace, 'xmlns:s' => service_namespace}
     end
 
-    def send(service_url, soap_action, soap_body_content)
-      _send_raw(service_url, build_soap_message(soap_body_content))
+    def send(service_url, soap_action, soap_header, soap_body)
+      _send_raw(service_url, build_soap_message(soap_header, soap_body))
     end
 
     def send_raw(service_url, soap_message)
       soap_message = soap_message.dup
-      soap_message.gsub!(/{authentication_token}/,      @credentials.authentication_token)
-      soap_message.gsub!(/{useragent}/,                 @credentials.useragent)
-      soap_message.gsub!(/{developer_token}/,           @credentials.developer_token)
+      soap_message.gsub!(/\{authentication_token\}/,      @credentials.authentication_token)
+      soap_message.gsub!(/\{useragent\}/,                 @credentials.useragent)
+      soap_message.gsub!(/\{developer_token\}/,           @credentials.developer_token)
       # soap_message.gsub!(/{client_email}/,            @credentials.client_email)
       _send_raw(service_url, soap_message)
     end
@@ -66,26 +66,6 @@ module Sem4rSoap
     def _send_raw(service_url, soap_message)
       response_xml = @connector.send(service_url, "", soap_message)
       parse_response(response_xml)
-    end
-
-
-    def build_soap_header(credentials)
-      s = if @service_namespace then "s:" else ""  end
-      auth_token = credentials.authentication_token
-
-      str = "<env:Header>"
-      str += "<#{s}RequestHeader env:mustUnderstand=\"0\">"
-
-      str +="<authToken>#{auth_token}</authToken>"
-      str +="<userAgent>#{credentials.useragent}</userAgent>"
-      str +="<developerToken>#{credentials.developer_token}</developerToken>"
-      if credentials.client_email
-        str += "<clientEmail>#{credentials.client_email}</clientEmail>"
-      end
-      
-      str += "</#{s}RequestHeader>"
-      str += "</env:Header>"
-      str
     end
 
   end

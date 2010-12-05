@@ -70,7 +70,7 @@ module Sem4r
     private
 
     def _campaigns
-      soap_message = service.campaign.all
+      soap_message = service.campaign.all( credentials )
       add_counters( soap_message.counters )
       rval = soap_message.response.at_xpath("//getResponse/rval")
       els = rval.xpath("entries")

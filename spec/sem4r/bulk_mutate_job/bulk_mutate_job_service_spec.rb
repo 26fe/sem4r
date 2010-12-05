@@ -36,12 +36,12 @@ describe BulkMutateJobService do
     response_xml = read_xml("bulk_mutate_job", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = BulkMutateJobService.new(connector, @credentials)
+    service = BulkMutateJobService.new(connector)
 
     operation = mock("operation")
     operation.stub(:to_xml).and_return("xml")
 
-    soap_message = service.all( operation )
+    soap_message = service.all(@credentials, operation )
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
@@ -51,12 +51,12 @@ describe BulkMutateJobService do
     response_xml = read_xml("bulk_mutate_job", "mutate-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = BulkMutateJobService.new(connector, @credentials)
+    service = BulkMutateJobService.new(connector)
 
     operation = mock("operation")
     operation.stub(:to_xml).and_return("xml")
     
-    soap_message = service.mutate( operation )
+    soap_message = service.mutate( @credentials, operation )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end

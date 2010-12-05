@@ -29,7 +29,7 @@ module Sem4r
     # Geo Location
 
     def geo_location
-      soap_message = service.geo_location.get("")
+      soap_message = service.geo_location.get(credentials, "")
       add_counters( soap_message.counters )
       # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
       # cost.text.to_i

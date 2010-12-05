@@ -40,7 +40,7 @@ module Sem4r
     end
 
     def status
-      soap_message = service.report.status(@job_id)
+      soap_message = service.report.status(credentials, @job_id)
       add_counters( soap_message.counters )
       el = soap_message.response.xpath("//getReportJobStatusResponse/getReportJobStatusReturn").first
       status = el.text

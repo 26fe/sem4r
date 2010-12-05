@@ -229,7 +229,7 @@ module Sem4r
       )
       @credentials.connector = @connector
 
-      @service = Service.new(@connector, @credentials)
+      @service = Service.new(@connector)
       @account  = Account.new( self, @credentials )
       @counters = {
         :operations => 0,
