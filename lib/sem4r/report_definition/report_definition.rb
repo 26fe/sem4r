@@ -140,7 +140,7 @@ module Sem4r
     def save
       unless @id
         op = ReportDefinitionOperation.new.add(self)
-        soap_message = service.report_definition.mutate(op.to_xml("operations"))
+        soap_message = service.report_definition.mutate(credentials, op.to_xml("operations"))
         add_counters( soap_message.counters )
         rval = soap_message.response.at_xpath("//mutateResponse/rval")
         id = rval.at_xpath("id" )
@@ -150,7 +150,7 @@ module Sem4r
     end
 
     def delete
-      soap_message = service.campaign.delete(@id)
+      soap_message = service.campaign.delete(credentials, @id)
       add_counters( soap_message.counters )
       @id = -1 # logical delete
     end

@@ -46,7 +46,7 @@ module Sem4r
     private
 
     def _reports
-      soap_message = service.report.all
+      soap_message = service.report.all(credentials)
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//getAllJobsResponse/getAllJobsReturn")
       @reports = els.map do |el|

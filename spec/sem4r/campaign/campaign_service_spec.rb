@@ -36,8 +36,8 @@ describe CampaignService do
     response_xml = read_xml("campaign", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = CampaignService.new(connector, @credentials)
-    soap_message = service.all
+    service = CampaignService.new(connector)
+    soap_message = service.all(@credentials)
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end
@@ -47,8 +47,8 @@ describe CampaignService do
     response_xml = read_xml("campaign", "mutate_add-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = CampaignService.new(connector, @credentials)
-    soap_message = service.create( "xml" )
+    service = CampaignService.new(connector)
+    soap_message = service.create( @credentials, "xml" )
         els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
@@ -58,8 +58,8 @@ describe CampaignService do
     response_xml = read_xml("campaign", "mutate_add-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
-    service = CampaignService.new(connector, @credentials)
-    soap_message = service.delete( "xml" )
+    service = CampaignService.new(connector)
+    soap_message = service.delete(@credentials, "xml" )
     els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end

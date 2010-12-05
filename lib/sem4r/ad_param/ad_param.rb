@@ -85,7 +85,7 @@ module Sem4r
     def save
       return if @saved
       o = AdParamOperation.new.set( self )
-      soap_message = service.ad_param.mutate( o.to_xml("operations") )
+      soap_message = service.ad_param.mutate( credentials, o.to_xml("operations") )
       add_counters( soap_message.counters )
       # ignore response ad_param doesn't have id
       @saved = true

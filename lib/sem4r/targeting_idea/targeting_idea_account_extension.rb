@@ -30,7 +30,7 @@ module Sem4r
 
     def targeting_idea(&block)
       selector = TargetingIdeaSelector.new(&block)
-      soap_message = service.targeting_idea.get(selector.to_xml)
+      soap_message = service.targeting_idea.get(credentials, selector.to_xml)
       add_counters( soap_message.counters )
       rval = soap_message.response.at_xpath("//getResponse/rval")
       els = rval.xpath("entries")

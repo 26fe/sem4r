@@ -37,31 +37,12 @@ module Sem4rSoap
       @soap_header_namespaces = {}
     end
 
-    def send(service_url, soap_action, soap_body_content)
-      soap_message = build_soap_message(soap_body_content)
+    def send(service_url, soap_action, soap_header, soap_body)
+      soap_message = build_soap_message(soap_header, soap_body)
       response_xml = @connector.send(service_url, soap_action, soap_message)
       parse_response(response_xml)
     end
 
-    private
-
-    def build_soap_header(credentials)
-      str= <<-EOFS
-      <env:Header>
-        <email env:mustUnderstand="0">#{credentials.email}</email>
-        <password env:mustUnderstand="0">#{credentials.password}</password>
-        <useragent env:mustUnderstand="0">#{credentials.useragent}</useragent>
-        <developerToken env:mustUnderstand="0">#{credentials.developer_token}</developerToken>
-      EOFS
-
-      if credentials.client_email
-        str += "<clientEmail env:mustUnderstand=\"0\">#{credentials.client_email}</clientEmail>"
-      end
-
-      str += "</env:Header>"
-      str
-    end
-
   end
 
-end # module Sem4r
+end # module Sem4rSoap

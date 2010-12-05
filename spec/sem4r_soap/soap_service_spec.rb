@@ -30,9 +30,8 @@ describe Sem4rSoap::SoapService do
 
   class TSoapService < Sem4rSoap::SoapServiceV2010
 
-    def initialize(connector, credentials)
+    def initialize(connector)
       @connector = connector
-      @credentials = credentials
     end
 
     soap_call :get,          :mutate => false
@@ -56,7 +55,7 @@ describe Sem4rSoap::SoapService do
   before do
     @connector = mock("connector", :send => "send")
     @readonly_credentials = stub_credentials
-    @service = TSoapService.new(@connector, @readonly_credentials)
+    @service = TSoapService.new(@connector)
   end
 
   it "should define a new method get" do
@@ -68,31 +67,31 @@ describe Sem4rSoap::SoapService do
 
   it "calling 'get' should call private method _get" do
     @service.should_receive(:_get).with("foo").and_return("get")
-    soap_message = @service.get("foo")
+    soap_message = @service.get(@readonly_credentials, "foo")
   end
 
   it "calling 'get_with_arg' should call private method _get_with_arg" do
     @service.should_receive(:_get_with_arg).with("foo").and_return("get")
-    @service.get_with_arg("foo")
+    @service.get_with_arg(@readonly_credentials, "foo")
   end
 
   it "calling 'mutate' should raise an exception with read_only profile" do
     @service.should_not_receive(:_mutate)
-    lambda{ @service.mutate("foo")}.should raise_error(RuntimeError)
+    lambda{ @service.mutate(@readonly_credentials, "foo")}.should raise_error(RuntimeError)
   end
 
   it "call 'mutate_bis' should raise an exception with read_only profile" do
     @service.should_not_receive(:_mutate_bis)
-    lambda{ @service.mutate_bis("foo")}.should raise_error(RuntimeError)
+    lambda{ @service.mutate_bis(@readonly_credentials, "foo")}.should raise_error(RuntimeError)
   end
 
   it "call 'mutate' should call private methods _mutate with the right profile" do
     @mutable_credentials = stub_credentials
     @mutable_credentials.should_receive(:mutable?).and_return(true)
-    @mutable_service = TSoapService.new(@connector, @mutable_credentials)
+    @mutable_service = TSoapService.new(@connector)
     
     @mutable_service.should_receive(:_mutate).with("foo").and_return("")
-    @mutable_service.mutate("foo")
+    @mutable_service.mutate(@mutable_credentials, "foo")
   end
 
 end

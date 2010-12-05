@@ -50,7 +50,7 @@ module Sem4r
     private
 
     def _info
-      soap_message = service.account.account_info
+      soap_message = service.account.account_info(credentials)
       add_counters( soap_message.counters )
       el = soap_message.response.at_xpath("//getAccountInfoResponse/getAccountInfoReturn")
       @currency_code = el.at_xpath('currencyCode').text.strip
@@ -82,7 +82,7 @@ module Sem4r
     private
 
     def _client_accounts
-      soap_message = service.account.client_accounts
+      soap_message = service.account.client_accounts(credentials)
       add_counters( soap_message.counters )
       els = soap_message.response.xpath("//getClientAccountsReturn")
       @accounts = els.map do |el|

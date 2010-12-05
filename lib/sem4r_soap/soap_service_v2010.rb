@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -21,33 +22,36 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module Sem4r
-  class AccountService < Sem4rSoap::SoapServiceV13 #:nodoc: all
+module Sem4rSoap
 
-    def initialize(connector)
-      @connector = connector
-      @sandbox_service_url    = "https://sandbox.google.com/api/adwords/v13/AccountService"
-      @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
+  class SoapServiceV2010 < SoapService
+
+    def self.soap_call(method, options = {})
+      _soap_call("v2010", method, options)
     end
-
-    soap_call :account_info,    :mutate => false
-    soap_call :client_accounts, :mutate => false
 
     private
 
-    def _account_info
-      <<-EOFS
-      <getAccountInfo xmlns="https://adwords.google.com/api/adwords/v13">
-      </getAccountInfo>
-      EOFS
-    end
+    def build_soap_header(credentials)
+      s = if @service_namespace then "s:" else ""  end
+      auth_token = credentials.authentication_token
 
-    def _client_accounts
-      <<-EOFS
-      <getClientAccounts xmlns="https://adwords.google.com/api/adwords/v13">
-      </getClientAccounts>
-      EOFS
+      str = "<env:Header>"
+      str += "<#{s}RequestHeader env:mustUnderstand=\"0\">"
+
+      str +="<authToken>#{auth_token}</authToken>"
+      str +="<userAgent>#{credentials.useragent}</userAgent>"
+      str +="<developerToken>#{credentials.developer_token}</developerToken>"
+
+      if credentials.client_email
+        str += "<clientEmail>#{credentials.client_email}</clientEmail>"
+      end
+
+      str += "</#{s}RequestHeader>"
+      str += "</env:Header>"
+      str
     end
 
   end
+
 end

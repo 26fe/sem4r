@@ -34,7 +34,7 @@ module Sem4r
         min           now.strftime("%Y0101") # first January
         max           now.strftime("%Y%m%d")
       end
-      soap_message = service.info.get(selector.to_xml)
+      soap_message = service.info.get(credentials, selector.to_xml)
       add_counters( soap_message.counters )
       # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
       cost = soap_message.response.at_xpath("//getResponse/rval/cost")

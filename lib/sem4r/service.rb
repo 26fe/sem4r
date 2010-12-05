@@ -25,9 +25,8 @@ module Sem4r
 
     class Service #:nodoc: all
 
-      def initialize(connector, credentials)
+      def initialize(connector)
         @connector = connector
-        @credentials = credentials
       end
 
       ###########################################################################
@@ -39,7 +38,7 @@ module Sem4r
         require 'sem4r/v13_#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
-          @#{service}_service = #{klass_name}Service.new(@connector, @credentials)
+          @#{service}_service = #{klass_name}Service.new(@connector)
         end
         EOFR
         eval str
@@ -64,7 +63,7 @@ module Sem4r
         require 'sem4r/#{service}/#{service}_service'
         def #{service}
           return @#{service}_service if @#{service}_service
-          @#{service}_service = #{klass_name}Service.new(@connector, @credentials)
+          @#{service}_service = #{klass_name}Service.new(@connector)
         end
         EOFR
         eval str
