@@ -45,16 +45,38 @@ module Sem4r
       end
     end
 
+    #
+    # Create a new report definition
+    # @yield report definition DSL
+    # @return [ReportDefinition] in unsaved state
+    #
+    # @example 
+    #   account.report_definition do
+    #     name "MyReport"
+    #     ...
+    #   end
+    #
     def report_definition(&block)
       ReportDefinition.new(self, &block)
     end
 
+    #
+    # Prints on stdout the list of report definition contained into account
+    # @param [bool] true if the list must be refreshed
+    # @return self
+    #
     def p_report_definitions(refresh = false)
       report_definitions(refresh).each do |report_definition|
         puts report_definition.to_s
       end
+      self
     end
 
+    #
+    # Returns an array of ReportDefinition
+    # @param [bool] true if the list must be refreshed
+    # @return [Array of ReportDefinition]
+    #
     def report_definitions(refresh = false)
       _report_definitions unless @report_definitions and !refresh
       @report_definitions

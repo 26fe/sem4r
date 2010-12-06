@@ -26,6 +26,10 @@ module Sem4rSoap
 
   class SoapServiceV2010 < SoapService
 
+    def initialize
+      super
+    end
+
     def self.soap_call(method, options = {})
       _soap_call("v2010", method, options)
     end
@@ -52,6 +56,25 @@ module Sem4rSoap
       str
     end
 
+    def _send(service_url, soap_action, soap_xml)
+      _send_raw(service_url, soap_xml)
+    end
+
+    def send_raw(service_url, soap_message)
+      soap_message = soap_message.dup
+      soap_message.gsub!(/\{authentication_token\}/,      @credentials.authentication_token)
+      soap_message.gsub!(/\{useragent\}/,                 @credentials.useragent)
+      soap_message.gsub!(/\{developer_token\}/,           @credentials.developer_token)
+      # soap_message.gsub!(/{client_email}/,            @credentials.client_email)
+      _send_raw(service_url, soap_message)
+    end
+
+    def _send_raw(service_url, soap_message)
+      response_xml = @connector.send(service_url, "", soap_message)
+      soap_response = SoapResponse.new.parse_response(response_xml)
+      soap_response
+    end
+    
   end
 
 end

@@ -26,6 +26,10 @@ module Sem4rSoap
 
   class SoapServiceV13 < SoapService
 
+    def initialize
+      super
+    end
+
     def self.soap_call(method, options = {})
       _soap_call("v13", method, options)
     end
@@ -47,6 +51,12 @@ module Sem4rSoap
 
       str += "</env:Header>"
       str
+    end
+
+    def _send(service_url, soap_action, soap_xml)
+      response_xml = @connector.send(service_url, soap_action, soap_xml)
+      soap_response = SoapResponse.new.parse_response(response_xml)
+      soap_response
     end
 
   end

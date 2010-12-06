@@ -30,6 +30,7 @@ module Sem4r
       @header_namespace = @service_namespace
 
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupCriterionService"
+      init(@header_namespace, @service_namespace)
     end
 
     soap_call :all,   :mutate => false

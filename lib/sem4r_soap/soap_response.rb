@@ -24,34 +24,10 @@
 # -------------------------------------------------------------------------
 
 module Sem4rSoap
-  class SoapMessage
+  class SoapResponse
 
-    def initialize
-      @soap_header_namespaces = {}
-    end
-
-    def build_soap_message(soap_header, soap_body)
-      soap_message = '<?xml version="1.0" encoding="utf-8" ?>'
-      soap_message +=<<-EOFS
-      <env:Envelope
-         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-      EOFS
-
-      @soap_header_namespaces.each do |name, value|
-        soap_message += " #{name}=\"#{value}\""
-      end
-      soap_message += ">"
-
-      soap_message += soap_header
-      soap_message += "<env:Body>"
-      soap_message += soap_body
-      soap_message += "</env:Body>"
-
-      soap_message += "</env:Envelope>"
-      soap_message
-    end
+    attr_reader :response
+    attr_reader :counters
 
     def parse_response(response_xml)
       # erase namespace so it more simple parsing the xml

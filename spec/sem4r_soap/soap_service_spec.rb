@@ -31,6 +31,7 @@ describe Sem4rSoap::SoapService do
   class TSoapService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
+      super()
       @connector = connector
     end
 

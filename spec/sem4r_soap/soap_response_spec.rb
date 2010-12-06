@@ -25,33 +25,19 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Sem4rSoap::SoapMessageV13 do
+describe Sem4rSoap::SoapResponse do
   include Sem4rSpecHelper
-
-  before do
-    @credentials = stub_credentials
-  end
 
   it "should update counters (v13 api)" do
     response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-
-    message_v13 = Sem4rSoap::SoapMessageV13.new(connector, @credentials)
-    message_v13.send("service_url", "soap_action", "soap_header", "soap_body")
-
+    message_v13 = Sem4rSoap::SoapResponse.new.parse_response(response_xml)
     message_v13.counters.should_not be_empty
     message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
   end
 
   it "should update counters (v2010 api)" do
     response_xml = read_xml("ad_group", "get-first-res.xml")
-    connector = mock("connector")
-    connector.should_receive(:send).and_return(response_xml)
-
-    message = Sem4rSoap::SoapMessageV2010.new(connector, @credentials)
-    message.send("service_url", "", "soap_header", "soap_body")
-
+    message = Sem4rSoap::SoapResponse.new.parse_response(response_xml)
     message.counters.should_not be_empty
     message.counters.should ==  { :response_time => 170, :operations => 2, :units => 2 }
   end

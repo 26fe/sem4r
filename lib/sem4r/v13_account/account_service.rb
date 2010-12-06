@@ -25,9 +25,11 @@ module Sem4r
   class AccountService < Sem4rSoap::SoapServiceV13 #:nodoc: all
 
     def initialize(connector)
+      super()
       @connector = connector
       @sandbox_service_url    = "https://sandbox.google.com/api/adwords/v13/AccountService"
       @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
+      # init(@header_namespace, @service_namespace)
     end
 
     soap_call :account_info,    :mutate => false
