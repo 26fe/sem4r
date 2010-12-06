@@ -32,6 +32,7 @@ module Sem4r
 
       @production_service_url = "https://adwords.google.com/api/adwords/info/v201008/InfoService"
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService"
+      init(@header_namespace, @service_namespace)
     end
 
     soap_call :get, :mutate => false

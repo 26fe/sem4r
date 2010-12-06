@@ -32,6 +32,7 @@ module Sem4r
 
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/GeoLocationService"
       @production_service_url = "https://adwords.google.com/api/adwords/cm/v201008/GeoLocationService"
+      init(@header_namespace, @service_namespace)
     end
 
     soap_call :get

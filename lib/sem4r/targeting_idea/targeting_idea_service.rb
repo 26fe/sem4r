@@ -32,6 +32,7 @@ module Sem4r
 
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/o/v201008/TargetingIdeaService"
       @production_service_url = "https://adwords.google.com/api/adwords/o/v201008/TargetingIdeaService"
+      init(@header_namespace, @service_namespace)
     end
 
     soap_call :get, :mutate => false

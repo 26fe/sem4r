@@ -32,6 +32,7 @@ module Sem4r
 
       @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/job/v201008/BulkMutateJobService"
       @production_service_url = "https://adwords.google.com/api/adwords/job/v201008/BulkMutateJobService"
+      init(@header_namespace, @service_namespace)      
     end
 
     soap_call :all,    :mutate => false

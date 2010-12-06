@@ -26,12 +26,44 @@ module Sem4rSoap
 
   class SoapService
 
+    def initialize
+      @soap_header_namespaces = {}
+    end
+
+    def init(header_namespace, service_namespace)
+      @header_namespace = header_namespace
+      @service_namespace = service_namespace
+      @soap_header_namespaces = {'xmlns' => header_namespace, 'xmlns:s' => service_namespace}
+    end
+
+    def build_soap_message(soap_header, soap_body)
+      soap_message = '<?xml version="1.0" encoding="utf-8" ?>'
+      soap_message +=<<-EOFS
+      <env:Envelope
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+      EOFS
+
+      @soap_header_namespaces.each do |name, value|
+        soap_message += " #{name}=\"#{value}\""
+      end
+      soap_message += ">"
+
+      soap_message += soap_header
+      soap_message += "<env:Body>"
+      soap_message += soap_body
+      soap_message += "</env:Body>"
+
+      soap_message += "</env:Envelope>"
+      soap_message
+    end
+
     def helper_call(api_version, credentials, soap_body)
       soap_action = ""
 
       case api_version
         when "v13"
-          soap_message = SoapMessageV13.new(@connector, credentials)
           match_data = soap_body.match(/<(\w+)/m)
           if match_data
             soap_action = match_data[1]
@@ -39,16 +71,15 @@ module Sem4rSoap
             raise "Soapaction not found in #{soap_body}"
           end
         when "v2010"
-          soap_message = SoapMessageV2010.new(@connector, credentials)
-          soap_message.init(@header_namespace, @service_namespace)
         else
           raise "unkwnow api version #{api_version}"
       end
 
+      soap_xml = build_soap_message(build_soap_header(credentials), soap_body)
       if credentials.sandbox?
-        soap_message.send(@sandbox_service_url, soap_action, build_soap_header(credentials), soap_body)
+        _send(@sandbox_service_url, soap_action, soap_xml)
       else
-        soap_message.send(@production_service_url, soap_action, build_soap_header(credentials), soap_body)
+        _send(@production_service_url, soap_action, soap_xml)
       end
     end
 

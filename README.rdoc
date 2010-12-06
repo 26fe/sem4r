@@ -40,19 +40,56 @@ You can list all client accounts:
 See directory examples_sem4r[http://github.com/sem4r/sem4r/tree/master/examples_sem4r/examples_sem4r] for more examples.
 Follow the sem4r.com[http://www.sem4r.com] feed for announcements of new releases.
 
-== Install
-
-  sudo gem install sem4r
-
 == Ruby Versions
 
-Sem4r tested on following ruby version:
+Sem4r last gem was tested on following rubies:
 
 * 1.9.2-p0 - linux (works)
 * jruby 1.5.5 - linux (some example are not working, certificate verify failed OpenSSL in sandbox)
 * ...
 
+== Install
+
+  sudo gem install sem4r
+
+== Api status
+
+=== Campaign Data Management
+
+* CampaignService: ...
+* CampaignTargetService: ...
+* AdGroupService: ...
+* AdGroupAdService: ...
+* CampaignAdExtensionService: ...
+* AdExtensionOverrideService: ...
+* CampaignCriterionService: ...
+* AdGroupCriterionService: ...
+* AdParamService: ...
+* UserListService: ...
+
+=== Optimization
+
+* BidLandscapeService: ...
+* ReportDefinitionService
+* TargetingIdeaService
+* TrafficEstimatorService
+
+=== Account Management
+
+* AlertService
+* CustomerSyncService
+* InfoService
+* ServicedAccountService
+
+=== Utility
+
+* BulkMutateJobService
+* GeoLocationService
+* MediaService
+
 == How to submit a bug report
+
+...
 
 == Contribute
 
@@ -71,9 +108,9 @@ So you want your prefered service supported by sem4r. Great! Please follow this 
 
 == Contributors
 
-If I miss someone send me a note.
+If I miss someone send me[sem4ruby@gmail.com] a note.
 
-* Glenn Gillen {http://github.com/rubypond}
+* Glenn Gillen[http://github.com/rubypond]
 
 
 To see all contributors execute: git shortlog -n -s --no-merges
