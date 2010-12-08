@@ -28,7 +28,7 @@ require File.dirname(__FILE__) + '/../rspec_helper'
 describe Credentials do
 
   before do
-    @opts = {
+    @credentials_options = {
       :environment     => "sandbox",
       :email           => "email",
       :password        => "password",
@@ -36,7 +36,7 @@ describe Credentials do
   end
 
   it "should have getter" do
-    credentials = Credentials.new(@opts)
+    credentials = Credentials.new(@credentials_options)
 
     credentials.email.should           == "email"
     credentials.password.should        == "password"
@@ -45,20 +45,21 @@ describe Credentials do
   end
 
   it "should be mutable" do
-    @opts[:mutable] = true
-    credentials = Credentials.new(@opts)
+    @credentials_options[:mutable] = true
+    credentials = Credentials.new(@credentials_options)
     credentials.should be_mutable
   end
 
   it "requests authentication token should raise an exception without connector" do
-    credentials = Credentials.new(@opts)
+    credentials = Credentials.new(@credentials_options)
     lambda { credentials.authentication_token }.should raise_error
   end
   
   it "should call connector when request for an authentication token" do
-    credentials = Credentials.new(@opts)
-    connector = Sem4rSoap::SoapConnector.new
-    connector.should_receive(:authentication_token).and_return("auth_token")
+    connector = Sem4rSoap::HttpConnector.get
+    connector.should_receive(:post).and_return(double( :code => "200", :status => 200, :body => "Auth=auth_token") )
+
+    credentials = Credentials.new(@credentials_options)
     credentials.connector= connector
     credentials.authentication_token.should == "auth_token"
   end

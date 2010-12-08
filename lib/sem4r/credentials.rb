@@ -75,12 +75,18 @@ module Sem4r
 
     def authentication_token
       return @authentication_token if @authentication_token
-      if @credentials
-        return @authentication_token = @credentials.authentication_token
-      end
+      return @authentication_token = @credentials.authentication_token if @credentials
       raise "no connector in credentials! use credentials.connector="  unless @connector
-      @authentication_token = @connector.authentication_token(@email, @password)
-      @authentication_token
+
+      url = "https://www.google.com/accounts/ClientLogin"
+      query = "accountType=GOOGLE&Email=#{URI.escape(email)}&Passwd=#{URI.escape(password)}&service=adwords"
+      headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+      response = @connector.post(url, query, headers )
+      status = response.code.to_i
+      if status != 200
+        raise Sem4rError, "authentication failed status is #{status}"
+      end
+      @authentication_token = response.body[/Auth=(.*)/, 1]
     end
 
   end

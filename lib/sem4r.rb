@@ -25,9 +25,17 @@
 require 'yaml'
 require 'pathname'
 
+#
 # use bundler
+#
+
 require "rubygems"
 require "bundler/setup"
+
+if RUBY_PLATFORM =~ /java/
+  gem 'jruby-openssl'
+  require 'openssl'
+end
 
 require 'builder'
 # require 'rexml/document'

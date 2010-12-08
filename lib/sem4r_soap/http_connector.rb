@@ -25,66 +25,176 @@
 
 module Sem4rSoap
 
-  class HttpConnector
+  module HttpConnector
 
-    MAXRETRIES = 3
+    def self.get(logger = nil)
+      # ConnectorNetHttp.new(logger)
+      ConnectorHttpClient.new(logger)
+    end
 
-    def get_sess_for_host(uri)
-      @sessions ||= {}
+    #
+    # use Net::HTTP standard library http client
+    #
+    class ConnectorNetHttp
+      include SoapDumper
 
-      url = uri.scheme + "://" + uri.host
-      sess = @sessions[url]
-      unless sess
-        sess = Net::HTTP.new(uri.host, uri.port)
-        sess.use_ssl = (uri.scheme == "https")
-        sess.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        @sessions[url] = sess
+      def initialize(logger = nil)
+        @logger = logger
       end
-      sess
-    end
 
-    def invalidate_sess(uri)
-      sess = @sessions[uri.host]
-      if sess
-        # sess.close
-        @sessions[uri.host] = nil
+      def logger=(log)
+        @logger = log
       end
-    end
 
-    def download(url, path_name)
-      data = open(url){ |f| f.read }
-      File.open(path_name, "w") { |f| f.write(data) }
-    end
+      #
+      # Send a soap request
+      # 
+      # @raise [URI::InvalidURIError] when service_url is incorrect
+      #
+      def send(service_url, soap_action, soap_request_xml)
+        uri     = URI.parse(service_url) # might raise URI::InvalidURIError
 
-    def request_post(uri, str, headers)
-      sess = get_sess_for_host(uri)
-      retries = 0; response = nil
-      while retries <= MAXRETRIES and response.nil?
-        retries += 1
-        e = nil
-        begin
-          #########################
-          response = sess.request_post(uri.path, str, headers )
-          # pp response.methods
-          # pp response.class.to_s
-          status = response.code.to_i
-          # pp "status: #{status}"
-          ##########################
-        rescue StandardError => e
+        headers = {
+            "Content-Type"   => "text/xml; charset=utf-8",
+            "Content-Length" => soap_request_xml.length.to_s,
+            "SOAPAction"     => soap_action}
+
+        @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
+        dump_soap_request(service_url, soap_request_xml)
+        response = post(uri, soap_request_xml, headers)
+        unless response
+          raise Sem4rError, "Connection Error"
+        end
+        response_xml = response.body
+        dump_soap_response(service_url, response_xml)
+        response_xml
+      end
+
+      #
+      # Downloads content at url in path_name
+      #
+      def download(url, path_name)
+        uri     = URI.parse(url)
+        http    = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request.initialize_http_header({"User-Agent" => "My Ruby Script"})
+        response = http.request(request)
+        File.open(path_name, "w") { |f| f.write(response.body) }
+      end
+
+      def post(uri, str, headers)
+        unless uri.respond_to? :path
+          uri     = URI.parse(uri) # might raise URI::InvalidURIError
+        end
+        retries = 0; response = nil
+        while retries <= MAXRETRIES and response.nil?
+          retries += 1
+          begin
+            client   = client_for_uri(uri)
+            response = client.post(uri.path, str, headers)
+            status   = response.code.to_i
+            # pp response.class.to_s
+            # pp "status: #{status}"
+          rescue StandardError => e
+            @logger.warn("request_post retries!!! #{e.to_s}") if @logger
+            invalidate_client_for_uri(uri)
+            sleep(1 * retries) # wait
+          end
         end
 
-        if e
-          @logger.warn("request_post retries!!! #{e.to_s}") if @logger
-          invalidate_sess(uri)
-          sleep(2 * retries) # wait 1 sec
-          sess = get_sess_for_host(uri)
+        unless response
+          raise "Connection Error, Network is down?? :-((("
+        end
+        response
+      end
+
+      private
+
+      MAXRETRIES = 2
+
+      def client_for_uri(uri)
+        @clients ||= {}
+        key      = uri.scheme + "://" + uri.host
+        client   = @clients[key]
+        unless client
+          client = Net::HTTP.new(uri.host, uri.port)
+          if uri.scheme == "https"
+            client.use_ssl     = (uri.scheme == "https")
+            client.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          end
+          @clients[key] = client
+        end
+        client
+      end
+
+      def invalidate_client_for_uri(uri)
+        key = uri.scheme + "://" + uri.host
+        @clients[uri.host] = nil if  @clients[key]
+      end
+
+    end
+
+    class ConnectorHttpClient
+      include SoapDumper
+
+      def initialize(logger = nil)
+        @logger = logger
+      end
+
+      def logger=(log)
+        @logger = log
+      end
+
+      #
+      # Send a soap request
+      # @return [String] soap xml response
+      # @raise [URI::InvalidURIError] when service_url is incorrect
+      #
+      def send(service_url, soap_action, request_xml)
+        uri     = URI.parse(service_url)
+
+        headers = {
+            "Content-Type"   => "text/xml; charset=utf-8",
+            "Content-Length" => request_xml.length.to_s,
+            "SOAPAction"     => soap_action}
+
+        @logger.info("Post to #{uri.path} (#{soap_action})") if @logger
+        dump_soap_request(service_url, request_xml)
+        response = post(service_url, request_xml, headers)
+        unless response
+          raise Sem4rError, "Connection Error"
+        end
+        response_xml = response.content
+        dump_soap_response(service_url, response_xml)
+        response_xml
+      end
+
+      #
+      # Downloads content at url in path_name
+      #
+      def download(url, path_name)
+        client = HTTPClient.new(:agent_name => 'Ruby') # agentname
+        File.open(path_name, "w") do |file|
+          client.get_content(url) do |chunk|
+            file.write chunk
+          end
         end
       end
-      unless response
-        raise "Connection Error, Network is down?? :-((("
+
+      #
+      # @return [Object] must respond to :status and :body
+      #
+      def post(service_url, body, headers)
+        client   = HTTPClient.new(:agent_name => 'Ruby') # agentname
+        response = client.post(service_url, body, headers)
+        unless response
+          raise "Connection Error, Network is down?? :-((("
+        end
+        response.instance_eval { def body; content; end}
+        response
       end
-      response
     end
+
   end
 
-end # module Sem4r
+end # module Sem4rSoap
