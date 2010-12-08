@@ -215,9 +215,8 @@ module Sem4r
     def deferred_initialize
       @initialized = true
 
-      @connector = Sem4rSoap::AdwordsSoapConnector.new
+      @connector = Sem4rSoap::HttpConnector.get(@logger)
       @connector.dump_soap_options(@dump_soap_options) if @dump_soap_options
-      @connector.logger=(@logger) if @logger
 
       @credentials = Credentials.new(
         :environment         => @options["environment"],
@@ -240,4 +239,4 @@ module Sem4r
 
   end
 
-end
+end # module Sem4r

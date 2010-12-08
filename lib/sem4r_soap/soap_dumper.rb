@@ -28,22 +28,31 @@ module Sem4rSoap
   module SoapDumper
 
     def initialize
-      @soap_dump = false
+      @soap_dump     = false
       @soap_dump_log = nil
     end
 
-    def dump_soap_options( dump_options )
-      @soap_dump = true
+    #
+    # set the options for the dumping soap message
+    #
+    # @param [Hash] options
+    # @option options [String] :directory
+    # @option options [String] :file
+    # @option options [String] :format
+    # @option options [String] :interceptor
+    #
+    def dump_soap_options(options)
+      @soap_dump     = true
       @soap_dump_log = nil
 
-      if dump_options[:directory]
-        @soap_dump_dir = dump_options[:directory]
+      if options[:directory]
+        @soap_dump_dir = options[:directory]
       else
-        @soap_dump_log = File.open( dump_options[:file], "w" )
+        @soap_dump_log = File.open(options[:file], "w")
       end
-      @soap_dump_format = false || dump_options[:format]
+      @soap_dump_format = false || options[:format]
 
-      @soap_dump_interceptor = dump_options[:interceptor] if dump_options[:interceptor]
+      @soap_dump_interceptor = options[:interceptor] if options[:interceptor]
     end
 
     def dump_soap_request(service_url, request_xml)
@@ -61,9 +70,9 @@ module Sem4rSoap
       return unless @soap_dump
       response_xml.gsub(/<email[^>]*>.+<\/email>/, "<email>**censured**</email>")
       str = ""
-      str <<  "<!-- response -->\n" unless @soap_dump_dir
+      str << "<!-- response -->\n" unless @soap_dump_dir
       str << xml_to_s(response_xml) << "\n"
-      str <<  "<!-- end -->" unless @soap_dump_dir
+      str << "<!-- end -->" unless @soap_dump_dir
       dump(service_url, "res", str)
     end
 
@@ -74,12 +83,12 @@ module Sem4rSoap
       @soap_dump_interceptor.call(service_url, type, str) if @soap_dump_interceptor
 
       if @soap_dump_dir
-        service = service_url.match(/\/([^\/]*)$/)[1]
+        service  = service_url.match(/\/([^\/]*)$/)[1]
         filename = Time.now.strftime "%Y%m%d-%H%M%S-%L-#{service}-#{type}.xml"
 
         FileUtils.mkdir_p(@soap_dump_dir) unless File.directory?(@soap_dump_dir)
         pathname = File.join(@soap_dump_dir, filename)
-        File.open(pathname, "w") {|f|
+        File.open(pathname, "w") { |f|
           f.puts str
         }
       else
@@ -95,13 +104,13 @@ module Sem4rSoap
         # TODO: using nokogiri also for pretty print xml ?
         require 'rexml/document'
         xml_document = REXML::Document.new(xml)
-        f = REXML::Formatters::Pretty.new
-        out = String.new
+        f            = REXML::Formatters::Pretty.new
+        out          = String.new
         f.write(xml_document, out)
         # remove xml directive
-        out.gsub("<?xml version='1.0' encoding='UTF-8'?>","")
+        out.gsub("<?xml version='1.0' encoding='UTF-8'?>", "")
       end
     end
   end
 
-end # module Sem4r
+end # module Sem4rSoap

@@ -27,13 +27,17 @@ module Sem4rSoap
   class SoapService
 
     def initialize
-      @soap_header_namespaces = {}
+      @soap_namespaces = {}
     end
 
     def init(header_namespace, service_namespace)
+      @soap_namespaces = {}
+
       @header_namespace = header_namespace
+      @soap_namespaces['xmlns'] = header_namespace if header_namespace
+
       @service_namespace = service_namespace
-      @soap_header_namespaces = {'xmlns' => header_namespace, 'xmlns:s' => service_namespace}
+      @soap_namespaces['xmlns:s'] = service_namespace if service_namespace
     end
 
     def build_soap_message(soap_header, soap_body)
@@ -45,7 +49,7 @@ module Sem4rSoap
          xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
       EOFS
 
-      @soap_header_namespaces.each do |name, value|
+      @soap_namespaces.each do |name, value|
         soap_message += " #{name}=\"#{value}\""
       end
       soap_message += ">"
