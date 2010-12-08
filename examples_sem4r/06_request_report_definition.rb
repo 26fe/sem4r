@@ -30,13 +30,10 @@ run_example(__FILE__) do |adwords|
 
   # account.report_fields
 
-
   rd = account.report_definition do
     name       "Keywords performance report #1290336379254"
     type       "KEYWORDS_PERFORMANCE_REPORT"
-    date_range "CUSTOM_DATE"
-    from       "20100101"
-    to         "20100110"
+    date_range "LAST_WEEK"
     format     "CSV"
 
     field "AdGroupId"

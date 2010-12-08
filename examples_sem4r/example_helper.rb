@@ -30,7 +30,7 @@ require 'sem4r'
 include Sem4r
 
 def tmp_dirname
-  d = File.join( File.dirname(__FILE__), "..", "tmp" )
+  d = File.expand_path( File.join( File.dirname(__FILE__), "..", "tmp" ) )
   return d if File.directory?(d)
   
   if RUBY_PLATFORM.include?("linux")
