@@ -100,21 +100,32 @@ module Sem4r
       builder.tag!(tag) do |t|
 
         t.id             @id         if @id
+
+        if !fields.empty? or ( !!from and !!to )
+          #TODO: non costruire selector se il contenuto e' vuoto utile per l'operazione di delete
+          t.selector do |t|
+            fields.each { |f| t.fields f}
+
+#            t.predicates do |t|
+#              t.field    "AdGroupId"
+#              t.operator "EQUALS"
+#              t.values   1
+#            end
+
+            if from and to
+              t.dateRange do |t|
+                t.min from
+                t.max to
+              end
+            end
+          end
+        end
+
         t.reportName     @name       if @name
         t.reportType     @type       if @type
         t.dateRangeType  @date_range if @date_range
         t.downloadFormat @format     if @format
 
-        #TODO: non costruire selector se il contenuto e' vuoto utile per l'operazione di delete
-        t.selector do |t|
-          fields.each { |f| t.fields f}
-          if from and to
-            t.dateRange do |t|
-              t.min from
-              t.max to
-            end
-          end
-        end
 
       end
     end
