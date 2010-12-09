@@ -25,7 +25,7 @@
 
 module Sem4rCli
 
-  CliListClient = CliCommand.define_command("clients", "list clients account") do |account|
+  CliListClient = define_command_sem4r("clients", "list clients account") do |account|
     puts account.adwords.to_s
     puts account.to_s
     account.p_client_accounts

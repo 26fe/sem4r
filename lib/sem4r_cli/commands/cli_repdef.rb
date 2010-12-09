@@ -25,23 +25,30 @@
 
 module Sem4rCli
 
-  class CliRepDef < CliCommand #:nodoc: all
+  #
+  # Report Definition (v201008 api)
+  #
+  class CliRepDef < CliCommand
 
     def self.command
       "repdef"
     end
 
-    def self.description
-      "report definition"
+    def self.subcommands
+      %w{fields list create}
     end
 
-    def initialize(common_args)
-      @common_args = common_args
+    def self.description
+      "manage report definition (subcommands: fields, list, create)"
+    end
+
+    def initialize(sem4r_cli)
+      @sem4r_cli = sem4r_cli
     end
 
     def command_opt_parser(options)
       opt_parser = OptionParser.new
-      opt_parser.banner = "Usage #{self.class.command} [command_options ] [fields|list|create]"
+      opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{subcommands.join("|")}]"
       opt_parser.separator ""
       opt_parser.separator "#{self.class.description}"
       opt_parser.on("-h", "--help", "show this message") do
@@ -62,10 +69,11 @@ module Sem4rCli
         return false
       end
 
-      account = @common_args.account
-      
-      case rest[0]
-
+      account = @sem4r_cli.account
+      ret = true
+      subcommand = rest[0]
+      subcommand_args = rest[1..-1]
+      case subcommand
       when "fields"
         account.report_fields.each do |f|
           puts f.to_s
@@ -78,31 +86,39 @@ module Sem4rCli
         report_definition_id = rest[1]
         account.report_definition_delete(report_definition_id)
 
-      when "create"
-        rd = account.report_definition do
-          name       "Keywords performance report #1290336379254"
-          type       "KEYWORDS_PERFORMANCE_REPORT"
-          date_range "CUSTOM_DATE"
-          from       "20100101"
-          to         "20100110"
-          format     "CSV"
-
-          field "AdGroupId"
-          field "Id"
-          field "KeywordText"
-          field "KeywordMatchType"
-          field "Impressions"
-          field "Clicks"
-          field "Cost"
-        end
-        rd.save
-        puts rd.id
-        puts rd.to_s
-        account.p_report_definitions
-      else
-        puts "unknow command"
+        when "create"
+          ret = create(account)
+        else
+          puts "unknow subcommand '#{subcommand}'; must be one of #{subcommands.join(", ")}"
+          return false
       end
       account.adwords.p_counters
+      ret
+    end
+
+    private
+
+    def create(account)
+      rd = account.report_definition do
+        name       "Keywords performance report #1290336379254"
+        type       "KEYWORDS_PERFORMANCE_REPORT"
+        date_range "CUSTOM_DATE"
+        from       "20100101"
+        to         "20100110"
+        format     "CSV"
+
+        field "AdGroupId"
+        field "Id"
+        field "KeywordText"
+        field "KeywordMatchType"
+        field "Impressions"
+        field "Clicks"
+        field "Cost"
+      end
+      rd.save
+      puts rd.id
+      puts rd.to_s
+      account.p_report_definitions
       true
     end
 
