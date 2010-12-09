@@ -25,7 +25,10 @@
 
 module Sem4rCli
 
-  class CliIdeas < CliCommand #:nodoc: all
+  #
+  # idea
+  #
+  class CliIdeas < CliCommand
 
     def self.command
       "ideas"
@@ -39,8 +42,29 @@ module Sem4rCli
       @common_args = common_args
     end
 
+    def parse_and_run(argv)
+      options = OpenStruct.new
+      rest    = opt_parser(options).parse(argv)
+      return false if options.exit
+
+      if rest.length < 1
+        puts "keyword missing; see help"
+        return false
+      end
+
+      keyword = rest[1]
+      account = @common_args.account
+      unless account
+        puts "select an account!"
+        return false
+      end
+      _run(account, keyword)
+    end
+
+    private
+
     def opt_parser(options)
-      opt_parser = OptionParser.new
+      opt_parser       = OptionParser.new
       opt_parser.banner= "#{self.class.description}"
       opt_parser.separator "Usage: sem [options] idea <keyword>"
 
@@ -53,31 +77,13 @@ module Sem4rCli
       end
     end
 
-    def parse_and_run(argv)
-      options = OpenStruct.new
-      rest = opt_parser(options).parse( argv )
-      return false if options.exit
-      if rest.length < 1
-        puts "keyword missing see help"
-        return false
-      end
-      
-      @keyword =  rest[1]
-      account = @common_args.account
-      unless account
-        puts "select an account!"
-      else
-        _run account
-      end
-    end
-
-    def _run(account)
-      ideas = account.targeting_idea  do
-        idea_type    "KEYWORD"
+    def _run(account, keyword)
+      ideas = account.targeting_idea do
+        idea_type "KEYWORD"
         request_type "IDEAS"
 
         related_to_keyword_search_parameter do
-          text       @keyword
+          text keyword
           match_type 'EXACT'
         end
       end
@@ -86,16 +92,18 @@ module Sem4rCli
       ideas.each do |i|
         i.each do |a|
           next if a.class != TKeywordAttribute
-          o = OpenStruct.new
+          o       = OpenStruct.new
           o.text  = a.text
           o.match = a.match_type
           items << o
         end
       end
 
-      Sem4r::report(items, :text, :match)
+      Sem4rCli::report(items, :text, :match)
       account.adwords.p_counters
+      true
     end
 
   end
-end  # module Sem4rCli
+
+end # module Sem4rCli

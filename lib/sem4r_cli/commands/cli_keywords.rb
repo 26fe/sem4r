@@ -25,7 +25,7 @@
 
 module Sem4rCli
 
-  CliListKeywords = CliCommand.define_command("keywords", "list keywords") do |account |
+  CliListKeywords = define_command_sem4r("keywords", "list keywords") do |account|
 
     # if the account have client_accounts it is a master
     client_accounts = account.client_accounts
@@ -33,11 +33,11 @@ module Sem4rCli
       client_accounts = [account]
     end
 
-    items = []
+    items        = []
     need_newline = false
     client_accounts.each do |client_account|
       if need_newline
-        puts 
+        puts
         need_newline = false
       end
       puts "examinate account '#{client_account.credentials.client_email}'"
@@ -45,19 +45,19 @@ module Sem4rCli
         # puts "examinate campaign '#{campaign}'"
         campaign.ad_groups.each do |ad_group|
           ad_group.criterions.each do |criterion|
-          
-            row = OpenStruct.new
+
+            row          = OpenStruct.new
             row.client   = client_account.credentials.client_email
             row.campaign = campaign.name
             row.ad_group = ad_group.name
 
             row.type     = criterion.type
             case criterion.type
-            when Criterion::Keyword
-              row.text  = criterion.text
-              row.match = criterion.match
-            when Criterion::Placement
-              row.text  = criterion.url
+              when Criterion::Keyword
+                row.text  = criterion.text
+                row.match = criterion.match
+              when Criterion::Placement
+                row.text = criterion.url
             end
             items << row
             print "."
@@ -72,6 +72,7 @@ module Sem4rCli
     end
     report(items, :client, :campaign, :ad_group, :type, :text, :match)
     account.adwords.p_counters
+    true
   end
 
-end
+end # module Sem4rCli

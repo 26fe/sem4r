@@ -25,11 +25,10 @@
 
 module Sem4rCli
 
-  CliInfo = CliCommand.define_command("info", "account info") do |account|
+  CliInfo = define_command_sem4r("info", "show account info") do |account|
     account.p_info
     items = (InfoSelector::UsageTypes - [InfoSelector::METHOD_COST]).map do |usage_type|
       n = account.year_unit_cost(usage_type)
-      # puts "#{usage_type} -> #{n}"
       OpenStruct.new(:usage_type => usage_type, :n => n)
     end
     report(items, :usage_type, :n)

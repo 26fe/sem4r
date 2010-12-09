@@ -25,51 +25,11 @@
 
 module Sem4rCli
 
-  CliListAds = CliCommand.define_command("ads", "list ads") do |account|
-    puts "List AdGroup Advertising"
-
-    # if the accounts have client_accounts it is a master
-    client_accounts = account.client_accounts
-    if client_accounts.empty?
-      client_accounts = [account]
-    end
-
-    items = []
-    need_newline = false
-
-    client_accounts.each do |client_account|
-      if need_newline
-        puts
-        need_newline = false
-      end
-
-      #--
-      puts "examinate account '#{client_account.credentials.client_email}'"
-      client_account.campaigns.each do |campaign|
-        # puts "examinate campaign '#{campaign}'"
-        campaign.ad_groups.each do |ad_group|
-          # puts "examinate adgroup '#{ad_group}'"
-          ad_group.ads.each do |ad|
-            o = OpenStruct.new
-            o.client   = client_account.credentials.client_email
-            o.campaign = campaign.name
-            o.ad_group = ad_group.name
-            o.url      = ad.url
-            o.url      = ad.display_url
-            items << o
-          end
-          print "."
-          need_newline = true
-        end
-      end
-      #--
-
-    end
-    if need_newline
-      puts
-      need_newline = false
-    end
-    report(items, :client, :campaign, :ad_group, :url, :display_url)
+  CliListCampaign = define_command_sem4r("campaigns", "list campaigns") do |account|
+    puts "listing campaings in #{account}"
+    report(account.campaigns, :id, :name, :status)
     account.adwords.p_counters
+    true
   end
+
 end
