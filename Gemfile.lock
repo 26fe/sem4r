@@ -6,6 +6,7 @@ GEM
     diff-lcs (1.1.2)
     differ (0.1.1)
     git (1.2.5)
+    highline (1.6.1)
     httpclient (2.1.5.2)
     jeweler (1.5.1)
       bundler (~> 1.0.0)
@@ -34,6 +35,7 @@ PLATFORMS
 DEPENDENCIES
   builder
   differ
+  highline
   httpclient
   jeweler
   jruby-openssl

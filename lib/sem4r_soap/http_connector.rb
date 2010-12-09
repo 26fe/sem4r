@@ -27,9 +27,15 @@ module Sem4rSoap
 
   module HttpConnector
 
-    def self.get(logger = nil)
-      # ConnectorNetHttp.new(logger)
-      ConnectorHttpClient.new(logger)
+    def self.get(logger = nil, type = :http_client)
+      case type
+        when :http_client
+          ConnectorHttpClient.new(logger)
+        when :net_http
+          ConnectorNetHttp.new(logger)
+        else
+          raise "unknow connector type"
+      end
     end
 
     #

@@ -27,80 +27,149 @@ module Sem4r
   class Adwords
 
     attr_reader :profile
-    
+
     class << self
-      def sandbox( config = nil )
-        new( "sandbox", config )
+
+      #
+      # Initialize Adwords with sandbox profile
+      # @see Adwords#initialize
+      #
+      def sandbox(options = nil)
+        new("sandbox", options)
       end
 
-      def production( config = nil )
-        new( "production", config )
+      #
+      # Initialize Adwords with production profile
+      # @see Adwords#initialize
+      #
+      def production(options = nil)
+        new("production", options)
       end
 
-      def search_config_file
-        config_filename = "sem4r.yml"
+      #
+      # @private
+      # Search configuration file in standard locations
+      # @return [OpenStruct] with
+      #       :config_dir
+      #       :config_file
+      #       :password_file
+      #
+      def search_config
+        config_filename   = "sem4r.yml"
+        password_filename = "sem4r_passwords.yml"
 
         #
         # try current directory
         #
-        return File.expand_path(config_filename) if File.exists?( config_filename)
+        # return File.expand_path(config_filename) if File.exists?( config_filename)
 
         #
         # try ~/.sem4r/sem4r.yml
         #
         # require 'etc'
         # homedir = Etc.getpwuid.dir
-        homedir = ENV['HOME']
-        config_filepath = File.join( homedir, ".sem4r", config_filename)
-        return config_filepath if File.exists?( config_filepath )
+        homedir           = ENV['HOME']
+        config_filepath   = File.join(homedir, ".sem4r", config_filename)
+        if File.exists?(config_filepath)
+          return OpenStruct.new(
+              :config_dir    => File.join(homedir, ".sem4r"),
+              :config_file   => config_filepath,
+              :password_file => File.join(homedir, ".sem4r", password_filename))
+        end
 
         #
         # try <home_sem4r>/config/sem4r
         #
-        config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", config_filename ) )
-        return config_filepath if File.exists?( config_filepath )
+        config_filepath = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "config", config_filename))
+        if File.exists?(config_filepath)
+          return OpenStruct.new(
+              :config_dir    => nil,
+              :config_file   => config_filepath,
+              :password_file => nil)
+        end
 
-        config_filepath =  File.expand_path( File.join( File.dirname( __FILE__ ), "..", "..", "config", "sem4r.example.yml" ) )
-        return config_filepath if File.exists?( config_filepath )
+        config_filepath = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "config", "sem4r.example.yml"))
+        if File.exists?(config_filepath)
+          return OpenStruct.new(
+              :config_dir    => nil,
+              :config_file   => config_filepath,
+              :password_file => nil)
+        end
 
-        nil
+        OpenStruct.new(
+            :config_dir    => nil,
+            :config_file   => nil,
+            :password_file => nil)
       end
 
-      def profiles( profile_file = nil )
-        profile_file = search_config_file unless profile_file
+      #
+      # Return list of profile contained into config file
+      #
+      def profiles(profile_file = nil)
         unless profile_file
-          raise Sem4rError, "config file 'sem4r' not found"
+          config = search_config
+          unless config
+            raise Sem4rError, "config file 'sem4r' not found"
+          end
+          profile_file = config.config_file
         end
         # puts "Loaded profiles from #{profile_file}"
-        yaml = YAML::load( File.open( profile_file ) )
+        yaml     = YAML::load(File.open(profile_file))
         profiles = yaml['google_adwords']
         profiles
       end
     end
 
-    # new( "sandbox", {:email=>"..."} )
-    # new( {:environment=>"...", email => "..." } )
-    # new( "sandbox" )
-    # new() sandbox default
-    def initialize( profile = "sandbox", options = nil )
-      @logger = nil
+    #
+    # initialize Adwords lib
+    # profiles "sandbox" and "production" have blocked environment
+    #
+    # @param [String] profile name
+    # @param [Hash] options the options for profile.
+    #
+    # @option opts [String] :config_file    default to "~/.sem4r/sem4r.yml"
+    # @option opts [String] :password_file  default to "~/.sem4r/sem4r_password.yml"
+    #
+    # @option opts [String] :mutable        default to true,
+    #                                       if true doesn't call mutable api call
+    #
+    # @option opts [String] :environment    "sandbox", "production"
+    # @option opts [String] :email
+    # @option opts [String] :password
+    # @option opts [String] :developer_token
+    #
+    # @example
+    #   Adwords.new( "sandbox", {:email=>"..."} )
+    #   Adwords.new( {:environment=>"...", email => "..." } )
+    #   Adwords.new( "sandbox" )
+    #   Adwords.new() # default to sandbox
+    #
+    def initialize(profile = "sandbox", options = nil)
+      all_keys = %w{environment email password developer_token mutable config_file password_file}
+      @logger  = nil
       if not options.nil?
-        # new( "sandbox", {:email=>"..."} )
-        @profile = profile.to_s      
-        options = options.stringify_keys
-        options.assert_valid_keys("environment", "email", "password", "developer_token", "mutable", "config_file")
-        f = options.delete("config_file")
-        self.config_file= f if f
+        # new( "profile", {:email=>"..."} )
+        options  = options.stringify_keys
+        options.assert_valid_keys(*all_keys)
+
+        config_file   = options.delete("config_file")
+        password_file = options.delete("password_file")
+        configure(config_file, password_file)
+
+        @profile = profile.to_s
         @options = load_config(@profile)
         @options = @options.merge(options)
       elsif profile.respond_to?(:keys)
         # new( {:environment=>"...", email => "..." } )
-        @options = profile.stringify_keys
-        @options.assert_valid_keys("environment", "email", "password", "developer_token", "mutable")
+        options = profile.stringify_keys
+        options.assert_valid_keys( *(all_keys-%w{config_file password_file}) )
+        configure
+        @options = options
         @profile = "anonymous_" + @options["environment"]
       else
         # new( "sandbox" )
         @profile = profile.to_s
+        configure
         @options = load_config(@profile)
       end
       if ["sandbox", "production"].include?(profile)
@@ -108,48 +177,124 @@ module Sem4r
           @options["environment"] = profile
         end
         if @options["environment"] != profile
-          raise "you cannot use profile '#{profile}' with environment #{@options["environment"]}"
+          raise "you cannot use profile '#{profile}' with environment '#{@options["environment"]}'"
         end
       end
+
+      try_to_find_password_in_password_file unless @options["password"]
     end
 
     def to_s
       "adwords profile: '#{profile}' config file: '#{config_file}'"
     end
 
-    def config_file=(file_path)
-      config_filepath = File.expand_path(file_path)
-      if File.exists?( config_filepath)
-        @config_filepath = config_filepath
-      else
-        puts "#{config_filepath} not exists"
-      end
-      @config_filepath
+    #
+    # returns profiles contained into current config file
+    #
+    def profiles
+      self.class.profiles @config.config_file
     end
 
-    # return the config file name
+    #
+    # @return [String] the config file name
+    #
     def config_file
-      return @config_filepath if @config_filepath
-      @config_file_path = Adwords.search_config_file
-      @config_file_path
+      return @config.config_file if @config
+      @config = Adwords.search_config
+      unless @config
+        puts "cannot find configuration files"
+      end
+      @config.config_file
     end
 
+    ######################################################################################################
+    # Password
+
+    #
+    # password is defined?
+    #
+    def has_password?
+      !@options["password"].nil?
+    end
+
+    #
+    # set password
+    #
+    def password=(pwd)
+      if @account
+        raise "already connected cannot change password"
+      end
+      @options["password"]=pwd
+    end
+
+    def try_to_find_password_in_password_file
+      return unless @config.password_file
+      return unless File.exists?(@config.password_file)
+      passwords = YAML.load(File.open(@config.password_file))
+      pass = passwords[@options["email"]]
+      @options["password"] = pass if pass
+    end
+
+    def save_passwords
+      if @config.password_file.nil?
+        raise "cannot save password"
+      end
+      puts "save password in #{@config.password_file} (security warning!)"
+      passwords = {}
+      if File.exists?(@config.password_file)
+        passwords = YAML.load(File.open(@config.password_file))
+      end
+      passwords[@options["email"]] = @options["password"]
+      File.open(@config.password_file, "w") do |f|
+        f.write(passwords.to_yaml)
+      end
+    end
+
+    private
+
+    #
+    # @private
+    #
+    # force config paths
+    # and the config file
+    #
+    def configure(config_file = nil, password_file = nil)
+      @config = Adwords.search_config
+      unless config_file.nil?
+        config_file = File.expand_path(config_file)
+        unless File.exists?(config_file)
+          raise "#{config_file} not exists"
+        end
+        @config.config_file = config_file
+      end
+      unless password_file.nil?
+        password_file = File.expand_path(password_file)
+        @config.password_file = password_file
+      end
+      @config
+    end
+
+
+    # @private
+    # load the configuration
     def load_config(profile)
-      unless config_file
+      unless @config.config_file
         raise Sem4rError, "config file 'sem4r' not found"
       end
       # puts "Loaded profiles from #{config_file}"
-      yaml = YAML::load( File.open( config_file ) )
-      config  = yaml['google_adwords'][profile]
+      yaml   = YAML::load(File.open(@config.config_file))
+      config = yaml['google_adwords'][profile]
       config || {}
     end
+
+    public
 
     ##########################################################################
     # logging
 
-    def dump_soap_options( dump_options )
+    def dump_soap_options(dump_options)
       @dump_soap_options = dump_options
-      @connector.dump_soap_options( dump_options ) if @connector
+      @connector.dump_soap_options(dump_options) if @connector
     end
 
     def dump_soap?
@@ -166,13 +311,13 @@ module Sem4r
 
     def logger= logger
       unless logger.instance_of?(Logger)
-        file = File.open( logger, "a" )
-        file.sync = true
-        logger = Logger.new(file)
+        file             = File.open(logger, "a")
+        file.sync        = true
+        logger           = Logger.new(file)
         logger.formatter = proc { |severity, datetime, progname, msg|
           "#{datetime.strftime("%H:%M:%S")}: #{msg}\n"
         }
-      end     
+      end
       @logger= logger
 
       @connector.logger= logger if @connector
@@ -182,11 +327,20 @@ module Sem4r
       @logger
     end
 
+    ##########################################################################
+    # others
+
+    #
+    # @return [Account]
+    #
     def account
       deferred_initialize unless @initialized
       @account
     end
 
+    #
+    # print api counters on stdout
+    #
     def p_counters
       operations    = @counters[:operations]
       units         = @counters[:units]
@@ -199,12 +353,12 @@ module Sem4r
 
     attr_reader :service
 
-    #
+    # @private
     # TODO: credentials are necessary because you might use more then account/credentials
     #       at the same time
     #
-    def add_counters( credentials, counters )
-      counters.each_pair { |k,v|
+    def add_counters(credentials, counters)
+      counters.each_pair { |k, v|
         @counters[k] ||= 0
         @counters[k] += v
       }
@@ -212,28 +366,31 @@ module Sem4r
 
     private
 
+    # @private
+    # really initialize connections to the google server
+    #
     def deferred_initialize
       @initialized = true
 
-      @connector = Sem4rSoap::HttpConnector.get(@logger)
+      @connector   = Sem4rSoap::HttpConnector.get(@logger, :http_client)
       @connector.dump_soap_options(@dump_soap_options) if @dump_soap_options
 
-      @credentials = Credentials.new(
-        :environment         => @options["environment"],
-        :email               => @options["email"],
-        :password            => @options["password"],
-        :useragent           => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
-        :developer_token     => @options["developer_token"],
-        :mutable             => @options["mutable"]
+      @credentials           = Credentials.new(
+          :environment     => @options["environment"],
+          :email           => @options["email"],
+          :password        => @options["password"],
+          :useragent       => "Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)",
+          :developer_token => @options["developer_token"],
+          :mutable         => @options["mutable"]
       )
       @credentials.connector = @connector
 
-      @service = Service.new(@connector)
-      @account  = Account.new( self, @credentials )
-      @counters = {
-        :operations => 0,
-        :response_time => 0,
-        :units => 0
+      @service               = Service.new(@connector)
+      @account               = Account.new(self, @credentials)
+      @counters              = {
+          :operations    => 0,
+          :response_time => 0,
+          :units         => 0
       }
     end
 
