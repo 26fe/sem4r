@@ -8,6 +8,7 @@ gem 'highline', :require => 'highline/import'
 group :development do
   gem "jeweler"
   gem "rake"
+  gem "yard"
 end
 
 group :test do

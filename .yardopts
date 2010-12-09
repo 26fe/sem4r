@@ -1,0 +1,8 @@
+--no-private
+--title "My Title"
+--exclude foo
+--exclude bar
+lib/**/*.rb -
+LICENSE
+TestDoc.md
+
