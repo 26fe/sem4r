@@ -27,6 +27,7 @@ GEM
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.2.0)
     weakling (0.0.4-java)
+    yard (0.6.3)
 
 PLATFORMS
   java
@@ -42,3 +43,4 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
+  yard
