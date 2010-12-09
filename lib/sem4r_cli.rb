@@ -23,13 +23,11 @@
 # -------------------------------------------------------------------
 
 require 'optparse'
-require 'ostruct'
-# require "highline/import" # to ask password on command line
+require "highline/import" # to ask password on command line
 
 require 'sem4r'
+require 'sem4r_cli/cli_mini_framework'
 require 'sem4r_cli/cli_sem'
-require 'sem4r_cli/cli_common_args'
-require 'sem4r_cli/cli_command'
 require 'sem4r_cli/cli_helpers'
 
 # commands

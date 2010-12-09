@@ -77,10 +77,9 @@ describe Account do
   end
 
   describe "reports management" do
-
     it "should show reports " do
       @account.should have(4).reports
     end
-
   end
+
 end

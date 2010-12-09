@@ -29,42 +29,37 @@ describe "cli" do
   include Sem4rSpecHelper
 
   describe Sem4rCli::CliSem do
-    
+
     it "should show help" do
       out = with_stdout_captured do
-        cli = Sem4rCli::CliSem.new
+        cli  = Sem4rCli::CliSem.new
         args = %w{ -h }
         cli.parse_and_run(args)
       end
-      out.should match("Usage")  
+      out.should match("Usage")
     end
-    
   end
 
-  describe Sem4rCli::CliCommonArgs do
-
-    it "should show help and exit" do
-      ret = true
-      out = with_stdout_captured do
-        args = %w{ -h }
-        cmd = Sem4rCli::CliCommonArgs.new
-        ret = cmd.parse(args)
-      end
-      out.should match("Usage")
-      ret.should be_false
+  it "should show help and exit" do
+    ret = true
+    out = with_stdout_captured do
+      args = %w{ -h }
+      cmd  = Sem4rCli::CliSem.new
+      ret  = cmd.parse_and_run(args)
     end
+    out.should match("Usage")
+    ret.should be_true
+  end
 
-    it "should show version and exit" do
-      ret = true
-      out = with_stdout_captured do
-        args = %w{ --version }
-        cmd = Sem4rCli::CliCommonArgs.new
-        ret = cmd.parse(args)
-      end
-      out.should match("sem4r version")
-      ret.should be_false
+  it "should show version and exit" do
+    ret = true
+    out = with_stdout_captured do
+      args = %w{ --version }
+      cmd  = Sem4rCli::CliSem.new
+      ret  = cmd.parse_and_run(args)
     end
-
+    out.should match("sem4r version")
+    ret.should be_true
   end
 
 end

@@ -20,7 +20,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
@@ -28,37 +27,38 @@ require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 describe Adwords do
 
   before(:each) do
-    @test_config_filename = File.expand_path(File.dirname(__FILE__) + "/../fixtures/sem4r.example.yml")
+    @test_config_filename   = File.expand_path(File.dirname(__FILE__) + "/../fixtures/sem4r.example.yml")
+    @test_password_filename = File.expand_path(File.dirname(__FILE__) + "/../fixtures/password.example.yml")
 
-    @environment       = "sandbox"
-    @email             = "pippo"
-    @password          = "password"
-    @developer_token   = "developer_token"
+    @environment          = "sandbox"
+    @email                = "sem4ruby@sem4r.com"
+    @password             = "password"
+    @developer_token      = "developer_token"
 
-    @options = {
-      :environment       => @environment,
-      :email             => @email,
-      :password          => @password,
-      :developer_token   => @developer_token,
+    @options              = {
+        :environment     => @environment,
+        :email           => @email,
+        :password        => @password,
+        :developer_token => @developer_token,
     }
   end
 
   it "should take an hash as configuration" do
-    adwords = Adwords.new( @options )
+    adwords = Adwords.new(@options)
     adwords.should_not_receive(:load_config)
     credentials = adwords.account.credentials
 
-    adwords.profile.should               == "anonymous_" + @environment
-    credentials.environment.should       == @environment
-    credentials.email.should             == @email
-    credentials.password.should          == @password
-    credentials.developer_token.should   == @developer_token
+    adwords.profile.should == "anonymous_" + @environment
+    credentials.environment.should == @environment
+    credentials.email.should == @email
+    credentials.password.should == @password
+    credentials.developer_token.should == @developer_token
     credentials.should_not be_mutable
   end
 
   it "should be mutable" do
     @options[:mutable] = true
-    adwords = Adwords.new( @options )
+    adwords            = Adwords.new(@options)
     adwords.should_not_receive(:load_config)
     credentials = adwords.account.credentials
     credentials.should be_mutable
@@ -66,46 +66,68 @@ describe Adwords do
 
   it "should set the right environment (sandbox)" do
     @options.delete(:environment)
-
-    adwords = Adwords.sandbox( @options )
+    adwords     = Adwords.sandbox(@options)
     credentials = adwords.account.credentials
-    credentials.environment.should       == "sandbox"
-    credentials.email.should             == @email
+    credentials.environment.should == "sandbox"
+    credentials.email.should == @email
   end
 
   it "should set the right environment (production)" do
     @options.delete(:environment)
-    adwords = Adwords.production( @options )
+    adwords     = Adwords.production(@options)
     credentials = adwords.account.credentials
-    credentials.environment.should       == "production"
-    credentials.email.should             == @email
+    credentials.environment.should == "production"
+    credentials.email.should == @email
   end
-    
+
   it "should raise an exception when profile is sandbox and env is production" do
-    @options[:environment] = "prodution"
-    lambda { adwords = Adwords.sandbox( @options ) }.should raise_error(RuntimeError)
+    @options[:environment] = "production"
+    expect {
+      Adwords.sandbox(@options)
+    }.to raise_error("you cannot use profile 'sandbox' with environment 'production'")
 
     @options[:environment] = "sandbox"
-    lambda { adwords = Adwords.production( @options ) }.should raise_error(RuntimeError)
+    expect {
+      Adwords.production(@options)
+    }.to raise_error("you cannot use profile 'production' with environment 'sandbox'")
   end
 
   it "should read config file (profile file)" do
-    adwords = Adwords.new( "sandbox", {:config_file => @test_config_filename} )
+    adwords     = Adwords.new("sandbox", {:config_file => @test_config_filename})
     credentials = adwords.account.credentials
-    credentials.environment.should       == "sandbox"
-    credentials.developer_token.should   == "example@gmail.com++EUR"
+    credentials.environment.should == "sandbox"
+    credentials.developer_token.should == "example@gmail.com++EUR"
 
-    adwords = Adwords.new( "production1", {:config_file => @test_config_filename} )
+    adwords     = Adwords.new("production1", {:config_file => @test_config_filename})
     credentials = adwords.account.credentials
-    credentials.environment.should       == "production"
-    credentials.developer_token.should   == "productiondevelopertoken"
+    credentials.environment.should == "production"
+    credentials.developer_token.should == "productiondevelopertoken"
   end
-
 
   it "should list profiles" do
     values = Adwords.profiles(@test_config_filename)
-    values.should have(4).profiles
+    values.should have(5).profiles
   end
 
+  it "should need a password" do
+    @options.delete(:password)
+    adwords = Adwords.new(@options)
+    adwords.should_not have_password
+    adwords.password= "prova"
+    adwords.should have_password
+  end
+
+  it "should use password file" do
+    adwords     = Adwords.new("env_wo_password", {
+        :config_file => @test_config_filename,
+        :password_file => @test_password_filename
+    })
+    credentials = adwords.account.credentials
+    credentials.environment.should == "sandbox"
+    credentials.developer_token.should == "env_wo_password@gmail.com++EUR"
+    credentials.password.should == "env_password"
+
+    # adwords.save_passwords
+  end
 end
 

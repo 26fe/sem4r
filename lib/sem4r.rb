@@ -22,28 +22,30 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
+#
+# stdlib
+#
 require 'yaml'
 require 'pathname'
+require 'ostruct'
+require 'uri'
+require 'pp'
+require 'logger'
+require 'fileutils'
+# require 'rexml/document'
 
 #
 # use bundler
 #
-
 require "rubygems"
 require "bundler/setup"
+require 'builder'
+require 'nokogiri'
 
 if RUBY_PLATFORM =~ /java/
   gem 'jruby-openssl'
   require 'openssl'
 end
-
-require 'builder'
-# require 'rexml/document'
-require 'nokogiri'
-require 'uri'
-require 'pp'
-require 'logger'
-require 'fileutils'
 
 module Sem4r #:nodoc:
   def self.version

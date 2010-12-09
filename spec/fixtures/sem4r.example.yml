@@ -24,3 +24,9 @@ google_adwords:
     email:             production@anothersite.com
     password:          password
     developer_token:   productiondevelopertoken
+
+  env_wo_password:
+    environment:       sandbox
+    email:             env_wo_password@gmail.com
+    developer_token:   env_wo_password@gmail.com++EUR
+

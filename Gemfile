@@ -3,6 +3,7 @@ source :gemcutter
 gem "builder"
 gem "nokogiri"
 gem "httpclient"
+gem 'highline', :require => 'highline/import'
 
 group :development do
   gem "jeweler"
@@ -13,8 +14,6 @@ group :test do
   gem "differ"
   gem "rspec"
 end
-
-# gem 'highline', :require => 'highline/import'
 
 platforms :jruby do
   gem 'jruby-openssl'
