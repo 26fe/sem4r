@@ -46,4 +46,7 @@ bin/nokogiri
 bin/rake
 bin/rspec
 bin/autospec
+bin/yard
+bin/yardoc
+bin/yri
 /deploy.rdoc
