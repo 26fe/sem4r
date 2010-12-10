@@ -51,7 +51,7 @@ module Sem4r
     end
 
     def to_s
-      "#{@field_name} #{@field_type} #{@address_line2} #{@city}"
+      "#{@field_name} #{@field_type}"
     end
 
   end

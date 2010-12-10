@@ -20,7 +20,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 module Sem4r
@@ -95,7 +94,7 @@ module Sem4r
       "#{@id}: '#{@name}'"
     end
 
-    def to_xml(tag)
+    def to_xml(tag = "operand")
       builder = Builder::XmlMarkup.new
       builder.tag!(tag) do |t|
 
@@ -161,15 +160,7 @@ module Sem4r
     end
 
     def delete
-      soap_message = service.campaign.delete(credentials, @id)
-      add_counters( soap_message.counters )
-      @id = -1 # logical delete
-    end
-
-    ###########################################################################
-
-    def empty?
-      _ad_groups.empty?
+      @account.report_definition_delete(self)
     end
 
   end

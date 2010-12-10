@@ -28,6 +28,20 @@ module Sem4r
   class Operation
     include Sem4rSoap::SoapAttributes
 
+    class << self
+      def add(operand)
+        self.new.add(operand)
+      end
+
+      def remove(operand)
+        self.new.remove(operand)
+      end
+
+      def set(operand)
+        self.new.set(operand)
+      end
+    end
+
     enum :Operations, [
       :ADD,
       :REMOVE,
@@ -54,7 +68,7 @@ module Sem4r
       self
     end
 
-    def to_xml(tag)
+    def to_xml(tag = "operations")
       if @operand == nil
         raise Sem4rError, "Missing Operand"
       end
@@ -77,4 +91,4 @@ module Sem4r
 
   end
 
-end
+end #module Sem4r
