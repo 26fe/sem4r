@@ -25,6 +25,9 @@
 
 module Sem4r
 
+  #
+  # Contains an operand. Operand can be everything that respond_to :to_xml and :xml
+  #
   class Operation
     include Sem4rSoap::SoapAttributes
 
@@ -43,9 +46,9 @@ module Sem4r
     end
 
     enum :Operations, [
-      :ADD,
-      :REMOVE,
-      :SET]
+        :ADD,
+        :REMOVE,
+        :SET]
 
     attr_reader :operation_type
     g_accessor :operator
@@ -68,25 +71,27 @@ module Sem4r
       self
     end
 
+    def _xml(t)
+      raise Sem4rError, "Missing Operand" unless @operand
+      t.operator operator
+      @operand.xml(t, "operand")
+    end
+
+    def xml(t, tag = nil)
+      raise Sem4rError, "Missing Operand" unless @operand
+      if tag
+        attrs = {}
+        attrs = {'xsi:type'=> operation_type} if operation_type
+        attrs.merge! @attrs if @attrs
+        t.__send__(tag, attrs) { |t| _xml(t) }
+      else
+        _xml(t)
+      end
+    end
+
     def to_xml(tag = "operations")
-      if @operand == nil
-        raise Sem4rError, "Missing Operand"
-      end
-
-      xml = ""
-      if tag
-        xml += "<#{tag} xsi:type='#{operation_type}' #{if @namespace then @namespace else '' end}>"
-        # xsi:type="n1:ReportDefinitionOperation" xmlns:n1="https://adwords.google.com/api/adwords/cm/v201008"
-      end
-      xml +=<<-EOS
-        <operator>#{operator}</operator>
-        #{@operand.to_xml('operand')}
-      EOS
-
-      if tag
-        xml += "</#{tag}>"
-      end
-      xml
+      raise Sem4rError, "Missing Operand" unless @operand
+      xml(Builder::XmlMarkup.new, tag)
     end
 
   end

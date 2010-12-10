@@ -94,16 +94,16 @@ module Sem4r
       "#{@id}: '#{@name}'"
     end
 
-    def to_xml(tag = "operand")
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag) do |t|
+    #
+    # @private
+    #
+    def _xml(t)
+      t.id             @id         if @id
 
-        t.id             @id         if @id
-
-        if !fields.empty? or ( !!from and !!to )
-          #TODO: non costruire selector se il contenuto e' vuoto utile per l'operazione di delete
-          t.selector do |t|
-            fields.each { |f| t.fields f}
+      if !fields.empty? or ( !!from and !!to )
+        #TODO: non costruire selector se il contenuto e' vuoto utile per l'operazione di delete
+        t.selector do |t|
+          fields.each { |f| t.fields f}
 
 #            t.predicates do |t|
 #              t.field    "AdGroupId"
@@ -111,23 +111,38 @@ module Sem4r
 #              t.values   1
 #            end
 
-            if from and to
-              t.dateRange do |t|
-                t.min from
-                t.max to
-              end
+          if from and to
+            t.dateRange do |t|
+              t.min from
+              t.max to
             end
           end
         end
+      end
 
-        t.reportName     @name       if @name
-        t.reportType     @type       if @type
-        t.dateRangeType  @date_range if @date_range
-        t.downloadFormat @format     if @format
+      t.reportName     @name       if @name
+      t.reportType     @type       if @type
+      t.dateRangeType  @date_range if @date_range
+      t.downloadFormat @format     if @format
+    end
 
 
+    #
+    # Marshall to xml using a Builder::Markup
+    # @param [Builder::Markup]
+    #
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag) { |t| _xml(t) }
+      else
+        _xml(t)
       end
     end
+
+    def to_xml(tag = "operand")
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
 
     ###########################################################################
 

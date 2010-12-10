@@ -26,28 +26,39 @@ module Sem4r
   class BulkMutateJobSelector
     include Sem4rSoap::SoapAttributes
 
+    enum :JobStatuses, [
+        :COMPLETED,
+        :PROCESSING,
+        :FAILED,
+        :PENDING]
+
+    g_set_accessor :status, {:values_in => :JobStatuses}
+    g_set_accessor :jobId
+    g_accessor :stats
+    g_accessor :history
+
     def initialize(&block)
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
-    enum :JobStatuses, [
-      :COMPLETED,
-      :PROCESSING,
-      :FAILED,
-      :PENDING]
+    def to_xml(tag = "selector")
+      builder = Builder::XmlMarkup.new
+      builder.tag!(tag) do |t|
 
-    def to_xml
-      <<-EOFS
-        <selector>
-          <customerJobKeys></customerJobKeys>
-          <jobStatuses>COMPLETED</jobStatuses>
-          <jobStatuses>PROCESSING</jobStatuses>
-          <jobStatuses>FAILED</jobStatuses>
-          <jobStatuses>PENDING</jobStatuses>
-        </selector>
-      EOFS
+        t.includeHistory history unless history.nil?
+        t.includeStats stats unless stats.nil?
+
+        unless jobIds.empty?
+          jobIds.each { |i| t.jobIds i }
+        end
+
+
+        unless statuss.empty?
+          statuss.each { |f| t.jobStatuses f }
+        end
+      end
     end
 
   end

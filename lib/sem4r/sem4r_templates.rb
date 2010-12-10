@@ -28,7 +28,7 @@ module Sem4r
   #
   # create an example mutate job useful for test, example, etc
   #
-  def template_campaign_and_adgroup(account)
+  def template_campaign_and_ad_group(account)
     client_account = account.client_accounts.first
 
     campaign       = Campaign.create(client_account) do

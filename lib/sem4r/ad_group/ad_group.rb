@@ -65,6 +65,10 @@ module Sem4r
       "#{@id ? @id : 'unsaved'} '#{@name}' (#{@status}) - #{@bid}"
     end
 
+    # Build xml into Builder
+    #
+    # @param [Builder::XmlMarkup]
+    #
     def xml(t)
       t.campaignId campaign.id
       t.name name
@@ -72,6 +76,12 @@ module Sem4r
       @bids.to_xml(t) if @bids
     end
 
+    #
+    # Marshall this object to xml
+    #
+    # @param [String] top level tag
+    # @return [Builder::XmlMarkup]
+    #
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
       builder.tag!(tag) { |t|
@@ -94,6 +104,11 @@ module Sem4r
       new(campaign, &block).save
     end
 
+    #
+    # Unmarshal this object from xml
+    #
+    # @param [Nokogiri::Element] xml element
+    #
     def self.from_element(campaign, el)
       new(campaign) do
         @id          = el.at_xpath("id").text.strip.to_i

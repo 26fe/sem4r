@@ -39,21 +39,17 @@ module Sem4r
       init(@header_namespace, @service_namespace)      
     end
 
-    soap_call :all,    :mutate => false
+    soap_call :get,    :mutate => false
     soap_call :mutate
 
     private
 
-    def _all(selector)
-      "<get xmlns=\"#{@service_namespace}\">" + selector.to_xml +  '</get>';
+    def _get(xml)
+      "<get xmlns=\"#{@service_namespace}\">#{xml}</get>";
     end
 
-    def _mutate(job_operation)
-      <<-EOFS
-      <mutate xmlns="#{@service_namespace}">
-        #{job_operation.to_xml('operation')}
-      </mutate>
-      EOFS
+    def _mutate(xml)
+      "<mutate xmlns=\"#{@service_namespace}\">#{xml}</mutate>"
     end
 
   end

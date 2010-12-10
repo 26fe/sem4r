@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -84,22 +85,23 @@ module Sem4r
       end
     end
 
-    def xml(t)
+    def _xml(t)
       t.adGroupId   @ad_group.id
       # t.status "ENABLED"
       criterion.xml(t)
       @bids.xml(t) if @bids
     end
 
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag, "xsi:type" => "BiddableAdGroupCriterion") do |t|
-        xml(t)
-        #        t.adGroupId   @ad_group.id
-        #        # t.status "ENABLED"
-        #        criterion.to_xml(t)
-        #        @bids.to_xml(t) if @bids
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, {"xsi:type" => "BiddableAdGroupCriterion"}) { |t| _xml(t) }
+      else
+        _xml(t)
       end
+    end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
     end
 
   end
@@ -123,21 +125,27 @@ module Sem4r
       end
     end
 
-    def xml(t)
+    # @private
+    #
+    #
+    def _xml(t)
       t.adGroupId   criterion.ad_group.id
       # t.status "ENABLED"
       criterion.xml(t)
     end
 
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag, "xsi:type" => "NegativeAdGroupCriterion") do |t|
-        xml(t)
-        #        t.adGroupId   criterion.ad_group.id
-        #        # t.status "ENABLED"
-        #        criterion.to_xml(t)
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, {"xsi:type" => "NegativeAdGroupCriterion"}) { |t| _xml(t) }
+      else
+        _xml(t)
       end
     end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
 
   end
 

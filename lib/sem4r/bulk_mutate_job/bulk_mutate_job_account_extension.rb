@@ -26,19 +26,40 @@ module Sem4r
 
   module BulkMutateJobAccountExtension
 
+    def job_result(job_id)
+      selector = BulkMutateJobSelector.new do
+        jobId job_id
+        stats true
+        history true
+      end
+      soap_message = service.bulk_mutate_job.get(credentials, selector.to_xml)
+      add_counters(soap_message.counters)
+      self
+    end
+
+    def job_delete(job_id)
+      job = BulkMutateJob.new
+      job.instance_eval { @id = job_id }
+      operation = JobOperation.remove(job)
+
+      soap_message = service.bulk_mutate_job.mutate(credentials, operation.to_xml("operation"))
+      add_counters(soap_message.counters)
+      self
+    end
+
+    def job_mutate(bulk_mutate_job)
+      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job.to_xml)
+      add_counters(soap_message.counters)
+      el = soap_message.response.at_xpath("//rval")
+      BulkMutateJob.from_element(el)
+    end
+
     def p_jobs
       puts "#{jobs.length} bulk mutate jobs"
       jobs.each do |job|
         puts job.to_s
       end
       self
-    end
-
-    def job_mutate(bulk_mutate_job)
-      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
-      add_counters(soap_message.counters)
-      el = soap_message.response.at_xpath("//rval")
-      BulkMutateJob.from_element(el)
     end
 
     def jobs(refresh = false)
@@ -49,10 +70,15 @@ module Sem4r
     private
 
     def _jobs
-      selector     = BulkMutateJobSelector.new
-      soap_message = service.bulk_mutate_job.all(credentials, selector)
+      selector = BulkMutateJobSelector.new do
+        status BulkMutateJobSelector::COMPLETED
+        status BulkMutateJobSelector::PROCESSING
+        status BulkMutateJobSelector::FAILED
+        status BulkMutateJobSelector::PENDING
+      end
+      soap_message = service.bulk_mutate_job.get(credentials, selector.to_xml)
       add_counters(soap_message.counters)
-      els  = soap_message.response.xpath("//getResponse/rval")
+      els   = soap_message.response.xpath("//getResponse/rval")
       @jobs = els.map do |el|
         BulkMutateJob.from_element(el)
       end

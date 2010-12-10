@@ -52,6 +52,8 @@ module Sem4r
       "#{@id} #{@index} #{@text}"
     end
 
+    # @private
+    #
     # adGroupId  	   Id of ad_group This field is required and should not be null.
     # criterionId 	 The id of the Keyword criterion that this ad parameter applies to.
     #                The keyword must be associated with the same ad_group as this AdParam.
@@ -61,15 +63,29 @@ module Sem4r
     #                within Operators : SET. The length of this string should be
     #                between 1 and 25, inclusive.
     # paramIndex
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag) do |t|
-        t.adGroupId     @ad_group.id
-        t.criterionId   @criterion.id
-        t.insertionText @text
-        t.paramIndex    @index
+    def _xml(t)
+      t.adGroupId     @ad_group.id
+      t.criterionId   @criterion.id
+      t.insertionText @text
+      t.paramIndex    @index
+    end
+
+    #
+    # Marshall to xml
+    # @param [Builder::XmlMarkup]
+    #
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag) { |t| _xml(t) }
+      else
+        _xml(t)
       end
     end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
 
     def self.from_element(ad_group, el)
       criterion_id = el.at_xpath("criterionId").text.strip.to_i

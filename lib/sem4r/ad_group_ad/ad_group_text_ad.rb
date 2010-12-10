@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -38,7 +39,10 @@ module Sem4r
       "#{@id} textad '#{headline}' #{url}"
     end
 
-    def xml(t)
+    #
+    # @private
+    #
+    def _xml(t)
       t.adGroupId   ad_group.id
       t.ad("xsi:type" => "TextAd") do |ad|
         ad.url              url
@@ -50,21 +54,21 @@ module Sem4r
       t.status status
     end
 
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag, "xsi:type" => "AdGroupAd") do |t|
-        xml(t)
-        #        t.adGroupId   ad_group.id
-        #        t.ad("xsi:type" => "TextAd") do |ad|
-        #          ad.url              url
-        #          ad.displayUrl       display_url
-        #          ad.headline         headline
-        #          ad.description1     description1
-        #          ad.description2     description2
-        #        end
-        #        t.status status
+    #
+    # Marshall with Builder::XmlMarkup
+    #
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, "xsi:type" => "AdGroupAd") { |t| _xml(t) }
+      else
+        _xml(t)
       end
     end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
 
     def self.from_element(ad_group, el)
       new(ad_group) do
