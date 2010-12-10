@@ -23,7 +23,11 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class InfoService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+
+  #
+  # @private
+  #
+  class InfoService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
       @connector = connector
@@ -36,6 +40,8 @@ module Sem4r
     end
 
     soap_call :get, :mutate => false
+
+    private
 
     def _unit_cost( usage_type )
       <<-EOFS

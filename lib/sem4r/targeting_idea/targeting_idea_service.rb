@@ -22,6 +22,10 @@
 # -------------------------------------------------------------------
 
 module Sem4r
+
+  #
+  # @private
+  #
   class TargetingIdeaService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
     def initialize(connector)
@@ -36,8 +40,6 @@ module Sem4r
     end
 
     soap_call :get, :mutate => false
-
-    ################
 
     private
 

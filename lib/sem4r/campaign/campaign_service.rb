@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -23,7 +24,10 @@
 
 module Sem4r
 
-  class CampaignService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+  #
+  # @private
+  #
+  class CampaignService < Sem4rSoap::SoapServiceV2010 
 
     def initialize(connector)
       @connector = connector

@@ -23,7 +23,11 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
-  class AdParamService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+
+  #
+  # @private
+  #
+  class AdParamService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
       @connector = connector

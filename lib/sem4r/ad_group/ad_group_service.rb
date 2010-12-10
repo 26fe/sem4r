@@ -22,7 +22,11 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdGroupService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+
+  #
+  # @private
+  #
+  class AdGroupService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
       super()
@@ -36,6 +40,8 @@ module Sem4r
     soap_call :all,       :mutate => false
     soap_call :create,    :mutate => true
     soap_call :delete,    :mutate => true
+
+    private
 
     def _all(campaign_id)
       <<-EOFS
