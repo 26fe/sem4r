@@ -1,0 +1,60 @@
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
+      <requestId>
+        ec6f01d43f9afeab20e93cb0cc7f3fe6
+      </requestId>
+      <operations>
+        2
+      </operations>
+      <responseTime>
+        340
+      </responseTime>
+      <units>
+        2
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
+      <rval>
+        <geoPoint>
+          <latitudeInMicroDegrees>
+            41901464
+          </latitudeInMicroDegrees>
+          <longitudeInMicroDegrees>
+            12494510
+          </longitudeInMicroDegrees>
+        </geoPoint>
+        <address>
+          <streetAddress>
+            Via Nazionale, 10
+          </streetAddress>
+          <cityName>
+            Roma
+          </cityName>
+          <provinceCode>
+            Lazio
+          </provinceCode>
+          <postalCode>
+            00184
+          </postalCode>
+          <countryCode>
+            IT
+          </countryCode>
+        </address>
+        <encodedLocation>
+          qrvM3QDB3iJsxJHRLyPLp/rr/7xxxnEj6zJOKsjk1sUjMvyEdp1NLFX1lAuCKS77AbiGh8DkeTFzVMwevwWyZClFO/wgCCB/NgGrxr/DaTmzgBkFwoR8lGT+zEKnw3NCWhnuNxMhn8xvKFgw7D2rm03Sexs0FgSnZl1Bd7CVnNY/B23gw4DTrgbGbskEKwetupa2A7OA15efF0GJyWxXd1X1z2HNaX8njWHX1D7czCX1mHri0deRZskr/xL06l1R9mZc5BylnY4MbKTvq4po6Ar7exca3Tj2Wzxe18+JqFfyX1DZrHUItwa+eq+8D7ieNw/v6j4dmAJ62zcHLpJPePTH6PY9pT3+Kl1XFYqqnPZId2+FJLE7FQSGTrsZXPqdAFOjfCOk7TPaTcPEdjH1Y+aF8wwbP10ksQYB5p8GuQA6cqJ0R5wRtWCx0WlJtDAwZ8ITg4cPWyAc5Fg9vFsiMJ4iY/tm6fGBe4lGX39jdL9e9gksCa+htn8TY0crw7jK5cBQWPzDve2MfQJrmmX6USDDe717QSrL5T+iFmKDac+1c9HVyMzJGJ1Tita71Ycv8xvan6OD8SsQ4v+oqA==
+        </encodedLocation>
+        <GeoLocation.Type>
+          GeoLocation
+        </GeoLocation.Type>
+      </rval>
+      <rval xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='InvalidGeoLocation'>
+        <GeoLocation.Type>
+          InvalidGeoLocation
+        </GeoLocation.Type>
+      </rval>
+    </getResponse>
+  </soap:Body>
+</soap:Envelope>

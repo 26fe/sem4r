@@ -40,7 +40,7 @@ module Sem4rSpecHelper
   #############################################################################
 
   def read_xml(service, file_name)
-    xml_filepath  = File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures", file_name)
+    xml_filepath  = File.expand_path File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures", file_name)
     unless File.exist?(xml_filepath)
       raise "file #{xml_filepath} not exists"
     end
@@ -51,7 +51,7 @@ module Sem4rSpecHelper
   end
 
   def write_xml(service, file_name, xml)
-    fixture_dir  = File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures")
+    fixture_dir  = File.expand_path File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures")
     FileUtils.mkdir_p(fixture_dir) unless File.directory?(fixture_dir)
     pathname = File.join(fixture_dir, file_name)
     puts "writing to #{pathname}"

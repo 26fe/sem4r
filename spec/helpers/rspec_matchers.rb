@@ -38,7 +38,7 @@ def pretty_xml(xml)
       super(node.to_s.strip, output)
     end
   end
-  normalized.new(0,false).write(xml, xml_pretty='')
+  normalized.new(0, false).write(xml, xml_pretty='')
   xml_pretty
 end
 
@@ -49,7 +49,7 @@ def normalize_xml(expected_xml)
 
   if expected_xml.class == String
     # erase namespaces i.e. <ns1:tag> -> <tag>
-    expected_xml  = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
+    expected_xml = expected_xml.gsub(/\b(ns\d:|xsi:|s:|soapenv:|env:|soap:|^\n)/, "").strip
     begin
       expected_xml = REXML::Document.new(expected_xml)
     rescue RuntimeError
@@ -66,28 +66,28 @@ end
 
 def diff_xml(expected_xml, xml)
   expected_normalized = normalize_xml(expected_xml)
-  xml_normalized = normalize_xml(xml)
+  xml_normalized      = normalize_xml(xml)
 
-  if xml_normalized != expected_normalized
-    puts "----differ start"
-
-    puts xml_normalized
-
-    puts "---"
-    puts expected_normalized
-    puts "---"
-    diff = Differ.diff_by_line(xml_normalized, expected_normalized)
-    puts diff.format_as(:ascii)
-    puts "----differ end"
-    false
-  else
-    true
+  if xml_normalized == expected_normalized
+    return nil
   end
+  str =  "--- this xml \n"
+  str << xml_normalized
+  str << "--- expected to be equals to\n"
+  str << expected_normalized
+
+  str << "--- difference are:\n"
+
+  diff = Differ.diff_by_line(xml_normalized, expected_normalized)
+  
+  str << diff.format_as(:ascii)
+  str << "\n----differ end"
+  str
 end
 
 def _xml_contains(expected_xml, xml)
   expected_normalized = normalize_xml(expected_xml)
-  xml_normalized = normalize_xml(xml)
+  xml_normalized      = normalize_xml(xml)
   unless xml_normalized.match(expected_normalized)
     false
   else
@@ -96,13 +96,34 @@ def _xml_contains(expected_xml, xml)
 end
 
 RSpec::Matchers.define :xml_equivalent do |expected_xml|
+  description do
+    "checks if two xml are equivalent"
+  end
+
   match do |xml|
-    diff_xml(expected_xml, xml)
+    if xml.respond_to? :to_xml
+      xml = xml.to_xml
+    end
+    if expected_xml.respond_to? :to_xml
+      expected_xml = expected_xml.to_xml
+    end
+    @diff_result = diff_xml(expected_xml, xml)
+    @diff_result.nil?  # no diff
+  end
+
+  failure_message_for_should do |expected_xml|
+    "#{@diff_result}"
   end
 end
 
 RSpec::Matchers.define :xml_contains do |expected_xml|
   match do |xml|
+    if xml.respond_to? :to_xml
+      xml = xml.to_xml
+    end
+    if expected_xml.respond_to? :to_xml
+      expected_xml = expected_xml.to_xml
+    end
     _xml_contains(expected_xml, xml)
   end
 end

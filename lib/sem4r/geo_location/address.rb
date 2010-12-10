@@ -32,7 +32,7 @@ module Sem4r
     g_accessor :province_code, :xpath => 'provinceCode'
     g_accessor :province, :xpath => 'provinceName'
     g_accessor :postal_code, :xpath => 'postalCode'
-    g_accessor :country_code, :xpath => 'countryCode'
+    g_accessor :country, :xpath => 'countryCode'
 
     def initialize(&block)
       if block_given?
@@ -44,8 +44,8 @@ module Sem4r
       _from_element(*args)
     end
 
-    def to_xml
-      _to_xml("addresses")
+    def to_xml(tag = "addresses")
+      _to_xml(tag)
     end
 
     def to_s

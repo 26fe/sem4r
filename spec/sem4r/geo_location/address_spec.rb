@@ -28,20 +28,35 @@ require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 describe Address do
   include Sem4rSpecHelper
 
-  it "should build xml (input for google)" do
-    address = Address.new do
-      city "Rome"
+  it "should accept multiple address" do
+    selector = GeoLocationSelector.new
+    selector.address do
+      city "Pisa"
+      country "IT"
     end
-    puts address.to_xml
+    selector.address do
+      address "Via Nazionale, 10"
+      city "Rome"
+      country "IT"
+    end
+    selector.should have(2).addresses
   end
 
-#  it "should parse xml (produced by google)" do
-#    model = read_model( "//billingAddress", "v13_account", "get_account_info-res.xml")
-#    ba = BillingAddress.from_element(model)
-#    ba.city.should == "Mountain View"
-#    ba.country_code.should == "US"
-#    ba.phone.should == "4085551212"
-#    ba.email.should == "Some@email"
-#  end
+  it "should build xml (input for google)" do
+    address      = Address.new do
+      address "Via Nazionale, 10"
+      city "Rome"
+      country "IT"
+    end
+    xml_expected = read_model("//addresses", "geo_location", "get-req.xml")
+    address.should xml_equivalent(xml_expected)
+  end
+
+  it "should parse xml (produced by google)" do
+    model   = read_model("//address", "geo_location", "get-res.xml")
+    address = Address.from_element(model)
+    address.city.should == "Roma"
+    address.postal_code == "00184"
+  end
 
 end
