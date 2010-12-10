@@ -27,6 +27,8 @@ module Sem4r
   class GeoLocationSelector
     include Sem4rSoap::SoapAttributes
 
+    attr_reader :addresses
+    
     def initialize(&block)
       @addresses = []
       if block_given?
@@ -45,7 +47,7 @@ module Sem4r
     def to_xml
       xml = "<s:selector>"
       @addresses.each do |address|
-        xml += address.to_xml
+        xml += address.to_xml("addresses")
       end
       xml += "</s:selector>"
       xml

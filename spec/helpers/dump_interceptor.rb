@@ -25,10 +25,16 @@
 class DumpInterceptor
   include Sem4rSpecHelper
 
-  def call(service_url, type, xml)
-    # puts "dump interceptor #{service_url} #{type}"
-    # https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService
+  def reset
+    @request_number = 0
+    @where_to_write = []
+  end
 
+  def intercept_to(service, file)
+    @where_to_write << [service, file]
+  end
+
+  def call(service_url, type, xml)
     match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/([^\/]*)\/v201008\/([^\/]*)$/)
     unless match_data
       puts "*********** DumpInterceptor cannot recognize service"
@@ -36,16 +42,17 @@ class DumpInterceptor
     end
 
     service = match_data[2]
-    service.gsub("Service", "").underscore
-    case service
-      when "InfoService"
-        write_xml("info", "get_unit_count-#{type}.xml", xml)
-      when "GeoLocationService"
-        write_xml("geo_location", "get-#{type}.xml", xml)
-      else
-        puts "unknown service #{service}"
+    service = service.gsub("Service", "").underscore
+
+    if @where_to_write.length <= @request_number
+      puts "************ DumpInterceptor I cannot know where to write soap messages!!!!"
+    else
+      service, file = *@where_to_write[@request_number]
+      file = file.gsub(/\{type\}/, type)
+      write_xml(service, file, xml)
     end
 
+    @request_number += 1
   end
 
 end

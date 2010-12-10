@@ -26,16 +26,28 @@ module Sem4r
 
   module GeoLocationAccountExtension
 
-    def geo_location
-
-      Address.new do
-
-      end
-      selector = GeoLocationSelector.new
-      selector.address do
-        address "Via Nazionale,10"
-        city "Rome"
-        country_code "IT"
+    # Call geolocation adwords service
+    #
+    # @example
+    #   account.geo_location("Roma", "IT")
+    #   account.geo_location("Via Conca del Naviglio", "Milano", "IT")
+    #   account.geo_location( geoLocationSelector )
+    #
+    def geo_location(c1 = nil, c2 = nil, c3 = nil)
+      if c1.class != GeoLocationSelector
+        selector = GeoLocationSelector.new
+        selector.address do
+          if c3
+            address c1
+            city c2
+            country c3
+          else
+            city c1
+            country c2
+          end
+        end
+      else
+        selector = c1
       end
 
       soap_message = service.geo_location.get(credentials, selector.to_xml)

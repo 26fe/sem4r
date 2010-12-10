@@ -37,7 +37,7 @@ require 'helpers/dump_interceptor'
 class BuildFixtures
 
   def initialize
-    @adwords       = Adwords.sandbox # search credentials into ~/.sem4r file
+    @adwords      = Adwords.sandbox # search credentials into ~/.sem4r file
 
     log_directory = File.join(File.dirname(__FILE__), "..", "tmp", "build_fixtures")
     log_directory = File.expand_path(log_directory)
@@ -45,8 +45,8 @@ class BuildFixtures
     puts "dump soap messages in '#{log_directory}'"
 
     fixtures_dir = File.join(File.dirname(__FILE__), "fixtures", "services")
-    interceptor  = DumpInterceptor.new(fixtures_dir)
-    dump_options = {:directory => log_directory, :format => true, :interceptor => interceptor}
+    @dump_interceptor  = DumpInterceptor.new(fixtures_dir)
+    dump_options = {:directory => log_directory, :format => true, :interceptor => @dump_interceptor}
     @adwords.dump_soap_options(dump_options)
     @adwords.logger = Logger.new(STDOUT)
   end
@@ -57,8 +57,8 @@ class BuildFixtures
     puts "---------------------------------------------------------------------"
     begin
 
-      # geo_location
-      @adwords.account.geo_location
+      # geo_location_fixtures
+      report_definition_fixtures
 
       # info
       # @adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
@@ -68,6 +68,35 @@ class BuildFixtures
     end
     puts "---------------------------------------------------------------------"
   end
+
+  def geo_location_fixtures
+    @dump_interceptor.reset
+    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
+    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
+
+    #
+    # geo_location
+    #
+    selector = GeoLocationSelector.new
+    selector.address do
+      address "Via Nazionale, 10"
+      city "Rome"
+      country "IT"
+    end
+    selector.address do
+      city "Pisa"
+      country "IT"
+    end
+    @adwords.account.geo_location(selector)
+  end
+
+  def report_definition_fixtures
+    @dump_interceptor.reset
+    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
+    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
+    @adwords.account.report_fields
+  end
+
 end
 
 BuildFixtures.new.run
