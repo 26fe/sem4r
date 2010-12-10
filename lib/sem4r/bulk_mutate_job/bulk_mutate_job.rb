@@ -29,11 +29,13 @@ module Sem4r
     attr_reader :id
     attr_accessor :campaign_id
     attr_reader :operations
+    attr_accessor :num_parts
 
     g_accessor :status
 
     def initialize(&block)
       @operations = []
+      @num_parts  = 1
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
@@ -48,54 +50,58 @@ module Sem4r
       @operations.empty?
     end
 
-    def add( something )
+    def add(something)
       case something
-      when AdGroupTextAd
-        ad_operation = AdGroupAdOperation.new
-        ad_operation.add something
-      else
-        raise "how you suppose I must do when incounter a #{something.class}?"
+        when AdGroupTextAd
+          ad_operation = AdGroupAdOperation.add something
+        else
+          raise "how you suppose I must do when incounter a #{something.class}?"
       end
       self
     end
 
-    def to_xml(tag)
-      xml =""
-      
-      if tag
-        xml += "<operand xsi:type='BulkMutateJob'>"
-      end
-      xml += <<-EOS
-      <request>
-        <partIndex>0</partIndex>
-        <operationStreams>
-          <scopingEntityId>
-            <type>CAMPAIGN_ID</type>
-            <value>#{campaign_id}</value>
-          </scopingEntityId>
-      EOS
+    #
+    # @private
+    #
+    def _xml(t)
+      if @id
+        t.id id
+      else
+        t.request do |t|
+          t.partIndex 0
 
-      if @operations
-        @operations.each do |operation|
-          xml += operation.to_xml('operations')
+          t.operationStreams do |t|
+            t.scopingEntityId do |t|
+              t.type "CAMPAIGN_ID"
+              t.value campaign_id
+            end
+            @operations.each { |operation| operation.xml(t, "operations") } if @operations
+          end
         end
+        t.numRequestParts num_parts
       end
-   
-      xml +=<<-EOS
-        </operationStreams>
-      </request>
-      <numRequestParts>1</numRequestParts>
-      EOS
+    end
 
+    #
+    # Marshal to xml using Builder
+    # @parm [Builder::XmlBuilder]
+    #
+    def xml(t, tag = nil)
       if tag
-        xml += "</operand>"
+        t.__send__(tag, {"xsi:type"=>'BulkMutateJob'}) { |t| _xml(t) }
+      else
+        _xml(t)
       end
+    end
+
+    def to_xml(tag = "operand")
+      xml(Builder::XmlMarkup.new, tag)
     end
 
     def self.from_element(el)
       new do
-        @id          = el.at_xpath("id").text.strip.to_i
-        status         el.at_xpath("status").text
+        @id = el.at_xpath("id").text.strip.to_i
+        status el.at_xpath("status").text
       end
     end
 

@@ -103,12 +103,17 @@ module Sem4rSoap
       else
         # TODO: using nokogiri also for pretty print xml ?
         require 'rexml/document'
-        xml_document = REXML::Document.new(xml)
-        f            = REXML::Formatters::Pretty.new
-        out          = String.new
-        f.write(xml_document, out)
-        # remove xml directive
-        out.gsub("<?xml version='1.0' encoding='UTF-8'?>", "")
+        begin
+          xml_document = REXML::Document.new(xml)
+          f            = REXML::Formatters::Pretty.new
+          out          = String.new
+          f.write(xml_document, out)
+          # remove xml directive
+          out.gsub("<?xml version='1.0' encoding='UTF-8'?>", "")
+        rescue
+          puts xml
+          raise
+        end
       end
     end
   end

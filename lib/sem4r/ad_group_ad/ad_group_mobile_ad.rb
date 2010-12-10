@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 # 
@@ -61,7 +62,10 @@ module Sem4r
       @image = MobileAdImage.new(self, &block)
     end
 
-    def xml(t)
+    #
+    # @private
+    #
+    def _xml(t)
       t.adGroupId   ad_group.id
       t.ad("xsi:type" => "MobileAd") do |ad|
         ad.headline        headline
@@ -83,31 +87,18 @@ module Sem4r
       t.status status
     end
 
-    def to_xml(tag)
-      builder = Builder::XmlMarkup.new
-      builder.tag!(tag, "xsi:type" => "AdGroupAd") do |t|
-        xml(t)
-        #      t.adGroupId   ad_group.id
-        #      t.ad("xsi:type" => "MobileAd") do |ad|
-        #        ad.headline        headline
-        #        ad.description     description
-        #        unless markups.empty?
-        #          markups.each do |m|
-        #            ad.markupLanguages m
-        #          end
-        #        end
-        #        unless carriers.empty?
-        #          carriers.each do |carrier|
-        #            ad.mobileCarriers carrier
-        #          end
-        #        end
-        #        ad.businessName    business_name
-        #        ad.countryCode     country_code
-        #        ad.phoneNumber     phone_number
-        #      end
-        #      t.status status
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, {"xsi:type" => "AdGroupAd"}) { |t| _xml(t) }
+      else
+        _xml(t)
       end
     end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
 
     def self.from_element(ad_group, el)
       new(ad_group) do

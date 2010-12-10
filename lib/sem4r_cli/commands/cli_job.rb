@@ -34,7 +34,7 @@ module Sem4rCli
     end
 
     def self.subcommands
-      %w{list create}
+      %w{list submit submit_pending delete}
     end
 
     def self.description
@@ -46,7 +46,7 @@ module Sem4rCli
     end
 
     def command_opt_parser(options)
-      opt_parser = OptionParser.new
+      opt_parser        = OptionParser.new
       opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{self.class.subcommands.join("|")}]"
       opt_parser.separator ""
       opt_parser.separator "#{self.class.description}"
@@ -58,7 +58,7 @@ module Sem4rCli
 
     def parse_and_run(argv)
       options = OpenStruct.new
-      rest = command_opt_parser(options).parse( argv )
+      rest    = command_opt_parser(options).parse(argv)
       return false if options.exit
 
       if rest.empty?
@@ -66,21 +66,24 @@ module Sem4rCli
         return false
       end
 
-      account = @sem4r_cli.account
-      ret = true
-      subcommand = rest[0]
+      account         = @sem4r_cli.account
+      ret             = true
+      subcommand      = rest[0]
       subcommand_args = rest[1..-1]
       case subcommand
 
-      when "list"
-        account.p_jobs
+        when "list"
+          account.p_jobs
 
-      when "delete"
-        report_definition_id = rest[1]
-        account.report_definition_delete(report_definition_id)
+        when "delete"
+          job_id = rest[1]
+          account.job_delete(job_id)
 
-        when "create"
+        when "submit"
           ret = create(account)
+
+        when "submit_pending"
+          ret = create(account, true)
         else
           puts "unknow subcommand '#{subcommand}'; must be one of #{subcommands.join(", ")}"
           return false
@@ -91,12 +94,15 @@ module Sem4rCli
 
     private
 
-    def create(account)
-
-      rd.save
-      puts rd.id
-      puts rd.to_s
-      account.p_report_definitions
+    def create(account, pending = false)
+      campaign, ad_group = template_campaign_and_ad_group(account)
+      job = template_bulk_mutate_job(campaign, ad_group)
+      if pending
+        job.num_parts = 3
+      end
+      result_job = account.job_mutate(JobOperation.add(job))
+      puts result_job.to_s
+      account.p_jobs
       true
     end
 

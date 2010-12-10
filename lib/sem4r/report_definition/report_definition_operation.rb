@@ -26,7 +26,7 @@ module Sem4r
   class ReportDefinitionOperation < Operation
     def initialize(&block)
       @operation_type = "n1:ReportDefinitionOperation"
-      @namespace = 'xmlns:n1="https://adwords.google.com/api/adwords/cm/v201008"'
+      @attrs = {'xmlns:n1'=>"https://adwords.google.com/api/adwords/cm/v201008"}
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
