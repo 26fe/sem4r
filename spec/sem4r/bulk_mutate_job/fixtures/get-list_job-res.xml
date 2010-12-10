@@ -1,0 +1,21 @@
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+  <soap:Header>
+    <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
+      <requestId>
+        4428ac60d016e308e796fda2fb6dbf6f
+      </requestId>
+      <operations>
+        1
+      </operations>
+      <responseTime>
+        168
+      </responseTime>
+      <units>
+        1
+      </units>
+    </ResponseHeader>
+  </soap:Header>
+  <soap:Body>
+    <getResponse xmlns='https://adwords.google.com/api/adwords/cm/v201008'/>
+  </soap:Body>
+</soap:Envelope>

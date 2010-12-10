@@ -2,13 +2,13 @@
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <requestId>
-        c888a39bd2e49a80af8b9c1aa6c691ee
+        7acaec7a0ca6e39be4638da8223f0143
       </requestId>
       <operations>
         1
       </operations>
       <responseTime>
-        1518
+        1660
       </responseTime>
       <units>
         1
@@ -30,14 +30,14 @@
           BulkMutateJob
         </Job.Type>
         <id>
-          38486
+          38666
         </id>
         <policy/>
         <status>
           PENDING
         </status>
         <numRequestParts>
-          1
+          2
         </numRequestParts>
         <numRequestPartsReceived>
           1

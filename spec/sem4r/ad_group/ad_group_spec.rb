@@ -181,7 +181,7 @@ describe AdGroup do
   describe "ad_param management" do
 
     it "should create a AdParam with method 'ad_param' + block" do
-      criterion = @criterion # it is necessary to pass to following block
+      criterion = @criterion # it is necessary to the following block
       adgroup = AdGroup.new(@campaign) do
         name "adgroup"
         ad_param(criterion) do

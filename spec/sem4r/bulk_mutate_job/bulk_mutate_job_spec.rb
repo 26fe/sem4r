@@ -28,40 +28,46 @@ describe BulkMutateJob do
   include Sem4rSpecHelper
 
   before do
-    @adgroup = mock("adgroup").as_null_object
+    @ad_group = mock("adgroup").as_null_object
   end
 
   it "should accept type accessor" do
-    # @adgroup.should_receive(:id).and_return(10)
+    text_ad      = AdGroupTextAd.new(@ad_group) do
+      headline     = "headline"
+      description1 = "description1"
+      description2 = "description2"
+    end
+    ad_operation = AdGroupAdOperation.add text_ad
 
-    text_ad = AdGroupTextAd.new(@adgroup)
-    text_ad.headline     = "headline"
-    text_ad.description1 = "description1"
-    text_ad.description2 = "description2"
-
-    ad_operation = AdGroupAdOperation.new
-    ad_operation.add text_ad
-
-    job = BulkMutateJob.new
+    job             = BulkMutateJob.new
     job.campaign_id = 100
     job.add_operation ad_operation
 
     job.should have(1).operations
+    job.num_parts.should == 1
+    job.num_parts = 2
+    job.num_parts.should == 2
   end
 
   it "should parse xml" do
-    el = read_model("//rval", "bulk_mutate_job", "get-res.xml")
+    el  = read_model("//rval", "bulk_mutate_job", "get-res.xml")
     job = BulkMutateJob.from_element(el)
     job.id.should == 56889
     job.status.should == "PENDING"
   end
 
+  it "should build xml only with id (input for google)" do
+    job = BulkMutateJob.new
+    job.instance_eval { @id = 1234 }
+    puts job.to_xml.should == '<operand xsi:type="BulkMutateJob"><id>1234</id></operand>'
+  end
+
   it "should build xml (input for google)" do
-    @adgroup.stub(:id).and_return(3060284754)
+    @ad_group.stub(:id).and_return(3060284754)
     @campaign = stub("campaign")
     @campaign.stub(:id).and_return(100)
 
-    job = template_bulk_mutate_job(@campaign, @adgroup)
+    job      = template_bulk_mutate_job(@campaign, @ad_group)
 
     expected = read_model("//operand", "bulk_mutate_job", "mutate-req.xml")
     job.to_xml('operand').should xml_equivalent(expected)

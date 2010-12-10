@@ -29,8 +29,7 @@ module FixtureReportDefinition
 
     @dump_interceptor.reset_and_start
 
-    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
-    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
+    @dump_interceptor.intercept_to("report_definition", "getReportFields")
     account.report_fields(ReportDefinition::KEYWORDS_PERFORMANCE_REPORT)
 
     @dump_interceptor.stop
@@ -38,8 +37,7 @@ module FixtureReportDefinition
 
 
     @dump_interceptor.start
-    @dump_interceptor.intercept_to("report_definition", "mutate-add-report-{type}.xml")
-    @dump_interceptor.intercept_to("report_definition", "mutate-add-report-{type}.xml")
+    @dump_interceptor.intercept_to("report_definition", "mutate-add-report")
 
     rd = account.report_definition do
       name       "Keywords performance report #1290336379254"
@@ -58,8 +56,7 @@ module FixtureReportDefinition
     rd.save
     puts "created report id #{rd.id}"
 
-    @dump_interceptor.intercept_to("report_definition", "get-list-repdef-{type}.xml")
-    @dump_interceptor.intercept_to("report_definition", "get-list-repdef-{type}.xml")
+    @dump_interceptor.intercept_to("report_definition", "get-list-repdef")
     account.report_definitions(true)
 
     @dump_interceptor.stop

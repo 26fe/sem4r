@@ -73,10 +73,10 @@ def diff_xml(expected_xml, xml)
   end
   str =  "--- this xml \n"
   str << xml_normalized
-  str << "--- expected to be equals to\n"
+  str << "\n--- expected to be equals to\n"
   str << expected_normalized
 
-  str << "--- difference are:\n"
+  str << "\n--- difference are:\n"
 
   diff = Differ.diff_by_line(xml_normalized, expected_normalized)
   

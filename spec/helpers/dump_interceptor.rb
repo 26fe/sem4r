@@ -28,7 +28,13 @@ class DumpInterceptor
   def reset_and_start
     @request_number = 0
     @where_to_write = []
-    @state = :started
+    @state          = :started
+  end
+
+  def reset_and_stop
+    @request_number = 0
+    @where_to_write = []
+    @state          = :stopped
   end
 
   def start
@@ -39,8 +45,17 @@ class DumpInterceptor
     @state = :stopped
   end
 
-  def intercept_to(service, file)
-    @where_to_write << [service, file]
+  def intercept_to(p1, p2 = nil)
+    if p2
+      service = p1
+      file    = p2
+    else
+      service = nil
+      file    = p1
+    end
+
+    @where_to_write << [service, file]  # for req
+    @where_to_write << [service, file]  # for res
   end
 
   def call(service_url, type, xml)
@@ -52,17 +67,23 @@ class DumpInterceptor
       puts "*********** #{service_url}"
     end
 
-    service = match_data[2]
-    service = service.gsub("Service", "").underscore
+    soap_service = match_data[2]
+    soap_service = soap_service.gsub("Service", "").underscore
 
     if @where_to_write.length <= @request_number
       puts "************ DumpInterceptor I cannot know where to write soap messages!!!!"
-    else
-      service, file = *@where_to_write[@request_number]
-      file = file.gsub(/\{type\}/, type)
-      write_xml(service, file, xml)
+      @request_number += 1
+      return
     end
 
+    service, file = *@where_to_write[@request_number]
+    if !service.nil? and service != soap_service
+      puts "************ DumpInterceptor service #{soap_service} instead of #{service}!!!!"
+      @request_number += 1
+      return
+    end
+    file += "-#{type}.xml"
+    write_xml(soap_service, file, xml)
     @request_number += 1
   end
 

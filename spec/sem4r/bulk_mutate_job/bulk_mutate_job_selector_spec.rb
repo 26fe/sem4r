@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# -------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -20,29 +20,19 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# -------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
-module FixtureBulkMutateJob
+require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
-  def fixtures_bulk_mutate_job
-    @dump_interceptor.reset_and_stop
-    account = @adwords.account
+describe BulkMutateJobSelector do
+  include Sem4rSpecHelper
 
-    campaign, ad_group = template_campaign_and_ad_group(account)
-
-    intercept("mutate-add_job") {
-      job = template_bulk_mutate_job(campaign, ad_group)
-      job.num_parts = 2 # create a pending job, so it is possible to see in list
-      result_job = account.job_mutate(JobOperation.add(job))
-      puts result_job.to_s
-    }
-
-    intercept("get-list_job") {
-      account.p_jobs
-    }
-
-    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
-    @dump_interceptor.stop
+  it "should produce xml" do
+    selector = BulkMutateJobSelector.new do
+      status BulkMutateJobSelector::COMPLETED
+      status BulkMutateJobSelector::PROCESSING
+    end
+    puts selector.to_xml
   end
 
 end
