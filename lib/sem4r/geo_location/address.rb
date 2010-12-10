@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,30 +23,34 @@
 # -------------------------------------------------------------------------
 
 module Sem4r
+  class Address
+    include Sem4rSoap::SoapAttributes
 
-  module GeoLocationAccountExtension
+    g_accessor :address, :xpath => 'streetAddress'
+    g_accessor :address2, :xpath => 'streetAddress2'
+    g_accessor :city, :xpath => 'cityName'
+    g_accessor :province_code, :xpath => 'provinceCode'
+    g_accessor :province, :xpath => 'provinceName'
+    g_accessor :postal_code, :xpath => 'postalCode'
+    g_accessor :country_code, :xpath => 'countryCode'
 
-    def geo_location
-
-      Address.new do
-
+    def initialize(&block)
+      if block_given?
+        block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
-      selector = GeoLocationSelector.new
-      selector.address do
-        address "Via Nazionale,10"
-        city "Rome"
-        country_code "IT"
-      end
-
-      soap_message = service.geo_location.get(credentials, selector.to_xml)
-      add_counters(soap_message.counters)
-      # cost = REXML::XPath.first( soap_message.response, "//getResponse/rval/cost")
-      # cost.text.to_i
     end
-  end
 
-  class Account
-    include GeoLocationAccountExtension
-  end
+    def self.from_element(*args)
+      _from_element(*args)
+    end
 
+    def to_xml
+      _to_xml("addresses")
+    end
+
+    def to_s
+      _to_s
+    end
+
+  end
 end
