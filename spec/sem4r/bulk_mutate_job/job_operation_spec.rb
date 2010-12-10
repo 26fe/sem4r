@@ -28,7 +28,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 describe JobOperation do
   include Sem4rSpecHelper
 
-
   it "should produce xml" do
     @campaign = mock("campaign").as_null_object
     @campaign.stub(:id).and_return(100)

@@ -57,8 +57,9 @@ class BuildFixtures
     @adwords.logger = Logger.new(STDOUT)
   end
 
-  def intercept
+  def intercept(p1, p2 = nil)
     if block_given?
+      @dump_interceptor.intercept_to(p1, p2)
       @dump_interceptor.start
       yield
       @dump_interceptor.stop

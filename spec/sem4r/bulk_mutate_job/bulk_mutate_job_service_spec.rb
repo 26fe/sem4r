@@ -20,7 +20,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
@@ -32,7 +31,7 @@ describe BulkMutateJobService do
     @credentials = stub_credentials
   end
 
-  it "should define 'all'" do
+  it "should define 'get'" do
     response_xml = read_xml("bulk_mutate_job", "get-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
@@ -41,7 +40,7 @@ describe BulkMutateJobService do
     operation = mock("operation")
     operation.stub(:to_xml).and_return("xml")
 
-    soap_message = service.all(@credentials, operation )
+    soap_message = service.get(@credentials, operation )
     els = soap_message.response.xpath("//getResponse")
     els.should_not be_empty
   end

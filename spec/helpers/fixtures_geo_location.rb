@@ -26,8 +26,7 @@ module FixtureGeoLocation
 
   def fixtures_geo_location
     @dump_interceptor.reset
-    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
-    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
+    @dump_interceptor.intercept_to("geo_location", "get")
 
     #
     # geo_location

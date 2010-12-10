@@ -24,20 +24,49 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../rspec_helper')
 
-describe Sem4rSoap::SoapResponse do
+describe Operation do
   include Sem4rSpecHelper
 
-  it "should update counters (v13 api)" do
-    response_xml = read_xml("v13_report", "get_all_jobs-res.xml")
-    message_v13 = Sem4rSoap::SoapResponse.new.parse_response(response_xml)
-    message_v13.counters.should_not be_empty
-    message_v13.counters.should ==  { :response_time => 177, :operations => 4, :units => 4 }
+  class MyOperand
+
+    def _xml(t)
+      t.hello
+    end
+
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, {"xsi:type"=>'MyOperand'}) { |t| _xml(t) }
+      else
+        _xml(t)
+      end
+    end
+
+    def to_xml(tag)
+      xml(Builder::XmlMarkup.new, tag)
+    end
   end
 
-  it "should update counters (v2010 api)" do
-    response_xml = read_xml("ad_group", "get-first-res.xml")
-    message = Sem4rSoap::SoapResponse.new.parse_response(response_xml)
-    message.counters.should_not be_empty
-    message.counters.should ==  { :response_time => 170, :operations => 2, :units => 2 }
+  it "should marshal in xml (operation.to_xml)" do
+    op = Operation.add(MyOperand.new)
+    op.to_xml.should == "<operations><operator>ADD</operator><operand xsi:type=\"MyOperand\"><hello/></operand></operations>"
+  end
+
+  it "should marshal in xml by builder (operation.xml)" do
+    op      = Operation.add(MyOperand.new)
+    builder = Builder::XmlMarkup.new
+    xml     = builder.tag!("top") { |t| op.xml(t) }
+    xml.should == "<top><operator>ADD</operator><operand xsi:type=\"MyOperand\"><hello/></operand></top>"
+  end
+
+  it "should add attributes to the top tag" do
+    op = Operation.add(MyOperand.new)
+    op.instance_eval { @attrs = {"a" => "b"} }
+    op.to_xml.should == "<operations a=\"b\"><operator>ADD</operator><operand xsi:type=\"MyOperand\"><hello/></operand></operations>"
+  end
+
+  it "should add attribute type to the top tag" do
+    op = Operation.add(MyOperand.new)
+    op.instance_eval { @operation_type = "foo" }
+    op.to_xml.should == "<operations xsi:type=\"foo\"><operator>ADD</operator><operand xsi:type=\"MyOperand\"><hello/></operand></operations>"
   end
 end

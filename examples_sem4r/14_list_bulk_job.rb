@@ -27,4 +27,6 @@ require File.expand_path( File.join( File.dirname(__FILE__), "example_helper") )
 run_example(__FILE__) do |adwords|
   account = adwords.account
   account.p_jobs
+  account.job_result(38444)
+  # account.job_delete(33669)
 end

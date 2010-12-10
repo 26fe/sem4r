@@ -31,7 +31,7 @@
                   CAMPAIGN_ID
                 </type>
                 <value>
-                  48369
+                  48520
                 </value>
               </scopingEntityId>
               <operations xsi:type='AdGroupAdOperation'>
@@ -40,7 +40,7 @@
                 </operator>
                 <operand xsi:type='AdGroupAd'>
                   <adGroupId>
-                    3000126213
+                    3000126690
                   </adGroupId>
                   <ad xsi:type='TextAd'>
                     <url>
@@ -70,7 +70,7 @@
                 </operator>
                 <operand xsi:type='AdGroupAd'>
                   <adGroupId>
-                    3000126213
+                    3000126690
                   </adGroupId>
                   <ad xsi:type='TextAd'>
                     <url>
@@ -97,7 +97,7 @@
             </operationStreams>
           </request>
           <numRequestParts>
-            1
+            2
           </numRequestParts>
         </operand>
       </operation>
