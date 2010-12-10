@@ -68,6 +68,12 @@ module Sem4rSoap
       self
     end
 
+    def _to_s
+      self.class.attributes.map do |a|
+        if a.enum? then "" else self.send(a.name) end
+      end.join(' ')
+    end
+
     module ClassMethods
 
       def enum(set, values)
@@ -90,7 +96,6 @@ module Sem4rSoap
         @attributes << MetaSoapAttribute.new(name, false)
         attr_reader name
       end
-
 
       #
       # constraints

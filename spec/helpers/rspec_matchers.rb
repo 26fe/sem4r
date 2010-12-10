@@ -20,12 +20,17 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 require 'rexml/document'
 require 'differ'
 require 'differ/string'
+
+# comparing xml is always a b-i-a-t-c-h in any testing environment.  here is a
+# little snippet for ruby that, i think, it a good first pass at making it
+# easier.  comment with your improvements please!
+#
+# http://drawohara.com/post/89110816/ruby-comparing-xml
 
 def pretty_xml(xml)
   normalized = Class.new(REXML::Formatters::Pretty) do

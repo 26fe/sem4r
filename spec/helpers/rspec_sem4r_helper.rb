@@ -20,14 +20,7 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
-
-# comparing xml is always a b-i-a-t-c-h in any testing environment.  here is a
-# little snippet for ruby that, i think, it a good first pass at making it
-# easier.  comment with your improvements please!
-#
-# http://drawohara.com/post/89110816/ruby-comparing-xml
 
 module Sem4rSpecHelper
 
@@ -46,9 +39,8 @@ module Sem4rSpecHelper
 
   #############################################################################
 
-  def read_xml(service, xml_file, *args)
-    # xml_filepath  = File.join(File.dirname(__FILE__), "fixtures", *args)
-    xml_filepath  = File.join(File.dirname(__FILE__), "sem4r", service, "fixtures", xml_file)
+  def read_xml(service, file_name)
+    xml_filepath  = File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures", file_name)
     unless File.exist?(xml_filepath)
       raise "file #{xml_filepath} not exists"
     end
@@ -58,8 +50,18 @@ module Sem4rSpecHelper
     contents
   end
 
-  def read_model(xpath, service, xml_file, *args, &blk)
-    contents = read_xml(service, xml_file, *args)
+  def write_xml(service, file_name, xml)
+    fixture_dir  = File.join(File.dirname(__FILE__), "..", "sem4r", service, "fixtures")
+    FileUtils.mkdir_p(fixture_dir) unless File.directory?(fixture_dir)
+    pathname = File.join(fixture_dir, file_name)
+    puts "writing to #{pathname}"
+    File.open(pathname, "w") { |f|
+      f.puts xml
+    }
+  end
+
+  def read_model(xpath, service, xml_file, &blk)
+    contents = read_xml(service, xml_file)
     xml_document = Nokogiri::XML::Document.parse(contents)
     if xpath && blk
       el = xml_document.xpath(xpath).each do |node|
@@ -76,13 +78,13 @@ module Sem4rSpecHelper
     el
   end
 
-  def read_xml_document(service, xml_file, *args)
-    contents = read_xml(service, xml_file, *args)
+  def read_xml_document(service, xml_file)
+    contents = read_xml(service, xml_file)
     Nokogiri::XML::Document.parse(contents)
   end
 
-  def read_xml_document_with_rexml(service, xml_file, *args)
-    contents = read_xml(service, xml_file, *args)
+  def read_xml_document_with_rexml(service, xml_file)
+    contents = read_xml(service, xml_file)
     REXML::Document.new(contents)
   end
 
