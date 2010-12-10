@@ -2,13 +2,13 @@
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <requestId>
-        8f1c1f71f10b209d0f4b2483822882db
+        7b708527a1c5af6b1facea1dd84c65a3
       </requestId>
       <operations>
         53
       </operations>
       <responseTime>
-        416
+        140
       </responseTime>
       <units>
         53

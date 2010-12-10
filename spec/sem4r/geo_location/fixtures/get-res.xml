@@ -2,13 +2,13 @@
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <requestId>
-        ec6f01d43f9afeab20e93cb0cc7f3fe6
+        2f46eb41f5046946b248683b45a159fb
       </requestId>
       <operations>
         2
       </operations>
       <responseTime>
-        340
+        162
       </responseTime>
       <units>
         2
@@ -44,7 +44,7 @@
           </countryCode>
         </address>
         <encodedLocation>
-          qrvM3QDB3iJsxJHRLyPLp/rr/7xxxnEj6zJOKsjk1sUjMvyEdp1NLFX1lAuCKS77AbiGh8DkeTFzVMwevwWyZClFO/wgCCB/NgGrxr/DaTmzgBkFwoR8lGT+zEKnw3NCWhnuNxMhn8xvKFgw7D2rm03Sexs0FgSnZl1Bd7CVnNY/B23gw4DTrgbGbskEKwetupa2A7OA15efF0GJyWxXd1X1z2HNaX8njWHX1D7czCX1mHri0deRZskr/xL06l1R9mZc5BylnY4MbKTvq4po6Ar7exca3Tj2Wzxe18+JqFfyX1DZrHUItwa+eq+8D7ieNw/v6j4dmAJ62zcHLpJPePTH6PY9pT3+Kl1XFYqqnPZId2+FJLE7FQSGTrsZXPqdAFOjfCOk7TPaTcPEdjH1Y+aF8wwbP10ksQYB5p8GuQA6cqJ0R5wRtWCx0WlJtDAwZ8ITg4cPWyAc5Fg9vFsiMJ4iY/tm6fGBe4lGX39jdL9e9gksCa+htn8TY0crw7jK5cBQWPzDve2MfQJrmmX6USDDe717QSrL5T+iFmKDac+1c9HVyMzJGJ1Tita71Ycv8xvan6OD8SsQ4v+oqA==
+          qrvM3QDB3iJsoW5CCm5ELDnrheCfJDpb74yQwvnJlSeV2uWWM7SqEqhwvlaHnOM383ATHFNQRP9+vLgh5ZhGfUhZ7NSmi+eP68KgvuxciuTnoDePQNB14CXChk7/x2h+p01JSnpiHBosblWjonSiBZqdRAeFcqd7jmst7t3qnwCs7PYyXBOKw47hxdiiVPHxagzknR8mvhhR1XjYzfeDS7nZDDAyRFs3x1l7Eq7VG2uNXz0T25VpFEhJfbjXee0c2YbkwcTZJnZLSRKBvyvuudu7oyw2OwSARrTNDnT1gubbhFvThThB1sXIvaHPRlirQDuKHOw9Jdn31LS/wNuxl7OZgV5w631hTdHS/dZUiPTpd2AbGDOMEoPRfdUpkrVQ1fDFXswqXlwgWPVTlrK/B3TVoFR/emc7TztipecXqA9YSc6tMQzJ5IAONn8ZpzLV2tLnpb/s2Zx0y+uEofWTfCvfS5LJ9MFtCobL+x/j99jBpG48wf/4UPGAFuN3Hsa5ZIsgP5J5n85xJmCKtmFhJM+tdnBfXFEhW9egjchy/Optt+2cJzdmAXiPfnsBY5YWGixI12WETHstsvkkZw==
         </encodedLocation>
         <GeoLocation.Type>
           GeoLocation
