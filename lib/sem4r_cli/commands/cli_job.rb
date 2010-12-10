@@ -73,7 +73,7 @@ module Sem4rCli
       case subcommand
 
         when "list"
-          account.p_jobs
+          Sem4rCli::report(account.jobs, :id, :status)
 
         when "delete"
           job_id = rest[1]
@@ -85,7 +85,7 @@ module Sem4rCli
         when "submit_pending"
           ret = create(account, true)
         else
-          puts "unknow subcommand '#{subcommand}'; must be one of #{subcommands.join(", ")}"
+          puts "unknow subcommand '#{subcommand}'; must be one of #{self.class.subcommands.join(", ")}"
           return false
       end
       account.adwords.p_counters
@@ -95,6 +95,7 @@ module Sem4rCli
     private
 
     def create(account, pending = false)
+      puts "creating example job"
       campaign, ad_group = template_campaign_and_ad_group(account)
       job = template_bulk_mutate_job(campaign, ad_group)
       if pending

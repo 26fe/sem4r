@@ -20,14 +20,48 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 module Sem4rCli
 
   CliListCampaign = define_command_sem4r("campaigns", "list campaigns") do |account|
-    puts "listing campaings in #{account}"
-    report(account.campaigns, :id, :name, :status)
+    puts "Collecting campaign from account(s) - please wait"
+
+    # if the accounts have client_accounts it is a master
+    client_accounts = account.client_accounts
+    if client_accounts.empty?
+      client_accounts = [account]
+    end
+
+    items        = []
+    need_newline = false
+
+    client_accounts.each do |client_account|
+      if need_newline
+        puts
+        need_newline = false
+      end
+
+      puts "look in account '#{client_account.credentials.client_email}'"
+      client_account.campaigns.each do |campaign|
+
+        o        = OpenStruct.new
+        o.client = client_account.credentials.client_email
+        o.id     = campaign.id
+        o.name   = campaign.name
+        o.status = campaign.status
+        items << o
+
+        print "."
+        need_newline = true
+      end
+    end
+
+    if need_newline
+      puts
+      need_newline = false
+    end
+    report(items, :client, :id, :name, :status)
     account.adwords.p_counters
     true
   end
