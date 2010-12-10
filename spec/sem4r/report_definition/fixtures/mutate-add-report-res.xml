@@ -2,13 +2,13 @@
   <soap:Header>
     <ResponseHeader xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <requestId>
-        47a0ffa15310b751f338b705cf6c15d5
+        0789bb35587ef7a3c09857e7dc98f468
       </requestId>
       <operations>
         1
       </operations>
       <responseTime>
-        202
+        342
       </responseTime>
       <units>
         1
@@ -19,7 +19,7 @@
     <mutateResponse xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <rval>
         <id>
-          9215
+          9257
         </id>
         <selector>
           <fields>
@@ -60,7 +60,7 @@
           CSV
         </downloadFormat>
         <creationTime>
-          20101210 031739 America/Los_Angeles
+          20101210 105826 America/Los_Angeles
         </creationTime>
       </rval>
     </mutateResponse>

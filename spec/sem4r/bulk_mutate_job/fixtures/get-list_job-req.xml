@@ -17,7 +17,6 @@
   <env:Body>
     <get xmlns='https://adwords.google.com/api/adwords/cm/v201008'>
       <selector>
-        <customerJobKeys/>
         <jobStatuses>
           COMPLETED
         </jobStatuses>
