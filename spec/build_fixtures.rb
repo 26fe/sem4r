@@ -36,11 +36,13 @@ require 'helpers/dump_interceptor'
 require 'helpers/fixtures_geo_location'
 require 'helpers/fixtures_report_definition'
 require 'helpers/fixtures_bulk_mutate_job'
+require 'helpers/fixtures_info'
 
 class BuildFixtures
   include FixtureGeoLocation
   include FixtureReportDefinition
   include FixtureBulkMutateJob
+  include FixtureInfo
 
   def initialize
     @adwords      = Adwords.sandbox # search credentials into ~/.sem4r file
@@ -72,12 +74,10 @@ class BuildFixtures
     puts "---------------------------------------------------------------------"
     begin
 
-      # fixtures_geo_location
-      # fixtures_report_definition
+      fixtures_info
+      fixtures_geo_location
+      fixtures_report_definition
       fixtures_bulk_mutate_job
-
-      # info
-      # @adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
 
     rescue Sem4rError
       puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"

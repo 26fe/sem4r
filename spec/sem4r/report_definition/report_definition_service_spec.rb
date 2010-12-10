@@ -32,13 +32,14 @@ describe ReportDefinitionService do
   end
 
   it "should define 'mutate'" do
-    pending "test"
-    response_xml = read_xml("report_definition", "mutate-res.xml")
+    @credentials.stub(:mutable?).and_return(true)
+    response_xml = read_xml("report_definition", "mutate-add-report-res.xml")
     connector = mock("connector")
     connector.should_receive(:send).and_return(response_xml)
+
     service = ReportDefinitionService.new(connector)
-    soap_message = service.all(@credentials)
-    els = soap_message.response.xpath("//getResponse")
+    soap_message = service.mutate(@credentials ,"xml")
+    els = soap_message.response.xpath("//mutateResponse")
     els.should_not be_empty
   end
 
