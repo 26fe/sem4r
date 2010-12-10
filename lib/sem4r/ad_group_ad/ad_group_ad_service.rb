@@ -22,20 +22,24 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AdGroupAdService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+
+  #
+  # @private
+  #
+  class AdGroupAdService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
-      @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
-      @header_namespace = @service_namespace
-      
+      @connector           = connector
+      @service_namespace   = "https://adwords.google.com/api/adwords/cm/v201008"
+      @header_namespace    = @service_namespace
+
       @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupAdService"
       init(@header_namespace, @service_namespace)
     end
 
-    soap_call :all,   :mutate => false
+    soap_call :all, :mutate => false
     soap_call :mutate
-      
+
     private
 
     def _all(ad_group_id)

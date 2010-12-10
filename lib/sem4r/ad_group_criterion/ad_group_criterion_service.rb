@@ -22,6 +22,10 @@
 # -------------------------------------------------------------------
 
 module Sem4r
+
+  #
+  # @private
+  #
   class AdGroupCriterionService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
 
     def initialize(connector)

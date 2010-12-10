@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -22,7 +23,11 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class AccountService < Sem4rSoap::SoapServiceV13 #:nodoc: all
+
+  #
+  # @private
+  #
+  class AccountService < Sem4rSoap::SoapServiceV13
 
     def initialize(connector)
       super()

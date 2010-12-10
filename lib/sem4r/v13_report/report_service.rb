@@ -22,7 +22,11 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class ReportService < Sem4rSoap::SoapServiceV13 #:nodoc: all
+
+  #
+  # @private
+  #
+  class ReportService < Sem4rSoap::SoapServiceV13
 
     def initialize(connector)
       super()
@@ -39,8 +43,6 @@ module Sem4r
     soap_call :schedule, :mutate => false
     soap_call :status,   :mutate => false
     soap_call :url,      :mutate => false
-
-    ################
 
     def download(url, path_name)
       @connector.download(url, path_name)
