@@ -20,12 +20,12 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 module Sem4rCli
 
   CliListKeywords = define_command_sem4r("keywords", "list keywords") do |account|
+    puts "Collecting keywords from account(s) - please wait"
 
     # if the account have client_accounts it is a master
     client_accounts = account.client_accounts

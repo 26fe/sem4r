@@ -38,7 +38,7 @@ module Sem4rCli
     end
 
     def self.description
-      "manage report definition (subcommands: fields, list, create)"
+      "manage report definition (subcommands: #{subcommands.join(", ")})"
     end
 
     def initialize(sem4r_cli)
@@ -46,8 +46,8 @@ module Sem4rCli
     end
 
     def command_opt_parser(options)
-      opt_parser = OptionParser.new
-      opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{subcommands.join("|")}]"
+      opt_parser        = OptionParser.new
+      opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{self.class.subcommands.join("|")}]"
       opt_parser.separator ""
       opt_parser.separator "#{self.class.description}"
       opt_parser.on("-h", "--help", "show this message") do
@@ -58,7 +58,7 @@ module Sem4rCli
 
     def parse_and_run(argv)
       options = OpenStruct.new
-      rest = command_opt_parser(options).parse( argv )
+      rest    = command_opt_parser(options).parse(argv)
       if options.exit
         return false
       end
@@ -68,22 +68,22 @@ module Sem4rCli
         return false
       end
 
-      account = @sem4r_cli.account
-      ret = true
-      subcommand = rest[0]
+      account         = @sem4r_cli.account
+      ret             = true
+      subcommand      = rest[0]
       subcommand_args = rest[1..-1]
       case subcommand
-      when "fields"
-        account.report_fields.each do |f|
-          puts f.to_s
-        end
+        when "fields"
+          report_type = ReportDefinition::AD_PERFORMANCE_REPORT
+          puts "Fields for #{report_type}"
+          Sem4rCli::report(account.report_fields(report_type), :field_name, :field_type)
 
-      when "list"
-        account.p_report_definitions
+        when "list"
+          Sem4rCli::report(account.report_definitions, :id, :name)
 
-      when "delete"
-        report_definition_id = rest[1]
-        account.report_definition_delete(report_definition_id)
+        when "delete"
+          report_definition_id = rest[1]
+          account.report_definition_delete(report_definition_id)
 
         when "create"
           ret = create(account)
@@ -99,12 +99,12 @@ module Sem4rCli
 
     def create(account)
       rd = account.report_definition do
-        name       "Keywords performance report #1290336379254"
-        type       "KEYWORDS_PERFORMANCE_REPORT"
+        name "Keywords performance report #1290336379254"
+        type "KEYWORDS_PERFORMANCE_REPORT"
         date_range "CUSTOM_DATE"
-        from       "20100101"
-        to         "20100110"
-        format     "CSV"
+        from "20100101"
+        to "20100110"
+        format "CSV"
 
         field "AdGroupId"
         field "Id"

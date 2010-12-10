@@ -20,7 +20,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
 # -------------------------------------------------------------------------
 
 module Sem4rCli
@@ -73,12 +72,19 @@ module Sem4rCli
       case subcommand
         when "list"
           puts "Profiles:"
+
+          items    = []
           profiles = adwords.profiles
           names    = profiles.keys.map &:to_s
           names.sort.each do |s|
-            puts "  #{s} (#{profiles[s]['email']})"
+            o             = OpenStruct.new
+            o.name        = s
+            o.email       = profiles[s]['email']
+            o.mutable     = profiles[s]['mutable']
+            o.environment = profiles[s]['environment']
+            items << o
           end
-
+          Sem4rCli::report(items, :name, :environment, :email, :mutable)
         when "create"
           puts "Tobe done :-)"
 

@@ -20,13 +20,12 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 module Sem4rCli
 
   CliListAds = define_command_sem4r("ads", "list ads") do |account|
-    puts "List AdGroup Advertising"
+    puts "Collecting ads from account(s) - please wait"
 
     # if the accounts have client_accounts it is a master
     client_accounts = account.client_accounts
@@ -43,8 +42,7 @@ module Sem4rCli
         need_newline = false
       end
 
-      #--
-      puts "examinate account '#{client_account.credentials.client_email}'"
+      puts "look in account '#{client_account.credentials.client_email}'"
       client_account.campaigns.each do |campaign|
         # puts "examinate campaign '#{campaign}'"
         campaign.ad_groups.each do |ad_group|
@@ -62,7 +60,6 @@ module Sem4rCli
           need_newline = true
         end
       end
-      #--
 
     end
     if need_newline
