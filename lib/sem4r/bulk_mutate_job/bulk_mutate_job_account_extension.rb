@@ -48,7 +48,7 @@ module Sem4r
     end
 
     def job_mutate(bulk_mutate_job)
-      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job.to_xml)
+      soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job.to_xml("operation"))
       add_counters(soap_message.counters)
       el = soap_message.response.at_xpath("//rval")
       BulkMutateJob.from_element(el)

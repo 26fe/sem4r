@@ -56,7 +56,7 @@ describe AdGroupAdOperation do
   end
 
   it "should produce xml (input for google) with two operation" do
-    pending "test"
+    pending "waiting to finish build fixture"
     @adgroup = stub_adgroup
 
     text_ad_1 = AdGroupTextAd.new(@adgroup) do
@@ -75,8 +75,8 @@ describe AdGroupAdOperation do
       url           "http://www.Sem4R.com"
     end
 
-    ad_operation_1 = AdGroupAdOperation.new.add text_ad_1
-    ad_operation_2 = AdGroupAdOperation.new.add text_ad_2
+    ad_operation_1 = AdGroupAdOperation.add text_ad_1
+    ad_operation_2 = AdGroupAdOperation.add text_ad_2
 
     puts ad_operation_1.to_xml("operations")
     puts ad_operation_2.to_xml("operations")

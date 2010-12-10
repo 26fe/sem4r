@@ -22,23 +22,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-module FixtureGeoLocation
+module FixtureInfo
 
-  def fixtures_geo_location
+  def fixtures_info
     @dump_interceptor.reset_and_stop
-
     intercept("get") {
-      selector = GeoLocationSelector.new
-      selector.address do
-        address "Via Nazionale, 10"
-        city "Rome"
-        country "IT"
-      end
-      selector.address do
-        city "Pisa"
-        country "IT"
-      end
-      @adwords.account.geo_location(selector)
+      @adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
     }
   end
 
