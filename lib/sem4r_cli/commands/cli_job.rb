@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,20 +25,20 @@
 module Sem4rCli
 
   #
-  # Report Definition (v201008 api)
+  # BulkMuteteJob
   #
-  class CliRepDef < CliCommand
+  class CliJob < CliCommand
 
     def self.command
-      "repdef"
+      "job"
     end
 
     def self.subcommands
-      %w{fields list create}
+      %w{list create}
     end
 
     def self.description
-      "manage report definition (subcommands: fields, list, create)"
+      "manage bulk mutate job (subcommands: #{subcommands.join(', ')})"
     end
 
     def initialize(sem4r_cli)
@@ -47,7 +47,7 @@ module Sem4rCli
 
     def command_opt_parser(options)
       opt_parser = OptionParser.new
-      opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{subcommands.join("|")}]"
+      opt_parser.banner = "Usage #{self.class.command} [command_options ] [#{self.class.subcommands.join("|")}]"
       opt_parser.separator ""
       opt_parser.separator "#{self.class.description}"
       opt_parser.on("-h", "--help", "show this message") do
@@ -59,9 +59,7 @@ module Sem4rCli
     def parse_and_run(argv)
       options = OpenStruct.new
       rest = command_opt_parser(options).parse( argv )
-      if options.exit
-        return false
-      end
+      return false if options.exit
 
       if rest.empty?
         puts "missing command"
@@ -73,13 +71,9 @@ module Sem4rCli
       subcommand = rest[0]
       subcommand_args = rest[1..-1]
       case subcommand
-      when "fields"
-        account.report_fields.each do |f|
-          puts f.to_s
-        end
 
       when "list"
-        account.p_report_definitions
+        account.p_jobs
 
       when "delete"
         report_definition_id = rest[1]
@@ -98,22 +92,7 @@ module Sem4rCli
     private
 
     def create(account)
-      rd = account.report_definition do
-        name       "Keywords performance report #1290336379254"
-        type       "KEYWORDS_PERFORMANCE_REPORT"
-        date_range "CUSTOM_DATE"
-        from       "20100101"
-        to         "20100110"
-        format     "CSV"
 
-        field "AdGroupId"
-        field "Id"
-        field "KeywordText"
-        field "KeywordMatchType"
-        field "Impressions"
-        field "Clicks"
-        field "Cost"
-      end
       rd.save
       puts rd.id
       puts rd.to_s

@@ -166,3 +166,8 @@ require 'sem4r/v13_account/account_account_extension'
 require 'sem4r/v13_report/report'
 require 'sem4r/v13_report/report_job'
 require 'sem4r/v13_report/report_account_extension'
+
+#
+#
+#
+require 'sem4r/sem4r_templates'
