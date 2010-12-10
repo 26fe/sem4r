@@ -26,7 +26,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
 describe TargetingIdeaSelector do
-  include Sem4rSpecHelper, AggregatesSpecHelper
+  include Sem4rSpecHelper
 
   it "should produce xml (input for google)" do
     idea_selector = TargetingIdeaSelector.new do

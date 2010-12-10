@@ -106,7 +106,9 @@ module Sem4rSpecHelper
   end
 
   def stub_service_report_definition(service)
-    service_report_definition   = stub("service_report_definition")
+    xml_document = read_xml_document("report_definition", "mutate-add-report-res.xml")
+    soap_message = stub("soap_message", :response => xml_document, :counters => nil)
+    service_report_definition   = stub("service_report_definition", :mutate => soap_message  )
     service.stub(:report_definition).and_return(service_report_definition)
   end
 

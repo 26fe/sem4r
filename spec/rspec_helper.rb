@@ -9,7 +9,6 @@ include Sem4r
 require 'helpers/rspec_sem4r_helper'
 require 'helpers/rspec_matchers'
 require 'helpers/sem4r_stubs'
-require 'helpers/aggregates_rspec_helper'
 
 # Spec::Runner.configure do |config|
 # end

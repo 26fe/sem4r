@@ -25,9 +25,18 @@
 class DumpInterceptor
   include Sem4rSpecHelper
 
-  def reset
+  def reset_and_start
     @request_number = 0
     @where_to_write = []
+    @state = :started
+  end
+
+  def start
+    @state = :started
+  end
+
+  def stop
+    @state = :stopped
   end
 
   def intercept_to(service, file)
@@ -35,6 +44,8 @@ class DumpInterceptor
   end
 
   def call(service_url, type, xml)
+    return if @state == :stopped
+
     match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/([^\/]*)\/v201008\/([^\/]*)$/)
     unless match_data
       puts "*********** DumpInterceptor cannot recognize service"
