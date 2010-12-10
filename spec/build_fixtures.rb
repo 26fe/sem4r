@@ -33,8 +33,14 @@ include Sem4r
 
 require 'helpers/rspec_sem4r_helper'
 require 'helpers/dump_interceptor'
+require 'helpers/fixtures_geo_location'
+require 'helpers/fixtures_report_definition'
+require 'helpers/fixtures_bulk_mutate_job'
 
 class BuildFixtures
+  include FixtureGeoLocation
+  include FixtureReportDefinition
+  include FixtureBulkMutateJob
 
   def initialize
     @adwords      = Adwords.sandbox # search credentials into ~/.sem4r file
@@ -44,11 +50,19 @@ class BuildFixtures
     Dir.mkdir(log_directory) unless File.directory?(log_directory)
     puts "dump soap messages in '#{log_directory}'"
 
-    fixtures_dir = File.join(File.dirname(__FILE__), "fixtures", "services")
-    @dump_interceptor  = DumpInterceptor.new(fixtures_dir)
-    dump_options = {:directory => log_directory, :format => true, :interceptor => @dump_interceptor}
+    fixtures_dir      = File.join(File.dirname(__FILE__), "fixtures", "services")
+    @dump_interceptor = DumpInterceptor.new(fixtures_dir)
+    dump_options      = {:directory => log_directory, :format => true, :interceptor => @dump_interceptor}
     @adwords.dump_soap_options(dump_options)
     @adwords.logger = Logger.new(STDOUT)
+  end
+
+  def intercept
+    if block_given?
+      @dump_interceptor.start
+      yield
+      @dump_interceptor.stop
+    end
   end
 
   def run
@@ -57,8 +71,9 @@ class BuildFixtures
     puts "---------------------------------------------------------------------"
     begin
 
-      # geo_location_fixtures
-      report_definition_fixtures
+      # fixtures_geo_location
+      # fixtures_report_definition
+      fixtures_bulk_mutate_job
 
       # info
       # @adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
@@ -69,33 +84,6 @@ class BuildFixtures
     puts "---------------------------------------------------------------------"
   end
 
-  def geo_location_fixtures
-    @dump_interceptor.reset
-    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
-    @dump_interceptor.intercept_to("geo_location", "get-{type}.xml")
-
-    #
-    # geo_location
-    #
-    selector = GeoLocationSelector.new
-    selector.address do
-      address "Via Nazionale, 10"
-      city "Rome"
-      country "IT"
-    end
-    selector.address do
-      city "Pisa"
-      country "IT"
-    end
-    @adwords.account.geo_location(selector)
-  end
-
-  def report_definition_fixtures
-    @dump_interceptor.reset
-    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
-    @dump_interceptor.intercept_to("report_definition", "getReportFields-{type}.xml")
-    @adwords.account.report_fields
-  end
 
 end
 

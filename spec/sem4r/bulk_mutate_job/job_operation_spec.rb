@@ -26,21 +26,20 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
 
 describe JobOperation do
-  include Sem4rSpecHelper, AggregatesSpecHelper
+  include Sem4rSpecHelper
 
 
   it "should produce xml" do
     @campaign = mock("campaign").as_null_object
     @campaign.stub(:id).and_return(100)
 
-    @adgroup = mock("adgroup").as_null_object
-    @adgroup.stub(:id).and_return(3060284754)
+    @ad_group = mock("adgroup").as_null_object
+    @ad_group.stub(:id).and_return(3060284754)
 
-    bulk_mutate_job = create_bulk_mutate_job(@campaign, @adgroup)
+    bulk_mutate_job = template_bulk_mutate_job(@campaign, @ad_group)
     bulk_mutate_job.should_not be_empty
 
-    job_operation = JobOperation.new
-    job_operation.add(bulk_mutate_job)
+    job_operation = JobOperation.add(bulk_mutate_job)
     
     expected_xml = read_model("//operation", "bulk_mutate_job", "mutate-req.xml")
     job_operation.to_xml('operation').should xml_equivalent(expected_xml)
