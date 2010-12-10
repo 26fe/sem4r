@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
@@ -22,7 +23,11 @@
 # -------------------------------------------------------------------
 
 module Sem4r
-  class GeoLocationService < Sem4rSoap::SoapServiceV2010 #:nodoc: all
+
+  #
+  # @private
+  #
+  class GeoLocationService < Sem4rSoap::SoapServiceV2010 
 
     def initialize(connector)
       @connector = connector
@@ -37,22 +42,10 @@ module Sem4r
 
     soap_call :get
 
-    ################
-
     private
 
     def _get(xml)
-      <<-EOFS
-      <s:get>
-        <s:selector>
-          <addresses>
-            <streetAddress>Via Nazionale,10</streetAddress>
-            <cityName>Rome</cityName>
-            <countryCode>IT</countryCode>
-          </addresses>
-        </s:selector>
-      </s:get>
-      EOFS
+      "<s:get>#{xml}</s:get>"
     end
 
   end
