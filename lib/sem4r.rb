@@ -73,19 +73,11 @@ require 'sem4r/account'
 
 require 'sem4r/bulk_mutate_job/bulk_mutate_job_account_extension'
 require 'sem4r/campaign/campaign_account_extension'
-require 'sem4r/geo_location/geo_location_account_extension'
 require 'sem4r/info/info_account_extension'
 require 'sem4r/report_definition/report_definition_account_extension'
 require 'sem4r/targeting_idea/targeting_idea_account_extension'
 
-require 'sem4r/v13_report/report_account_extension'
-require 'sem4r/v13_account/account_account_extension'
-
-#
-# soap connection layer
-#
 require 'sem4r_soap'
-
 require 'sem4r/service'
 
 #
@@ -142,6 +134,21 @@ require 'sem4r/campaign/campaign'
 require'sem4r/info/info_selector'
 
 #
+# geo_location
+#
+require 'sem4r/geo_location/geo_location_account_extension'
+require 'sem4r/geo_location/geo_location_selector'
+require 'sem4r/geo_location/address'
+
+#
+# report_definition
+#
+require 'sem4r/report_definition/report_definition'
+require 'sem4r/report_definition/report_field'
+require 'sem4r/report_definition/report_definition_selector'
+require 'sem4r/report_definition/report_definition_operation'
+
+#
 # targeting_idea
 #
 require 'sem4r/targeting_idea/targeting_idea'
@@ -151,18 +158,11 @@ require 'sem4r/targeting_idea/targeting_idea_selector'
 # v13_account
 #
 require 'sem4r/v13_account/billing_address'
+require 'sem4r/v13_account/account_account_extension'
 
 #
 # v13_report
 #
 require 'sem4r/v13_report/report'
 require 'sem4r/v13_report/report_job'
-
-
-#
-# report_definition
-#
-require 'sem4r/report_definition/report_definition'
-require 'sem4r/report_definition/report_field'
-require 'sem4r/report_definition/report_definition_selector'
-require 'sem4r/report_definition/report_definition_operation'
+require 'sem4r/v13_report/report_account_extension'

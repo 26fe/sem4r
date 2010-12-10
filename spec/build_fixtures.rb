@@ -23,63 +23,51 @@
 # -------------------------------------------------------------------
 
 require 'rubygems'
-
-cwd = File.expand_path( File.join( File.dirname(__FILE__), "..", "lib" ) )
+cwd = File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
 $:.unshift(cwd) unless $:.include?(cwd)
+cwd = File.expand_path(File.dirname(__FILE__))
+$:.unshift(cwd) unless $:.include?(cwd)
+
 require 'sem4r'
 include Sem4r
 
-puts "---------------------------------------------------------------------"
-puts "Building fixtures"
-puts "---------------------------------------------------------------------"
+require 'helpers/rspec_sem4r_helper'
+require 'helpers/dump_interceptor'
 
+class BuildFixtures
 
-class DumpInterceptor
+  def initialize
+    @adwords       = Adwords.sandbox # search credentials into ~/.sem4r file
 
-  def initialize(dir)
-    @dir = dir
+    log_directory = File.join(File.dirname(__FILE__), "..", "tmp", "build_fixtures")
+    log_directory = File.expand_path(log_directory)
+    Dir.mkdir(log_directory) unless File.directory?(log_directory)
+    puts "dump soap messages in '#{log_directory}'"
+
+    fixtures_dir = File.join(File.dirname(__FILE__), "fixtures", "services")
+    interceptor  = DumpInterceptor.new(fixtures_dir)
+    dump_options = {:directory => log_directory, :format => true, :interceptor => interceptor}
+    @adwords.dump_soap_options(dump_options)
+    @adwords.logger = Logger.new(STDOUT)
   end
 
-  def call(service_url, type, str)
-    # puts "dump interceptor #{service_url} #{type}"
+  def run
+    puts "---------------------------------------------------------------------"
+    puts "Building fixtures"
+    puts "---------------------------------------------------------------------"
+    begin
 
-    # https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService
-    match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/info\/v201008\/([^\/]*)$/)
-    case match_data[1]
-    when "InfoService"
-      dir = File.join(@dir, "info")
-      FileUtils.mkdir_p(dir) unless File.directory?(dir)
-      pathname = File.join(dir, "get_unit_count-#{type}.xml")
-      puts "writing to #{pathname}"
-      File.open(pathname, "w") {|f|
-        f.puts str
-      }
-    else
-      puts "unknow service #{match_data[1]}"
+      # geo_location
+      @adwords.account.geo_location
+
+      # info
+      # @adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
+
+    rescue Sem4rError
+      puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
     end
-
+    puts "---------------------------------------------------------------------"
   end
 end
 
-begin
-  adwords = Adwords.sandbox             # search credentials into ~/.sem4r file
-
-  log_directory = File.join( File.dirname(__FILE__), "..", "tmp", "build_fixtures" )
-  log_directory = File.expand_path(log_directory)
-  Dir.mkdir(log_directory) unless File.directory?(log_directory)
-  puts "dump soap messages in '#{log_directory}'"
-
-  fixtures_dir = File.join( File.dirname(__FILE__), "fixtures", "services")
-  interceptor = DumpInterceptor.new(fixtures_dir)
-  dump_options = { :directory => log_directory, :format => true, :interceptor => interceptor}
-  adwords.dump_soap_options( dump_options )
-  adwords.logger = Logger.new(STDOUT)
-
-  # info
-  adwords.account.year_unit_cost(InfoSelector::UNIT_COUNT)
-
-rescue Sem4rError
-  puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
-end
-
-puts "---------------------------------------------------------------------"
+BuildFixtures.new.run
