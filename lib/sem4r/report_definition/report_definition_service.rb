@@ -47,8 +47,8 @@ module Sem4r
       "<get>#{xml}</get>"
     end
 
-    def _report_fields
-      "<getReportFields><reportType>URL_PERFORMANCE_REPORT</reportType></getReportFields>"
+    def _report_fields(report_type)
+      "<getReportFields><reportType>#{report_type}</reportType></getReportFields>"
     end
 
     def _mutate(xml)

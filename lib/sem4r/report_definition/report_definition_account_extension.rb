@@ -20,28 +20,55 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 module Sem4r
-  
+
   module ReportDefinitionAccountExtension
 
-    def report_definition_delete(report_definition_id)
-      report_definition = ReportDefinition.new(self)
-      report_definition.instance_eval { @id = report_definition_id }
-      op = ReportDefinitionOperation.new
-      op.remove(report_definition)
-      soap_message = service.report_definition.mutate(credentials, op.to_xml("operations"))
-      add_counters( soap_message.counters )
-    end
-
-    def report_fields
-      soap_message = service.report_definition.report_fields(credentials)
-      add_counters( soap_message.counters )
+    #
+    # Query the list of field for a report type
+    # @param [ReportDefinition::ReportTypes] a value of
+    #
+    def report_fields(report_type)
+      soap_message = service.report_definition.report_fields(credentials, report_type)
+      add_counters(soap_message.counters)
       els = soap_message.response.xpath("//getReportFieldsResponse/rval")
       els.map do |el|
         ReportField.from_element(el)
+      end
+    end
+
+    #
+    # Delete a report definition
+    #
+    # @param[ReportDefinition, Number]
+    #
+    def report_definition_delete(repdef_or_id)
+      if repdef_or_id.class == ReportDefinition
+        report_definition = repdef_or_id
+      else
+        report_definition = ReportDefinition.new(self)
+        report_definition.instance_eval { @id = repdef_or_id }
+      end
+
+      op           = ReportDefinitionOperation.remove(report_definition)
+      soap_message = service.report_definition.mutate(credentials, op.to_xml)
+      add_counters(soap_message.counters)
+
+      unless @report_definitions
+        @report_definition.delete_if { |repdef| repdef == report_definition.id }
+      end
+      report_definition.instance_eval { @id = -1 } # repdef status invalid/deleted
+      self
+    end
+
+    #
+    # Delete all report definition
+    #
+    def report_definition_delete_all
+      report_definitions.each do |repdef|
+        repdef.delete
       end
     end
 
@@ -86,8 +113,8 @@ module Sem4r
 
     def _report_definitions
       soap_message = service.report_definition.get(credentials, ReportDefinitionSelector.new.to_xml)
-      add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//entries")
+      add_counters(soap_message.counters)
+      els                 = soap_message.response.xpath("//entries")
       @report_definitions = els.map do |el|
         ReportDefinition.from_element(self, el)
       end

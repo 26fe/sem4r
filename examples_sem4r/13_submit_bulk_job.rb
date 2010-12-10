@@ -24,7 +24,6 @@
 
 require File.expand_path( File.join( File.dirname(__FILE__), "example_helper") )
 
-
 def create_bulk_mutate_job(campaign, adgroup)
   text_ad1 = AdGroupTextAd.new(adgroup)
   text_ad1.headline     = "Cruise to Mars Sector 1"

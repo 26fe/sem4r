@@ -27,14 +27,6 @@ module Sem4r
   module BulkMutateJobAccountExtension
 
     def p_jobs
-      selector = BulkMutateJobSelector.new
-      soap_message = service.bulk_mutate_job.all(credentials, selector)
-      add_counters( soap_message.counters )
-      els = soap_message.response.xpath("//getResponse/rval")
-      jobs = els.map do |el|
-        BulkMutateJob.from_element(el)
-      end
-
       puts "#{jobs.length} bulk mutate jobs"
       jobs.each do |job|
         puts job.to_s
@@ -44,9 +36,27 @@ module Sem4r
 
     def job_mutate(bulk_mutate_job)
       soap_message = service.bulk_mutate_job.mutate(credentials, bulk_mutate_job)
-      add_counters( soap_message.counters )
+      add_counters(soap_message.counters)
       el = soap_message.response.at_xpath("//rval")
       BulkMutateJob.from_element(el)
+    end
+
+    def jobs(refresh = false)
+      _jobs unless @jobs and !refresh
+      @jobs
+    end
+
+    private
+
+    def _jobs
+      selector     = BulkMutateJobSelector.new
+      soap_message = service.bulk_mutate_job.all(credentials, selector)
+      add_counters(soap_message.counters)
+      els  = soap_message.response.xpath("//getResponse/rval")
+      @jobs = els.map do |el|
+        BulkMutateJob.from_element(el)
+      end
+      @jobs
     end
   end
 
