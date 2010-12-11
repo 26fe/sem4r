@@ -16,7 +16,7 @@ tmtags
 ## VIM
 *.swp
 
-## IDE Netbean
+## IDEs
 nbproject
 .idea
 
@@ -37,6 +37,7 @@ config/sem4r.yml
 *.log
 tmp/*
 extra
+deploy.rdoc
 
 ## installed by bundler
 bin/htmldiff
@@ -49,4 +50,3 @@ bin/autospec
 bin/yard
 bin/yardoc
 bin/yri
-/deploy.rdoc
