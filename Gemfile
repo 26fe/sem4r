@@ -9,6 +9,7 @@ group :development do
   gem "jeweler"
   gem "rake"
   gem "yard"
+  gem "bundler"  # funny!
 end
 
 group :test do
@@ -16,6 +17,6 @@ group :test do
   gem "rspec"
 end
 
-platforms :jruby do
-  gem 'jruby-openssl'
-end
+#platforms :jruby do
+#  gem 'jruby-openssl'
+#end

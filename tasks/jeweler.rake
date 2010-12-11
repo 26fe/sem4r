@@ -40,6 +40,7 @@ begin
     gem.files << 'config/sem4r.example.yml'
     gem.files.concat Dir['examples_sem4r/*.rb']
     gem.files.concat Dir['examples_blog/*.rb']
+    gem.files.concat Dir['tasks/**/*.rake']
     gem.files.concat Dir['lib/**/*.rb']
 
     #

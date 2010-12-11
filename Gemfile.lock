@@ -1,7 +1,6 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    bouncy-castle-java (1.5.0145.2)
     builder (3.0.0)
     diff-lcs (1.1.2)
     differ (0.1.1)
@@ -12,8 +11,6 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
-    jruby-openssl (0.7.2)
-      bouncy-castle-java
     nokogiri (1.4.4)
     nokogiri (1.4.4-java)
       weakling (>= 0.0.3)
@@ -39,7 +36,6 @@ DEPENDENCIES
   highline
   httpclient
   jeweler
-  jruby-openssl
   nokogiri
   rake
   rspec

@@ -38,7 +38,12 @@ require 'fileutils'
 # use bundler
 #
 require "rubygems"
-require "bundler/setup"
+
+begin
+  require "bundler/setup"
+rescue LoadError
+end
+
 require 'builder'
 require 'nokogiri'
 
@@ -49,8 +54,8 @@ end
 
 module Sem4r #:nodoc:
   def self.version
-    cwd = Pathname(__FILE__).dirname.expand_path.to_s
-    yaml = YAML.load_file(cwd + '/../VERSION.yml')
+    cwd   = Pathname(__FILE__).dirname.expand_path.to_s
+    yaml  = YAML.load_file(cwd + '/../VERSION.yml')
     major = (yaml['major'] || yaml[:major]).to_i
     minor = (yaml['minor'] || yaml[:minor]).to_i
     patch = (yaml['patch'] || yaml[:patch]).to_i
@@ -131,7 +136,7 @@ require 'sem4r/campaign/campaign'
 #
 # info
 #
-require'sem4r/info/info_selector'
+require 'sem4r/info/info_selector'
 
 #
 # geo_location
