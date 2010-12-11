@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sem4r}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sem4r"]
-  s.date = %q{2010-11-28}
+  s.date = %q{2010-12-11}
   s.default_executable = %q{sem}
   s.description = %q{
        Sem4r is a library to access google adwords api.
@@ -45,21 +45,20 @@ Gem::Specification.new do |s|
     "examples_sem4r/03_list_ad.rb",
     "examples_sem4r/04_list_keywords.rb",
     "examples_sem4r/05_request_report.rb",
-    "examples_sem4r/05_request_report_2010.rb",
-    "examples_sem4r/06_create_campaigns.rb",
-    "examples_sem4r/07_create_campaigns_block.rb",
-    "examples_sem4r/07_create_campaigns_simple.rb",
-    "examples_sem4r/08_ad_params.rb",
-    "examples_sem4r/09_targeting_idea.rb",
-    "examples_sem4r/10_get_location.rb",
-    "examples_sem4r/11_submit_bulk_job.rb",
-    "examples_sem4r/12_list_bulk_job.rb",
+    "examples_sem4r/06_request_report_definition.rb",
+    "examples_sem4r/07_create_campaigns.rb",
+    "examples_sem4r/08_create_campaigns_block.rb",
+    "examples_sem4r/09_create_campaigns_simple.rb",
+    "examples_sem4r/10_ad_params.rb",
+    "examples_sem4r/11_targeting_idea.rb",
+    "examples_sem4r/12_get_location.rb",
+    "examples_sem4r/13_submit_bulk_job.rb",
+    "examples_sem4r/14_list_bulk_job.rb",
     "examples_sem4r/30_prune_empty_adgroup.rb",
     "examples_sem4r/31_empty_accounts.rb",
     "examples_sem4r/example_helper.rb",
     "lib/sem4r.rb",
     "lib/sem4r/account.rb",
-    "lib/sem4r/ad_extension_override/ad_extension_override_service.rb",
     "lib/sem4r/ad_group/ad_group.rb",
     "lib/sem4r/ad_group/ad_group_bids.rb",
     "lib/sem4r/ad_group/ad_group_service.rb",
@@ -80,7 +79,6 @@ Gem::Specification.new do |s|
     "lib/sem4r/ad_param/ad_param_operation.rb",
     "lib/sem4r/ad_param/ad_param_service.rb",
     "lib/sem4r/adwords.rb",
-    "lib/sem4r/api_counters.rb",
     "lib/sem4r/base.rb",
     "lib/sem4r/bulk_mutate_job/bulk_mutate_job.rb",
     "lib/sem4r/bulk_mutate_job/bulk_mutate_job_account_extension.rb",
@@ -90,26 +88,11 @@ Gem::Specification.new do |s|
     "lib/sem4r/campaign/campaign.rb",
     "lib/sem4r/campaign/campaign_account_extension.rb",
     "lib/sem4r/campaign/campaign_service.rb",
-    "lib/sem4r/campaign_criterion/campaign_criterion_service.rb",
-    "lib/sem4r/campaign_target/campaign_target_service.rb",
-    "lib/sem4r/cli/cli_command.rb",
-    "lib/sem4r/cli/cli_common_args.rb",
-    "lib/sem4r/cli/cli_helpers.rb",
-    "lib/sem4r/cli/cli_sem.rb",
-    "lib/sem4r/cli/commands/cli_download_report.rb",
-    "lib/sem4r/cli/commands/cli_ideas.rb",
-    "lib/sem4r/cli/commands/cli_info.rb",
-    "lib/sem4r/cli/commands/cli_list_ads.rb",
-    "lib/sem4r/cli/commands/cli_list_campaign.rb",
-    "lib/sem4r/cli/commands/cli_list_client.rb",
-    "lib/sem4r/cli/commands/cli_list_keywords.rb",
-    "lib/sem4r/cli/commands/cli_list_report.rb",
-    "lib/sem4r/cli/commands/cli_repdef.rb",
-    "lib/sem4r/cli/commands/cli_report.rb",
-    "lib/sem4r/cli/commands/cli_request_report.rb",
     "lib/sem4r/credentials.rb",
     "lib/sem4r/extensions.rb",
+    "lib/sem4r/geo_location/address.rb",
     "lib/sem4r/geo_location/geo_location_account_extension.rb",
+    "lib/sem4r/geo_location/geo_location_selector.rb",
     "lib/sem4r/geo_location/geo_location_service.rb",
     "lib/sem4r/info/info_account_extension.rb",
     "lib/sem4r/info/info_selector.rb",
@@ -122,14 +105,8 @@ Gem::Specification.new do |s|
     "lib/sem4r/report_definition/report_definition_service.rb",
     "lib/sem4r/report_definition/report_field.rb",
     "lib/sem4r/sem4r_error.rb",
-    "lib/sem4r/services/http_connector.rb",
-    "lib/sem4r/services/service.rb",
-    "lib/sem4r/services/soap_call.rb",
-    "lib/sem4r/services/soap_connector.rb",
-    "lib/sem4r/services/soap_dumper.rb",
-    "lib/sem4r/services/soap_error.rb",
-    "lib/sem4r/services/soap_message_v13.rb",
-    "lib/sem4r/services/soap_message_v2010.rb",
+    "lib/sem4r/sem4r_templates.rb",
+    "lib/sem4r/service.rb",
     "lib/sem4r/targeting_idea/targeting_idea.rb",
     "lib/sem4r/targeting_idea/targeting_idea_account_extension.rb",
     "lib/sem4r/targeting_idea/targeting_idea_selector.rb",
@@ -141,24 +118,55 @@ Gem::Specification.new do |s|
     "lib/sem4r/v13_report/report_account_extension.rb",
     "lib/sem4r/v13_report/report_job.rb",
     "lib/sem4r/v13_report/report_service.rb",
-    "lib/sem4r/v13_traffic_estimator/traffic_estimator_service.rb",
     "lib/sem4r_cli.rb",
-    "lib/soap_helpers/soap_attributes.rb",
-    "sem4r.gemspec"
+    "lib/sem4r_cli/cli_helpers.rb",
+    "lib/sem4r_cli/cli_mini_framework.rb",
+    "lib/sem4r_cli/cli_sem.rb",
+    "lib/sem4r_cli/commands/cli_ads.rb",
+    "lib/sem4r_cli/commands/cli_campaign.rb",
+    "lib/sem4r_cli/commands/cli_clients.rb",
+    "lib/sem4r_cli/commands/cli_ideas.rb",
+    "lib/sem4r_cli/commands/cli_info.rb",
+    "lib/sem4r_cli/commands/cli_job.rb",
+    "lib/sem4r_cli/commands/cli_keywords.rb",
+    "lib/sem4r_cli/commands/cli_profile.rb",
+    "lib/sem4r_cli/commands/cli_repdef.rb",
+    "lib/sem4r_cli/commands/cli_report.rb",
+    "lib/sem4r_soap.rb",
+    "lib/sem4r_soap/http_connector.rb",
+    "lib/sem4r_soap/soap_attributes.rb",
+    "lib/sem4r_soap/soap_dumper.rb",
+    "lib/sem4r_soap/soap_error.rb",
+    "lib/sem4r_soap/soap_response.rb",
+    "lib/sem4r_soap/soap_service.rb",
+    "lib/sem4r_soap/soap_service_v13.rb",
+    "lib/sem4r_soap/soap_service_v2010.rb",
+    "sem4r.gemspec",
+    "tasks/jeweler.rake",
+    "tasks/rspec.rake",
+    "tasks/sem4r.rake",
+    "tasks/yard.rake"
   ]
   s.homepage = %q{http://www.sem4r.com}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Library to access google adwords api. Works with ruby 1.9 and ruby 1.8}
   s.test_files = [
-    "spec/aggregates_rspec_helper.rb",
     "spec/build_fixtures.rb",
+    "spec/fixtures/password.example.yml",
     "spec/fixtures/sem4r.example.yml",
-    "spec/fixtures/services/error.xml",
-    "spec/rspec_hash.rb",
+    "spec/fixtures/soap_error.xml",
+    "spec/fixtures/soap_error2.xml",
+    "spec/helpers/dump_interceptor.rb",
+    "spec/helpers/fixtures_bulk_mutate_job.rb",
+    "spec/helpers/fixtures_geo_location.rb",
+    "spec/helpers/fixtures_info.rb",
+    "spec/helpers/fixtures_report_definition.rb",
+    "spec/helpers/rspec_hash.rb",
+    "spec/helpers/rspec_matchers.rb",
+    "spec/helpers/rspec_sem4r_helper.rb",
+    "spec/helpers/sem4r_stubs.rb",
     "spec/rspec_helper.rb",
-    "spec/rspec_matchers.rb",
-    "spec/rspec_sem4r_helper.rb",
     "spec/sem4r/account_spec.rb",
     "spec/sem4r/ad_group/ad_group_bids_spec.rb",
     "spec/sem4r/ad_group/ad_group_service_spec.rb",
@@ -199,10 +207,15 @@ Gem::Specification.new do |s|
     "spec/sem4r/ad_param/fixtures/mutate_set-req.xml",
     "spec/sem4r/ad_param/fixtures/mutate_set-res.xml",
     "spec/sem4r/adwords_spec.rb",
+    "spec/sem4r/bulk_mutate_job/bulk_mutate_job_selector_spec.rb",
     "spec/sem4r/bulk_mutate_job/bulk_mutate_job_service_spec.rb",
     "spec/sem4r/bulk_mutate_job/bulk_mutate_job_spec.rb",
+    "spec/sem4r/bulk_mutate_job/fixtures/get-list_job-req.xml",
+    "spec/sem4r/bulk_mutate_job/fixtures/get-list_job-res.xml",
     "spec/sem4r/bulk_mutate_job/fixtures/get-req.xml",
     "spec/sem4r/bulk_mutate_job/fixtures/get-res.xml",
+    "spec/sem4r/bulk_mutate_job/fixtures/mutate-add_job-req.xml",
+    "spec/sem4r/bulk_mutate_job/fixtures/mutate-add_job-res.xml",
     "spec/sem4r/bulk_mutate_job/fixtures/mutate-req.xml",
     "spec/sem4r/bulk_mutate_job/fixtures/mutate-res.xml",
     "spec/sem4r/bulk_mutate_job/job_operation_spec.rb",
@@ -212,20 +225,28 @@ Gem::Specification.new do |s|
     "spec/sem4r/campaign/fixtures/get-res.xml",
     "spec/sem4r/campaign/fixtures/mutate_add-req.xml",
     "spec/sem4r/campaign/fixtures/mutate_add-res.xml",
-    "spec/sem4r/cli/cli_spec.rb",
     "spec/sem4r/credentials_spec.rb",
+    "spec/sem4r/geo_location/address_spec.rb",
+    "spec/sem4r/geo_location/fixtures/get-req.xml",
+    "spec/sem4r/geo_location/fixtures/get-res.xml",
     "spec/sem4r/info/account_info_extension_spec.rb",
+    "spec/sem4r/info/fixtures/get-req.xml",
+    "spec/sem4r/info/fixtures/get-res.xml",
     "spec/sem4r/info/fixtures/get_unit_count-req.xml",
     "spec/sem4r/info/fixtures/get_unit_count-res.xml",
     "spec/sem4r/nokogiri_parsing_spec.rb",
-    "spec/sem4r/report_definition/fixtures/mutate_add-req.xml",
-    "spec/sem4r/report_definition/fixtures/mutate_add-req_orig.xml",
+    "spec/sem4r/operation_spec.rb",
+    "spec/sem4r/report_definition/fixtures/get-list-repdef-req.xml",
+    "spec/sem4r/report_definition/fixtures/get-list-repdef-res.xml",
+    "spec/sem4r/report_definition/fixtures/getReportFields-req.xml",
+    "spec/sem4r/report_definition/fixtures/getReportFields-res.xml",
+    "spec/sem4r/report_definition/fixtures/mutate-add-report-req.xml",
+    "spec/sem4r/report_definition/fixtures/mutate-add-report-res.xml",
     "spec/sem4r/report_definition/report_definition_service_spec.rb",
     "spec/sem4r/report_definition/report_definition_spec.rb",
+    "spec/sem4r/report_definition/report_field_spec.rb",
     "spec/sem4r/rexml_parsing_spec.rb",
-    "spec/sem4r/services/service_spec.rb",
-    "spec/sem4r/services/soap_call_spec.rb",
-    "spec/sem4r/services/soap_message_v13_spec.rb",
+    "spec/sem4r/service_spec.rb",
     "spec/sem4r/targeting_idea/fixtures/get-req-all-options.xml",
     "spec/sem4r/targeting_idea/fixtures/get-req.xml",
     "spec/sem4r/targeting_idea/fixtures/get-res.xml",
@@ -245,8 +266,10 @@ Gem::Specification.new do |s|
     "spec/sem4r/v13_report/fixtures/schedule_report_job-res.xml",
     "spec/sem4r/v13_report/report_service_spec.rb",
     "spec/sem4r/v13_report/report_spec.rb",
-    "spec/sem4r_stubs.rb",
-    "spec/soap_helpers/soap_attributes_spec.rb"
+    "spec/sem4r_cli/cli_spec.rb",
+    "spec/sem4r_soap/soap_attributes_spec.rb",
+    "spec/sem4r_soap/soap_response_spec.rb",
+    "spec/sem4r_soap/soap_service_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -255,18 +278,26 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<builder>, [">= 0"])
-      s.add_runtime_dependency(%q<jeweler>, [">= 0"])
-      s.add_runtime_dependency(%q<rake>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
+      s.add_runtime_dependency(%q<httpclient>, [">= 0"])
+      s.add_runtime_dependency(%q<highline>, [">= 0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_development_dependency(%q<yard>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_runtime_dependency(%q<builder>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<differ>, [">= 0"])
     else
       s.add_dependency(%q<builder>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
+      s.add_dependency(%q<httpclient>, [">= 0"])
+      s.add_dependency(%q<highline>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
-      s.add_dependency(%q<nokogiri>, [">= 0"])
+      s.add_dependency(%q<yard>, [">= 0"])
+      s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<builder>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
@@ -274,9 +305,13 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<builder>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
+    s.add_dependency(%q<httpclient>, [">= 0"])
+    s.add_dependency(%q<highline>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
-    s.add_dependency(%q<nokogiri>, [">= 0"])
+    s.add_dependency(%q<yard>, [">= 0"])
+    s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<builder>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
