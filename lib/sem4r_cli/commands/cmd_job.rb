@@ -27,7 +27,9 @@ module Sem4rCli
   #
   # BulkMutateJob
   #
-  class CommandJob < OptParseCommand::CliCommand
+  class CommandJob < OptParseCommand::Command
+
+    CliSem.register_command(self)
 
     def self.command
       "job"

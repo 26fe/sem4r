@@ -8,7 +8,7 @@ PATH
       httpclient
       nokogiri
       nokogiri
-      optparse-command (= 0.1.5)
+      optparse-command (= 0.1.6)
 
 GEM
   remote: http://rubygems.org/
@@ -21,7 +21,7 @@ GEM
     nokogiri (1.4.4)
     nokogiri (1.4.4-java)
       weakling (>= 0.0.3)
-    optparse-command (0.1.5)
+    optparse-command (0.1.6)
     rake (0.8.7)
     rspec (2.5.0)
       rspec-core (~> 2.5.0)

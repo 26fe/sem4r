@@ -26,7 +26,7 @@
 # rubygems
 #
 require "highline/import" # to ask password on command line
-gem "optparse-command", "0.1.5"
+gem "optparse-command", "0.1.6"
 require 'optparse-command'
 
 require 'sem4r'

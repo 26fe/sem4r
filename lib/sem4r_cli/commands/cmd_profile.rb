@@ -27,7 +27,9 @@ module Sem4rCli
   #
   # Manage Sem4r profiles
   #
-  class CommandProfile < OptParseCommand::CliCommand
+  class CommandProfile < OptParseCommand::Command
+
+    CliSem.register_command(self)
 
     def self.command
       "profile"

@@ -27,8 +27,8 @@ module Sem4rCli
   #
   # Macro helper for define new sem4r command
   #
-  def self.define_command_sem4r(command_name, description, &block)
-    OptParseCommand::define_command(command_name, description) do |cli, options, rest|
+  def self.define_command_sem4r(klass, command_name, description, &block)
+    OptParseCommand::define_command(klass, command_name, description) do |cli, options, rest|
       account = cli.account
       unless account
         puts "please select a valid account!"
@@ -63,7 +63,7 @@ module Sem4rCli
       Sem4r::VERSION
     end
 
-    def defaults
+    def defaults(options)
       OpenStruct.new({:verbose         => true,
                       :force           => false,
                       :default_logging => true,

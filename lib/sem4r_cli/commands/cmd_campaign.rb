@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,7 +24,7 @@
 
 module Sem4rCli
 
-  CommandCampaign = define_command_sem4r("campaigns", "list campaigns") do |account|
+  define_command_sem4r(CliSem, "campaigns", "list campaigns") do |account|
     puts "Collecting campaign from account(s) - please wait"
 
     # if the accounts have client_accounts it is a master
@@ -38,7 +38,7 @@ module Sem4rCli
 
     client_accounts.each do |client_account|
       if need_newline
-        puts
+        puts ""
         need_newline = false
       end
 
@@ -58,7 +58,7 @@ module Sem4rCli
     end
 
     if need_newline
-      puts
+      puts ""
       need_newline = false
     end
     report(items, :client, :id, :name, :status)

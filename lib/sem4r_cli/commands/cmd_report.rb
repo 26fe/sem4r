@@ -27,7 +27,9 @@ module Sem4rCli
   #
   # report (v13 api)
   #
-  class CommandReport < OptParseCommand::CliCommand
+  class CommandReport < OptParseCommand::Command
+
+    CliSem.register_command(self)
 
     def self.command
       "report"
@@ -64,7 +66,7 @@ module Sem4rCli
 
         when "schedule"
           ret = schedule(subcommand_args)
-          
+
         else
           puts "unknow subcommand '#{subcommand}'; must be one of #{@subcomands.join(", ")}"
           return false
