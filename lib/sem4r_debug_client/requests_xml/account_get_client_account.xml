@@ -1,0 +1,14 @@
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+   <env:Header>
+      <email env:mustUnderstand="0"><%=@email%></email>
+      <password env:mustUnderstand="0"><%=@password%></password>
+      <useragent env:mustUnderstand="0">Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</useragent>
+      <developerToken env:mustUnderstand="0"><%=@developer_token%></developerToken>
+   </env:Header>
+
+   <env:Body>
+      <getClientAccounts xmlns="https://adwords.google.com/api/adwords/v13">
+      </getClientAccounts>
+   </env:Body>
+</env:Envelope>
+  

@@ -32,7 +32,10 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency(%q<highline>, [">= 0"])
   gem.add_runtime_dependency(%q<builder>, [">= 0"])
   gem.add_runtime_dependency(%q<nokogiri>, [">= 0"])
-  gem.add_runtime_dependency(%q<optparse-command>, [ "0.1.6"])
+  gem.add_runtime_dependency(%q<signet>, [">= 0"])
+  gem.add_runtime_dependency(%q<optparse-command>, ["0.1.6"])
+  gem.add_runtime_dependency(%q<sinatra>, [">=0"])
+  gem.add_runtime_dependency(%q<haml>, [">=0"])
 
   gem.add_development_dependency(%q<rake>, [">= 0"])
   gem.add_development_dependency(%q<yard>, [">= 0"])
