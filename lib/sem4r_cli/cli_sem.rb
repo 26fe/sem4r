@@ -166,39 +166,6 @@ module Sem4rCli
       ask("Enter your password:  ") { |q| q.echo = "x" }
     end
 
-#    def parse_and_run(all_args)
-#
-#      begin
-#        command_args = opt_parser(@options).order(all_args)
-#      rescue OptionParser::AmbiguousOption => e
-#        puts e.message
-#        return false
-#      end
-#      return true if @options.exit
-#
-#      if command_args.empty?
-#        puts "missing command try sem -h for help"
-#        return false
-#      end
-#
-#      command      = command_args[0]
-#      command_args = command_args[1..-1]
-#
-#      # find command
-#      if CliCommand.commands[command].nil?
-#        puts "unknow command #{command}"
-#        return false
-#      end
-#
-#      begin
-#        cmd = CliCommand.commands[command].new(self)
-#        return cmd.parse_and_run(command_args)
-#      rescue Sem4rError
-#        puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"
-#        return false
-#      end
-#    end
-
     #
     # initialize adwords according to command line options
     # return [Sem4r::Adwords]
@@ -294,8 +261,6 @@ module Sem4rCli
       end
       @account = account
     end
-
-
   end
 
 end # module Sem4rCli

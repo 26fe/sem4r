@@ -74,7 +74,7 @@ module Sem4rSoap
       soap_response = SoapResponse.new.parse_response(response_xml)
       soap_response
     end
-    
+
   end
 
 end

@@ -61,7 +61,7 @@ module Sem4rCli
       puts ""
       need_newline = false
     end
-    report(items, :client, :id, :name, :status)
+    OptParseCommand::report(items, :client, :id, :name, :status)
     account.adwords.p_counters
     true
   end

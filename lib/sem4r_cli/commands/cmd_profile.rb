@@ -36,21 +36,21 @@ module Sem4rCli
     end
 
     def self.description
-      "manage sem4r profiles (subcommands: #{subcommands.join(', ')})"
+      "manage sem4r profiles (subcommands: #{sub_commands.join(', ')})"
     end
 
     def self.usage
       "usage profile"
     end
 
-    def self.subcommands
+    def self.sub_commands
       %w{list create}
     end
 
 
-    def command_opt_parser(options)
+    def option_parser(options)
       opt_parser        = OptionParser.new
-      opt_parser.banner = "Usage #{self.class.command} [command_options] [#{self.class.subcommands.join("|")}]"
+      opt_parser.banner = "Usage #{self.class.command} [command_options] [#{self.class.sub_commands.join("|")}]"
       opt_parser.separator ""
       opt_parser.separator "#{self.class.description}"
       opt_parser.on("-h", "--help", "show this message") do
@@ -70,10 +70,10 @@ module Sem4rCli
       end
 
       ret             = true
-      subcommand      = rest[0]
-      subcommand_args = rest[1..-1]
+      sub_command      = rest[0]
+      sub_command_args = rest[1..-1]
       adwords         = sem4r_cli.adwords
-      case subcommand
+      case sub_command
         when "list"
           puts "Profiles:"
 
@@ -93,7 +93,7 @@ module Sem4rCli
           puts "Tobe done :-)"
 
         else
-          puts "unknow subcommand '#{subcommand}'; must be one of #{self.class.subcommands.join(", ")}"
+          puts "unknow command '#{sub_command}'; must be one of #{self.class.sub_commands.join(", ")}"
           return false
       end
       ret
