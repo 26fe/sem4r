@@ -81,23 +81,23 @@ module Sem4r
 
         config_file   = options.delete("config_file")
         password_file = options.delete("password_file")
-        configure(config_file, password_file)
+        @config = Profile.configure(config_file, password_file)
 
         @profile = profile.to_s
-        @options = load_config(@profile)
+        @options = Profile.load_config(@config, @profile)
         @options = @options.merge(options)
       elsif profile.respond_to?(:keys)
         # new( {:environment=>"...", email => "..." } )
         options = profile.stringify_keys
         options.assert_valid_keys( *(all_keys-%w{config_file password_file}) )
-        configure
+        @config = Profile.configure
         @options = options
         @profile = "anonymous_" + @options["environment"]
       else
         # new( "sandbox" )
         @profile = profile.to_s
-        configure
-        @options = load_config(@profile)
+        @config = Profile.configure
+        @options = Profile.load_config(@config, @profile)
       end
       if ["sandbox", "production"].include?(profile)
         if @options["environment"].nil?
@@ -108,7 +108,7 @@ module Sem4r
         end
       end
 
-      try_to_find_password_in_password_file unless @options["password"]
+      Profile.try_to_find_in_password_file("password", @options, @config) unless @options["password"]
     end
 
     def to_s
@@ -154,67 +154,6 @@ module Sem4r
       @options["password"]=pwd
     end
 
-    def try_to_find_password_in_password_file
-      return unless @config.password_file
-      return unless File.exists?(@config.password_file)
-      passwords = YAML.load(File.open(@config.password_file))
-      pass = passwords[@options["email"]]
-      @options["password"] = pass if pass
-    end
-
-    def save_passwords
-      if @config.password_file.nil?
-        raise "cannot save password"
-      end
-      puts "save password in #{@config.password_file} (security warning!)"
-      passwords = {}
-      if File.exists?(@config.password_file)
-        passwords = YAML.load(File.open(@config.password_file))
-      end
-      passwords[@options["email"]] = @options["password"]
-      File.open(@config.password_file, "w") do |f|
-        f.write(passwords.to_yaml)
-      end
-    end
-
-    private
-
-    #
-    # @private
-    #
-    # force config paths
-    # and the config file
-    #
-    def configure(config_file = nil, password_file = nil)
-      @config = Profile.search_config
-      unless config_file.nil?
-        config_file = File.expand_path(config_file)
-        unless File.exists?(config_file)
-          raise "#{config_file} not exists"
-        end
-        @config.config_file = config_file
-      end
-      unless password_file.nil?
-        password_file = File.expand_path(password_file)
-        @config.password_file = password_file
-      end
-      @config
-    end
-
-
-    # @private
-    # load the configuration
-    def load_config(profile)
-      unless @config.config_file
-        raise Sem4rError, "config file 'sem4r' not found"
-      end
-      # puts "Loaded profiles from #{config_file}"
-      yaml   = YAML::load(File.open(@config.config_file))
-      config = yaml['google_adwords'][profile]
-      config || {}
-    end
-
-    public
 
     ##########################################################################
     # logging
