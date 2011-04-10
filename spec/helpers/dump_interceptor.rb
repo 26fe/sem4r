@@ -61,13 +61,14 @@ class DumpInterceptor
   def call(service_url, type, xml)
     return if @state == :stopped
 
-    match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/([^\/]*)\/v201008\/([^\/]*)$/)
+    match_data = service_url.match(/https:\/\/adwords-sandbox.google.com\/api\/adwords\/([^\/]*)\/(v201008|v201101)\/(?<soap_service>[^\/]*)$/)
     unless match_data
       puts "*********** DumpInterceptor cannot recognize service"
       puts "*********** #{service_url}"
+      return
     end
 
-    soap_service = match_data[2]
+    soap_service = match_data[:soap_service]
     soap_service = soap_service.gsub("Service", "").underscore
 
     if @where_to_write.length <= @request_number
