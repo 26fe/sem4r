@@ -1,9 +1,9 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
       <ns2:ResponseHeader xmlns:ns2="https://adwords.google.com/api/adwords/info/v201101" xmlns="https://adwords.google.com/api/adwords/cm/v201101">
-         <requestId>e91b3ad7d1fd1b9231f504c2a69a971a</requestId>
+         <requestId>189152ec3283567c0c673c69f02bff14</requestId>
          <operations>1</operations>
-         <responseTime>221</responseTime>
+         <responseTime>133</responseTime>
          <units>1</units>
       </ns2:ResponseHeader>
    </soap:Header>

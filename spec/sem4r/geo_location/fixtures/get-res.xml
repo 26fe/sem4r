@@ -1,14 +1,14 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
-      <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201008">
-         <requestId>c2c29b9711c8a33172f4e89148a6e90f</requestId>
+      <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
+         <requestId>df3c24d57acb1eb3b3f727e2f174c547</requestId>
          <operations>2</operations>
-         <responseTime>225</responseTime>
+         <responseTime>666</responseTime>
          <units>2</units>
       </ResponseHeader>
    </soap:Header>
    <soap:Body>
-      <getResponse xmlns="https://adwords.google.com/api/adwords/cm/v201008">
+      <getResponse xmlns="https://adwords.google.com/api/adwords/cm/v201101">
          <rval>
             <geoPoint>
                <latitudeInMicroDegrees>41901464</latitudeInMicroDegrees>
@@ -21,7 +21,7 @@
                <postalCode>00184</postalCode>
                <countryCode>IT</countryCode>
             </address>
-            <encodedLocation>qrvM3QDB3iJscCTi7jtHoR0Z5O2K3dulPdCkbBJYzmhFyl8YTQj0/Pedp5jh/CsA6O13uD0opvSghZguL+8jN7hp/ofnm+yP0jt1oxtu8LiiYNvHruNIJayAotIrRjpkVYTlEeY28MWzm9MvdBmkNiy7NUFs39dl4bEsiBRFxv988rCSXi/GXYVhYdtGsZ8MW0JlevXYeOY3sZFRGu2zt7xOTQSN1rr7nK2cyK84i6m9hucEloPTNVp/pnwETjSEZfBuX/G15MZzuUte780QCMzBYPl0agEKyTEKouv7rQEMk9lzbR3w2osMjTth1KGKZVQfX+BhcTG+gPwsmgqET6Y8ws4l13b4GFPhwg/McPnDSF4ryHbcrrALn6idZt0x001HMBlcrnw57Tel6DPtb9DREnJGpSGnrYvoy3OYyz4BkMjGvw2HP8wxkGDqVMLgmd8UkO3oocaDVe8SvVd3i6+UUBNXw0/Kl+AzY0RTT1ugVHDMtHnKi2M1eMDFK67kSsghWdGKsxNzAfggD7pyT5+C5SkPq9TMKR/0Oe2mIhQOqFvAC2srk+wMtvzYxlzPEf2bnGgfy2vTBbUDVw==</encodedLocation>
+            <encodedLocation>qrvM3QDB3iJsXdYH2FpCn5kdHQixwUez5jJ2fPhrnMwo5U8yuTclfKZLuceTG0gGn/iV/inoFjR14zdF9xTwlV340ac3vcmrF+UkSwT3hXIoeHlPCzBLnrHRzTYMb3PTblSp0oaDImMIo+VnMD7TJEjoE5tzjQs1c6it36dyVDgslX3xtJEPHzGM3fPs/2uNhonNY6UZQ5h7z/SIzz/xr4EtshQWFqaI+7631/L+KweIuri0eFZ7zxQALGJWo8YIbvHPwOaCOX+j0A5uMZtvpmo2OdhPYpl0sL45FWID1oNr1ghbuOg6trBBw/05yAAlSuQYlh/7teOyxoAFBRVupAxiZjfA7F4bnR59xHN9xR3g/16r2o3C6eqrAZeSXnd8SMPsqijL1fOLPjFZRpRQqf3hP6N1Q6az1POTMvcz4G6MuckGTwfGVNMfNg7QQ+CJzNWgac7A9gMLLmaiHBGkEnyXFgh30sfh3Mjl9jZpEMKB3ud7uQEXt7zxy1uU10mzbniXMriTAJggektbkJxqMF+N/H6lwoT4GCccfbAxy6Sb/36XcMU5jIAk63KoSNWP4cRQRCL1ZxGuw6rK7Q==</encodedLocation>
             <GeoLocation.Type>GeoLocation</GeoLocation.Type>
          </rval>
          <rval xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="InvalidGeoLocation">
