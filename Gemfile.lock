@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sem4r (0.1.4)
+    sem4r (0.2.0)
       builder
       builder
       haml
@@ -45,7 +45,7 @@ GEM
       addressable (~> 2.2.1)
       httpadapter (~> 1.0.0)
       json (~> 1.5.0)
-    sinatra (1.2.2)
+    sinatra (1.2.3)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
     tilt (1.2.2)

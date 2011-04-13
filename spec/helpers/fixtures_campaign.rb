@@ -22,26 +22,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require 'rubygems'
-cwd = File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
-$:.unshift(cwd) unless $:.include?(cwd)
-cwd = File.expand_path(File.dirname(__FILE__))
-$:.unshift(cwd) unless $:.include?(cwd)
+module FixtureCampaign
 
-require 'sem4r'
-include Sem4r
+  def fixtures_campaign
+    @dump_interceptor.reset_and_stop
+    intercept("get") {
+      @adwords.account.campaigns
+    }
+  end
 
-require 'helpers/rspec_sem4r_helper'
-require 'helpers/dump_interceptor'
-
-require 'helpers/fixtures_bulk_mutate_job'
-require 'helpers/fixtures_campaign'
-require 'helpers/fixtures_geo_location'
-require 'helpers/fixtures_info'
-require 'helpers/fixtures_report_definition'
-
-require 'helpers/build_fixtures'
-
-bf = BuildFixtures.new
-bf.run
-
+end

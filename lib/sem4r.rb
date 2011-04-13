@@ -111,6 +111,7 @@ require 'sem4r/bulk_mutate_job/bulk_mutate_job'
 # campaign
 #
 require 'sem4r/campaign/campaign'
+require 'sem4r/campaign/campaign_selector'
 
 #
 # info

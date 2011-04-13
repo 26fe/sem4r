@@ -23,10 +23,11 @@
 # -------------------------------------------------------------------
 
 class BuildFixtures
-  include FixtureGeoLocation
-  include FixtureReportDefinition
   include FixtureBulkMutateJob
+  include FixtureCampaign
+  include FixtureGeoLocation
   include FixtureInfo
+  include FixtureReportDefinition
 
   def initialize
     @adwords      = Adwords.sandbox # search credentials into ~/.sem4r/ directory
@@ -58,8 +59,9 @@ class BuildFixtures
     puts "---------------------------------------------------------------------"
     begin
 
-      fixtures_info
-      fixtures_geo_location
+      # fixtures_info
+      # fixtures_geo_location
+      fixtures_campaign
       # fixtures_report_definition
       # fixtures_bulk_mutate_job
 

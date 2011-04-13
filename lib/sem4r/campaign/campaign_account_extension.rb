@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -70,7 +70,12 @@ module Sem4r
     private
 
     def _campaigns
-      soap_message = service.campaign.all( credentials )
+      selector = CampaignSelector.new do
+#        usage_type    usage_type
+#        min           now.strftime("%Y0101") # first January
+#        max           now.strftime("%Y%m%d")
+      end
+      soap_message = service.campaign.get(credentials, selector.to_xml)
       add_counters( soap_message.counters )
       rval = soap_message.response.at_xpath("//getResponse/rval")
       els = rval.xpath("entries")

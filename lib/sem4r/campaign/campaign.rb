@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -39,12 +39,12 @@ module Sem4r
       :PENDING,
       :SUSPENDED
     ]
-    
+
     attr_reader :id
     attr_reader :account
 
     g_accessor :name
-    g_accessor :status, {:default => "PAUSED"}
+    g_accessor :status, :default => "PAUSED"
     g_accessor :serving_status
     g_accessor :start_date
     g_accessor :end_date
