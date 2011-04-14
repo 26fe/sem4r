@@ -26,8 +26,22 @@ module FixtureCampaign
 
   def fixtures_campaign
     @dump_interceptor.reset_and_stop
+
+    client_account = @adwords.account.client_accounts[1]
+
+    puts "inspect account '#{client_account.credentials.client_email}'"
+    client_account.campaigns.each do |campaign|
+      puts "delete campaign '#{campaign.name}'"
+      campaign.delete
+    end
+
+    intercept("mutate_add") {
+      client_account.campaign "sem4r campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
+      end
+    }
+    @dump_interceptor.reset_and_stop
     intercept("get") {
-      @adwords.account.campaigns
+      client_account.campaigns(true)
     }
   end
 

@@ -1,37 +1,30 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v200909/CampaignService' -->
-<?xml version="1.0" encoding="utf-8" ?>      <env:Envelope
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-  xmlns="https://adwords.google.com/api/adwords/cm/v200909"
-  xmlns:s="https://adwords.google.com/api/adwords/cm/v200909">
-    <env:Header>
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v201101/CampaignService' -->
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201101" xmlns:s="https://adwords.google.com/api/adwords/cm/v201101">
+   <env:Header>
       <s:RequestHeader env:mustUnderstand="0">
-      <authToken>***censured***</authToken>
-      <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
-      <developerToken>***censured***</developerToken>
-  <clientEmail>client_1+sem4ruby@gmail.com</clientEmail>
-  </s:RequestHeader>
-  </env:Header>
-  <env:Body>
-  <mutate xmlns="https://adwords.google.com/api/adwords/cm/v200909">
-      <operations xsi:type="CampaignOperation">
-        <operator>ADD</operator>
-        <operand>
-          <name>campaign 2010-02-13 09:39:46 +0100</name>
-          <status>PAUSED</status>
-          <budget>
-            <period>DAILY</period>
-            <amount xsi:type="Money">
-              <microAmount>50000000</microAmount>
-            </amount>
-            <deliveryMethod>STANDARD</deliveryMethod>
-          </budget>
-          <biddingStrategy xsi:type="ManualCPC"></biddingStrategy>
-
-        </operand>
-      </operations>
-    </mutate>
-  </env:Body>
+         <authToken>***censured***</authToken>
+         <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
+         <developerToken>***censured***</developerToken>
+         <clientEmail>***censured***</clientEmail>
+      </s:RequestHeader>
+   </env:Header>
+   <env:Body>
+      <mutate>
+         <operations xsi:type="CampaignOperation">
+            <operator>ADD</operator>
+            <operand>
+               <name>sem4r campaign 0414-221648</name>
+               <status>PAUSED</status>
+               <budget>
+                  <period>DAILY</period>
+                  <amount xsi:type="Money">
+                     <microAmount>50000000</microAmount>
+                  </amount>
+                  <deliveryMethod>STANDARD</deliveryMethod>
+               </budget>
+               <biddingStrategy xsi:type="ManualCPC"/>
+            </operand>
+         </operations>
+      </mutate>
+   </env:Body>
 </env:Envelope>
-

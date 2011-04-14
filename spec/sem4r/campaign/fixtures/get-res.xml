@@ -1,16 +1,16 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
       <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
-         <requestId>b52ad9844228f3564be2fcdb13a94ba3</requestId>
+         <requestId>220fbb5af733653f7e3bf25a37000030</requestId>
          <operations>1</operations>
-         <responseTime>478</responseTime>
+         <responseTime>917</responseTime>
          <units>1</units>
       </ResponseHeader>
    </soap:Header>
    <soap:Body>
       <getResponse xmlns="https://adwords.google.com/api/adwords/cm/v201101">
          <rval>
-            <totalNumEntries>0</totalNumEntries>
+            <totalNumEntries>1</totalNumEntries>
             <Page.Type>CampaignPage</Page.Type>
             <totalBudget>
                <period>DAILY</period>
@@ -20,6 +20,24 @@
                </amount>
                <deliveryMethod>STANDARD</deliveryMethod>
             </totalBudget>
+            <entries>
+               <id>87007</id>
+               <name>sem4r campaign 0414-221648</name>
+               <status>PAUSED</status>
+               <conversionOptimizerEligibility>
+                  <eligible>false</eligible>
+                  <rejectionReasons>NOT_CPC_CAMPAIGN</rejectionReasons>
+                  <rejectionReasons>CAMPAIGN_IS_NOT_ACTIVE</rejectionReasons>
+                  <rejectionReasons>CONVERSION_TRACKING_NOT_ENABLED</rejectionReasons>
+               </conversionOptimizerEligibility>
+               <campaignStats>
+                  <network>ALL</network>
+                  <Stats.Type>CampaignStats</Stats.Type>
+               </campaignStats>
+               <frequencyCap>
+                  <impressions>0</impressions>
+               </frequencyCap>
+            </entries>
          </rval>
       </getResponse>
    </soap:Body>

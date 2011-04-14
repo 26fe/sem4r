@@ -5,6 +5,7 @@
          <authToken>***censured***</authToken>
          <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
          <developerToken>***censured***</developerToken>
+         <clientEmail>***censured***</clientEmail>
       </s:RequestHeader>
    </env:Header>
    <env:Body>
@@ -13,6 +14,12 @@
             <fields>Id</fields>
             <fields>Name</fields>
             <fields>Status</fields>
+            <predicates>
+               <field>Status</field>
+               <operator>IN</operator>
+               <values>PAUSED</values>
+               <values>ACTIVE</values>
+            </predicates>
          </serviceSelector>
       </s:get>
    </env:Body>

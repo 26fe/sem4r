@@ -67,6 +67,12 @@ module Sem4r
          <fields>Id</fields>
          <fields>Name</fields>
          <fields>Status</fields>
+         <predicates>
+               <field>Status</field>
+               <operator>IN</operator>
+               <values>PAUSED</values>
+               <values>ACTIVE</values>
+         </predicates>
        </serviceSelector>
 EOS
 
