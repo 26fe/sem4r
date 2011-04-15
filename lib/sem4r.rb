@@ -68,6 +68,7 @@ require 'sem4r/service'
 # common
 #
 require 'sem4r/operation'
+require 'sem4r/selector'
 
 #
 # adgroup
@@ -111,7 +112,6 @@ require 'sem4r/bulk_mutate_job/bulk_mutate_job'
 # campaign
 #
 require 'sem4r/campaign/campaign'
-require 'sem4r/campaign/campaign_selector'
 
 #
 # info

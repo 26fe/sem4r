@@ -156,10 +156,6 @@ module Sem4r
         refresh = false
       end
       _ad_groups unless @ad_groups and !refresh
-      # statuses = [:ACTIVE, :PAUSED]
-      # @ad_groups.select do |ad_group|
-      #   statuses.include?(ad_group.status)
-      # end
       @ad_groups
     end
 
@@ -179,7 +175,19 @@ module Sem4r
     private
 
     def _ad_groups
-      soap_message = service.ad_group.all(credentials, @id)
+      # statuses = [:ACTIVE, :PAUSED]
+      # @ad_groups.select do |ad_group|
+      #   statuses.include?(ad_group.status)
+      # end
+      id = @id
+      selector = Selector.new do
+        field "Id"
+        field "Name"
+        field "Status"
+        predicate Predicate.new("CampaignId", "EQUALS", [id])
+      end
+
+      soap_message = service.ad_group.get(credentials, selector.to_xml)
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries")

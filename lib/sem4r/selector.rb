@@ -24,7 +24,16 @@
 
 module Sem4r
 
-  class CampaignSelector
+  class Predicate
+    attr_reader :field, :operator, :values
+
+    def initialize(field, operator, values)
+      @field, @operator, @values = field, operator, values
+    end
+
+  end
+
+  class Selector
     include Sem4rSoap::SoapAttributes
 
 #    enum :UsageTypes, [
@@ -39,13 +48,16 @@ module Sem4r
 #    g_accessor :min
 #    g_accessor :max
 
+    g_set_accessor :field
+    g_set_accessor :predicate
+
     def initialize(&block)
       if block_given?
         block.arity < 1 ? instance_eval(&block) : block.call(self)
       end
     end
 
-    def to_xml
+#    def to_xml
 #      str = <<-EOFS
 #        <selector>
 #      EOFS
@@ -62,21 +74,53 @@ module Sem4r
 #        </selector>
 #      EOFS
 
-      <<EOS
-       <serviceSelector>
-         <fields>Id</fields>
-         <fields>Name</fields>
-         <fields>Status</fields>
-         <predicates>
-               <field>Status</field>
-               <operator>IN</operator>
-               <values>PAUSED</values>
-               <values>ACTIVE</values>
-         </predicates>
-       </serviceSelector>
-EOS
 
+#      <<EOS
+#       <serviceSelector>
+#         <fields>Id</fields>
+#         <fields>Name</fields>
+#         <fields>Status</fields>
+#         <predicates>
+#               <field>Status</field>
+#               <operator>IN</operator>
+#               <values>PAUSED</values>
+#               <values>ACTIVE</values>
+#         </predicates>
+#       </serviceSelector>
+#EOS
+#
+#    end
+
+    # @private
+    def _xml(t)
+      t.serviceSelector do |t|
+        if @fields
+          @fields.each { |field| t.fields field }
+        end
+        if @predicates
+          @predicates.each do |p|
+            t.predicates do |t|
+              t.field p.field
+              t.operator p.operator
+              p.values.each { |value| t.values value }
+            end
+          end
+        end
+      end
     end
+
+    def xml(t, tag = nil)
+      if tag
+        t.__send__(tag, {"xsi:type" => "NegativeAdGroupCriterion"}) { |t| _xml(t) }
+      else
+        _xml(t)
+      end
+    end
+
+    def to_xml(tag = nil)
+      xml(Builder::XmlMarkup.new, tag)
+    end
+
   end
 
 end

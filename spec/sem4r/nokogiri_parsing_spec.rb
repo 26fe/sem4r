@@ -50,7 +50,6 @@ describe "Test Parsing with Nokogiri" do
       name = el.at_xpath("name").text.strip
       name.should match /sem4r campaign/
     end
-
   end
 
   it "test_adgroup_criterion_get" do

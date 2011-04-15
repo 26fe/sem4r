@@ -70,7 +70,11 @@ module Sem4r
     private
 
     def _campaigns
-      selector = CampaignSelector.new do
+      selector = Selector.new do
+        field "Id"
+        field "Name"
+        field "Status"
+        predicate Predicate.new( "Status", "IN", ["PAUSED", "ACTIVE"] )
 #        usage_type    usage_type
 #        min           now.strftime("%Y0101") # first January
 #        max           now.strftime("%Y%m%d")
