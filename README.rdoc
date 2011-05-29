@@ -22,7 +22,7 @@ In the future, the library might decide which api use (sync or async) and when c
 
 To access adwords api you need:
   - email account  (for sandbox environment a gmail account <myaccount>@gmail.com)
-  - password       
+  - password
   - developer token (for sandbox environment is like <myaccount>@gmail.com++EUR)
 
 To access the sandbox environment
@@ -96,7 +96,7 @@ Sem4r last gem was tested on following rubies:
 So you want your prefered service supported by sem4r. Great! Please follow this steps:
 
 * Fork the project
-* Clone down your fork 
+* Clone down your fork
 * Create a topic branch to contain your change ( git checkout -b my_awesome_feature )
 * Hack away, add tests. Not necessarily in that order.
 * Make sure rspec tests passes by running rake
@@ -111,7 +111,7 @@ So you want your prefered service supported by sem4r. Great! Please follow this 
 If I miss someone send me[sem4ruby@gmail.com] a note.
 
 * Glenn Gillen[http://github.com/rubypond]
-
+* ...
 
 To see all contributors execute: git shortlog -n -s --no-merges
 
