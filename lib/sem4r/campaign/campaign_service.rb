@@ -30,16 +30,21 @@ module Sem4r
   class CampaignService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
-      @connector = connector
+      @connector         = connector
       @service_namespace = "https://adwords.google.com/api/adwords/cm/v201101"
-      @header_namespace = @service_namespace
+      @header_namespace  = @service_namespace
 
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201101/CampaignService"
+      service_url             = "/api/adwords/cm/v201101/CampaignService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       init(@header_namespace, @service_namespace)
     end
 
-    soap_call :get,   :mutate => false
-    soap_call :all,   :mutate => false
+    soap_call :get, :mutate => false
+    soap_call :all, :mutate => false
     soap_call :create
     soap_call :delete
 

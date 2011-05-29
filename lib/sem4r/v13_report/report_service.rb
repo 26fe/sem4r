@@ -33,16 +33,20 @@ module Sem4r
       @connector = connector
       @namespace = "https://adwords.google.com/api/adwords/v13"
 
-      @sandbox_service_url    = "https://sandbox.google.com/api/adwords/v13/ReportService"
-      @production_service_url = "https://adwords.google.com/api/adwords/v13/ReportService"
+      service_url             = "/api/adwords/v13/ReportService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       # init(@header_namespace, @service_namespace)
     end
 
-    soap_call :all,      :mutate => false 
+    soap_call :all, :mutate => false
     soap_call :validate, :mutate => false
     soap_call :schedule, :mutate => false
-    soap_call :status,   :mutate => false
-    soap_call :url,      :mutate => false
+    soap_call :status, :mutate => false
+    soap_call :url, :mutate => false
 
     def download(url, path_name)
       @connector.download(url, path_name)
@@ -61,7 +65,7 @@ module Sem4r
       soap_body_content = "<validateReportJob xmlns=\"#{@namespace}\">"
       soap_body_content += job_xml
       soap_body_content += "</validateReportJob>"
-      soap_body_content      
+      soap_body_content
     end
 
     def _schedule(job_xml)

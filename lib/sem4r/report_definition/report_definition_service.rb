@@ -30,15 +30,20 @@ module Sem4r
   class ReportDefinitionService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
-      @connector = connector
+      @connector        = connector
       @header_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
 
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/ReportDefinitionService"
-      init(@header_namespace, @service_namespace)      
+      service_url             = "/api/adwords/cm/v201008/ReportDefinitionService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
+      init(@header_namespace, @service_namespace)
     end
 
-    soap_call :get,             :mutate => false
-    soap_call :report_fields,   :mutate => false
+    soap_call :get, :mutate => false
+    soap_call :report_fields, :mutate => false
     soap_call :mutate
 
     private
