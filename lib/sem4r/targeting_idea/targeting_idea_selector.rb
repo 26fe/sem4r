@@ -164,14 +164,5 @@ module Sem4r
       end
     end
 
-    search_parameter :ngram_groups do
-      g_set_accessor :ngram
-
-      xml do
-        ngrams.map do |t|
-          "<s:ngramGroups>#{t}</s:ngramGroups>"
-        end.join
-      end
-    end
   end
 end

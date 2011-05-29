@@ -31,6 +31,7 @@ describe TargetingIdeaSelector do
     idea_selector = TargetingIdeaSelector.new do
       idea_type    "KEYWORD"
       request_type "IDEAS"
+      requested_attributes %w{KEYWORD IDEA_TYPE KEYWORD_CATEGORY NGRAM_GROUP}
 
       excluded_keyword_search_parameter do
         text       'media player'
@@ -53,9 +54,6 @@ describe TargetingIdeaSelector do
         country_code 'US'
       end
 
-      ngram_groups_search_parameter do
-        ngram 'dvd player'
-      end
     end
 
     xml_expected = read_model("//selector", "targeting_idea", "get-req.xml")
@@ -121,16 +119,6 @@ describe TargetingIdeaSelector do
         country_code 'US'
       end
       xml_expected = read_model("//searchParameters[@type='CountryTargetSearchParameter']", "targeting_idea", "get-req.xml")
-      sp.to_xml.should  xml_equivalent(xml_expected)
-    end
-  end
-
-  describe NgramGroupsSearchParameter do
-    it "should produce xml (input for google)" do
-      sp = NgramGroupsSearchParameter.new do
-        ngram 'dvd player'
-      end
-      xml_expected = read_model("//searchParameters[@type='NgramGroupsSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end

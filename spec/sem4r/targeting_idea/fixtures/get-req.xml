@@ -1,58 +1,54 @@
-<?xml version='1.0' encoding='UTF-8'?> 
-<env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' 
-              xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-              xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'
-              xmlns='https://adwords.google.com/api/adwords/cm/v200909'
-              xmlns:s='https://adwords.google.com/api/adwords/o/v200909'>
-  <env:Header>
-    <s:RequestHeader env:mustUnderstand='0'>
-      <authToken>***censured***</authToken>
-      <userAgent>
-        Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)
-      </userAgent>
-      <developerToken>***censured***</developerToken>
-    </s:RequestHeader>
-  </env:Header>
-  <env:Body>
-    <s:get>
-      <s:selector>
-        <s:ideaType>KEYWORD</s:ideaType>
-        <s:requestType>IDEAS</s:requestType>
-        <s:searchParameters xsi:type='s:ExcludedKeywordSearchParameter'>
-          <s:keywords xsi:type='Keyword'>
-            <Criterion.Type>Keyword</Criterion.Type>
-            <text>media player</text>
-            <matchType>EXACT</matchType>
-          </s:keywords>
-        </s:searchParameters>
-        <s:searchParameters xsi:type='s:KeywordMatchTypeSearchParameter'>
-          <s:keywordMatchTypes>BROAD</s:keywordMatchTypes>
-          <s:keywordMatchTypes>EXACT</s:keywordMatchTypes>
-        </s:searchParameters>
-
-        <s:searchParameters xsi:type='s:RelatedToKeywordSearchParameter'>
-          <s:keywords xsi:type='Keyword'>
-            <Criterion.Type>Keyword</Criterion.Type>
-            <text>dvd player</text>
-            <matchType>EXACT</matchType>
-          </s:keywords>
-          <s:keywords xsi:type='Keyword'>
-            <Criterion.Type>Keyword</Criterion.Type>
-            <text>car stereo</text>
-            <matchType>EXACT</matchType>
-          </s:keywords>          
-        </s:searchParameters>
-        <s:searchParameters xsi:type='s:CountryTargetSearchParameter'>
-          <s:countryTargets><countryCode>US</countryCode></s:countryTargets>
-        </s:searchParameters>
-        <s:searchParameters xsi:type='s:NgramGroupsSearchParameter'>
-          <s:ngramGroups>dvd player</s:ngramGroups>
-        </s:searchParameters>
-        <s:paging>
-          <startIndex>0</startIndex>
-          <numberResults>100</numberResults>
-        </s:paging>
-      </s:selector>
-    </s:get>
-  </env:Body>
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/o/v201101/TargetingIdeaService' -->
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201101" xmlns:s="https://adwords.google.com/api/adwords/o/v201101">
+   <env:Header>
+      <s:RequestHeader env:mustUnderstand="0">
+         <authToken>***censured***</authToken>
+         <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
+         <developerToken>***censured***</developerToken>
+      </s:RequestHeader>
+   </env:Header>
+   <env:Body>
+      <s:get>
+         <s:selector>
+            <s:ideaType>KEYWORD</s:ideaType>
+            <s:requestType>IDEAS</s:requestType>
+            <s:searchParameters xsi:type="s:ExcludedKeywordSearchParameter">
+               <s:keywords xsi:type="Keyword">
+                  <Criterion.Type>Keyword</Criterion.Type>
+                  <text>media player</text>
+                  <matchType>EXACT</matchType>
+               </s:keywords>
+            </s:searchParameters>
+            <s:searchParameters xsi:type="s:KeywordMatchTypeSearchParameter">
+               <s:keywordMatchTypes>BROAD</s:keywordMatchTypes>
+               <s:keywordMatchTypes>EXACT</s:keywordMatchTypes>
+            </s:searchParameters>
+            <s:searchParameters xsi:type="s:RelatedToKeywordSearchParameter">
+               <s:keywords xsi:type="Keyword">
+                  <Criterion.Type>Keyword</Criterion.Type>
+                  <text>dvd player</text>
+                  <matchType>EXACT</matchType>
+               </s:keywords>
+               <s:keywords xsi:type="Keyword">
+                  <Criterion.Type>Keyword</Criterion.Type>
+                  <text>car stereo</text>
+                  <matchType>EXACT</matchType>
+               </s:keywords>
+            </s:searchParameters>
+            <s:searchParameters xsi:type="s:CountryTargetSearchParameter">
+               <s:countryTargets>
+                  <countryCode>US</countryCode>
+               </s:countryTargets>
+            </s:searchParameters>
+            <s:requestedAttributeTypes>KEYWORD</s:requestedAttributeTypes>
+            <s:requestedAttributeTypes>IDEA_TYPE</s:requestedAttributeTypes>
+            <s:requestedAttributeTypes>KEYWORD_CATEGORY</s:requestedAttributeTypes>
+            <s:requestedAttributeTypes>NGRAM_GROUP</s:requestedAttributeTypes>
+            <s:paging>
+               <startIndex>0</startIndex>
+               <numberResults>100</numberResults>
+            </s:paging>
+         </s:selector>
+      </s:get>
+   </env:Body>
 </env:Envelope>

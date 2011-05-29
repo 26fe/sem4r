@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,27 +22,44 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require 'rubygems'
-cwd = File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
-$:.unshift(cwd) unless $:.include?(cwd)
-cwd = File.expand_path(File.dirname(__FILE__))
-$:.unshift(cwd) unless $:.include?(cwd)
+module FixtureTargetingIdea
 
-require 'sem4r'
-include Sem4r
+  def fixtures_targeting_idea
+    @dump_interceptor.reset_and_stop
+    intercept("get") {
+      account = @adwords.account
 
-require 'helpers/rspec_sem4r_helper'
-require 'helpers/dump_interceptor'
+      ideas = account.targeting_idea do
+        idea_type "KEYWORD"
+        request_type "IDEAS"
+        requested_attributes %w{KEYWORD IDEA_TYPE KEYWORD_CATEGORY NGRAM_GROUP}
 
-require 'helpers/fixtures_bulk_mutate_job'
-require 'helpers/fixtures_campaign'
-require 'helpers/fixtures_geo_location'
-require 'helpers/fixtures_info'
-require 'helpers/fixtures_report_definition'
-require 'helpers/fixtures_targeting_idea'
+        excluded_keyword_search_parameter do
+          text 'media player'
+          match_type 'EXACT'
+        end
 
-require 'helpers/build_fixtures'
+        keyword_match_type_search_parameter do
+          match_type 'BROAD'
+          match_type 'EXACT'
+        end
 
-bf = BuildFixtures.new
-bf.run
+        related_to_keyword_search_parameter do
+          ['dvd player', 'car stereo'].each do |term|
+            text term
+            match_type 'EXACT'
+          end
+        end
 
+        country_target_search_parameter do
+          country_code 'US'
+        end
+
+
+      end
+
+    # ideas.each { |idea| puts idea }
+    }
+  end
+
+end

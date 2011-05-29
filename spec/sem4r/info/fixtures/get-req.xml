@@ -12,7 +12,7 @@
          <s:selector>
             <s:dateRange>
                <min>20110101</min>
-               <max>20110409</max>
+               <max>20110528</max>
             </s:dateRange>
             <s:apiUsageType>UNIT_COUNT</s:apiUsageType>
          </s:selector>
