@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -20,7 +20,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
 # -------------------------------------------------------------------------
 
 require File.expand_path(File.dirname(__FILE__) + '/../../rspec_helper')
@@ -49,20 +48,20 @@ describe TargetingIdeaSelector do
           match_type 'EXACT'
         end
       end
-      
+
       country_target_search_parameter do
         country_code 'US'
       end
-      
-      ngram_group_search_parameter do
+
+      ngram_groups_search_parameter do
         ngram 'dvd player'
       end
     end
-    
+
     xml_expected = read_model("//selector", "targeting_idea", "get-req.xml")
     idea_selector.to_xml.should  xml_equivalent(xml_expected)
   end
-  
+
   it "should produce xml (input for google) with optional parameters" do
     idea_selector = TargetingIdeaSelector.new do
       idea_type    "KEYWORD"
@@ -91,7 +90,7 @@ describe TargetingIdeaSelector do
       end
       xml_expected = read_model("//searchParameters[@type='RelatedToKeywordSearchParameter']", "targeting_idea", "get-req.xml")
       sp.to_xml.should  xml_equivalent(xml_expected)
-    end    
+    end
   end
 
   describe ExcludedKeywordSearchParameter do
@@ -115,7 +114,7 @@ describe TargetingIdeaSelector do
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
-  
+
   describe CountryTargetSearchParameter do
     it "should produce xml (input for google)" do
       sp = CountryTargetSearchParameter.new do
@@ -125,7 +124,7 @@ describe TargetingIdeaSelector do
       sp.to_xml.should  xml_equivalent(xml_expected)
     end
   end
-  
+
   describe NgramGroupsSearchParameter do
     it "should produce xml (input for google)" do
       sp = NgramGroupsSearchParameter.new do
