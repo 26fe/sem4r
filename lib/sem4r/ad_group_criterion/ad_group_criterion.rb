@@ -29,7 +29,7 @@ module Sem4r
   #
   class AdGroupCriterion
     include Sem4rSoap::SoapAttributes
-    
+
     g_accessor :criterion
 
     def initialize(&block)
@@ -145,7 +145,6 @@ module Sem4r
     def to_xml(tag)
       xml(Builder::XmlMarkup.new, tag)
     end
-
 
   end
 

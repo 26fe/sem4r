@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,23 +27,34 @@ module Sem4r
   #
   # @private
   #
-  class CampaignService < Sem4rSoap::SoapServiceV2010 
+  class CampaignService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
-      @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
-      @header_namespace = @service_namespace
-      
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201008/CampaignService"
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/CampaignService"
-      init(@header_namespace, @service_namespace)      
+      @connector         = connector
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201101"
+      @header_namespace  = @service_namespace
+
+      service_url             = "/api/adwords/cm/v201101/CampaignService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
+      init(@header_namespace, @service_namespace)
     end
 
-    soap_call :all,   :mutate => false
+    soap_call :get, :mutate => false
+    soap_call :all, :mutate => false
     soap_call :create
     soap_call :delete
-      
+
     private
+
+    def _get(xml)
+      <<-EOFS
+      <s:get>#{xml}</s:get>
+      EOFS
+    end
 
     def _all(statuses = [Campaign::ACTIVE, Campaign::PAUSED])
       str = <<-EOFS

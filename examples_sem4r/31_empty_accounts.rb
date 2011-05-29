@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,7 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-
 require File.expand_path( File.join( File.dirname(__FILE__), "example_helper") )
 
 run_example(__FILE__) do |adwords|
@@ -31,7 +30,7 @@ run_example(__FILE__) do |adwords|
 
   account = adwords.account
   account.client_accounts.each do |client_account|
-    puts "examinate account '#{client_account.credentials.client_email}'"
+    puts "inspect account '#{client_account.credentials.client_email}'"
     client_account.campaigns.each do |campaign|
       puts "delete campaign '#{campaign.name}'"
       campaign.delete

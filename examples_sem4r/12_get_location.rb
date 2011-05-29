@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,5 +25,6 @@
 require File.expand_path( File.join( File.dirname(__FILE__), "example_helper") )
 
 run_example(__FILE__) do |adwords|
-  adwords.account.geo_location
+  adwords.account.geo_location("Via Nazionale, 10", "Rome", "IT")
+  adwords.account.geo_location("Corso Italia, 10", "Pisa", "IT")
 end

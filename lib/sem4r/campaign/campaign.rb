@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -39,12 +39,12 @@ module Sem4r
       :PENDING,
       :SUSPENDED
     ]
-    
+
     attr_reader :id
     attr_reader :account
 
     g_accessor :name
-    g_accessor :status, {:default => "PAUSED"}
+    g_accessor :status, :default => "PAUSED"
     g_accessor :serving_status
     g_accessor :start_date
     g_accessor :end_date
@@ -156,10 +156,6 @@ module Sem4r
         refresh = false
       end
       _ad_groups unless @ad_groups and !refresh
-      # statuses = [:ACTIVE, :PAUSED]
-      # @ad_groups.select do |ad_group|
-      #   statuses.include?(ad_group.status)
-      # end
       @ad_groups
     end
 
@@ -179,7 +175,19 @@ module Sem4r
     private
 
     def _ad_groups
-      soap_message = service.ad_group.all(credentials, @id)
+      # statuses = [:ACTIVE, :PAUSED]
+      # @ad_groups.select do |ad_group|
+      #   statuses.include?(ad_group.status)
+      # end
+      id = @id
+      selector = Selector.new do
+        field "Id"
+        field "Name"
+        field "Status"
+        predicate Predicate.new("CampaignId", "EQUALS", [id])
+      end
+
+      soap_message = service.ad_group.get(credentials, selector.to_xml)
       add_counters( soap_message.counters )
       rval = soap_message.response.xpath("//getResponse/rval").first
       els = rval.xpath( "entries")

@@ -44,40 +44,12 @@ describe "Test Parsing with Nokogiri" do
 
   it "test_campaign_get" do
     xml_document = read_xml_document("campaign", "get-res.xml")
-    rval =  xml_document.xpath("//getResponse/rval").first
-    els = rval.xpath( "entries" )
-
-    ids_expected =
-      ["53614", "53615", "53616", "54034", "54035", "55405", "55420", "56761",
-      "62742", "62743", "62744", "62745", "62746", "62747", "62748"]
-
-    names_expected = [
-      "test campaign", 
-      "campaign 2010-02-06 13:43:10 +0100",
-      "campaign 2010-02-06 13:49:21 +0100",
-      "campaign 2010-02-07 19:35:49 +0100",
-      "campaign 2010-02-07 19:39:17 +0100",
-      "campaign 2010-02-08 23:51:06 +0100",
-      "campaign 2010-02-08 23:55:21 +0100",
-      "campaign 2010-02-09 22:17:19 +0100",
-      "campaign 2010-02-13 09:29:08 +0100",
-      "campaign 2010-02-13 09:37:09 +0100",
-      "campaign 2010-02-13 09:37:58 +0100",
-      "campaign 2010-02-13 09:38:20 +0100",
-      "campaign 2010-02-13 09:38:39 +0100",
-      "campaign 2010-02-13 09:39:14 +0100",
-      "campaign 2010-02-13 09:39:46 +0100"]
-
-    ids   = els.map do |el| 
-      el.at_xpath("id").text.strip 
+    rval = xml_document.xpath("//getResponse/rval").first
+    els = rval.xpath("entries")
+    els.each do |el|
+      name = el.at_xpath("name").text.strip
+      name.should match /sem4r campaign/
     end
-    
-    names = els.map do |el| 
-      el.at_xpath("name" ).text.strip
-    end
-
-    ids_expected.should == ids
-    names_expected.should == names
   end
 
   it "test_adgroup_criterion_get" do

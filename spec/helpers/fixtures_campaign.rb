@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# -------------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -20,32 +20,29 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# -------------------------------------------------------------------------
+# -------------------------------------------------------------------
 
-require File.dirname(__FILE__) + '/../../rspec_helper'
+module FixtureCampaign
 
-describe "cli" do
-  include Sem4rSpecHelper
+  def fixtures_campaign
+    @dump_interceptor.reset_and_stop
 
-  before do
-    services = stub("services")
-    stub_service_account(services)
-    stub_service_info(services)
-    stub_service_campaign(services)
-    stub_service_report(services)
-    @adwords = stub_adwords(services)
-    @credentials = stub_credentials
+    client_account = @adwords.account.client_accounts[1]
 
-    @account = Account.new(@adwords, @credentials)
-  end
-
-  describe "account management" do
-
-    it "should retrieve cost" do
-      @account.year_unit_cost("UNIT_COUNT").should == 0
+    puts "inspect account '#{client_account.credentials.client_email}'"
+    client_account.campaigns.each do |campaign|
+      puts "delete campaign '#{campaign.name}'"
+      campaign.delete
     end
 
+    intercept("mutate_add") {
+      client_account.campaign "sem4r campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
+      end
+    }
+    @dump_interceptor.reset_and_stop
+    intercept("get") {
+      client_account.campaigns(true)
+    }
   end
 
 end

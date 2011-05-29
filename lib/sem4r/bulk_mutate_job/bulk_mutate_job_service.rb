@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
 # Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,19 +27,23 @@ module Sem4r
   #
   # @private
   #
-  class BulkMutateJobService < Sem4rSoap::SoapServiceV2010 
+  class BulkMutateJobService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
-      @connector = connector
+      @connector         = connector
       @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
-      @header_namespace = @service_namespace
+      @header_namespace  = @service_namespace
 
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/job/v201008/BulkMutateJobService"
-      @production_service_url = "https://adwords.google.com/api/adwords/job/v201008/BulkMutateJobService"
-      init(@header_namespace, @service_namespace)      
+      service_url             = "/api/adwords/job/v201008/BulkMutateJobService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
+      init(@header_namespace, @service_namespace)
     end
 
-    soap_call :get,    :mutate => false
+    soap_call :get, :mutate => false
     soap_call :mutate
 
     private

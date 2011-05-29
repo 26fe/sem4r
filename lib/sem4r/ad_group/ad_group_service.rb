@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -30,19 +30,31 @@ module Sem4r
 
     def initialize(connector)
       super()
-      @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
-      @header_namespace = @service_namespace
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201101/AdGroupService"
-      @sandbox_service_url = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupService"
+      @connector         = connector
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201101"
+      @header_namespace  = @service_namespace
+
+      service_url             = "/api/adwords/cm/v201101/AdGroupService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       init(@header_namespace, @service_namespace)
     end
 
-    soap_call :all,       :mutate => false
-    soap_call :create,    :mutate => true
-    soap_call :delete,    :mutate => true
+    soap_call :get, :mutate => false
+    soap_call :all, :mutate => false
+    soap_call :create, :mutate => true
+    soap_call :delete, :mutate => true
 
     private
+
+    def _get(xml)
+      <<-EOFS
+      <s:get>#{xml}</s:get>
+      EOFS
+    end
 
     def _all(campaign_id)
       <<-EOFS
@@ -54,7 +66,7 @@ module Sem4r
       EOFS
     end
 
-    def _create( xml )
+    def _create(xml)
       <<-EOFS
       <mutate xmlns="#{@service_namespace}">
         <operations xsi:type="AdGroupOperation">
@@ -65,7 +77,7 @@ module Sem4r
       EOFS
     end
 
-    def _delete( id )
+    def _delete(id)
       <<-EOFS
       <mutate xmlns="#{@service_namespace}">
         <operations xsi:type="AdGroupOperation">

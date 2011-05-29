@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -31,11 +31,15 @@ module Sem4r
 
     def initialize(connector)
       @connector = connector
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
-      @service_namespace = "https://adwords.google.com/api/adwords/info/v201008"
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201101"
+      @service_namespace = "https://adwords.google.com/api/adwords/info/v201101"
 
-      @production_service_url = "https://adwords.google.com/api/adwords/info/v201008/InfoService"
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/info/v201008/InfoService"
+      service_url             = "/api/adwords/info/v201101/InfoService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       init(@header_namespace, @service_namespace)
     end
 
@@ -43,25 +47,11 @@ module Sem4r
 
     private
 
-    def _unit_cost( usage_type )
-      <<-EOFS
-      <s:get>
-        <s:selector>
-          <s:dateRange>
-            <min>20090101</min>
-            <max>20091105</max>
-          </s:dateRange>
-          <s:apiUsageType>#{usage_type}</s:apiUsageType>
-        </s:selector>
-      </s:get>
-      EOFS
-    end
-
     def _get(xml)
       <<-EOFS
       <s:get>#{xml}</s:get>
       EOFS
     end
-    
+
   end
 end

@@ -92,7 +92,7 @@ describe Sem4rSoap::SoapAttributes do
   end
 
   context "g_set_accessor" do
-    it "without contraints" do
+    it "without constraints" do
       @t.column = "Id"
       @t.column   "Campaign"
       @t.columns.should include("Id")

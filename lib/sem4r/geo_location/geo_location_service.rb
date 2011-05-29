@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,20 +27,24 @@ module Sem4r
   #
   # @private
   #
-  class GeoLocationService < Sem4rSoap::SoapServiceV2010 
+  class GeoLocationService < Sem4rSoap::SoapServiceV2010
 
     def initialize(connector)
       @connector = connector
 
-      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201008"
+      @header_namespace  = "https://adwords.google.com/api/adwords/cm/v201101"
       @service_namespace = @header_namespace
 
-      @sandbox_service_url    = "https://adwords-sandbox.google.com/api/adwords/cm/v201008/GeoLocationService"
-      @production_service_url = "https://adwords.google.com/api/adwords/cm/v201008/GeoLocationService"
+      service_url             = "/api/adwords/cm/v201101/GeoLocationService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://adwords-sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       init(@header_namespace, @service_namespace)
     end
 
-    soap_call :get
+    soap_call :get, :mutate => false
 
     private
 

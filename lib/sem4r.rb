@@ -68,6 +68,7 @@ require 'sem4r/service'
 # common
 #
 require 'sem4r/operation'
+require 'sem4r/selector'
 
 #
 # adgroup

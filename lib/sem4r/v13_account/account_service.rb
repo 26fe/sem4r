@@ -32,12 +32,19 @@ module Sem4r
     def initialize(connector)
       super()
       @connector = connector
-      @sandbox_service_url    = "https://sandbox.google.com/api/adwords/v13/AccountService"
-      @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
+      # @sandbox_service_url    = "https://sandbox.google.com"
+      # @production_service_url = "https://adwords.google.com/api/adwords/v13/AccountService"
+
+      service_url             = "/api/adwords/v13/AccountService"
+      production_host         = "https://adwords.google.com"
+      sandbox_host            = "https://sandbox.google.com"
+      @production_service_url = production_host + service_url
+      @sandbox_service_url    = sandbox_host + service_url
+
       # init(@header_namespace, @service_namespace)
     end
 
-    soap_call :account_info,    :mutate => false
+    soap_call :account_info, :mutate => false
     soap_call :client_accounts, :mutate => false
 
     private
