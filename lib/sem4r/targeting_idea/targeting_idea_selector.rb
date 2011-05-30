@@ -122,6 +122,8 @@ module Sem4r
     end
 
     search_parameter :related_to_url do
+      # TODO: it must map to xsd:boolean
+      # g_accessor :include_sub_urls
       g_set_accessor :url
 
       xml do

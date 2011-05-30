@@ -27,9 +27,7 @@ module FixtureTargetingIdea
   def fixtures_targeting_idea
     @dump_interceptor.reset_and_stop
     intercept("get") {
-      account = @adwords.account
-
-      ideas = account.targeting_idea do
+      ideas = @adwords.account.targeting_idea do
         idea_type "KEYWORD"
         request_type "IDEAS"
         requested_attributes %w{KEYWORD IDEA_TYPE KEYWORD_CATEGORY NGRAM_GROUP}
@@ -56,6 +54,41 @@ module FixtureTargetingIdea
         end
 
 
+      end
+
+    # ideas.each { |idea| puts idea }
+    }
+
+
+    @dump_interceptor.reset_and_stop
+    intercept("get-01") {
+      ideas = @adwords.account.targeting_idea do
+        idea_type "KEYWORD"
+        request_type "IDEAS"
+        requested_attributes [:keyword, :targeted_monthly_searches]
+        start_index 201
+        number_results 200
+
+        related_to_keyword_search_parameter do
+          text 'dvd player'
+          match_type 'EXACT'
+        end
+      end
+
+    }
+
+
+    @dump_interceptor.reset_and_stop
+    intercept("get-bulk") {
+      ideas = @adwords.account.bulk_targeting_idea do
+        idea_type "KEYWORD"
+        request_type "IDEAS"
+        requested_attributes %w{KEYWORD IDEA_TYPE KEYWORD_CATEGORY}
+
+        related_to_url_search_parameter do
+          include_sub_urls "true"
+          url "www.yahoo.com"
+        end
       end
 
     # ideas.each { |idea| puts idea }

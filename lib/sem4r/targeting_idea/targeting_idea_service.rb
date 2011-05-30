@@ -44,13 +44,16 @@ module Sem4r
     end
 
     soap_call :get, :mutate => false
+    soap_call :get_bulk_keyword_ideas, :mutate => false
 
     private
 
     def _get(xml)
-      <<-EOFS
-      <s:get>#{xml}</s:get>
-      EOFS
+      "<s:get>#{xml}</s:get>"
+    end
+
+    def _get_bulk_keyword_ideas(xml)
+      "<s:getBulkKeywordIdeas>#{xml}</s:getBulkKeywordIdeas>"
     end
 
   end

@@ -73,7 +73,7 @@ describe TargetingIdeaSelector do
         match_type 'EXACT'
       end
     end
-    read_model("//requestedAttributeTypes", "targeting_idea", "get-req-all-options.xml") do |attribute_type|
+    read_model("//requestedAttributeTypes", "targeting_idea", "get-01-req.xml") do |attribute_type|
       idea_selector.to_xml.should xml_contains(attribute_type)
     end
   end

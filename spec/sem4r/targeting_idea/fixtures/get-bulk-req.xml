@@ -1,0 +1,28 @@
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/o/v201101/TargetingIdeaService' -->
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201101" xmlns:s="https://adwords.google.com/api/adwords/o/v201101">
+   <env:Header>
+      <s:RequestHeader env:mustUnderstand="0">
+         <authToken>***censured***</authToken>
+         <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
+         <developerToken>***censured***</developerToken>
+      </s:RequestHeader>
+   </env:Header>
+   <env:Body>
+      <s:getBulkKeywordIdeas>
+         <s:selector>
+            <s:ideaType>KEYWORD</s:ideaType>
+            <s:requestType>IDEAS</s:requestType>
+            <s:searchParameters xsi:type="s:RelatedToUrlSearchParameter">
+               <s:urls>www.yahoo.com</s:urls>
+            </s:searchParameters>
+            <s:requestedAttributeTypes>KEYWORD</s:requestedAttributeTypes>
+            <s:requestedAttributeTypes>IDEA_TYPE</s:requestedAttributeTypes>
+            <s:requestedAttributeTypes>KEYWORD_CATEGORY</s:requestedAttributeTypes>
+            <s:paging>
+               <startIndex>0</startIndex>
+               <numberResults>100</numberResults>
+            </s:paging>
+         </s:selector>
+      </s:getBulkKeywordIdeas>
+   </env:Body>
+</env:Envelope>

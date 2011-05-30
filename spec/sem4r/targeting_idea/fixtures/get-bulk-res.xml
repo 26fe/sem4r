@@ -1,0 +1,26 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Header>
+      <ResponseHeader xmlns:ns2="https://adwords.google.com/api/adwords/cm/v201101" xmlns="https://adwords.google.com/api/adwords/o/v201101">
+         <ns2:requestId>a4ac578ab3c621dd97f3fc5498336a85</ns2:requestId>
+         <ns2:operations>1</ns2:operations>
+         <ns2:responseTime>553</ns2:responseTime>
+         <ns2:units>1</ns2:units>
+      </ResponseHeader>
+   </soap:Header>
+   <soap:Body>
+      <getBulkKeywordIdeasResponse xmlns="https://adwords.google.com/api/adwords/o/v201101" xmlns:ns2="https://adwords.google.com/api/adwords/cm/v201101">
+         <rval>
+            <totalNumEntries>1</totalNumEntries>
+            <entries>
+               <data>
+                  <key>IDEA_TYPE</key>
+                  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IdeaTypeAttribute">
+                     <Attribute.Type>IdeaTypeAttribute</Attribute.Type>
+                     <value>KEYWORD</value>
+                  </value>
+               </data>
+            </entries>
+         </rval>
+      </getBulkKeywordIdeasResponse>
+   </soap:Body>
+</soap:Envelope>
