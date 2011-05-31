@@ -73,7 +73,6 @@ describe Campaign do
       end
       campaign.ad_groups.length.should   == 1
       ad_group = campaign.ad_groups.first
-      ad_group.id.should == 10
       ad_group.name.should == "adgroup"
     end
 
@@ -84,7 +83,6 @@ describe Campaign do
       end
       campaign.ad_groups.length.should   == 1
       ad_group = campaign.ad_groups.first
-      ad_group.id.should == 10
       ad_group.name.should == "adgroup"
     end
 

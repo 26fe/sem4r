@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
-# 
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -35,7 +35,7 @@ describe AdGroup do
     stub_service_ad_group_criterion(services)
     stub_service_ad_group_ad(services)
     stub_service_ad_param(services)
-    @campaign = stub_campaign(services)
+    @campaign  = stub_campaign(services)
     @criterion = stub_criterion(services)
   end
 
@@ -45,16 +45,14 @@ describe AdGroup do
       adgroup = AdGroup.create(@campaign) do
         name "adgroup"
       end
-      adgroup.name.should  == "adgroup"
-      adgroup.id.should    == 10
+      adgroup.name.should == "adgroup"
     end
 
     it "create should accept a block (call)" do
       adgroup = AdGroup.create(@campaign) do |g|
         g.name "adgroup"
       end
-      adgroup.name.should  == "adgroup"
-      adgroup.id.should    == 10
+      adgroup.name.should == "adgroup"
     end
 
     it "create should accept a manual cpc bids" do
@@ -78,7 +76,8 @@ describe AdGroup do
     end
 
     it "should build xml (input for google)" do
-      adgroup = AdGroup.create(@campaign) do
+      pending "must implements xml_equivalent unless a list of tag names (buildfixtures.rb)"
+      adgroup      = AdGroup.create(@campaign) do
         name "sem4r library"
         manual_cpc_bids do
           keyword_max_cpc 20000000
@@ -90,7 +89,7 @@ describe AdGroup do
     end
 
     it "should parse xml (produced by google)" do
-      el = read_model("//entries", "ad_group", "get-first-res.xml")
+      el      = read_model("//entries", "ad_group", "get-first-res.xml")
       adgroup = AdGroup.from_element(@campaign, el)
       adgroup.id.should == 3060217923
       adgroup.name.should == "test adgroup"
@@ -98,11 +97,11 @@ describe AdGroup do
     end
 
     it "should parse xml (produced by google) with manual cpm bids" do
-      el = read_model("//entries", "ad_group", "get-manual-cpm-bids-res.xml")
+      el      = read_model("//entries", "ad_group", "get-manual-cpm-bids-res.xml")
       adgroup = AdGroup.from_element(@campaign, el)
       adgroup.bids.should be_instance_of(ManualCPMAdGroupBids)
     end
-    
+
   end
 
   describe "ad management" do
@@ -111,15 +110,15 @@ describe AdGroup do
       adgroup = AdGroup.new(@campaign) do
         name "adgroup"
         text_ad do
-          url           "http://www.pluto.com"
-          display_url   "www.Pluto.com"
-          headline      "Vieni da noi"
-          description1  "vieni da noi"
-          description2  "arivieni da noi"
+          url "http://www.pluto.com"
+          display_url "www.Pluto.com"
+          headline "Vieni da noi"
+          description1 "vieni da noi"
+          description2 "arivieni da noi"
         end
       end
 
-      adgroup.ads.length.should   == 1
+      adgroup.ads.length.should == 1
       adgroup.ads.first.id.should == 10
     end
 
@@ -151,7 +150,7 @@ describe AdGroup do
       criterion.id.should == 10
       criterion.text.should == "pippo"
     end
-    
+
     it "should add a CriterionPlacement with method 'placement' + block" do
       adgroup = AdGroup.new(@campaign) do
         name "adgroup"
@@ -159,7 +158,7 @@ describe AdGroup do
           url "pippo"
         end
       end
-      adgroup.criterions.length.should   == 1
+      adgroup.criterions.length.should == 1
       criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.url.should == "pippo"
@@ -170,7 +169,7 @@ describe AdGroup do
         name "adgroup"
         placement "url"
       end
-      adgroup.criterions.length.should   == 1
+      adgroup.criterions.length.should == 1
       criterion = adgroup.criterions.first.criterion
       criterion.id.should == 10
       criterion.url.should == "url"
@@ -181,15 +180,15 @@ describe AdGroup do
 
     it "should create a AdParam with method 'ad_param' + block" do
       criterion = @criterion # it is necessary to the following block
-      adgroup = AdGroup.new(@campaign) do
+      adgroup   = AdGroup.new(@campaign) do
         name "adgroup"
         ad_param(criterion) do
           index 1
-          text  "$99.99"
+          text "$99.99"
         end
       end
 
-      adgroup.ad_params.length.should   == 1
+      adgroup.ad_params.length.should == 1
       param = adgroup.ad_params.first
       param.index.should == 1
       param.text.should == "$99.99"
@@ -197,12 +196,12 @@ describe AdGroup do
 
     it "should create a AdParam with method 'ad_param' + param" do
       criterion = @criterion # it is necessary to pass to following block
-      adgroup = AdGroup.new(@campaign) do
+      adgroup   = AdGroup.new(@campaign) do
         name "adgroup"
         ad_param criterion, 1, "$99.99"
       end
 
-      adgroup.ad_params.length.should   == 1
+      adgroup.ad_params.length.should == 1
       param = adgroup.ad_params.first
       param.index.should == 1
       param.text.should == "$99.99"

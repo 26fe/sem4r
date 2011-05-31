@@ -35,10 +35,37 @@ module FixtureCampaign
       campaign.delete
     end
 
+    campaign = nil
     intercept("mutate_add") {
-      client_account.campaign "sem4r campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
+      campaign = client_account.campaign "sem4r campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
       end
     }
+
+    adgroup = nil
+    intercept("mutate_add") {
+      adgroup = campaign.ad_group "sem4r adgroup #{Time.now.strftime('%m%d-%H%M%S')}" do
+#        manual_cpm_bids do
+#          max_cpm 20000000
+#        end
+        manual_cpc_bids do
+          site_max_cpc 30000000
+          keyword_max_cpc 20000000
+        end
+      end
+    }
+
+    intercept("mutate_add_text_ad_1") {
+      adgroup.text_ad do
+        url "http://www.sem4r.com"
+        display_url "www.Sem4R.com"
+        headline "adwords api library"
+        description1 "adwords made simple"
+        description2 "set up you campaigns in a snap!"
+      end
+      adgroup.save
+    }
+
+
     @dump_interceptor.reset_and_stop
     intercept("get") {
       client_account.campaigns(true)
