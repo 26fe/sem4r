@@ -1,20 +1,20 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
-      <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201008">
-         <requestId>6dd6decd931f8b2596fea8ddf3dd78d2</requestId>
+      <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
+         <requestId>420e0540aa85614d16b4b3a485613a59</requestId>
          <operations>1</operations>
-         <responseTime>3787</responseTime>
+         <responseTime>3017</responseTime>
          <units>40</units>
       </ResponseHeader>
    </soap:Header>
    <soap:Body>
-      <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v201008">
+      <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v201101">
          <rval>
             <ListReturnValue.Type>AdGroupAdReturnValue</ListReturnValue.Type>
             <value>
-               <adGroupId>3061070333</adGroupId>
+               <adGroupId>3061070335</adGroupId>
                <ad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextAd">
-                  <id>1980492</id>
+                  <id>1982810</id>
                   <url>http://www.sem4r.com</url>
                   <displayUrl>www.Sem4R.com</displayUrl>
                   <approvalStatus>UNCHECKED</approvalStatus>

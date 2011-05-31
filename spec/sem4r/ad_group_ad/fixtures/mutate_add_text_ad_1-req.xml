@@ -1,5 +1,5 @@
-<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupAdService' -->
-<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201008" xmlns:s="https://adwords.google.com/api/adwords/cm/v201008">
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v201101/AdGroupAdService' -->
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201101" xmlns:s="https://adwords.google.com/api/adwords/cm/v201101">
    <env:Header>
       <s:RequestHeader env:mustUnderstand="0">
          <authToken>***censured***</authToken>
@@ -13,7 +13,7 @@
          <operations xsi:type="AdGroupAdOperation">
             <operator>ADD</operator>
             <operand xsi:type="AdGroupAd">
-               <adGroupId>3061070333</adGroupId>
+               <adGroupId>3061070335</adGroupId>
                <ad xsi:type="TextAd">
                   <url>http://www.sem4r.com</url>
                   <displayUrl>www.Sem4R.com</displayUrl>
