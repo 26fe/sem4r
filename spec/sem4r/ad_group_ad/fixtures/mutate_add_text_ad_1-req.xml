@@ -1,0 +1,29 @@
+<!-- Post to 'https://adwords-sandbox.google.com/api/adwords/cm/v201008/AdGroupAdService' -->
+<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns="https://adwords.google.com/api/adwords/cm/v201008" xmlns:s="https://adwords.google.com/api/adwords/cm/v201008">
+   <env:Header>
+      <s:RequestHeader env:mustUnderstand="0">
+         <authToken>***censured***</authToken>
+         <userAgent>Sem4r Adwords Ruby Client Library (http://github.com/sem4r/sem4r)</userAgent>
+         <developerToken>***censured***</developerToken>
+         <clientEmail>***censured***</clientEmail>
+      </s:RequestHeader>
+   </env:Header>
+   <env:Body>
+      <mutate>
+         <operations xsi:type="AdGroupAdOperation">
+            <operator>ADD</operator>
+            <operand xsi:type="AdGroupAd">
+               <adGroupId>3061070333</adGroupId>
+               <ad xsi:type="TextAd">
+                  <url>http://www.sem4r.com</url>
+                  <displayUrl>www.Sem4R.com</displayUrl>
+                  <headline>adwords api library</headline>
+                  <description1>adwords made simple</description1>
+                  <description2>set up you campaigns in a snap!</description2>
+               </ad>
+               <status>ENABLED</status>
+            </operand>
+         </operations>
+      </mutate>
+   </env:Body>
+</env:Envelope>

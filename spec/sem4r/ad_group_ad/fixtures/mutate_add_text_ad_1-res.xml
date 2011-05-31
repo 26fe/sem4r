@@ -1,0 +1,31 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Header>
+      <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201008">
+         <requestId>6dd6decd931f8b2596fea8ddf3dd78d2</requestId>
+         <operations>1</operations>
+         <responseTime>3787</responseTime>
+         <units>40</units>
+      </ResponseHeader>
+   </soap:Header>
+   <soap:Body>
+      <mutateResponse xmlns="https://adwords.google.com/api/adwords/cm/v201008">
+         <rval>
+            <ListReturnValue.Type>AdGroupAdReturnValue</ListReturnValue.Type>
+            <value>
+               <adGroupId>3061070333</adGroupId>
+               <ad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextAd">
+                  <id>1980492</id>
+                  <url>http://www.sem4r.com</url>
+                  <displayUrl>www.Sem4R.com</displayUrl>
+                  <approvalStatus>UNCHECKED</approvalStatus>
+                  <Ad.Type>TextAd</Ad.Type>
+                  <headline>adwords api library</headline>
+                  <description1>adwords made simple</description1>
+                  <description2>set up you campaigns in a snap!</description2>
+               </ad>
+               <status>ENABLED</status>
+            </value>
+         </rval>
+      </mutateResponse>
+   </soap:Body>
+</soap:Envelope>
