@@ -62,10 +62,10 @@ class BuildFixtures
 
       # fixtures_info
       # fixtures_geo_location
-      # fixtures_campaign
+      fixtures_campaign
       # fixtures_report_definition
       # fixtures_bulk_mutate_job
-      fixtures_targeting_idea
+      # fixtures_targeting_idea
 
     rescue Sem4rError
       puts "I am so sorry! Something went wrong! (exception #{$!.to_s})"

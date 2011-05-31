@@ -33,27 +33,27 @@ run_example(__FILE__) do |adwords|
   # 1. campaign
   #
   campaign = client_account.campaign "sem4r web campaign #{Time.now.strftime('%m%d-%H%M%S')}" do
-  
+
     bidding_strategy "ManualCPM"
-  
+
     ad_group "sem4r search page #{Time.now.strftime('%m%d-%H%M%S')}" do
-  
+
       manual_cpm_bids do
         max_cpm 20000000
       end
-  
+
       text_ad do
         url           "http://www.sem4r.com"
         display_url   "www.Sem4R.com"
         headline      "adwords api library"
         description1  "adwords made simple"
-        description2  "set up you campaings in a snap!"
+        description2  "set up you campaigns in a snap!"
       end
-  
+
       keyword   "adwords api",  "BROAD"
       keyword   "ruby adwords", "BROAD"
       placement "http://www.sem4r.com"
-  
+
       negative_keyword "java api library"
     end
   end
