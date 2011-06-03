@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -26,14 +26,14 @@ module Sem4r
 
   class Criterion < Base
 
-    enum :Types,             [:Keyword, :Placement]
-    enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
+    enum :Types, [:Keyword, :Placement]
+    enum :KeywordMatches, [:EXACT, :BROAD, :PHRASE]
 
-    attr_reader   :ad_group
+    attr_reader :ad_group
     attr_accessor :type
 
-    def initialize( ad_group )
-      super( ad_group.adwords, ad_group.credentials )
+    def initialize(ad_group)
+      super(ad_group.adwords, ad_group.credentials)
       @ad_group = ad_group
     end
 
@@ -45,15 +45,15 @@ module Sem4r
       @id
     end
 
-    def self.from_element( ad_group, el )
+    def self.from_element(ad_group, el)
       xml_type = el.at_xpath("Criterion.Type").text.strip
       # klass = Module::const_get(type)
       # klass.from_element(ad_group, el)
       case xml_type
-      when Keyword
-        CriterionKeyword.from_element(ad_group, el)
-      when Placement
-        CriterionPlacement.from_element(ad_group, el)
+        when Keyword
+          CriterionKeyword.from_element(ad_group, el)
+        when Placement
+          CriterionPlacement.from_element(ad_group, el)
       end
     end
 

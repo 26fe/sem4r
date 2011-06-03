@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,15 +25,15 @@
 module Sem4r
   class CriterionKeyword < Criterion
 
-    enum :KeywordMatches,    [:EXACT, :BROAD, :PHRASE]
+    enum :KeywordMatches, [:EXACT, :BROAD, :PHRASE]
 
     g_accessor :text
     g_accessor :match
 
     def initialize(ad_group, text = nil, match = "BROAD", &block)
-      super( ad_group )
+      super(ad_group)
       self.type = Keyword
-      self.text = text   unless text.nil?     # TODO: text == nil raise error
+      self.text = text unless text.nil? # TODO: text == nil raise error
       self.match = match unless match.nil?
       if block_given?
         @inside_initialize = true
@@ -50,11 +50,11 @@ module Sem4r
       new(ad_group, &block).save
     end
 
-    def self.from_element( ad_group, el )
+    def self.from_element(ad_group, el)
       new(ad_group) do
-        @id      = el.at_xpath("id").text.strip.to_i
-        text       el.at_xpath("text").text.strip
-        match      el.at_xpath("matchType").text.strip
+        @id = el.at_xpath("id").text.strip.to_i
+        text el.at_xpath("text").text.strip
+        match el.at_xpath("matchType").text.strip
       end
     end
 
@@ -63,17 +63,17 @@ module Sem4r
     end
 
     def xml(t)
-      t.criterion("xsi:type" => "#{type}") { |t| 
-        t.text        text
-        t.matchType   match
-      }
+      t.criterion("xsi:type" => "#{type}") do |t|
+        t.text text
+        t.matchType match
+      end
     end
 
     def to_xml(tag)
       builder = Builder::XmlMarkup.new
       builder.tag!(tag, "xsi:type" => "#{type}") do |t|
-        t.text        text
-        t.matchType   match
+        t.text text
+        t.matchType match
       end
     end
 

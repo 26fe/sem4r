@@ -65,6 +65,21 @@ module FixtureCampaign
       adgroup.save
     }
 
+    @dump_interceptor.reset_and_stop
+    intercept("mutate_add_criterion_keyword") {
+      keyword = adgroup.keyword do
+        text       "sem4r adwords api"
+        match      "BROAD"
+      end
+#      bids = ManualCPCAdGroupCriterionBids.new
+#      bids.max_cpc 10000000
+#
+#      biddable_criterion = BiddableAdGroupCriterion.new(ad_group)
+#      biddable_criterion.criterion keyword
+#      biddable_criterion.bids bids
+      adgroup.save
+    }
+
 
     @dump_interceptor.reset_and_stop
     intercept("get") {

@@ -1,9 +1,9 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
       <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
-         <requestId>6ae39c8b6f05b1e3410edd9661bba646</requestId>
+         <requestId>61ceaec330eb98fdd4e688162aa69643</requestId>
          <operations>1</operations>
-         <responseTime>3814</responseTime>
+         <responseTime>7915</responseTime>
          <units>1</units>
       </ResponseHeader>
    </soap:Header>
@@ -12,10 +12,10 @@
          <rval>
             <ListReturnValue.Type>AdGroupReturnValue</ListReturnValue.Type>
             <value>
-               <id>3061070335</id>
-               <campaignId>194863</campaignId>
-               <campaignName>sem4r campaign 0531-234639</campaignName>
-               <name>sem4r adgroup 0531-234647</name>
+               <id>3061162103</id>
+               <campaignId>198190</campaignId>
+               <campaignName>sem4r campaign 0603-084708</campaignName>
+               <name>sem4r adgroup 0603-084715</name>
                <status>ENABLED</status>
                <bids xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ManualCPCAdGroupBids">
                   <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>

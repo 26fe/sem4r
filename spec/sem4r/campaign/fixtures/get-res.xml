@@ -1,9 +1,9 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
       <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
-         <requestId>00fd3ad14c8e9e47905b371fa864c902</requestId>
+         <requestId>ac33b16af13e4f6a45e542f1f5f23255</requestId>
          <operations>1</operations>
-         <responseTime>1234</responseTime>
+         <responseTime>2831</responseTime>
          <units>1</units>
       </ResponseHeader>
    </soap:Header>
@@ -21,8 +21,8 @@
                <deliveryMethod>STANDARD</deliveryMethod>
             </totalBudget>
             <entries>
-               <id>194863</id>
-               <name>sem4r campaign 0531-234639</name>
+               <id>198190</id>
+               <name>sem4r campaign 0603-084708</name>
                <status>PAUSED</status>
                <conversionOptimizerEligibility>
                   <eligible>false</eligible>

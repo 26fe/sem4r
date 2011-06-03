@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -31,10 +31,10 @@ module Sem4r
 
     def initialize(connector)
       @connector = connector
-      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201008"
+      @service_namespace = "https://adwords.google.com/api/adwords/cm/v201101"
       @header_namespace = @service_namespace
 
-      service_url             = "/api/adwords/cm/v201008/AdGroupCriterionService"
+      service_url             = "/api/adwords/cm/v201101/AdGroupCriterionService"
       production_host         = "https://adwords.google.com"
       sandbox_host            = "https://adwords-sandbox.google.com"
       @production_service_url = production_host + service_url

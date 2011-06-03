@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Copyright (c) 2009-2010 Sem4r sem4ruby@gmail.com
+# Copyright (c) 2009-2011 Sem4r sem4ruby@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -34,7 +34,7 @@ module Sem4r
     ]
 
     attr_reader :campaign
-    
+
     g_accessor :name
     g_accessor :status
 
@@ -239,7 +239,7 @@ module Sem4r
     end
 
     #
-    # instanziate an BiddableAdGroupCriterion but it is called 'keyword' for convenience
+    # instantiate an BiddableAdGroupCriterion but it is called 'keyword' for convenience
     #
     # http://code.google.com/apis/adwords/v2009/docs/reference/AdGroupCriterionService.BiddableAdGroupCriterion.html
     #
@@ -291,8 +291,6 @@ module Sem4r
     end
 
     def _save_criterions
-      # @criterions.each { |criterion| criterion.save } if @criterions
-
       return unless @criterions
 
       unsaved_criterions = @criterions.select { |a| !a.saved? }

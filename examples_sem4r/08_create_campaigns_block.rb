@@ -22,7 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # -------------------------------------------------------------------
 
-require File.expand_path( File.join( File.dirname(__FILE__), "example_helper") )
+require File.expand_path(File.join(File.dirname(__FILE__), "example_helper"))
 
 run_example(__FILE__) do |adwords|
 
@@ -43,15 +43,15 @@ run_example(__FILE__) do |adwords|
       end
 
       text_ad do
-        url           "http://www.sem4r.com"
-        display_url   "www.Sem4R.com"
-        headline      "adwords api library"
-        description1  "adwords made simple"
-        description2  "set up you campaigns in a snap!"
+        url "http://www.sem4r.com"
+        display_url "www.Sem4R.com"
+        headline "adwords api library"
+        description1 "adwords made simple"
+        description2 "set up you campaigns in a snap!"
       end
 
-      keyword   "adwords api",  "BROAD"
-      keyword   "ruby adwords", "BROAD"
+      keyword "adwords api", "BROAD"
+      keyword "ruby adwords", "BROAD"
       placement "http://www.sem4r.com"
 
       negative_keyword "java api library"
@@ -70,24 +70,24 @@ run_example(__FILE__) do |adwords|
     ad_group "sem4r on mobile #{Time.now.strftime('%m%d-%H%M%S')}" do
       manual_cpc_bids do
         keyword_max_cpc 21000000
-        site_max_cpc    22000000
+        site_max_cpc 22000000
       end
 
       mobile_ad do
-        headline      "sem4r"
-        description   "simply adwords"
+        headline "sem4r"
+        description "simply adwords"
         # markup        "XHTML"
         # carrier       "Vodafone@IT"
-        carrier  'ALLCARRIERS'
+        carrier 'ALLCARRIERS'
         business_name "sem4r"
-        country_code  "IT"
-        phone_number  "0612345"
+        country_code "IT"
+        phone_number "0612345"
       end
 
       keyword "adwords api", "BROAD" do
         # status "PAUSED"
         # url  "pippo"
-        #        max_cpc 32423423
+        # max_cpc 32423423
         #        max_cpm 232321
       end
 

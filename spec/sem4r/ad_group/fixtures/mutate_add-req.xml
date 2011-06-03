@@ -13,8 +13,8 @@
          <operations xsi:type="AdGroupOperation">
             <operator>ADD</operator>
             <operand>
-               <campaignId>194863</campaignId>
-               <name>sem4r adgroup 0531-234647</name>
+               <campaignId>198190</campaignId>
+               <name>sem4r adgroup 0603-084715</name>
                <status>ENABLED</status>
                <bids xsi:type="ManualCPCAdGroupBids">
                   <AdGroupBids.Type>ManualCPCAdGroupBids</AdGroupBids.Type>

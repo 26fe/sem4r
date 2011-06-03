@@ -1,9 +1,9 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Header>
       <ResponseHeader xmlns="https://adwords.google.com/api/adwords/cm/v201101">
-         <requestId>420e0540aa85614d16b4b3a485613a59</requestId>
+         <requestId>994c725849bf09e97daa744df11addd5</requestId>
          <operations>1</operations>
-         <responseTime>3017</responseTime>
+         <responseTime>4865</responseTime>
          <units>40</units>
       </ResponseHeader>
    </soap:Header>
@@ -12,9 +12,9 @@
          <rval>
             <ListReturnValue.Type>AdGroupAdReturnValue</ListReturnValue.Type>
             <value>
-               <adGroupId>3061070335</adGroupId>
+               <adGroupId>3061162103</adGroupId>
                <ad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextAd">
-                  <id>1982810</id>
+                  <id>2425860</id>
                   <url>http://www.sem4r.com</url>
                   <displayUrl>www.Sem4R.com</displayUrl>
                   <approvalStatus>UNCHECKED</approvalStatus>

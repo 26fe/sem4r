@@ -13,7 +13,7 @@
          <operations xsi:type="AdGroupAdOperation">
             <operator>ADD</operator>
             <operand xsi:type="AdGroupAd">
-               <adGroupId>3061070335</adGroupId>
+               <adGroupId>3061162103</adGroupId>
                <ad xsi:type="TextAd">
                   <url>http://www.sem4r.com</url>
                   <displayUrl>www.Sem4R.com</displayUrl>
